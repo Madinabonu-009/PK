@@ -14,9 +14,11 @@ router.post('/login', checkAccountLockout, async (req, res) => {
   try {
     const { username, password } = req.body
 
+    console.log('[Auth] Login attempt:', { username, ip: req.ip })
     logger.info('Login attempt', { username, ip: req.ip })
 
     if (!username || !password) {
+      console.log('[Auth] Missing username or password')
       return res.status(400).json({ success: false, error: 'Username and password required' })
     }
 
@@ -24,6 +26,7 @@ router.post('/login', checkAccountLockout, async (req, res) => {
     
     // MongoDB ishlatilsa
     if (req.app.locals.useDatabase) {
+      console.log('[Auth] Using MongoDB')
       user = await User.findOne({ username, isActive: true })
       if (user) {
         const validPassword = await user.comparePassword(password)
@@ -36,10 +39,18 @@ router.post('/login', checkAccountLockout, async (req, res) => {
       }
     } else {
       // JSON fayl ishlatilsa
+      console.log('[Auth] Using JSON files')
       const users = readData('users.json')
+      console.log('[Auth] Users loaded:', users?.length || 0)
+      
       const foundUser = users?.find(u => u.username === username)
+      console.log('[Auth] User found:', foundUser ? 'yes' : 'no')
+      
       if (foundUser) {
+        console.log('[Auth] Comparing password...')
         const validPassword = await bcrypt.compare(password, foundUser.password)
+        console.log('[Auth] Password valid:', validPassword)
+        
         if (validPassword) {
           user = foundUser
         } else {

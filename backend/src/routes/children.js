@@ -43,60 +43,38 @@ router.get('/public', async (req, res) => {
       return res.json(children.map(normalizeId))
     }
     
-    let children = readData('children.json') || []
-    console.log('[Children Public] JSON children count:', children.length)
+    const allChildren = readData('children.json') || []
+    console.log('[Children Public] Total children in file:', allChildren.length)
     
-    const progress = readData('progress.json') || []
-    const achievements = readData('achievements.json') || []
+    // Faqat aktiv va o'chirilmagan bolalarni olish
+    const activeChildren = allChildren.filter(c => {
+      const isActive = c.isActive !== false
+      const notDeleted = !c.isDeleted
+      console.log(`[Children Public] ${c.firstName}: isActive=${c.isActive}, isDeleted=${c.isDeleted}, pass=${isActive && notDeleted}`)
+      return isActive && notDeleted
+    })
     
-    // isActive !== false - yangi va eski formatlarni qo'llab-quvvatlash
-    children = children
-      .filter(c => c.isActive !== false && !c.isDeleted)
-      .map(c => {
-        // Bolaning oxirgi progress ma'lumotlarini olish
-        const childProgress = progress
-          .filter(p => p.childId === c.id)
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0]
-        
-        // Bolaning yutuqlarini olish
-        const childAchievements = childProgress?.achievements || []
-        const achievementDetails = childAchievements.map(achId => {
-          const ach = achievements.find(a => a.id === achId)
-          return ach ? { id: ach.id, icon: ach.icon, name: ach.name, color: ach.color } : null
-        }).filter(Boolean)
-        
-        // Umumiy ballni hisoblash
-        const totalPoints = childAchievements.reduce((sum, achId) => {
-          const ach = achievements.find(a => a.id === achId)
-          return sum + (ach?.points || 0)
-        }, 0)
-        
-        // Skill darajasini hisoblash
-        let skillLevel = 1
-        if (childProgress?.skills) {
-          const skillValues = Object.values(childProgress.skills).map(s => s.level || 0)
-          if (skillValues.length > 0) {
-            skillLevel = Math.round(skillValues.reduce((a, b) => a + b, 0) / skillValues.length)
-          }
-        }
-        
-        return {
-          id: c.id,
-          firstName: c.firstName,
-          lastName: c.lastName,
-          birthDate: c.birthDate,
-          groupId: c.groupId,
-          groupName: c.groupName,
-          photo: c.photo,
-          points: totalPoints || c.points || 0,
-          level: skillLevel || c.level || 1,
-          achievements: achievementDetails,
-          skills: childProgress?.skills || null,
-          gender: c.gender
-        }
-      })
-    res.json(children)
+    console.log('[Children Public] Active children count:', activeChildren.length)
+    
+    // Sodda format - faqat kerakli fieldlarni qaytarish
+    const result = activeChildren.map(c => ({
+      id: c.id,
+      firstName: c.firstName,
+      lastName: c.lastName,
+      birthDate: c.birthDate,
+      groupId: c.groupId,
+      groupName: c.groupName,
+      photo: c.photo,
+      points: c.points || 0,
+      level: c.level || 1,
+      achievements: c.achievements || [],
+      gender: c.gender
+    }))
+    
+    console.log('[Children Public] Returning', result.length, 'children')
+    res.json(result)
   } catch (error) {
+    console.error('[Children Public] Error:', error)
     logger.error('Public children fetch error:', error)
     res.status(500).json(errorResponse('Bolalar ro\'yxatini yuklashda xatolik'))
   }
