@@ -56,12 +56,32 @@ const PORT = process.env.PORT || 3000
 // Trust proxy for Render.com (behind reverse proxy)
 app.set('trust proxy', 1)
 
-// MongoDB ulanish
-let useDatabase = false
-connectDB().then(connected => {
-  useDatabase = connected
-  app.locals.useDatabase = connected
-})
+// MongoDB ulanish - AWAIT bilan
+const startServer = async () => {
+  const useDatabase = await connectDB()
+  app.locals.useDatabase = useDatabase
+  
+  // Server'ni MongoDB ulangandan keyin ishga tushirish
+  const server = app.listen(PORT, () => {
+    logger.success(`🚀 Server running on port ${PORT}`)
+    logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`)
+    logger.info(`Database: ${useDatabase ? 'MongoDB' : 'JSON files'}`)
+  })
+
+  // Initialize WebSocket
+  const { initializeWebSocket } = await import('./services/websocket.js')
+  initializeWebSocket(server)
+
+  // Setup graceful shutdown
+  setupGracefulShutdown(server)
+
+  // Register cleanup handlers
+  registerCleanup(async () => {
+    logger.info('Cleaning up resources...')
+  })
+}
+
+startServer()
 
 // Security Middleware
 app.use(helmet({
@@ -341,7 +361,6 @@ app.use(logError)
 app.use((err, req, res, next) => {
   const isDev = process.env.NODE_ENV === 'development'
   
-  // Log error
   logger.error('Unhandled error', {
     message: err.message,
     stack: err.stack,
@@ -351,7 +370,6 @@ app.use((err, req, res, next) => {
     details: err.details
   })
   
-  // Don't expose internal errors in production
   const statusCode = err.status || err.statusCode || 500
   const message = isDev ? err.message : (statusCode === 500 ? 'Internal server error' : err.message)
   
@@ -359,25 +377,6 @@ app.use((err, req, res, next) => {
     error: message,
     ...(isDev && { stack: err.stack, details: err.details })
   })
-})
-
-const server = app.listen(PORT, () => {
-  logger.success(`🚀 Server running on port ${PORT}`)
-  logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`)
-  logger.info(`Database: ${useDatabase ? 'MongoDB' : 'JSON files'}`)
-})
-
-// Initialize WebSocket
-import { initializeWebSocket } from './services/websocket.js'
-initializeWebSocket(server)
-
-// Setup graceful shutdown
-setupGracefulShutdown(server)
-
-// Register cleanup handlers
-registerCleanup(async () => {
-  logger.info('Cleaning up resources...')
-  // Add any cleanup logic here (close DB connections, etc.)
 })
 
 export default app

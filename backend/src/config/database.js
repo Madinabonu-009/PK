@@ -51,101 +51,103 @@ async function seedAllDataIfEmpty() {
     const Teacher = (await import('../models/Teacher.js')).default
     const Gallery = (await import('../models/Gallery.js')).default
 
-    // Tekshirish - faqat users bo'sh bo'lsa seed qilish
+    // Har bir collectionni alohida tekshirish va to'ldirish
     const userCount = await User.countDocuments()
+    const childCount = await Child.countDocuments()
+    const teacherCount = await Teacher.countDocuments()
+    const galleryCount = await Gallery.countDocuments()
     
-    if (userCount > 0) {
-      console.log('📊 MongoDB allaqachon to\'ldirilgan')
-      const childCount = await Child.countDocuments()
-      const teacherCount = await Teacher.countDocuments()
-      const galleryCount = await Gallery.countDocuments()
-      console.log(`   Users: ${userCount}, Children: ${childCount}, Teachers: ${teacherCount}, Gallery: ${galleryCount}`)
-      return
-    }
-
-    console.log('🔄 MongoDB bo\'sh - JSON fayllardan to\'ldirilmoqda...')
+    console.log(`📊 MongoDB: Users: ${userCount}, Children: ${childCount}, Teachers: ${teacherCount}, Gallery: ${galleryCount}`)
 
     // 1. USERS
-    const usersJson = readJsonFile('users.json')
-    if (usersJson.length > 0) {
-      await User.insertMany(usersJson.map(u => ({
-        username: u.username,
-        password: u.password,
-        name: u.name,
-        role: u.role,
-        email: u.email,
-        phone: u.phone,
-        groupId: u.groupId,
-        childName: u.childName,
-        isActive: u.isActive !== false,
-        createdAt: u.createdAt || new Date()
-      })))
-      console.log(`✅ Users: ${usersJson.length}`)
+    if (userCount === 0) {
+      const usersJson = readJsonFile('users.json')
+      if (usersJson.length > 0) {
+        await User.insertMany(usersJson.map(u => ({
+          username: u.username,
+          password: u.password,
+          name: u.name,
+          role: u.role,
+          email: u.email,
+          phone: u.phone,
+          groupId: u.groupId,
+          childName: u.childName,
+          isActive: u.isActive !== false,
+          createdAt: u.createdAt || new Date()
+        })))
+        console.log(`✅ Users seeded: ${usersJson.length}`)
+      }
     }
 
     // 2. CHILDREN
-    const childrenJson = readJsonFile('children.json')
-    if (childrenJson.length > 0) {
-      await Child.insertMany(childrenJson.map(c => ({
-        firstName: c.firstName,
-        lastName: c.lastName,
-        birthDate: c.birthDate,
-        gender: c.gender,
-        groupId: c.groupId,
-        groupName: c.groupName,
-        parentName: c.parentName,
-        parentPhone: c.parentPhone,
-        parentEmail: c.parentEmail,
-        allergies: c.allergies || [],
-        notes: c.notes,
-        photo: c.photo,
-        points: c.points || 0,
-        level: c.level || 1,
-        achievements: c.achievements || [],
-        isActive: c.isActive !== false,
-        isDeleted: c.isDeleted || false,
-        enrolledAt: c.enrolledAt || new Date()
-      })))
-      console.log(`✅ Children: ${childrenJson.length}`)
+    if (childCount === 0) {
+      const childrenJson = readJsonFile('children.json')
+      if (childrenJson.length > 0) {
+        await Child.insertMany(childrenJson.map(c => ({
+          firstName: c.firstName,
+          lastName: c.lastName,
+          birthDate: c.birthDate,
+          gender: c.gender,
+          groupId: c.groupId,
+          groupName: c.groupName,
+          parentName: c.parentName,
+          parentPhone: c.parentPhone,
+          parentEmail: c.parentEmail,
+          allergies: c.allergies || [],
+          notes: c.notes,
+          photo: c.photo,
+          points: c.points || 0,
+          level: c.level || 1,
+          achievements: c.achievements || [],
+          isActive: c.isActive !== false,
+          isDeleted: c.isDeleted || false,
+          enrolledAt: c.enrolledAt || new Date()
+        })))
+        console.log(`✅ Children seeded: ${childrenJson.length}`)
+      }
     }
 
     // 3. TEACHERS
-    const teachersJson = readJsonFile('teachers.json')
-    if (teachersJson.length > 0) {
-      await Teacher.insertMany(teachersJson.map(t => ({
-        name: t.name,
-        firstName: t.name?.split(' ')[0] || t.name,
-        lastName: t.name?.split(' ').slice(1).join(' ') || '',
-        position: t.role || t.position,
-        role: t.role,
-        education: t.education,
-        experience: t.experience,
-        phone: t.phone || '',
-        email: t.email || '',
-        photo: t.photo,
-        bio: t.bio,
-        category: t.category,
-        specialization: t.specialization,
-        isActive: t.isDeleted !== true
-      })))
-      console.log(`✅ Teachers: ${teachersJson.length}`)
+    if (teacherCount === 0) {
+      const teachersJson = readJsonFile('teachers.json')
+      if (teachersJson.length > 0) {
+        await Teacher.insertMany(teachersJson.map(t => ({
+          name: t.name,
+          firstName: t.name?.split(' ')[0] || t.name,
+          lastName: t.name?.split(' ').slice(1).join(' ') || '',
+          position: t.role || t.position,
+          role: t.role,
+          education: t.education,
+          experience: t.experience,
+          phone: t.phone || '',
+          email: t.email || '',
+          photo: t.photo,
+          bio: t.bio,
+          category: t.category,
+          specialization: t.specialization,
+          isActive: t.isDeleted !== true
+        })))
+        console.log(`✅ Teachers seeded: ${teachersJson.length}`)
+      }
     }
 
     // 4. GALLERY
-    const galleryJson = readJsonFile('gallery.json')
-    if (galleryJson.length > 0) {
-      await Gallery.insertMany(galleryJson.map(g => ({
-        type: g.type,
-        url: g.url,
-        thumbnail: g.thumbnail || g.url,
-        title: g.title || '',
-        description: g.description,
-        album: g.album || 'general',
-        published: g.published !== false,
-        isDeleted: g.isDeleted || false,
-        createdAt: g.createdAt || g.date || new Date()
-      })))
-      console.log(`✅ Gallery: ${galleryJson.length}`)
+    if (galleryCount === 0) {
+      const galleryJson = readJsonFile('gallery.json')
+      if (galleryJson.length > 0) {
+        await Gallery.insertMany(galleryJson.map(g => ({
+          type: g.type,
+          url: g.url,
+          thumbnail: g.thumbnail || g.url,
+          title: g.title || '',
+          description: g.description,
+          album: g.album || 'general',
+          published: g.published !== false,
+          isDeleted: g.isDeleted || false,
+          createdAt: g.createdAt || g.date || new Date()
+        })))
+        console.log(`✅ Gallery seeded: ${galleryJson.length}`)
+      }
     }
 
     // 5. Qolgan collectionlar uchun generic seed
