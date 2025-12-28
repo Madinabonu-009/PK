@@ -1,0 +1,161 @@
+[
+  {
+    "id": "prog1",
+    "childId": "c1",
+    "month": "2024-12",
+    "skills": {
+      "speech": {
+        "level": 4,
+        "notes": "Gaplarni to'g'ri tuzadi, hikoya aytib bera oladi"
+      },
+      "logic": {
+        "level": 3,
+        "notes": "Oddiy matematik amallarni bajara oladi"
+      },
+      "physical": {
+        "level": 5,
+        "notes": "Jismoniy mashqlarni yaxshi bajaradi"
+      },
+      "creative": {
+        "level": 4,
+        "notes": "Rasm chizishni yaxshi ko'radi"
+      },
+      "social": {
+        "level": 4,
+        "notes": "Boshqa bolalar bilan yaxshi muloqot qiladi"
+      },
+      "selfCare": {
+        "level": 5,
+        "notes": "Mustaqil kiyinadi va ovqatlanadi"
+      }
+    },
+    "achievements": [
+      "Alifboni o'rgandi",
+      "10 gacha sanashni biladi",
+      "O'z ismini yoza oladi"
+    ],
+    "recommendations": "Matematika bo'yicha qo'shimcha mashqlar tavsiya etiladi",
+    "createdBy": "t1",
+    "createdAt": "2024-12-15T10:00:00Z"
+  },
+  {
+    "id": "c7821efe-fc4c-4770-9a66-566e0116eb39",
+    "childId": "c2",
+    "month": "2025-12",
+    "skills": {
+      "speech": {
+        "level": 5,
+        "notes": ""
+      },
+      "logic": {
+        "level": 3,
+        "notes": ""
+      },
+      "physical": {
+        "level": 2,
+        "notes": ""
+      },
+      "creative": {
+        "level": 4,
+        "notes": ""
+      },
+      "social": {
+        "level": 4,
+        "notes": ""
+      },
+      "selfCare": {
+        "level": 3,
+        "notes": ""
+      }
+    },
+    "achievements": [
+      "first_day"
+    ],
+    "recommendations": "",
+    "createdBy": "1",
+    "createdAt": "2025-12-20T11:49:14.238Z",
+    "updatedAt": "2025-12-20T11:49:20.841Z"
+  },
+  {
+    "id": "3538e61a-de6d-4b14-8aa3-c44c26126aa9",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "month": "2025-12",
+    "skills": {
+      "speech": {
+        "level": 5,
+        "notes": ""
+      },
+      "logic": {
+        "level": 5,
+        "notes": "Barakalla"
+      },
+      "physical": {
+        "level": 5,
+        "notes": ""
+      },
+      "creative": {
+        "level": 5,
+        "notes": ""
+      },
+      "social": {
+        "level": 5,
+        "notes": ""
+      },
+      "selfCare": {
+        "level": 5,
+        "notes": "Tasanno"
+      }
+    },
+    "achievements": [
+      "first_day",
+      "helper",
+      "artist",
+      "reader"
+    ],
+    "recommendations": "",
+    "createdBy": "1",
+    "createdAt": "2025-12-20T11:50:20.063Z",
+    "updatedAt": "2025-12-20T11:51:07.121Z"
+  },
+  {
+    "id": "69be409d-34a8-4422-a654-2cd154898f00",
+    "childId": "c1",
+    "month": "2025-12",
+    "skills": {
+      "speech": {
+        "level": 4,
+        "notes": "Gaplarni to'g'ri tuzadi, hikoya aytib bera oladi"
+      },
+      "logic": {
+        "level": 3,
+        "notes": "Oddiy matematik amallarni bajara oladi"
+      },
+      "physical": {
+        "level": 5,
+        "notes": "Jismoniy mashqlarni yaxshi bajaradi"
+      },
+      "creative": {
+        "level": 4,
+        "notes": "Rasm chizishni yaxshi ko'radi"
+      },
+      "social": {
+        "level": 4,
+        "notes": "Boshqa bolalar bilan yaxshi muloqot qiladi"
+      },
+      "selfCare": {
+        "level": 5,
+        "notes": "Mustaqil kiyinadi va ovqatlanadi"
+      }
+    },
+    "achievements": [
+      "Alifboni o'rgandi",
+      "10 gacha sanashni biladi",
+      "O'z ismini yoza oladi",
+      "first_day"
+    ],
+    "recommendations": "Matematika bo'yicha qo'shimcha mashqlar tavsiya etiladi",
+    "createdBy": "1",
+    "createdAt": "2025-12-21T15:33:50.529Z",
+    "updatedAt": "2025-12-21T15:33:54.268Z"
+  }
+]

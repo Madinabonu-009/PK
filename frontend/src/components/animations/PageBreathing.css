@@ -1,0 +1,154 @@
+/**
+ * 🌌 PAGE BREATHING STYLES
+ * Ultra-subtle breathing animation
+ * Sahifa tirikdek "nafas olayotgandek" sezilishi
+ */
+
+.page-breathing {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.breathing-background {
+  position: fixed;
+  top: -2%;
+  left: -2%;
+  right: -2%;
+  bottom: -2%;
+  z-index: -1;
+  background: inherit;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.breathing-content {
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* Subtle - deyarli ko'rinmaydi (1.005) - 15s */
+.breathing-subtle.breathing-active .breathing-background {
+  animation: breathe-subtle 15s ease-in-out infinite;
+}
+
+.breathing-subtle.breathing-active .breathing-content {
+  animation: breathe-content-subtle 15s ease-in-out infinite;
+}
+
+@keyframes breathe-subtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.005);
+    opacity: 0.995;
+  }
+}
+
+@keyframes breathe-content-subtle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.002);
+  }
+}
+
+/* Gentle - juda yumshoq (1.01) - 13s */
+.breathing-gentle.breathing-active .breathing-background {
+  animation: breathe-gentle 13s ease-in-out infinite;
+}
+
+.breathing-gentle.breathing-active .breathing-content {
+  animation: breathe-content-gentle 13s ease-in-out infinite;
+}
+
+@keyframes breathe-gentle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.01);
+    opacity: 0.99;
+  }
+}
+
+@keyframes breathe-content-gentle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.004);
+  }
+}
+
+/* Normal - seziladi (1.015) - 12s */
+.breathing-normal.breathing-active .breathing-background {
+  animation: breathe-normal 12s ease-in-out infinite;
+}
+
+.breathing-normal.breathing-active .breathing-content {
+  animation: breathe-content-normal 12s ease-in-out infinite;
+}
+
+@keyframes breathe-normal {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.015);
+    opacity: 0.985;
+  }
+}
+
+@keyframes breathe-content-normal {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.006);
+  }
+}
+
+/* Kids mode - bolalar uchun yumshoqroq */
+.breathing-kids.breathing-active .breathing-background {
+  animation: breathe-kids 14s ease-in-out infinite;
+}
+
+.breathing-kids.breathing-active .breathing-content {
+  animation: breathe-content-kids 14s ease-in-out infinite;
+}
+
+@keyframes breathe-kids {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.008);
+    filter: brightness(1.01);
+  }
+}
+
+@keyframes breathe-content-kids {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.003);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .breathing-background,
+  .breathing-content {
+    animation: none !important;
+  }
+}

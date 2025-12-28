@@ -1,0 +1,1209 @@
+[
+  {
+    "id": "dr1",
+    "childId": "c1",
+    "date": "2024-12-18",
+    "meals": {
+      "breakfast": {
+        "ate": "full",
+        "notes": "Sut va non yaxshi yedi"
+      },
+      "lunch": {
+        "ate": "partial",
+        "notes": "Sho'rvani yaxshi yedi, salatni kam yedi"
+      },
+      "snack": {
+        "ate": "full",
+        "notes": "Meva va pechene"
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "duration": 120,
+      "quality": "good",
+      "notes": "Tinch uxladi"
+    },
+    "mood": {
+      "morning": "happy",
+      "afternoon": "calm",
+      "evening": "tired"
+    },
+    "activities": [
+      {
+        "type": "art",
+        "description": "Rasm chizdi - oila rasmini"
+      },
+      {
+        "type": "play",
+        "description": "Lego bilan o'ynadi"
+      },
+      {
+        "type": "learning",
+        "description": "Raqamlarni o'rgandi (1-10)"
+      }
+    ],
+    "health": {
+      "temperature": null,
+      "notes": "Sog'lom"
+    },
+    "teacherNotes": "Bugun juda faol bo'ldi. Boshqa bolalar bilan yaxshi muloqot qildi.",
+    "createdBy": "t1",
+    "createdAt": "2024-12-18T17:00:00Z",
+    "telegramSent": true
+  },
+  {
+    "id": "dr1766120262261",
+    "childId": "c1",
+    "date": "2025-12-19",
+    "meals": {
+      "breakfast": {
+        "ate": "partial",
+        "notes": "ishtahasi yo'q"
+      },
+      "lunch": {
+        "ate": "full",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "full",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "duration": 4,
+      "quality": "good",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "sad",
+      "afternoon": "happy",
+      "evening": "calm"
+    },
+    "activities": [
+      {
+        "type": "art",
+        "description": "Rasm chizdi"
+      }
+    ],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "Bugun darslarga juda faol qatnashdi",
+    "createdBy": "t1",
+    "createdAt": "2025-12-19T04:57:42.261Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-19T04:57:47.095Z"
+  },
+  {
+    "id": "dr1766120318502",
+    "childId": "c3",
+    "date": "2025-12-19",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "partial",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "full",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "duration": 0,
+      "quality": "good",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "tired",
+      "afternoon": "angry",
+      "evening": "sad"
+    },
+    "activities": [
+      {
+        "type": "play",
+        "description": ""
+      }
+    ],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t1",
+    "createdAt": "2025-12-19T04:58:38.502Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-19T04:58:47.456Z"
+  },
+  {
+    "id": "dr1766120379895",
+    "childId": "c7",
+    "date": "2025-12-19",
+    "meals": {
+      "breakfast": {
+        "ate": "full",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "full",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "full",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "duration": 92,
+      "quality": "good",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "happy",
+      "afternoon": "happy",
+      "evening": "happy"
+    },
+    "activities": [
+      {
+        "type": "sport",
+        "description": ""
+      }
+    ],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t1",
+    "createdAt": "2025-12-19T04:59:39.895Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-19T04:59:46.967Z"
+  },
+  {
+    "id": "dr1766120447400",
+    "childId": "c4",
+    "date": "2025-12-19",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "bugun kelmadi",
+    "createdBy": "t1",
+    "createdAt": "2025-12-19T05:00:47.400Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-19T05:00:51.545Z"
+  },
+  {
+    "id": "dr1766120794491",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "date": "2025-12-19",
+    "meals": {
+      "breakfast": {
+        "ate": "full",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "full",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "full",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "duration": 123,
+      "quality": "good",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "happy",
+      "afternoon": "happy",
+      "evening": "happy"
+    },
+    "activities": [
+      {
+        "type": "learning",
+        "description": ""
+      }
+    ],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t3",
+    "createdAt": "2025-12-19T05:06:34.491Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-19T05:06:37.024Z"
+  },
+  {
+    "id": "dr1766150274389",
+    "childId": "226ac247-1ad5-4789-9f07-223c071b1b35",
+    "date": "2025-12-19",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "1",
+    "createdAt": "2025-12-19T13:17:54.389Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-19T13:22:40.800Z"
+  },
+  {
+    "id": "dr1766201165903",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "full",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "full",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "happy",
+      "afternoon": "calm",
+      "evening": "sad"
+    },
+    "activities": [
+      {
+        "type": "play",
+        "description": ""
+      },
+      {
+        "type": "music",
+        "description": ""
+      }
+    ],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t3",
+    "createdAt": "2025-12-20T03:26:05.903Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T03:26:07.987Z"
+  },
+  {
+    "id": "dr1766205732409",
+    "childId": "c1",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t1",
+    "createdAt": "2025-12-20T04:42:12.410Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T04:42:28.433Z"
+  },
+  {
+    "id": "dr1766205739275",
+    "childId": "c3",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t1",
+    "createdAt": "2025-12-20T04:42:19.275Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T04:42:27.655Z"
+  },
+  {
+    "id": "dr1766205745312",
+    "childId": "c6",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t1",
+    "createdAt": "2025-12-20T04:42:25.312Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T04:42:26.985Z"
+  },
+  {
+    "id": "dr1766205772370",
+    "childId": "c7",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t1",
+    "createdAt": "2025-12-20T04:42:52.370Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T04:43:09.238Z"
+  },
+  {
+    "id": "dr1766205779863",
+    "childId": "226ac247-1ad5-4789-9f07-223c071b1b35",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t1",
+    "createdAt": "2025-12-20T04:42:59.863Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T04:43:10.790Z"
+  },
+  {
+    "id": "dr1766205786200",
+    "childId": "6f757865-8211-4808-9a10-170599695eb5",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t1",
+    "createdAt": "2025-12-20T04:43:06.200Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T04:43:08.260Z"
+  },
+  {
+    "id": "dr1766205816911",
+    "childId": "c4",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "bugun kelmadi",
+    "createdBy": "t1",
+    "createdAt": "2025-12-20T04:43:36.911Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T04:43:41.200Z"
+  },
+  {
+    "id": "dr1766211226459",
+    "childId": "c03f4ef1-3c14-4350-bc2d-51ccf6e301b9",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "full",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "partial",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "duration": 40,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "calm",
+      "afternoon": "happy",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t3",
+    "createdAt": "2025-12-20T06:13:46.459Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T06:13:49.055Z"
+  },
+  {
+    "id": "dr1766238958011",
+    "childId": "c2",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t2",
+    "createdAt": "2025-12-20T13:55:58.011Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T13:56:21.607Z"
+  },
+  {
+    "id": "dr1766238965789",
+    "childId": "c5",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t2",
+    "createdAt": "2025-12-20T13:56:05.789Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T13:56:18.625Z"
+  },
+  {
+    "id": "dr1766238976279",
+    "childId": "c8",
+    "date": "2025-12-20",
+    "meals": {
+      "breakfast": {
+        "ate": "none",
+        "notes": ""
+      },
+      "lunch": {
+        "ate": "none",
+        "notes": ""
+      },
+      "snack": {
+        "ate": "none",
+        "notes": ""
+      }
+    },
+    "sleep": {
+      "slept": false,
+      "duration": 0,
+      "quality": "normal",
+      "notes": ""
+    },
+    "mood": {
+      "morning": "neutral",
+      "afternoon": "neutral",
+      "evening": "neutral"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "createdBy": "t2",
+    "createdAt": "2025-12-20T13:56:16.279Z",
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-20T13:56:18.941Z"
+  },
+  {
+    "id": "dr1766331071791",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "date": "2025-12-21",
+    "arrival": {
+      "time": "20:29",
+      "broughtBy": "mother",
+      "broughtByName": "",
+      "broughtByRelation": "",
+      "condition": "good",
+      "notes": ""
+    },
+    "departure": {
+      "time": "13:34",
+      "pickedUpBy": "other",
+      "pickedUpByName": "cxbnm",
+      "pickedUpByRelation": "",
+      "condition": "good",
+      "notes": ""
+    },
+    "meals": {
+      "breakfast": {
+        "items": [
+          "Dam olish kuni - nonushta"
+        ],
+        "eaten": {
+          "Dam olish kuni - nonushta": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      },
+      "lunch": {
+        "items": [
+          "Dam olish kuni - tushlik"
+        ],
+        "eaten": {
+          "Dam olish kuni - tushlik": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      },
+      "snack": {
+        "items": [
+          "Dam olish kuni - poldnik"
+        ],
+        "eaten": {
+          "Dam olish kuni - poldnik": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "startTime": "13:00",
+      "endTime": "15:00",
+      "duration": 120,
+      "quality": "good",
+      "fellAsleepEasily": true,
+      "wokeUpDuring": true,
+      "notes": ""
+    },
+    "mood": {
+      "morning": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "midday": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "afternoon": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "evening": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      }
+    },
+    "activities": [
+      {
+        "type": "art",
+        "description": "sdfvbn",
+        "notes": ""
+      }
+    ],
+    "health": {
+      "temperature": "",
+      "symptoms": [
+        "vomiting"
+      ],
+      "medications": [],
+      "notes": ""
+    },
+    "hygiene": {
+      "diaper": {
+        "changes": 0,
+        "notes": "",
+        "wet": 0,
+        "dirty": 0
+      },
+      "potty": {
+        "attempts": 0,
+        "successes": 0,
+        "notes": "",
+        "accidents": 0
+      },
+      "handWashing": true,
+      "teethBrushing": false,
+      "notes": ""
+    },
+    "behavior": {
+      "overall": "good",
+      "sharing": true,
+      "listening": true,
+      "following_rules": true,
+      "incidents": [],
+      "positive_moments": [],
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "parentNotes": "",
+    "createdBy": "1",
+    "createdByName": "itsme",
+    "createdAt": "2025-12-21T15:31:11.791Z",
+    "updatedAt": null,
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-21T15:31:17.063Z"
+  },
+  {
+    "id": "dr1766728241788",
+    "childId": "c1",
+    "date": "2025-12-26",
+    "arrival": {
+      "time": "10:49",
+      "broughtBy": "mother",
+      "broughtByName": "",
+      "broughtByRelation": "",
+      "condition": "good",
+      "notes": ""
+    },
+    "departure": {
+      "time": "",
+      "pickedUpBy": "",
+      "pickedUpByName": "",
+      "pickedUpByRelation": "",
+      "condition": "good",
+      "notes": ""
+    },
+    "meals": {
+      "breakfast": {
+        "items": [
+          "Sut bo'tqa",
+          "meva"
+        ],
+        "eaten": {
+          "Sut bo'tqa": "full",
+          "meva": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      },
+      "lunch": {
+        "items": [
+          "Lag'mon",
+          "salat"
+        ],
+        "eaten": {
+          "Lag'mon": "full",
+          "salat": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      },
+      "snack": {
+        "items": [
+          "Pechene",
+          "kompot"
+        ],
+        "eaten": {
+          "Pechene": "full",
+          "kompot": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "startTime": "13:00",
+      "endTime": "15:00",
+      "duration": 120,
+      "quality": "good",
+      "fellAsleepEasily": true,
+      "wokeUpDuring": false,
+      "notes": ""
+    },
+    "mood": {
+      "morning": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "midday": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "afternoon": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "evening": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      }
+    },
+    "activities": [
+      {
+        "type": "play",
+        "description": "",
+        "notes": ""
+      }
+    ],
+    "health": {
+      "temperature": "",
+      "symptoms": [],
+      "medications": [],
+      "notes": ""
+    },
+    "hygiene": {
+      "diaper": {
+        "changes": 0,
+        "notes": "",
+        "wet": 0,
+        "dirty": 0
+      },
+      "potty": {
+        "attempts": 0,
+        "successes": 0,
+        "notes": "",
+        "accidents": 0
+      },
+      "handWashing": true,
+      "teethBrushing": false,
+      "notes": ""
+    },
+    "behavior": {
+      "overall": "good",
+      "sharing": true,
+      "listening": true,
+      "following_rules": true,
+      "incidents": [],
+      "positive_moments": [],
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "parentNotes": "",
+    "createdBy": "1",
+    "createdByName": "itsme",
+    "createdAt": "2025-12-26T05:50:41.788Z",
+    "updatedAt": null,
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-26T05:50:50.980Z"
+  },
+  {
+    "id": "dr1766812334510",
+    "childId": "c03f4ef1-3c14-4350-bc2d-51ccf6e301b9",
+    "date": "2025-12-27",
+    "arrival": {
+      "time": "10:12",
+      "broughtBy": "mother",
+      "broughtByName": "",
+      "broughtByRelation": "",
+      "condition": "good",
+      "notes": ""
+    },
+    "departure": {
+      "time": "",
+      "pickedUpBy": "",
+      "pickedUpByName": "",
+      "pickedUpByRelation": "",
+      "condition": "good",
+      "notes": ""
+    },
+    "meals": {
+      "breakfast": {
+        "items": [
+          "Quymoq",
+          "smetana",
+          "choy"
+        ],
+        "eaten": {
+          "Quymoq": "full",
+          "smetana": "full",
+          "choy": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      },
+      "lunch": {
+        "items": [
+          "Osh",
+          "salat"
+        ],
+        "eaten": {
+          "Osh": "full",
+          "salat": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      },
+      "snack": {
+        "items": [
+          "Mevali salat",
+          "yogurt"
+        ],
+        "eaten": {
+          "Mevali salat": "full",
+          "yogurt": "full"
+        },
+        "notes": "",
+        "appetite": "good"
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "startTime": "13:00",
+      "endTime": "15:00",
+      "duration": 120,
+      "quality": "good",
+      "fellAsleepEasily": true,
+      "wokeUpDuring": false,
+      "notes": ""
+    },
+    "mood": {
+      "morning": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "midday": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "afternoon": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      },
+      "evening": {
+        "mood": "neutral",
+        "energy": "normal",
+        "notes": ""
+      }
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "symptoms": [],
+      "medications": [],
+      "notes": ""
+    },
+    "hygiene": {
+      "diaper": {
+        "changes": 0,
+        "notes": "",
+        "wet": 0,
+        "dirty": 0
+      },
+      "potty": {
+        "attempts": 0,
+        "successes": 0,
+        "notes": "",
+        "accidents": 0
+      },
+      "handWashing": true,
+      "teethBrushing": false,
+      "notes": ""
+    },
+    "behavior": {
+      "overall": "good",
+      "sharing": true,
+      "listening": true,
+      "following_rules": true,
+      "incidents": [],
+      "positive_moments": [],
+      "notes": ""
+    },
+    "teacherNotes": "",
+    "parentNotes": "",
+    "createdBy": "1",
+    "createdByName": "itsme",
+    "createdAt": "2025-12-27T05:12:14.510Z",
+    "updatedAt": null,
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-27T09:02:33.804Z"
+  }
+]

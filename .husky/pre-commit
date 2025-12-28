@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Issue #49: Git hooks for code quality
+
+echo "🔍 Running pre-commit checks..."
+
+# Run lint on staged files
+echo "📝 Checking code style..."
+npx lint-staged
+
+# Run type check if TypeScript files changed
+if git diff --cached --name-only | grep -q '\.tsx\?$'; then
+  echo "🔎 Type checking..."
+  cd frontend && npm run type-check 2>/dev/null || true
+fi
+
+echo "✅ Pre-commit checks passed!"

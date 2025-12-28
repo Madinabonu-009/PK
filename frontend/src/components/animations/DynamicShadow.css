@@ -1,0 +1,196 @@
+.dynamic-shadow-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Ambient Light */
+.ambient-light {
+  position: absolute;
+  inset: -100px;
+  background: radial-gradient(
+    circle at var(--light-x, 50%) var(--light-y, 50%),
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.3s ease;
+}
+
+/* Shadow Content */
+.shadow-content {
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 0.1s ease;
+  border-radius: inherit;
+}
+
+/* Reflection */
+.shadow-reflection {
+  position: absolute;
+  bottom: -20px;
+  left: 10%;
+  right: 10%;
+  height: 20px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1),
+    transparent
+  );
+  filter: blur(10px);
+  transform: scaleY(-1);
+  pointer-events: none;
+}
+
+/* Light Beam */
+.light-beam {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle 400px at var(--beam-x, 50%) var(--beam-y, 50%),
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Spotlight */
+.spotlight-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.spotlight-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Glow Card */
+.glow-card {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.glow-card-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle 200px at var(--glow-x, 50%) var(--glow-y, 50%),
+    var(--glow-color) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-card:hover .glow-card-glow {
+  opacity: 0.15;
+}
+
+.glow-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Border glow */
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    var(--glow-color) 50%,
+    transparent 100%
+  );
+  background-size: 200% 200%;
+  background-position: var(--glow-x, 50%) var(--glow-y, 50%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-card:hover::before {
+  opacity: 0.5;
+}
+
+/* Layered shadows */
+.layered-shadow {
+  box-shadow:
+    0 1px 1px rgba(0,0,0,0.08),
+    0 2px 2px rgba(0,0,0,0.08),
+    0 4px 4px rgba(0,0,0,0.08),
+    0 8px 8px rgba(0,0,0,0.08),
+    0 16px 16px rgba(0,0,0,0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.layered-shadow:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 2px 2px rgba(0,0,0,0.06),
+    0 4px 4px rgba(0,0,0,0.06),
+    0 8px 8px rgba(0,0,0,0.06),
+    0 16px 16px rgba(0,0,0,0.06),
+    0 32px 32px rgba(0,0,0,0.06);
+}
+
+/* Neon shadow */
+.neon-shadow {
+  box-shadow:
+    0 0 5px var(--glow-color, var(--primary-color)),
+    0 0 10px var(--glow-color, var(--primary-color)),
+    0 0 20px var(--glow-color, var(--primary-color)),
+    0 0 40px var(--glow-color, var(--primary-color));
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 5px var(--glow-color, var(--primary-color)),
+      0 0 10px var(--glow-color, var(--primary-color)),
+      0 0 20px var(--glow-color, var(--primary-color));
+  }
+  50% {
+    box-shadow:
+      0 0 10px var(--glow-color, var(--primary-color)),
+      0 0 20px var(--glow-color, var(--primary-color)),
+      0 0 40px var(--glow-color, var(--primary-color)),
+      0 0 80px var(--glow-color, var(--primary-color));
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-light,
+  .shadow-content,
+  .glow-card-glow,
+  .glow-card::before,
+  .neon-shadow {
+    animation: none !important;
+    transition: none !important;
+  }
+}

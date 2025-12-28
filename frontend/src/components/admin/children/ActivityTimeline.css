@@ -1,0 +1,234 @@
+.activity-timeline {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.activity-timeline__header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.activity-timeline__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.activity-timeline__filters {
+  display: flex;
+  gap: 4px;
+}
+
+.activity-timeline__filter {
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid transparent;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.activity-timeline__filter:hover {
+  background: var(--bg-tertiary);
+}
+
+.activity-timeline__filter--active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.activity-timeline__content {
+  padding: 24px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.activity-timeline__day {
+  margin-bottom: 24px;
+}
+
+.activity-timeline__day:last-child {
+  margin-bottom: 0;
+}
+
+.activity-timeline__date {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  padding-left: 48px;
+}
+
+.activity-timeline__items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activity-timeline__item {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.activity-timeline__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.activity-timeline__line {
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  bottom: -16px;
+  width: 2px;
+  background: var(--border-color);
+}
+
+.activity-timeline__item:last-child .activity-timeline__line {
+  display: none;
+}
+
+.activity-timeline__card {
+  flex: 1;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.activity-timeline__card:hover {
+  background: var(--bg-tertiary);
+}
+
+.activity-timeline__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.activity-timeline__card-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.activity-timeline__card-time {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.activity-timeline__card-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.activity-timeline__card-details {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.activity-timeline__detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.875rem;
+}
+
+.activity-timeline__detail-label {
+  color: var(--text-secondary);
+}
+
+.activity-timeline__detail-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.activity-timeline__card-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.activity-timeline__user-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.activity-timeline__user-name {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.activity-timeline__empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+
+.activity-timeline__empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.activity-timeline__loading {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.activity-timeline__spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.activity-timeline__load-more {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 16px;
+}
+
+.activity-timeline__load-more:hover {
+  background: var(--bg-tertiary);
+}

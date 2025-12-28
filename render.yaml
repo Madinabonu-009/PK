@@ -1,0 +1,36 @@
+# Render.com Blueprint - Play Kids Kindergarten
+# Bitta service sifatida deploy (Backend + Frontend)
+
+services:
+  - type: web
+    name: play-kids
+    runtime: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm run render-build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: ALLOWED_ORIGINS
+        value: https://play-kids.onrender.com
+      - key: TELEGRAM_BOT_TOKEN
+        value: 8046634314:AAGdOOkGMG_V0wuYa1TQYmu2_xrOYdxkZ_M
+      - key: TELEGRAM_CHAT_ID
+        value: 8058402292
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+      - key: LOG_LEVEL
+        value: info
+      - key: SITE_URL
+        value: https://play-kids.onrender.com
+    autoDeploy: true

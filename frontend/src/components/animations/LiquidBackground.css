@@ -1,0 +1,183 @@
+.liquid-background {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.liquid-svg-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* Blobs container */
+.liquid-blobs {
+  position: absolute;
+  inset: -100px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.liquid-blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.6;
+  will-change: transform;
+  transform: translate(-50%, -50%);
+}
+
+.interactive-blob {
+  z-index: 1;
+}
+
+/* Overlay */
+.liquid-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--bg-primary) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Content */
+.liquid-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Morphing Blob */
+.morphing-blob {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  will-change: border-radius, transform;
+}
+
+/* Gradient Mesh */
+.gradient-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.mesh-gradient {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: meshFloat 20s ease-in-out infinite;
+}
+
+.mesh-1 {
+  top: -10%;
+  left: -10%;
+  background: var(--primary-color);
+  animation-delay: 0s;
+}
+
+.mesh-2 {
+  top: -10%;
+  right: -10%;
+  background: var(--secondary-color, #8b5cf6);
+  animation-delay: -5s;
+}
+
+.mesh-3 {
+  bottom: -10%;
+  left: -10%;
+  background: #ec4899;
+  animation-delay: -10s;
+}
+
+.mesh-4 {
+  bottom: -10%;
+  right: -10%;
+  background: #06b6d4;
+  animation-delay: -15s;
+}
+
+@keyframes meshFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(10%, 10%) scale(1.1);
+  }
+  50% {
+    transform: translate(5%, -5%) scale(0.9);
+  }
+  75% {
+    transform: translate(-10%, 5%) scale(1.05);
+  }
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    var(--secondary-color, #8b5cf6) 25%,
+    #ec4899 50%,
+    var(--secondary-color, #8b5cf6) 75%,
+    var(--primary-color) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Noise texture overlay */
+.liquid-background.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Glass effect */
+.liquid-background.glass .liquid-content {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-blob,
+  .mesh-gradient,
+  .morphing-blob,
+  .gradient-text {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .liquid-blobs {
+    filter: blur(40px) !important;
+  }
+  
+  .liquid-blob {
+    opacity: 0.4;
+  }
+  
+  .interactive-blob {
+    display: none;
+  }
+  
+  .mesh-gradient {
+    filter: blur(60px);
+  }
+}

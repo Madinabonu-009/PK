@@ -1,0 +1,227 @@
+/* ============================================
+   SCROLL PROGRESS BAR
+   ============================================ */
+
+.scroll-progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: var(--height, 4px);
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.scroll-progress--top { top: 0; }
+.scroll-progress--bottom { bottom: 0; }
+
+.scroll-progress__bar {
+  height: 100%;
+  width: 100%;
+}
+
+/* Color variants */
+.scroll-progress--gradient .scroll-progress__bar {
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+}
+
+.scroll-progress--primary .scroll-progress__bar {
+  background: var(--primary-color);
+}
+
+.scroll-progress--rainbow .scroll-progress__bar {
+  background: linear-gradient(
+    90deg,
+    #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd
+  );
+}
+
+.scroll-progress__percentage {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  padding: 2px 6px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================
+   SCROLL PROGRESS CIRCLE
+   ============================================ */
+
+.scroll-circle {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: var(--size);
+  height: var(--size);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-circle__bg {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.1);
+}
+
+.scroll-circle__progress {
+  fill: none;
+  stroke: url(#scroll-gradient);
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.scroll-circle__text {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* ============================================
+   BACK TO TOP BUTTON
+   ============================================ */
+
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+
+.back-to-top:hover {
+  box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6);
+}
+
+.back-to-top svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ============================================
+   SCROLL INDICATOR (Mouse animation)
+   ============================================ */
+
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+.scroll-indicator__mouse {
+  width: 26px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  position: relative;
+}
+
+.scroll-indicator__wheel {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+  animation: scroll-wheel 1.5s ease-in-out infinite;
+}
+
+.scroll-indicator__text {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+@keyframes scroll-wheel {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(12px);
+  }
+}
+
+/* ============================================
+   READING PROGRESS (for blog/articles)
+   ============================================ */
+
+.reading-progress {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 999;
+}
+
+.reading-progress__bar {
+  height: 100%;
+  background: var(--primary-color);
+  transition: width 0.1s ease;
+}
+
+.reading-progress__time {
+  position: absolute;
+  right: 1rem;
+  top: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-primary);
+  padding: 2px 8px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-indicator,
+  .scroll-indicator__wheel {
+    animation: none;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .back-to-top,
+  .scroll-circle {
+    bottom: 5rem;
+    left: 1rem;
+  }
+  
+  .back-to-top {
+    width: 45px;
+    height: 45px;
+  }
+}

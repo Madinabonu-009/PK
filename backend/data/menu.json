@@ -1,0 +1,136 @@
+{
+  "sunday": {
+    "breakfast": {
+      "name": "Dam olish kuni - nonushta",
+      "allergies": []
+    },
+    "lunch": {
+      "name": "Dam olish kuni - tushlik",
+      "allergies": []
+    },
+    "snack": {
+      "name": "Dam olish kuni - poldnik",
+      "allergies": []
+    }
+  },
+  "monday": {
+    "breakfast": {
+      "name": "Sut bo'tqa, choy, non",
+      "allergies": [
+        "sut",
+        "gluten"
+      ]
+    },
+    "lunch": {
+      "name": "Sabzavotli sho'rva, go'shtli palov",
+      "allergies": []
+    },
+    "snack": {
+      "name": "Meva, kefir",
+      "allergies": [
+        "sut"
+      ]
+    }
+  },
+  "tuesday": {
+    "breakfast": {
+      "name": "Tuxum, non, choy",
+      "allergies": [
+        "tuxum",
+        "gluten"
+      ]
+    },
+    "lunch": {
+      "name": "Makaron go'sht bilan, salat",
+      "allergies": [
+        "gluten"
+      ]
+    },
+    "snack": {
+      "name": "Pechene, sut",
+      "allergies": [
+        "sut",
+        "gluten"
+      ]
+    }
+  },
+  "wednesday": {
+    "breakfast": {
+      "name": "Tvorog, meva, choy",
+      "allergies": [
+        "sut"
+      ]
+    },
+    "lunch": {
+      "name": "Kartoshka pyuresi, kotlet, salat",
+      "allergies": []
+    },
+    "snack": {
+      "name": "Olma, yogurt",
+      "allergies": [
+        "sut"
+      ]
+    }
+  },
+  "thursday": {
+    "breakfast": {
+      "name": "Omlet, non, choy",
+      "allergies": [
+        "tuxum",
+        "gluten"
+      ]
+    },
+    "lunch": {
+      "name": "Guruch sho'rva, baliq",
+      "allergies": [
+        "baliq"
+      ]
+    },
+    "snack": {
+      "name": "Banan, kefir",
+      "allergies": [
+        "sut"
+      ]
+    }
+  },
+  "friday": {
+    "breakfast": {
+      "name": "Sut bo'tqa, meva",
+      "allergies": [
+        "sut"
+      ]
+    },
+    "lunch": {
+      "name": "Lag'mon, salat",
+      "allergies": [
+        "gluten"
+      ]
+    },
+    "snack": {
+      "name": "Pechene, kompot",
+      "allergies": [
+        "gluten"
+      ]
+    }
+  },
+  "saturday": {
+    "breakfast": {
+      "name": "Quymoq, smetana, choy",
+      "allergies": [
+        "sut",
+        "gluten",
+        "tuxum"
+      ]
+    },
+    "lunch": {
+      "name": "Osh, salat",
+      "allergies": []
+    },
+    "snack": {
+      "name": "Mevali salat, yogurt",
+      "allergies": [
+        "sut"
+      ]
+    }
+  }
+}

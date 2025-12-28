@@ -1,0 +1,1105 @@
+/* ============================================
+   ATTENDANCE PAGE - Premium Attendance Management
+   Senior Developer Level CSS Architecture
+   ============================================ */
+
+/* Design Tokens */
+.attendance-page {
+  --attendance-gradient: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+  --attendance-glow: 0 8px 32px rgba(16, 185, 129, 0.35);
+  --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+/* ============================================
+   HEADER - Glassmorphism with Floating Orbs
+   ============================================ */
+.attendance-header {
+  background: var(--attendance-gradient);
+  padding: 2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.attendance-header::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatOrb 15s ease-in-out infinite;
+}
+
+.attendance-header::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: 5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatOrb 12s ease-in-out infinite reverse;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.attendance-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.attendance-header .header-left h1 {
+  color: white;
+  font-size: 1.85rem;
+  font-weight: 800;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-shadow: 0 2px 15px rgba(0,0,0,0.2);
+}
+
+.attendance-header .header-left h1 svg {
+  width: 32px;
+  height: 32px;
+}
+
+.attendance-header .today-date {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.65rem 1.25rem;
+  border-radius: 14px;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 0.95rem;
+}
+
+.attendance-header .header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.attendance-header button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s var(--spring-smooth);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.attendance-header button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.attendance-header .add-btn {
+  background: white;
+  color: #059669;
+  border: none;
+  font-weight: 700;
+}
+
+.attendance-header .add-btn:hover {
+  box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+}
+
+/* ============================================
+   STATS CARDS - Floating Glass Design
+   ============================================ */
+.attendance-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+  margin-top: -1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s var(--spring-smooth);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--attendance-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--spring-smooth);
+}
+
+.stat-card:hover::before {
+  transform: scaleX(1);
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card .stat-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: white;
+  position: relative;
+}
+
+.stat-card .stat-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: inherit;
+  filter: blur(12px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.stat-card .stat-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.stat-card.stat-present .stat-icon {
+  background: var(--attendance-gradient);
+}
+
+.stat-card.stat-absent .stat-icon {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+}
+
+.stat-card.stat-not-marked .stat-icon {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+.stat-card.stat-total .stat-icon {
+  background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+}
+
+.stat-card .stat-info h3 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.stat-card .stat-info p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0;
+}
+
+/* ============================================
+   HEATMAP - Premium Calendar View
+   ============================================ */
+.heatmap-toggle {
+  padding: 0 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.heatmap-toggle button {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.875rem 1.75rem;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s var(--spring-smooth);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.heatmap-toggle button:hover {
+  border-color: #10b981;
+  color: #10b981;
+  transform: translateY(-2px);
+}
+
+.heatmap-toggle button.active {
+  background: var(--attendance-gradient);
+  border-color: transparent;
+  color: white;
+  box-shadow: var(--attendance-glow);
+}
+
+.heatmap-card {
+  margin: 0 2.5rem 2rem;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  animation: slideDown 0.4s var(--spring-smooth);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.heatmap-card h3 {
+  margin: 0 0 1.5rem 0;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.heatmap-card h3 svg {
+  width: 24px;
+  height: 24px;
+  color: #10b981;
+}
+
+.heatmap-container {
+  min-width: 800px;
+}
+
+.heatmap-header {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 6px;
+  padding-left: 120px;
+}
+
+.heatmap-name-col {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.heatmap-date {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.heatmap-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.heatmap-row {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.heatmap-name {
+  width: 120px;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 0.5rem;
+}
+
+.heatmap-cell {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  transition: all 0.2s var(--spring-smooth);
+  cursor: pointer;
+  position: relative;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.3);
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.heatmap-cell.present {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+.heatmap-cell.absent {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+}
+
+.heatmap-cell.none,
+.heatmap-cell.not_marked {
+  background: var(--bg-tertiary);
+}
+
+.heatmap-legend {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.heatmap-legend span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.legend-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+
+.legend-box.present {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+.legend-box.absent {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+}
+
+.legend-box.none {
+  background: var(--bg-tertiary);
+}
+
+/* ============================================
+   FILTER - Premium Select
+   ============================================ */
+.attendance-filter {
+  padding: 0 2.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.attendance-filter select {
+  padding: 0.875rem 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 14px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s var(--spring-smooth);
+  min-width: 220px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 18px;
+  padding-right: 3rem;
+}
+
+.attendance-filter select:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+.attendance-filter select:hover {
+  border-color: #10b981;
+}
+
+/* ============================================
+   ATTENDANCE GRID - Premium Cards
+   ============================================ */
+.attendance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  padding: 0 2.5rem 2.5rem;
+}
+
+.attendance-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 1.75rem;
+  border: 2px solid var(--border-color);
+  transition: all 0.4s var(--spring-smooth);
+  position: relative;
+  overflow: hidden;
+  animation: cardReveal 0.5s var(--spring-smooth) backwards;
+}
+
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.attendance-card:nth-child(1) { animation-delay: 0.05s; }
+.attendance-card:nth-child(2) { animation-delay: 0.1s; }
+.attendance-card:nth-child(3) { animation-delay: 0.15s; }
+.attendance-card:nth-child(4) { animation-delay: 0.2s; }
+.attendance-card:nth-child(5) { animation-delay: 0.25s; }
+.attendance-card:nth-child(6) { animation-delay: 0.3s; }
+
+.attendance-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--border-color);
+  transition: background 0.3s var(--spring-smooth);
+}
+
+.attendance-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+}
+
+.attendance-card.status-present {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.attendance-card.status-present::before {
+  background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.attendance-card.status-absent {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.attendance-card.status-absent::before {
+  background: linear-gradient(90deg, #ef4444, #f87171, #ef4444);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+.attendance-card.status-not_marked {
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.attendance-card.status-not_marked::before {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Child Info */
+.child-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.child-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--attendance-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  overflow: hidden;
+  box-shadow: var(--attendance-glow);
+}
+
+.child-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.child-details h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-badge.present {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.status-badge.absent {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.status-badge.not_marked {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+/* Attendance Times */
+.attendance-times {
+  background: var(--bg-tertiary);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.time-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.time-item:last-child {
+  border-bottom: none;
+}
+
+.time-item span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time-item span svg {
+  width: 18px;
+  height: 18px;
+}
+
+.time-item.checkin span svg {
+  color: #10b981;
+}
+
+.time-item.checkout span svg {
+  color: #ef4444;
+}
+
+.time-item small {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* Attendance Actions */
+.attendance-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.attendance-actions button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s var(--spring-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.attendance-actions .btn-checkin {
+  background: var(--attendance-gradient);
+  color: white;
+  box-shadow: var(--attendance-glow);
+}
+
+.attendance-actions .btn-checkin:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.45);
+}
+
+.attendance-actions .btn-checkout {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  color: white;
+}
+
+.attendance-actions .btn-checkout:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(239, 68, 68, 0.35);
+}
+
+.attendance-actions .btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 2px solid var(--border-color);
+}
+
+.attendance-actions .btn-secondary:hover {
+  background: var(--border-color);
+  color: var(--text-primary);
+}
+
+/* ============================================
+   MODAL - Premium Glass Design
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.3s var(--spring-smooth);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.check-modal {
+  background: var(--card-bg);
+  border-radius: 28px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-color);
+  animation: modalSlideUp 0.4s var(--spring-bounce);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.check-modal h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.check-modal p {
+  margin: 0 0 1.75rem 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.check-modal input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--border-color);
+  border-radius: 14px;
+  font-size: 1rem;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  margin-bottom: 1.75rem;
+  transition: all 0.3s var(--spring-smooth);
+}
+
+.check-modal input:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--spring-smooth);
+}
+
+.modal-actions .btn-confirm {
+  background: var(--attendance-gradient);
+  color: white;
+  box-shadow: var(--attendance-glow);
+}
+
+.modal-actions .btn-confirm:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.45);
+}
+
+.modal-actions .btn-cancel {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 2px solid var(--border-color);
+}
+
+.modal-actions .btn-cancel:hover {
+  background: var(--border-color);
+}
+
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.attendance-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.attendance-empty .empty-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.attendance-empty h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.attendance-empty p {
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 400px;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.attendance-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1.5rem;
+}
+
+.attendance-loading .spinner {
+  width: 56px;
+  height: 56px;
+  border: 4px solid var(--border-color);
+  border-top-color: #10b981;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.attendance-loading p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* ============================================
+   DARK MODE ENHANCEMENTS
+   ============================================ */
+[data-theme="dark"] .attendance-page {
+  background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
+}
+
+[data-theme="dark"] .attendance-header {
+  background: linear-gradient(135deg, #047857 0%, #065f46 50%, #064e3b 100%);
+}
+
+[data-theme="dark"] .stat-card {
+  background: rgba(30, 30, 50, 0.8);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+[data-theme="dark"] .heatmap-card {
+  background: rgba(30, 30, 50, 0.8);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+[data-theme="dark"] .attendance-card {
+  background: rgba(30, 30, 50, 0.9);
+}
+
+[data-theme="dark"] .check-modal {
+  background: #1a1a2e;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="dark"] .attendance-times {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1024px) {
+  .attendance-header {
+    padding: 1.75rem 2rem;
+  }
+
+  .attendance-stats {
+    padding: 1.5rem 2rem;
+  }
+
+  .heatmap-card {
+    margin: 0 2rem 1.5rem;
+  }
+
+  .attendance-filter {
+    padding: 0 2rem;
+  }
+
+  .attendance-grid {
+    padding: 0 2rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .attendance-header {
+    padding: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .attendance-header .header-left {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .attendance-header .header-left h1 {
+    font-size: 1.5rem;
+  }
+
+  .attendance-header .header-right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .attendance-stats {
+    padding: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1.25rem;
+  }
+
+  .stat-card .stat-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .stat-card .stat-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .heatmap-card {
+    margin: 0 1rem 1rem;
+    padding: 1.25rem;
+  }
+
+  .attendance-filter {
+    padding: 0 1rem;
+  }
+
+  .attendance-filter select {
+    width: 100%;
+  }
+
+  .attendance-grid {
+    padding: 0 1rem 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  .attendance-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .attendance-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .attendance-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .check-modal {
+    padding: 1.75rem;
+    border-radius: 20px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .attendance-header::before,
+  .attendance-header::after,
+  .stat-card,
+  .attendance-card,
+  .heatmap-cell,
+  .check-modal,
+  .attendance-empty .empty-icon {
+    animation: none;
+    transition: none;
+  }
+
+  .attendance-card.status-present::before,
+  .attendance-card.status-absent::before,
+  .attendance-card.status-not_marked::before {
+    animation: none;
+  }
+}
+
+/* Focus States */
+.attendance-header button:focus-visible,
+.heatmap-toggle button:focus-visible,
+.attendance-filter select:focus-visible,
+.attendance-actions button:focus-visible,
+.modal-actions button:focus-visible {
+  outline: 3px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .attendance-header,
+  .heatmap-toggle,
+  .attendance-actions {
+    display: none;
+  }
+
+  .attendance-page {
+    background: white;
+  }
+
+  .attendance-stats {
+    margin-top: 0;
+  }
+
+  .stat-card,
+  .attendance-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    break-inside: avoid;
+  }
+
+  .heatmap-card {
+    margin: 0 0 1rem;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}

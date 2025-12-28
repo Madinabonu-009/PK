@@ -1,0 +1,16 @@
+/* 🪞 Mirror Cursor Styles */
+.mirror-element {
+  will-change: transform;
+}
+
+.mirror-shadow {
+  display: inline-block;
+  will-change: text-shadow;
+}
+
+.floating-icon {
+  font-size: 2rem;
+  pointer-events: none;
+  will-change: transform;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}

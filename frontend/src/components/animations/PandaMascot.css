@@ -1,0 +1,943 @@
+/**
+ * 🐼 PANDA MASCOT STYLES
+ * 
+ * Play Kids maskoti - Pandacha
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA MASCOT
+   ═══════════════════════════════════════════════════════════════ */
+.panda-mascot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.panda-mascot__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  transition: filter 0.3s ease;
+}
+
+.panda-mascot:hover .panda-mascot__image {
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+}
+
+.panda-mascot__shadow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 10px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA AVATAR
+   ═══════════════════════════════════════════════════════════════ */
+.panda-avatar {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+}
+
+.panda-avatar--border {
+  border: 3px solid #4fc3f7;
+  box-shadow: 0 2px 8px rgba(79, 195, 247, 0.3);
+}
+
+.panda-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.panda-avatar__status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: #4caf50;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA LOADING
+   ═══════════════════════════════════════════════════════════════ */
+.panda-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+}
+
+.panda-loading__mascot {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.panda-loading__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.panda-loading__dots {
+  display: flex;
+  gap: 8px;
+}
+
+.panda-loading__dot {
+  width: 12px;
+  height: 12px;
+  background: #4fc3f7;
+  border-radius: 50%;
+}
+
+.panda-loading__message {
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #546e7a;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA WELCOME
+   ═══════════════════════════════════════════════════════════════ */
+.panda-welcome {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 24px;
+  border: 3px solid #4fc3f7;
+}
+
+.panda-welcome__mascot {
+  flex-shrink: 0;
+}
+
+.panda-welcome__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.panda-welcome__text h3 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #1976d2;
+  margin: 0 0 4px 0;
+}
+
+.panda-welcome__text p {
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #546e7a;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA SUCCESS
+   ═══════════════════════════════════════════════════════════════ */
+.panda-success {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 60px;
+  background: linear-gradient(135deg, #fff9c4 0%, #ffecb3 100%);
+  border-radius: 24px;
+  border: 4px solid #ffd54f;
+  box-shadow: 0 8px 32px rgba(255, 193, 7, 0.3);
+  z-index: 10000;
+}
+
+.panda-success__mascot {
+  width: 100px;
+  height: 100px;
+}
+
+.panda-success__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.panda-success__message {
+  font-family: 'Nunito', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #f57f17;
+  margin: 0;
+}
+
+.panda-success__confetti {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+}
+
+.panda-success__particle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA HELPER
+   ═══════════════════════════════════════════════════════════════ */
+.panda-helper {
+  position: fixed;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.panda-helper--bottom-right {
+  bottom: 24px;
+  right: 24px;
+}
+
+.panda-helper--bottom-left {
+  bottom: 24px;
+  left: 24px;
+  flex-direction: row-reverse;
+}
+
+.panda-helper__mascot {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.panda-helper__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.panda-helper__bubble {
+  position: relative;
+  max-width: 250px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 20px;
+  border: 3px solid #4fc3f7;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.panda-helper__bubble p {
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #37474f;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.panda-helper__close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: #ef5350;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panda-helper__tail {
+  position: absolute;
+  bottom: 12px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border: 3px solid #4fc3f7;
+  border-top: none;
+  border-right: none;
+  transform: rotate(-45deg);
+}
+
+.panda-helper--bottom-right .panda-helper__tail {
+  left: -10px;
+}
+
+.panda-helper--bottom-left .panda-helper__tail {
+  right: -10px;
+  transform: rotate(135deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .panda-mascot,
+  .panda-loading__mascot,
+  .panda-welcome__mascot,
+  .panda-success__mascot,
+  .panda-helper__mascot {
+    animation: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .panda-welcome {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .panda-success {
+    padding: 30px 40px;
+  }
+  
+  .panda-success__mascot {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .panda-success__message {
+    font-size: 22px;
+  }
+  
+  .panda-helper {
+    bottom: 16px;
+    right: 16px;
+  }
+  
+  .panda-helper__bubble {
+    max-width: 200px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA MOOD EFFECTS
+   ═══════════════════════════════════════════════════════════════ */
+.panda-mascot__hearts {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  pointer-events: none;
+}
+
+.panda-mascot__heart {
+  position: absolute;
+  font-size: 16px;
+}
+
+.panda-mascot__sleep {
+  position: absolute;
+  top: -5px;
+  right: -15px;
+  pointer-events: none;
+}
+
+.panda-mascot__zzz {
+  position: absolute;
+  font-family: 'Comic Sans MS', cursive;
+  font-weight: bold;
+  color: #90caf9;
+  font-size: 14px;
+}
+
+.panda-mascot__thought {
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  font-size: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA GUIDE
+   ═══════════════════════════════════════════════════════════════ */
+.panda-guide {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.panda-guide__bubble {
+  background: white;
+  border-radius: 20px;
+  padding: 16px 20px;
+  border: 3px solid #4fc3f7;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  max-width: 280px;
+}
+
+.panda-guide__bubble p {
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  color: #37474f;
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.panda-guide__nav {
+  display: flex;
+  gap: 8px;
+}
+
+.panda-guide__nav button {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.panda-guide__nav button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
+}
+
+.panda-guide__progress {
+  display: block;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #90a4ae;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA REACTION
+   ═══════════════════════════════════════════════════════════════ */
+.panda-reaction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.panda-reaction--center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}
+
+.panda-reaction__emoji {
+  font-size: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.panda-badge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 50%;
+  border: 4px solid #90caf9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.panda-badge--unlocked {
+  background: linear-gradient(135deg, #fff9c4 0%, #ffecb3 100%);
+  border-color: #ffd54f;
+  box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+}
+
+.panda-badge:not(.panda-badge--unlocked) {
+  filter: grayscale(0.5);
+  opacity: 0.7;
+}
+
+.panda-badge__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panda-badge__locked {
+  font-size: 24px;
+  opacity: 0.5;
+}
+
+.panda-badge__star {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 20px;
+}
+
+.panda-badge__title {
+  position: absolute;
+  bottom: -24px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #546e7a;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA PROGRESS
+   ═══════════════════════════════════════════════════════════════ */
+.panda-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.panda-progress__label {
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #546e7a;
+  min-width: 80px;
+}
+
+.panda-progress__track {
+  position: relative;
+  flex: 1;
+  height: 16px;
+  background: #e3f2fd;
+  border-radius: 999px;
+  overflow: visible;
+}
+
+.panda-progress__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4fc3f7 0%, #29b6f6 100%);
+}
+
+.panda-progress__panda {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.panda-progress__value {
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1976d2;
+  min-width: 45px;
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA TOOLTIP
+   ═══════════════════════════════════════════════════════════════ */
+.panda-tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.panda-tooltip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: white;
+  border-radius: 16px;
+  border: 2px solid #4fc3f7;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+.panda-tooltip--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+}
+
+.panda-tooltip--bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+}
+
+.panda-tooltip span {
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #37474f;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA MASCOT WRAPPER
+   ═══════════════════════════════════════════════════════════════ */
+.panda-mascot-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ✨ MOOD EFFECTS
+   ═══════════════════════════════════════════════════════════════ */
+.panda-effect {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.panda-effect--hearts {
+  top: -10px;
+  right: -10px;
+}
+
+.panda-effect--sleep {
+  top: -5px;
+  right: -15px;
+}
+
+.panda-effect--sleep .zzz {
+  position: absolute;
+  font-family: 'Comic Sans MS', cursive;
+  font-weight: bold;
+  color: #90caf9;
+  font-size: 14px;
+}
+
+.panda-effect--think {
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  font-size: 24px;
+}
+
+.panda-effect--stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.panda-effect--tears {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  width: 100%;
+}
+
+.panda-effect--tears span {
+  position: absolute;
+  font-size: 10px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   💬 SPEECH BUBBLE
+   ═══════════════════════════════════════════════════════════════ */
+.panda-speech-bubble {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 10px 16px;
+  border-radius: 16px;
+  border: 2px solid #4fc3f7;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.panda-speech-bubble p {
+  margin: 0;
+  font-size: 13px;
+  color: #37474f;
+}
+
+.panda-speech-bubble button {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: #ef5350;
+  color: white;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.panda-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: white;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA FLOATING
+   ═══════════════════════════════════════════════════════════════ */
+.panda-floating {
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA REACTION
+   ═══════════════════════════════════════════════════════════════ */
+.panda-reaction {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 32px;
+  border-radius: 24px;
+  z-index: 10000;
+}
+
+.panda-reaction__emoji {
+  font-size: 32px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.panda-badge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+  border-radius: 50%;
+  border: 4px solid #9e9e9e;
+  cursor: pointer;
+  filter: grayscale(0.8);
+  opacity: 0.6;
+}
+
+.panda-badge--unlocked {
+  background: linear-gradient(135deg, #fff9c4 0%, #ffecb3 100%);
+  border-color: #ffd54f;
+  box-shadow: 0 4px 20px rgba(255,193,7,0.4);
+  filter: none;
+  opacity: 1;
+}
+
+.panda-badge__locked {
+  font-size: 24px;
+}
+
+.panda-badge__icon {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 20px;
+}
+
+.panda-badge__title {
+  position: absolute;
+  bottom: -24px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #546e7a;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+.panda-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.panda-button--primary {
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  color: white;
+}
+
+.panda-button--secondary {
+  background: linear-gradient(135deg, #fff9c4 0%, #ffecb3 100%);
+  color: #f57f17;
+}
+
+.panda-button--success {
+  background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+  color: white;
+}
+
+.panda-button--small { padding: 8px 16px; font-size: 13px; }
+.panda-button--medium { padding: 12px 24px; font-size: 15px; }
+.panda-button--large { padding: 16px 32px; font-size: 17px; }
+
+.panda-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.panda-button__icon { font-size: 1.2em; }
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA CARD
+   ═══════════════════════════════════════════════════════════════ */
+.panda-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 3px solid #e3f2fd;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.panda-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.panda-card__icon { font-size: 24px; }
+
+.panda-card__title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1976d2;
+  margin: 0 0 8px 0;
+}
+
+.panda-card__content {
+  color: #546e7a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA NOTIFICATION
+   ═══════════════════════════════════════════════════════════════ */
+.panda-notification {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 16px;
+  border-left: 4px solid;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 10000;
+  max-width: 350px;
+}
+
+.panda-notification__content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.panda-notification__content p {
+  margin: 0;
+  font-size: 14px;
+  color: #37474f;
+}
+
+.panda-notification__close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #90a4ae;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 PANDA CONFETTI
+   ═══════════════════════════════════════════════════════════════ */
+.panda-confetti {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+}
+
+.panda-confetti__particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .panda-notification {
+    top: auto;
+    bottom: 80px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+  }
+  
+  .panda-reaction {
+    padding: 20px 24px;
+  }
+}

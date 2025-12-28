@@ -1,0 +1,193 @@
+[
+  {
+    "id": "1",
+    "title": {
+      "uz": "Yangi yil bayrami",
+      "ru": "Новый год",
+      "en": "New Year"
+    },
+    "description": {
+      "uz": "Yangi yil bayrami - eng katta bayramlardan biri",
+      "ru": "Новый год - один из главных праздников",
+      "en": "New Year - one of the biggest holidays"
+    },
+    "date": "2025-01-01",
+    "type": "holiday",
+    "color": "#22c55e",
+    "published": true,
+    "time": ""
+  },
+  {
+    "id": "2",
+    "title": {
+      "uz": "Vatan himoyachilari kuni",
+      "ru": "День защитников Отечества",
+      "en": "Defenders Day"
+    },
+    "description": {
+      "uz": "Vatan himoyachilari kuniga bag'ishlangan bayram",
+      "ru": "Праздник, посвященный защитникам Отечества",
+      "en": "Holiday dedicated to defenders of the Fatherland"
+    },
+    "date": "2025-01-14",
+    "type": "holiday",
+    "color": "#22c55e",
+    "published": true
+  },
+  {
+    "id": "3",
+    "title": {
+      "uz": "Ota-onalar yig'ilishi",
+      "ru": "Родительское собрание",
+      "en": "Parents Meeting"
+    },
+    "description": {
+      "uz": "Ota-onalar bilan uchrashish va muhokama",
+      "ru": "Встреча и обсуждение с родителями",
+      "en": "Meeting and discussion with parents"
+    },
+    "date": "2025-01-15",
+    "time": "18:00",
+    "type": "event",
+    "color": "#3b82f6",
+    "published": true
+  },
+  {
+    "id": "4",
+    "title": {
+      "uz": "Xalqaro xotin-qizlar kuni",
+      "ru": "Международный женский день",
+      "en": "International Women's Day"
+    },
+    "description": {
+      "uz": "8-mart - Xalqaro xotin-qizlar kuni",
+      "ru": "8 марта - Международный женский день",
+      "en": "March 8 - International Women's Day"
+    },
+    "date": "2025-03-08",
+    "type": "holiday",
+    "color": "#22c55e",
+    "published": true
+  },
+  {
+    "id": "5",
+    "title": {
+      "uz": "Navro'z bayrami",
+      "ru": "Навруз",
+      "en": "Navruz Holiday"
+    },
+    "description": {
+      "uz": "Navro'z - yangi yil va bahor bayrami",
+      "ru": "Навруз - праздник нового года и весны",
+      "en": "Navruz - New Year and Spring holiday"
+    },
+    "date": "2025-03-21",
+    "type": "holiday",
+    "color": "#22c55e",
+    "published": true
+  },
+  {
+    "id": "6",
+    "title": {
+      "uz": "Sport musobaqasi",
+      "ru": "Спортивные соревнования",
+      "en": "Sports Competition"
+    },
+    "description": {
+      "uz": "Bolalar orasida sport musobaqasi",
+      "ru": "Спортивные соревнования среди детей",
+      "en": "Sports competition among children"
+    },
+    "date": "2025-04-20",
+    "time": "10:00",
+    "type": "event",
+    "color": "#3b82f6",
+    "published": true
+  },
+  {
+    "id": "7",
+    "title": {
+      "uz": "Xotira va qadrlash kuni",
+      "ru": "День памяти и почестей",
+      "en": "Remembrance Day"
+    },
+    "description": {
+      "uz": "9-may - Xotira va qadrlash kuni",
+      "ru": "9 мая - День памяти и почестей",
+      "en": "May 9 - Remembrance Day"
+    },
+    "date": "2025-05-09",
+    "type": "important",
+    "color": "#ef4444",
+    "published": true
+  },
+  {
+    "id": "8",
+    "title": {
+      "uz": "Mustaqillik kuni",
+      "ru": "День независимости",
+      "en": "Independence Day"
+    },
+    "description": {
+      "uz": "O'zbekiston Respublikasi Mustaqillik kuni",
+      "ru": "День независимости Республики Узбекистан",
+      "en": "Independence Day of the Republic of Uzbekistan"
+    },
+    "date": "2025-09-01",
+    "type": "important",
+    "color": "#ef4444",
+    "published": true
+  },
+  {
+    "id": "9",
+    "title": {
+      "uz": "O'qituvchilar kuni",
+      "ru": "День учителя",
+      "en": "Teachers Day"
+    },
+    "description": {
+      "uz": "O'qituvchi va murabbiylar kuni",
+      "ru": "День учителей и наставников",
+      "en": "Teachers and Mentors Day"
+    },
+    "date": "2025-10-01",
+    "type": "holiday",
+    "color": "#22c55e",
+    "published": true
+  },
+  {
+    "id": "10",
+    "title": {
+      "uz": "Yangi yil konsert",
+      "ru": "Новогодний концерт",
+      "en": "New Year Concert"
+    },
+    "description": {
+      "uz": "Bolalar yangi yil konserti",
+      "ru": "Детский новогодний концерт",
+      "en": "Children's New Year concert"
+    },
+    "date": "2025-12-27",
+    "time": "15:00",
+    "type": "event",
+    "color": "#3b82f6",
+    "published": true
+  },
+  {
+    "id": "f779df1c-c5e7-4345-8ef0-d2bd207d59fd",
+    "title": {
+      "uz": "Kitobxonlik",
+      "ru": "",
+      "en": ""
+    },
+    "date": "2026-01-19",
+    "type": "event",
+    "color": "#643bf7",
+    "description": {
+      "uz": "",
+      "ru": "",
+      "en": ""
+    },
+    "published": true
+  }
+]

@@ -1,0 +1,1018 @@
+/* ============================================
+   MUSIC GAME - PROFESSIONAL DESIGN 2024
+   Premium Music Studio Theme
+   ============================================ */
+
+/* Main Container */
+.music-game {
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.music-game::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  animation: musicPulse 4s ease-in-out infinite;
+}
+
+/* Floating music notes */
+.music-game::after {
+  content: '♪ ♫ ♬ ♩';
+  position: absolute;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.05);
+  top: 20%;
+  left: 10%;
+  animation: floatNotes 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes musicPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes floatNotes {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.05; }
+  50% { transform: translateY(-50px) rotate(10deg); opacity: 0.1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 0.05; }
+}
+
+/* Header */
+.music-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.music-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, #c4b5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.music-header h1 span {
+  animation: noteFloat 2s ease-in-out infinite;
+  -webkit-text-fill-color: initial;
+}
+
+@keyframes noteFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(10deg); }
+}
+
+.music-subtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Instruments Grid */
+.instruments-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.instrument-card {
+  border-radius: 24px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.instrument-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s;
+}
+
+.instrument-card:hover::before {
+  left: 100%;
+}
+
+.instrument-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.instrument-icon {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+}
+
+.instrument-title {
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  display: block;
+}
+
+.instrument-desc {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 0.3rem;
+}
+
+.music-footer {
+  text-align: center;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.music-footer p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+
+/* ============================================
+   INSTRUMENT SCREENS - Common Styles
+   ============================================ */
+
+.instrument-screen {
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  position: relative;
+}
+
+.instrument-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.instrument-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-3px);
+}
+
+.hint {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+/* ============================================
+   PIANO STYLES
+   ============================================ */
+
+.piano-screen {
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.piano-body {
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.piano-lid {
+  height: 20px;
+  background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+  border-radius: 10px 10px 0 0;
+  margin-bottom: -5px;
+}
+
+.piano-keys-container {
+  background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+  padding: 1rem 0.5rem 2rem;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  overflow-x: auto;
+}
+
+.piano-keys {
+  display: flex;
+  justify-content: center;
+  min-width: max-content;
+}
+
+.piano-key {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.piano-key.white {
+  width: 38px;
+  height: 150px;
+  background: linear-gradient(180deg, #fff 0%, #e8e8e8 100%);
+  border: 1px solid #ccc;
+  border-radius: 0 0 8px 8px;
+  margin: 0 1px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), inset 0 -5px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.piano-key.white:hover {
+  background: linear-gradient(180deg, #fff 0%, #f5f5f5 100%);
+}
+
+.piano-key.white.active {
+  background: linear-gradient(180deg, #dbeafe 0%, #bfdbfe 100%);
+  transform: translateY(3px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.piano-key.black {
+  width: 26px;
+  height: 95px;
+  background: linear-gradient(180deg, #333 0%, #111 100%);
+  border-radius: 0 0 6px 6px;
+  margin: 0 -13px;
+  z-index: 2;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.piano-key.black:hover {
+  background: linear-gradient(180deg, #444 0%, #222 100%);
+}
+
+.piano-key.black.active {
+  background: linear-gradient(180deg, #4f46e5 0%, #3730a3 100%);
+  transform: translateY(2px);
+  height: 93px;
+}
+
+.key-label {
+  font-size: 0.6rem;
+  color: #666;
+  font-weight: 600;
+}
+
+.piano-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.octave-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.octave-btn:hover, .octave-btn.active {
+  background: rgba(139, 92, 246, 0.5);
+  border-color: #8b5cf6;
+}
+
+.octave-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+}
+
+.sustain-pedal {
+  width: 60px;
+  height: 30px;
+  background: #333;
+  border-radius: 5px;
+  margin: 1rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sustain-pedal.active {
+  background: #8b5cf6;
+  transform: translateY(3px);
+}
+
+/* ============================================
+   XYLOPHONE STYLES
+   ============================================ */
+
+.xylophone-screen {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fbbf24 100%);
+}
+
+.xylophone-screen .instrument-header h2,
+.xylophone-screen .hint {
+  color: #78350f;
+}
+
+.xylophone-screen .back-btn {
+  background: rgba(120, 53, 15, 0.2);
+  color: #78350f;
+  border-color: rgba(120, 53, 15, 0.3);
+}
+
+.play-scale-btn {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.play-scale-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.play-scale-btn:disabled {
+  opacity: 0.5;
+}
+
+.xylophone-frame {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background: linear-gradient(180deg, #92400e 0%, #78350f 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.xylophone-bars {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.xylo-bar {
+  width: 38px;
+  border-radius: 8px 8px 4px 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8px;
+}
+
+.xylo-bar:hover {
+  filter: brightness(1.1);
+}
+
+.xylo-bar.active {
+  transform: scale(0.95) translateY(5px);
+}
+
+.bar-note {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.xylophone-mallets {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 1rem;
+  font-size: 2rem;
+}
+
+
+/* ============================================
+   DRUMS STYLES
+   ============================================ */
+
+.drums-screen {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+}
+
+.drum-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.record-btn, .play-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.record-btn {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.record-btn.recording {
+  background: #ef4444;
+  color: white;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+  50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+}
+
+.play-btn {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.play-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.drum-kit {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.drum-pad {
+  aspect-ratio: 1;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.drum-pad::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.drum-pad:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.drum-pad.active {
+  transform: scale(0.95);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.drum-emoji {
+  font-size: 1.8rem;
+}
+
+.drum-name {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.drum-key {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+}
+
+.recording-indicator {
+  text-align: center;
+  color: #fca5a5;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+/* ============================================
+   GUITAR STYLES
+   ============================================ */
+
+.guitar-screen {
+  background: linear-gradient(135deg, #451a03 0%, #78350f 50%, #92400e 100%);
+}
+
+.guitar-body {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.guitar-neck {
+  background: linear-gradient(90deg, #1c1917 0%, #292524 50%, #1c1917 100%);
+  border-radius: 10px;
+  padding: 1.5rem 1rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.fret-selector {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #44403c;
+}
+
+.fret-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #44403c;
+  background: transparent;
+  color: #a8a29e;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fret-btn:hover, .fret-btn.active {
+  background: #f97316;
+  border-color: #f97316;
+  color: white;
+}
+
+.guitar-strings {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.guitar-string {
+  width: 100%;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.guitar-string:hover {
+  filter: brightness(1.3);
+}
+
+.guitar-string.active {
+  filter: brightness(1.5);
+  box-shadow: 0 0 15px currentColor;
+}
+
+.string-note {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+}
+
+.strum-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.strum-btn {
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.strum-btn.down {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: white;
+}
+
+.strum-btn.up {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #78350f;
+}
+
+.strum-btn:hover {
+  transform: scale(1.05);
+}
+
+
+/* ============================================
+   MUSIC MEMORY GAME STYLES
+   ============================================ */
+
+.memory-screen {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);
+}
+
+.select-text {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.difficulty-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.difficulty-btn {
+  padding: 1.2rem;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.difficulty-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.difficulty-btn.easy { border-left: 4px solid #22c55e; }
+.difficulty-btn.medium { border-left: 4px solid #eab308; }
+.difficulty-btn.hard { border-left: 4px solid #ef4444; }
+
+.diff-emoji {
+  font-size: 2rem;
+}
+
+.diff-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  flex: 1;
+}
+
+.diff-info {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.game-stats {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.game-stats span {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.lives {
+  letter-spacing: 2px;
+}
+
+.memory-status {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  min-height: 40px;
+}
+
+.status-text {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.status-text.listening {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fde047;
+}
+
+.status-text.your-turn {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+
+.memory-notes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.memory-note {
+  aspect-ratio: 1;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.memory-note:hover {
+  transform: scale(1.02);
+}
+
+.memory-note.active {
+  transform: scale(1.1);
+  border-color: white;
+}
+
+/* Game Complete */
+.game-complete {
+  text-align: center;
+  padding: 2rem;
+}
+
+.game-complete .trophy {
+  font-size: 5rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.game-complete h3 {
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.final-stats {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+}
+
+.final-stats p {
+  font-size: 1.1rem;
+  margin: 0.3rem 0;
+}
+
+.stars {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.play-again-btn {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+}
+
+.play-again-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Feedback Popup */
+.feedback-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.5rem 3rem;
+  border-radius: 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  z-index: 100;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.feedback-popup.correct {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+}
+
+.feedback-popup.wrong {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+/* ============================================
+   MELODIES PLAYER STYLES
+   ============================================ */
+
+.melodies-screen {
+  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0284c7 100%);
+}
+
+.melodies-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.melody-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.melody-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.melody-card.playing {
+  background: rgba(34, 197, 94, 0.3);
+  border-color: #22c55e;
+}
+
+.melody-emoji {
+  font-size: 2.5rem;
+}
+
+.melody-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  flex: 1;
+}
+
+.playing-indicator {
+  font-size: 1.5rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 480px) {
+  .music-header h1 {
+    font-size: 1.4rem;
+  }
+  
+  .instruments-grid {
+    gap: 0.8rem;
+  }
+  
+  .instrument-icon {
+    font-size: 2.5rem;
+  }
+  
+  .instrument-title {
+    font-size: 0.9rem;
+  }
+  
+  .piano-key.white {
+    width: 30px;
+    height: 130px;
+  }
+  
+  .piano-key.black {
+    width: 22px;
+    height: 80px;
+    margin: 0 -11px;
+  }
+  
+  .xylo-bar {
+    width: 32px;
+  }
+  
+  .drum-kit {
+    gap: 0.5rem;
+  }
+  
+  .drum-emoji {
+    font-size: 1.4rem;
+  }
+  
+  .memory-notes {
+    gap: 0.5rem;
+  }
+  
+  .memory-note {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .music-game::before,
+  .music-game::after,
+  .instrument-card::before {
+    animation: none;
+  }
+}
+
+.back-btn:focus-visible,
+.instrument-card:focus-visible,
+.piano-key:focus-visible,
+.drum-pad:focus-visible,
+.memory-note:focus-visible {
+  outline: 3px solid #8b5cf6;
+  outline-offset: 3px;
+}

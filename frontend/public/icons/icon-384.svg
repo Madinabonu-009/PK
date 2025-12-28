@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" fill="none">
+  <rect width="384" height="384" rx="64" fill="url(#gradient)"/>
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="384" y2="384">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <text x="192" y="240" font-family="Arial, sans-serif" font-size="150" font-weight="bold" fill="white" text-anchor="middle">PK</text>
+</svg>

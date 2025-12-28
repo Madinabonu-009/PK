@@ -1,0 +1,338 @@
+/* Benefits Section */
+.benefits {
+  padding: 6rem 2rem;
+  background: var(--bg-primary);
+  position: relative;
+}
+
+.benefits-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.benefits-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.benefits-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.benefits-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Bento Grid Layout */
+.benefits-bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1.5rem;
+}
+
+/* Benefit Card Base */
+.benefit-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  transition: all 0.3s ease;
+}
+
+.benefit-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--card-bg);
+  opacity: 0.95;
+  z-index: 0;
+  border-radius: 24px;
+}
+
+/* Decoration blob */
+.benefit-decoration {
+  position: absolute;
+  bottom: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  background: var(--card-bg);
+  border-radius: 50%;
+  opacity: 0.5;
+  z-index: 0;
+  transition: all 0.4s ease;
+}
+
+.benefit-card:hover .benefit-decoration {
+  transform: scale(1.5);
+  opacity: 0.3;
+}
+
+/* Shine effect */
+.benefit-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.benefit-card:hover .benefit-shine {
+  animation: card-shine 0.8s ease forwards;
+}
+
+@keyframes card-shine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Icon Wrapper */
+.benefit-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+  background: var(--card-icon-bg);
+  box-shadow: var(--shadow-md);
+}
+
+.benefit-icon {
+  font-size: 2.25rem;
+  line-height: 1;
+}
+
+/* Content */
+.benefit-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.benefit-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.benefit-description {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* Individual Card Colors - Using CSS Variables */
+.benefit-card-1 {
+  --card-bg: var(--benefit-pink);
+  --card-icon-bg: var(--benefit-pink-dark);
+}
+
+.benefit-card-2 {
+  --card-bg: var(--benefit-blue);
+  --card-icon-bg: var(--benefit-blue-dark);
+}
+
+.benefit-card-3 {
+  --card-bg: var(--benefit-green);
+  --card-icon-bg: var(--benefit-green-dark);
+}
+
+.benefit-card-4 {
+  --card-bg: var(--benefit-orange);
+  --card-icon-bg: var(--benefit-orange-dark);
+}
+
+.benefit-card-5 {
+  --card-bg: var(--benefit-purple);
+  --card-icon-bg: var(--benefit-purple-dark);
+}
+
+.benefit-card-6 {
+  --card-bg: var(--benefit-cyan);
+  --card-icon-bg: var(--benefit-cyan-dark);
+}
+
+/* Hover states with glow effect */
+.benefit-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.benefit-card-1:hover { 
+  border-color: var(--benefit-pink-border); 
+  box-shadow: var(--shadow-lg);
+}
+.benefit-card-2:hover { 
+  border-color: var(--benefit-blue-border); 
+  box-shadow: var(--shadow-lg);
+}
+.benefit-card-3:hover { 
+  border-color: var(--benefit-green-border); 
+  box-shadow: var(--shadow-lg);
+}
+.benefit-card-4:hover { 
+  border-color: var(--benefit-orange-border); 
+  box-shadow: var(--shadow-lg);
+}
+.benefit-card-5:hover { 
+  border-color: var(--benefit-purple-border); 
+  box-shadow: var(--shadow-lg);
+}
+.benefit-card-6:hover { 
+  border-color: var(--benefit-cyan-border); 
+  box-shadow: var(--shadow-lg);
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .benefits-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .benefit-card {
+    min-height: 200px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .benefits {
+    padding: 4rem 1rem;
+  }
+
+  .benefits-title {
+    font-size: 2rem;
+  }
+
+  .benefits-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .benefits-bento {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .benefit-card {
+    padding: 1.5rem;
+    min-height: auto;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .benefit-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+
+  .benefit-icon {
+    font-size: 1.75rem;
+  }
+
+  .benefit-decoration {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .benefits {
+    padding: 3rem 0.75rem;
+  }
+
+  .benefits-title {
+    font-size: 1.75rem;
+  }
+
+  .benefit-card {
+    padding: 1.25rem;
+    border-radius: 20px;
+  }
+
+  .benefit-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+  }
+
+  .benefit-title {
+    font-size: 1.1rem;
+  }
+
+  .benefit-description {
+    font-size: 0.9rem;
+  }
+}
+
+/* Dark Mode - Vibrant glassmorphism style */
+[data-theme="dark"] .benefit-card {
+  background: var(--bg-secondary);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+}
+
+[data-theme="dark"] .benefit-card::before {
+  opacity: 0.9;
+  background: var(--card-bg);
+}
+
+[data-theme="dark"] .benefit-icon-wrapper {
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .benefit-card:hover {
+  border-color: var(--card-icon-bg);
+  box-shadow: var(--shadow-xl);
+}
+
+[data-theme="dark"] .benefit-decoration {
+  opacity: 0.3;
+}
+
+/* Print */
+@media print {
+  .benefits-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .benefit-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+  }
+
+  .benefit-decoration {
+    display: none;
+  }
+}

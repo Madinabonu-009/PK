@@ -1,0 +1,343 @@
+/**
+ * 🎮 KIDS UI 3 STYLES
+ * 
+ * Cartoon-style SVG karakterlar va animatsiyalar
+ * Bolalar uchun jonli, o'yin kabi interfeys
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   🌟 CARTOON STAR
+   ═══════════════════════════════════════════════════════════════ */
+.cartoon-star {
+  filter: drop-shadow(0 4px 8px rgba(255, 193, 7, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.cartoon-star:hover {
+  filter: drop-shadow(0 6px 12px rgba(255, 193, 7, 0.5));
+}
+
+.cartoon-star--wiggle {
+  animation: starWiggle 3s ease-in-out infinite;
+}
+
+@keyframes starWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ☁️ CARTOON CLOUD
+   ═══════════════════════════════════════════════════════════════ */
+.cartoon-cloud {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎈 CARTOON BALLOON
+   ═══════════════════════════════════════════════════════════════ */
+.cartoon-balloon {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🌈 RAINBOW ARC
+   ═══════════════════════════════════════════════════════════════ */
+.rainbow-arc {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎯 BIG PLAY BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+.big-play-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Nunito', 'Comic Sans MS', cursive, sans-serif;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sizes */
+.big-play-button--medium {
+  padding: 18px 40px;
+  font-size: 20px;
+}
+
+.big-play-button--large {
+  padding: 24px 56px;
+  font-size: 26px;
+}
+
+.big-play-button--huge {
+  padding: 32px 72px;
+  font-size: 32px;
+}
+
+/* Colors */
+.big-play-button--green {
+  background: linear-gradient(135deg, #81c784 0%, #4caf50 100%);
+  box-shadow: 0 8px 0 #2e7d32, 0 12px 40px rgba(76, 175, 80, 0.4);
+}
+
+.big-play-button--blue {
+  background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+  box-shadow: 0 8px 0 #1565c0, 0 12px 40px rgba(33, 150, 243, 0.4);
+}
+
+.big-play-button--yellow {
+  background: linear-gradient(135deg, #ffd54f 0%, #ffc107 100%);
+  box-shadow: 0 8px 0 #f9a825, 0 12px 40px rgba(255, 193, 7, 0.4);
+  color: #5d4037;
+}
+
+.big-play-button--pink {
+  background: linear-gradient(135deg, #f48fb1 0%, #e91e63 100%);
+  box-shadow: 0 8px 0 #c2185b, 0 12px 40px rgba(233, 30, 99, 0.4);
+}
+
+.big-play-button--purple {
+  background: linear-gradient(135deg, #b39ddb 0%, #9c27b0 100%);
+  box-shadow: 0 8px 0 #7b1fa2, 0 12px 40px rgba(156, 39, 176, 0.4);
+}
+
+.big-play-button:active {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 currentColor, 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.big-play-button__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  border-radius: inherit;
+}
+
+.big-play-button__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.big-play-button__icon {
+  font-size: 1.3em;
+}
+
+.big-play-button__sparkle {
+  position: absolute;
+  font-size: 20px;
+  color: #ffd54f;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.big-play-button__shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: bigButtonShine 3s ease-in-out infinite;
+}
+
+@keyframes bigButtonShine {
+  0%, 100% { left: -100%; }
+  50% { left: 150%; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎪 BOUNCY ICON
+   ═══════════════════════════════════════════════════════════════ */
+.bouncy-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 32px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎠 PAGE ENTER ANIMATION
+   ═══════════════════════════════════════════════════════════════ */
+.page-enter {
+  will-change: transform, opacity;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   💬 BUBBLE TOOLTIP
+   ═══════════════════════════════════════════════════════════════ */
+.bubble-tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.bubble-tooltip {
+  position: absolute;
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.bubble-tooltip--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 16px;
+}
+
+.bubble-tooltip--bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 16px;
+}
+
+.bubble-tooltip--blue {
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(79, 195, 247, 0.4);
+}
+
+.bubble-tooltip--green {
+  background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(129, 199, 132, 0.4);
+}
+
+.bubble-tooltip--yellow {
+  background: linear-gradient(135deg, #ffd54f 0%, #ffca28 100%);
+  color: #5d4037;
+  box-shadow: 0 4px 16px rgba(255, 213, 79, 0.4);
+}
+
+.bubble-tooltip--pink {
+  background: linear-gradient(135deg, #f48fb1 0%, #f06292 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(244, 143, 177, 0.4);
+}
+
+.bubble-tooltip__tail {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: inherit;
+  border-radius: 4px;
+  transform: rotate(45deg);
+}
+
+.bubble-tooltip--top .bubble-tooltip__tail {
+  bottom: -8px;
+  left: 50%;
+  margin-left: -8px;
+}
+
+.bubble-tooltip--bottom .bubble-tooltip__tail {
+  top: -8px;
+  left: 50%;
+  margin-left: -8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎊 REWARD BURST
+   ═══════════════════════════════════════════════════════════════ */
+.reward-burst {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.reward-burst__particle {
+  position: absolute;
+  font-size: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.reward-burst__message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 40px;
+  background: linear-gradient(135deg, #fff9c4 0%, #ffecb3 100%);
+  border: 4px solid #ffd54f;
+  border-radius: 24px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #f57f17;
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(255, 193, 7, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .cartoon-star--wiggle,
+  .big-play-button__shine {
+    animation: none !important;
+  }
+  
+  .cartoon-star,
+  .cartoon-cloud,
+  .cartoon-balloon,
+  .bouncy-icon,
+  .big-play-button {
+    transition: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .big-play-button--large {
+    padding: 20px 44px;
+    font-size: 22px;
+  }
+  
+  .big-play-button--huge {
+    padding: 24px 56px;
+    font-size: 26px;
+  }
+  
+  .reward-burst__message {
+    font-size: 28px;
+    padding: 16px 32px;
+  }
+  
+  .reward-burst__particle {
+    font-size: 24px;
+  }
+}

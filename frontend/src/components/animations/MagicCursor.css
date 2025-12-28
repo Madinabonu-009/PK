@@ -1,0 +1,98 @@
+/* Magic Cursor Styles */
+.magic-cursor-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.magic-cursor {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+.magic-cursor.hovering {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.magic-cursor.clicking {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.cursor-emoji {
+  font-size: 16px;
+  line-height: 1;
+  animation: gentle-float 2s ease-in-out infinite;
+}
+
+@keyframes gentle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(15px);
+}
+
+/* Hide on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .magic-cursor-container {
+    display: none;
+  }
+}
+
+/* Hide default cursor when magic cursor is active */
+@media (hover: hover) and (pointer: fine) {
+  body:has(.magic-cursor-container) {
+    cursor: none;
+  }
+  
+  body:has(.magic-cursor-container) * {
+    cursor: none !important;
+  }
+}
+
+/* Dark mode support */
+[data-theme="dark"] .magic-cursor {
+  background: rgba(30, 30, 40, 0.9);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .magic-cursor.hovering {
+  background: rgba(40, 40, 55, 0.95);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+[data-theme="dark"] .cursor-glow {
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+}

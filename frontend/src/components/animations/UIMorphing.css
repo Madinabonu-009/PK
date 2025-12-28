@@ -1,0 +1,251 @@
+/**
+ * 🪄 UI MORPHING STYLES
+ * 
+ * Smooth shape transformations
+ * No fade, no reload - pure morph
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   MORPH BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+.morph-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  overflow: hidden;
+  user-select: none;
+}
+
+.morph-button--blue {
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  box-shadow: 0 4px 20px rgba(79, 195, 247, 0.3);
+}
+
+.morph-button--green {
+  background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+  box-shadow: 0 4px 20px rgba(129, 199, 132, 0.3);
+}
+
+.morph-button--yellow {
+  background: linear-gradient(135deg, #ffd54f 0%, #ffca28 100%);
+  box-shadow: 0 4px 20px rgba(255, 213, 79, 0.3);
+  color: #5d4037;
+}
+
+.morph-button--pink {
+  background: linear-gradient(135deg, #f48fb1 0%, #f06292 100%);
+  box-shadow: 0 4px 20px rgba(244, 143, 177, 0.3);
+}
+
+.morph-button--expanded {
+  padding: 24px;
+  min-width: 300px;
+  cursor: default;
+}
+
+.morph-button__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.morph-button__expanded {
+  position: relative;
+  width: 100%;
+}
+
+.morph-button__close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.morph-button__close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MORPH CARD
+   ═══════════════════════════════════════════════════════════════ */
+.morph-card {
+  position: relative;
+  padding: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.morph-card--white {
+  background: white;
+  border: 3px solid #e0e0e0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.morph-card--blue {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 3px solid #4fc3f7;
+}
+
+.morph-card--green {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border: 3px solid #81c784;
+}
+
+.morph-card--yellow {
+  background: linear-gradient(135deg, #fffde7 0%, #fff9c4 100%);
+  border: 3px solid #ffd54f;
+}
+
+.morph-card__thumb {
+  width: 100%;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+.morph-card__thumb--expanded {
+  height: 200px;
+}
+
+.morph-card__content h3 {
+  margin: 0 0 8px 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #37474f;
+}
+
+.morph-card--expanded {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1001;
+  cursor: default;
+}
+
+.morph-card__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.1);
+  color: #37474f;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  z-index: 10;
+}
+
+.morph-card__close:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Overlay */
+.morph-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MORPH CONTAINER
+   ═══════════════════════════════════════════════════════════════ */
+.morph-container {
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MORPH LIST ITEM
+   ═══════════════════════════════════════════════════════════════ */
+.morph-list-item {
+  padding: 16px 20px;
+  background: white;
+  border-radius: 16px;
+  border: 2px solid #e0e0e0;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.morph-list-item:hover {
+  border-color: #4fc3f7;
+}
+
+.morph-list-item--expanded {
+  border-color: #4fc3f7;
+  box-shadow: 0 4px 20px rgba(79, 195, 247, 0.2);
+}
+
+.morph-list-item__expanded {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .morph-button,
+  .morph-card,
+  .morph-container,
+  .morph-list-item {
+    transition: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .morph-button--expanded {
+    min-width: 260px;
+    padding: 20px;
+  }
+  
+  .morph-card--expanded {
+    width: 95%;
+    max-height: 85vh;
+  }
+}

@@ -1,0 +1,134 @@
+.problem-solution {
+  padding: 5rem 2rem;
+  background: var(--gradient-primary);
+}
+
+.problem-solution-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.problem-solution-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.problem-solution-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-inverse);
+  margin-bottom: 1rem;
+}
+
+.problem-solution-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-inverse);
+  opacity: 0.85;
+}
+
+.problem-solution-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.problem-solution-card {
+  display: flex;
+  align-items: center;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
+}
+
+.problem-section,
+.solution-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.problem-icon,
+.solution-icon {
+  font-size: 1.5rem;
+}
+
+.problem-text {
+  color: var(--text-inverse);
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.solution-text {
+  color: var(--text-inverse);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.arrow-divider {
+  font-size: 1.5rem;
+  color: var(--text-inverse);
+  padding: 0 1.5rem;
+  opacity: 0.7;
+}
+
+
+.problem-solution-cta {
+  text-align: center;
+}
+
+.cta-text {
+  font-size: 1.2rem;
+  color: var(--text-inverse);
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+}
+
+.problem-solution-cta .cta-button {
+  display: inline-block;
+  background: var(--bg-primary);
+  color: var(--text-primary) !important;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-lg);
+}
+
+.problem-solution-cta .cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+}
+
+@media (max-width: 768px) {
+  .problem-solution {
+    padding: 3rem 1rem;
+  }
+
+  .problem-solution-title {
+    font-size: 2rem;
+  }
+
+  .problem-solution-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .problem-section,
+  .solution-section {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .arrow-divider {
+    transform: rotate(90deg);
+    padding: 0.5rem 0;
+  }
+}

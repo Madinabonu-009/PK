@@ -1,0 +1,27 @@
+{
+  "general": {
+    "siteName": "Play Kids",
+    "siteDescription": "Bolalar bog'chasi boshqaruv tizimi",
+    "contactEmail": "boymurodovamadinabonuf9@gmail.com",
+    "contactPhone": "+998945140949",
+    "address": "Buxoro viloyati, G'ijduvon tumani",
+    "workingHours": "Dushanba-Juma: 9:00 - 18:00, Shanba: 9:00 - 16:00",
+    "language": "uz",
+    "monthlyFee": 500000
+  },
+  "notifications": {
+    "emailNotifications": true,
+    "telegramNotifications": true,
+    "smsNotifications": false
+  },
+  "security": {
+    "sessionTimeout": 24,
+    "maxLoginAttempts": 5,
+    "requireStrongPassword": true
+  },
+  "appearance": {
+    "theme": "colorful",
+    "primaryColor": "#4f46e5",
+    "showAnimations": true
+  }
+}

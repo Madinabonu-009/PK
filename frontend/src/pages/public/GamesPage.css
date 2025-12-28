@@ -1,0 +1,63 @@
+.games-page {
+  min-height: 100vh;
+  background: url('/images/sky-bg.jpg') center/cover fixed, 
+              linear-gradient(180deg, #87CEEB 0%, #E0F7FA 100%);
+  padding-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorations - kamalak olib tashlandi */
+.games-decorations {
+  display: none;
+}
+
+.games-rainbow {
+  display: none;
+}
+
+.games-balloon {
+  position: absolute;
+}
+
+.games-balloon--1 {
+  top: 15%;
+  left: 5%;
+  animation: float-balloon 4s ease-in-out infinite;
+}
+
+.games-balloon--2 {
+  top: 25%;
+  right: 8%;
+  animation: float-balloon 5s ease-in-out infinite 0.5s;
+}
+
+.games-balloon--3 {
+  top: 40%;
+  left: 10%;
+  animation: float-balloon 4.5s ease-in-out infinite 1s;
+}
+
+@keyframes float-balloon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.games-panda {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  z-index: 999;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+@media (max-width: 768px) {
+  .games-panda {
+    bottom: 90px;
+    right: 16px;
+  }
+  
+  .games-balloon {
+    display: none;
+  }
+}

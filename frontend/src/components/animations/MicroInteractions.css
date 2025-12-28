@@ -1,0 +1,287 @@
+/* ============================================
+   HOVER CARD
+   ============================================ */
+
+.hover-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-card--border {
+  border: 2px solid transparent;
+}
+
+.hover-card--tilt {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* ============================================
+   RIPPLE BUTTON
+   ============================================ */
+
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+  padding: 0.8rem 1.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ripple-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+/* ============================================
+   LIKE BUTTON
+   ============================================ */
+
+.like-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.like-btn:hover {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.like-btn--liked {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.like-btn__icon {
+  font-size: 1.2rem;
+  display: inline-block;
+}
+
+.like-btn__count {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.like-particle {
+  position: absolute;
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
+/* ============================================
+   SUCCESS CHECK
+   ============================================ */
+
+.success-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-check svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================
+   TYPING INDICATOR
+   ============================================ */
+
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background: var(--text-muted);
+  border-radius: 50%;
+}
+
+/* ============================================
+   INTERACTIVE ICONS
+   ============================================ */
+
+.interactive-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.interactive-icon:hover {
+  background: var(--primary-light);
+  transform: scale(1.1);
+}
+
+.interactive-icon:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+   TOOLTIP
+   ============================================ */
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  padding: 0.5rem 1rem;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: 0.85rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--text-primary);
+}
+
+.tooltip-wrapper:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-12px);
+}
+
+/* ============================================
+   SKELETON PULSE
+   ============================================ */
+
+.skeleton-pulse {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 25%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================
+   NOTIFICATION BADGE
+   ============================================ */
+
+.notification-badge {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-badge__count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: badge-pop 0.3s ease;
+}
+
+@keyframes badge-pop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================
+   SWITCH TOGGLE
+   ============================================ */
+
+.switch-toggle {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  background: var(--bg-tertiary);
+  border-radius: 13px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.switch-toggle--active {
+  background: var(--primary-color);
+}
+
+.switch-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.switch-toggle--active .switch-toggle__thumb {
+  transform: translateX(24px);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ripple,
+  .like-particle,
+  .typing-indicator span,
+  .skeleton-pulse {
+    animation: none;
+  }
+}

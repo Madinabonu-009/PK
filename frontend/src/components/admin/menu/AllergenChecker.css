@@ -1,0 +1,655 @@
+/* Allergen Checker Styles */
+.allergen-checker {
+  padding: 1.5rem;
+  background: var(--bg-primary, #f8fafc);
+}
+
+/* Header */
+.checker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-title h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-primary, #1e293b);
+}
+
+.status-badge {
+  padding: 0.375rem 0.875rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.warning {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-badge.safe {
+  background: #d1fae5;
+  color: #047857;
+}
+
+/* Statistics */
+.allergen-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card.highlight {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+.stat-card .stat-icon {
+  font-size: 2rem;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-info .stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #1e293b);
+}
+
+.stat-info .stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+/* Allergen Distribution */
+.allergen-distribution {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.allergen-distribution h3 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  color: var(--text-primary, #1e293b);
+}
+
+.distribution-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.distribution-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.distribution-item .item-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.distribution-item .allergen-icon {
+  font-size: 1.125rem;
+}
+
+.distribution-item .count {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--text-primary, #1e293b);
+}
+
+.bar-container {
+  height: 8px;
+  background: var(--bg-secondary, #f1f5f9);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease-out;
+}
+
+/* Warnings Section */
+.warnings-section {
+  margin-bottom: 1.5rem;
+}
+
+.warnings-section h3 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  color: var(--text-primary, #1e293b);
+}
+
+.warnings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Allergen Warning Card */
+.allergen-warning-card {
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  border-left: 4px solid;
+}
+
+.warning-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.warning-header .allergen-icon {
+  font-size: 2rem;
+}
+
+.warning-info {
+  flex: 1;
+}
+
+.warning-info h4 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.warning-info p {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.severity-badge {
+  padding: 0.25rem 0.625rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.severity-badge.critical {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.severity-badge.high {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.severity-badge.medium {
+  background: #fefce8;
+  color: #a16207;
+}
+
+.affected-children {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.children-count {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.children-avatars {
+  display: flex;
+}
+
+.child-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-left: -8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-light, #e0e7ff);
+  color: var(--primary, #4f46e5);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.child-avatar:first-child {
+  margin-left: 0;
+}
+
+.child-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.child-avatar.more {
+  background: var(--bg-secondary, #f1f5f9);
+  color: var(--text-muted, #94a3b8);
+}
+
+.warning-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.warning-actions .action-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.warning-actions .action-btn.view {
+  background: white;
+  color: var(--text-secondary, #64748b);
+}
+
+.warning-actions .action-btn.view:hover {
+  background: var(--bg-secondary, #f1f5f9);
+}
+
+.warning-actions .action-btn.suggest {
+  background: var(--primary, #4f46e5);
+  color: white;
+}
+
+.warning-actions .action-btn.suggest:hover {
+  background: var(--primary-dark, #4338ca);
+}
+
+/* Safe Status */
+.safe-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.safe-status .safe-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.safe-status h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: #047857;
+}
+
+.safe-status p {
+  margin: 0;
+  color: #065f46;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.affected-children-modal,
+.alternatives-modal {
+  background: white;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted, #94a3b8);
+  cursor: pointer;
+}
+
+/* Children List */
+.children-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.child-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: var(--bg-secondary, #f8fafc);
+}
+
+.child-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.child-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-light, #e0e7ff);
+  color: var(--primary, #4f46e5);
+  font-weight: 600;
+}
+
+.child-info {
+  flex: 1;
+}
+
+.child-info h4 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.child-group {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+.other-allergies {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+.allergen-mini {
+  font-size: 1rem;
+}
+
+.contact-btn {
+  padding: 0.5rem 1rem;
+  background: var(--primary-light, #e0e7ff);
+  color: var(--primary, #4f46e5);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.contact-btn:hover {
+  background: var(--primary, #4f46e5);
+  color: white;
+}
+
+/* Modal Footer */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border, #e2e8f0);
+}
+
+.btn-secondary {
+  padding: 0.625rem 1.25rem;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 0.5rem;
+  background: white;
+  color: var(--text-secondary, #64748b);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.btn-primary {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--primary, #4f46e5);
+  color: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+/* Alternatives Modal */
+.alternatives-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.alternatives-section {
+  margin-bottom: 1.5rem;
+}
+
+.alternatives-section:last-child {
+  margin-bottom: 0;
+}
+
+.alternatives-section h3 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  color: var(--text-primary, #1e293b);
+}
+
+.ingredient-alternatives {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.alternative-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  background: #d1fae5;
+  color: #047857;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+}
+
+.alternative-item .alt-icon {
+  font-weight: 600;
+}
+
+.safe-recipes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.safe-recipe-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: var(--bg-secondary, #f8fafc);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.safe-recipe-card:hover {
+  background: var(--bg-hover, #f1f5f9);
+}
+
+.recipe-preview {
+  width: 60px;
+  height: 60px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-light, #e0e7ff);
+}
+
+.recipe-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recipe-preview .recipe-icon {
+  font-size: 1.5rem;
+}
+
+.safe-recipe-card .recipe-info {
+  flex: 1;
+}
+
+.safe-recipe-card .recipe-info h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.9375rem;
+}
+
+.recipe-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+.select-btn {
+  padding: 0.5rem 1rem;
+  background: var(--primary, #4f46e5);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.select-btn:hover {
+  background: var(--primary-dark, #4338ca);
+}
+
+.no-recipes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-muted, #94a3b8);
+}
+
+.no-recipes span {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .allergen-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .warning-header {
+    flex-wrap: wrap;
+  }
+
+  .severity-badge {
+    order: -1;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .affected-children {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .warning-actions {
+    flex-direction: column;
+  }
+
+  .warning-actions .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .child-item {
+    flex-wrap: wrap;
+  }
+
+  .child-contact {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .contact-btn {
+    display: block;
+    text-align: center;
+  }
+}

@@ -1,0 +1,95 @@
+/* 🎈 Floating Elements Styles */
+.floating-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Bulutlar */
+.cloud {
+  position: absolute;
+  font-size: 4rem;
+  opacity: 0.6;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.cloud-1 {
+  top: 10%;
+  left: 5%;
+  font-size: 3rem;
+}
+
+.cloud-2 {
+  top: 20%;
+  right: 10%;
+  font-size: 5rem;
+  opacity: 0.4;
+}
+
+.cloud-3 {
+  top: 5%;
+  left: 40%;
+  font-size: 3.5rem;
+  opacity: 0.5;
+}
+
+/* Sharlar */
+.balloon {
+  position: absolute;
+  font-size: 2.5rem;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+
+.balloon-1 {
+  bottom: 30%;
+  left: 8%;
+}
+
+.balloon-2 {
+  bottom: 40%;
+  right: 12%;
+  font-size: 2rem;
+}
+
+.balloon-3 {
+  bottom: 25%;
+  left: 25%;
+  font-size: 1.8rem;
+}
+
+/* Yulduzlar */
+.star {
+  position: absolute;
+  font-size: 1.5rem;
+}
+
+.star-1 {
+  top: 15%;
+  right: 20%;
+}
+
+.star-2 {
+  top: 30%;
+  left: 15%;
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cloud {
+    font-size: 2.5rem;
+  }
+  
+  .balloon {
+    font-size: 1.8rem;
+  }
+  
+  .cloud-2, .balloon-2 {
+    display: none;
+  }
+}

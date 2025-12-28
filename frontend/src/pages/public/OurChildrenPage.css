@@ -1,0 +1,762 @@
+.our-children-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* ===== HERO SECTION ===== */
+.oc-hero {
+  position: relative;
+  padding: 120px 0 80px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent, #f093fb) 100%);
+  overflow: hidden;
+}
+
+.oc-hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.oc-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.3;
+  animation: blobFloat 15s ease-in-out infinite;
+}
+
+.oc-blob-1 {
+  width: 400px;
+  height: 400px;
+  background: var(--danger, #FF6B6B);
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.oc-blob-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--success, #4ECDC4);
+  bottom: -50px;
+  right: 10%;
+  animation-delay: 5s;
+}
+
+.oc-blob-3 {
+  width: 250px;
+  height: 250px;
+  background: var(--warning, #FFE66D);
+  top: 30%;
+  right: -50px;
+  animation-delay: 10s;
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+.oc-floating-icons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.oc-float-icon {
+  position: absolute;
+  font-size: 2rem;
+  animation: iconFloat 8s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+.oc-float-icon:nth-child(1) { top: 15%; left: 8%; animation-delay: 0s; }
+.oc-float-icon:nth-child(2) { top: 25%; right: 12%; animation-delay: 1s; }
+.oc-float-icon:nth-child(3) { bottom: 35%; left: 15%; animation-delay: 2s; }
+.oc-float-icon:nth-child(4) { top: 50%; right: 8%; animation-delay: 3s; }
+.oc-float-icon:nth-child(5) { bottom: 25%; right: 20%; animation-delay: 4s; }
+.oc-float-icon:nth-child(6) { bottom: 15%; left: 25%; animation-delay: 5s; }
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-25px) rotate(15deg); }
+}
+
+.oc-hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.oc-hero-title {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 4px 8px rgba(0,0,0,0.3);
+  letter-spacing: -1px;
+  color: var(--hero-text, #1a1a2e);
+}
+
+.oc-hero-subtitle {
+  font-size: 1.4rem;
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+  color: var(--hero-text, #1a1a2e);
+  opacity: 0.9;
+}
+
+.oc-stats-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+  background: var(--card-bg, rgba(255,255,255,0.95));
+  padding: 1.5rem 3rem;
+  border-radius: 100px;
+  box-shadow: var(--shadow-lg);
+}
+
+.oc-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.oc-stat-num {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.oc-stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.oc-stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border-color);
+}
+
+/* ===== FILTER SECTION ===== */
+.oc-filter-section {
+  padding: 2rem 0;
+  background: var(--bg-secondary);
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.oc-group-filter {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.oc-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.8rem;
+  border: 2px solid var(--border-color);
+  border-radius: 50px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.oc-filter-btn:hover {
+  border-color: var(--btn-accent, var(--primary));
+  box-shadow: var(--shadow-md);
+}
+
+.oc-filter-btn.active {
+  background: var(--btn-accent, var(--primary));
+  border-color: var(--btn-accent, var(--primary));
+  color: var(--btn-text, #1a1a2e);
+  box-shadow: var(--shadow-lg);
+}
+
+.oc-btn-emoji {
+  font-size: 1.3rem;
+}
+
+.oc-btn-count {
+  background: rgba(0,0,0,0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.oc-filter-btn.active .oc-btn-count {
+  background: rgba(0,0,0,0.15);
+}
+
+/* ===== CHILDREN GRID ===== */
+.oc-grid-section {
+  padding: 4rem 0 6rem;
+}
+
+.oc-children-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.oc-child-card {
+  background: var(--card-bg, var(--bg-primary));
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+
+.oc-child-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Card Header */
+.oc-card-header {
+  position: relative;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.oc-card-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--card-bg, var(--bg-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  border: 4px solid var(--bg-primary);
+}
+
+.oc-card-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.oc-avatar-text {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.oc-level-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 1.5rem;
+  background: var(--card-bg, var(--bg-primary));
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+.oc-gender-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 1.3rem;
+  background: var(--card-bg, var(--bg-primary));
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+/* Card Body */
+.oc-card-body {
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--card-bg, var(--bg-primary));
+}
+
+.oc-child-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 0.2rem;
+}
+
+.oc-child-surname {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+}
+
+.oc-child-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.oc-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+}
+
+.oc-meta-icon {
+  font-size: 1rem;
+}
+
+/* Achievements Preview */
+.oc-achievements-preview {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.oc-ach-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s;
+}
+
+.oc-ach-badge:hover {
+  transform: scale(1.15);
+}
+
+.oc-ach-more {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* Points Bar */
+.oc-points-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  background: var(--bg-secondary);
+  border-radius: 15px;
+  margin-top: 0.5rem;
+}
+
+.oc-points-icon {
+  font-size: 1.2rem;
+}
+
+.oc-points-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.oc-points-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* ===== LOADING & EMPTY ===== */
+.oc-loading, .oc-empty {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+.oc-loader {
+  width: 60px;
+  height: 60px;
+  border: 5px solid var(--border-color);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.oc-empty-icon {
+  font-size: 5rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* ===== MODAL ===== */
+.oc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.oc-modal {
+  background: var(--card-bg, var(--bg-primary));
+  border-radius: 28px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: var(--shadow-xl);
+}
+
+.oc-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--card-bg, var(--bg-primary));
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s;
+  box-shadow: var(--shadow-md);
+}
+
+.oc-modal-close:hover {
+  background: var(--danger);
+  color: var(--bg-primary);
+  transform: rotate(90deg);
+}
+
+/* Modal Header */
+.oc-modal-header {
+  position: relative;
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+}
+
+.oc-modal-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--card-bg, var(--bg-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: var(--shadow-lg);
+  border: 5px solid var(--bg-primary);
+}
+
+.oc-modal-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.oc-modal-avatar span {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.oc-modal-badges {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.oc-badge-level, .oc-badge-points {
+  background: var(--card-bg, var(--bg-primary));
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-md);
+}
+
+/* Modal Body */
+.oc-modal-body {
+  padding: 1.5rem 2rem 2rem;
+  background: var(--card-bg, var(--bg-primary));
+}
+
+.oc-modal-name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 0 0 1rem;
+  color: var(--text-primary);
+}
+
+.oc-modal-info {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.oc-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.oc-info-icon {
+  font-size: 1.2rem;
+}
+
+.oc-modal-bio {
+  text-align: center;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 15px;
+  font-size: 1rem;
+}
+
+/* Modal Sections */
+.oc-modal-section {
+  margin-bottom: 1.5rem;
+}
+
+.oc-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.8rem;
+}
+
+.oc-achievements-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.oc-achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  border: 2px solid;
+  font-size: 0.9rem;
+  background: var(--bg-secondary);
+}
+
+.oc-ach-emoji {
+  font-size: 1.1rem;
+}
+
+.oc-ach-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.oc-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.oc-tag {
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.oc-tag-interest {
+  background: var(--bg-tertiary, var(--bg-secondary));
+  border: 1px solid var(--border-color);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .oc-hero {
+    padding: 100px 0 60px;
+  }
+  
+  .oc-hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .oc-hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .oc-stats-row {
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+  }
+  
+  .oc-stat-num {
+    font-size: 1.8rem;
+  }
+  
+  .oc-children-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .oc-child-card {
+    border-radius: 18px;
+  }
+  
+  .oc-card-header {
+    height: 110px;
+  }
+  
+  .oc-card-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .oc-avatar-text {
+    font-size: 1.5rem;
+  }
+  
+  .oc-card-body {
+    padding: 1rem;
+  }
+  
+  .oc-child-name {
+    font-size: 1.2rem;
+  }
+  
+  .oc-filter-section {
+    top: 60px;
+  }
+  
+  .oc-filter-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .oc-hero-title {
+    font-size: 2rem;
+  }
+  
+  .oc-stats-row {
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.2rem;
+  }
+  
+  .oc-stat-divider {
+    width: 60px;
+    height: 1px;
+  }
+  
+  .oc-children-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  
+  .oc-card-header {
+    height: 100px;
+  }
+  
+  .oc-card-avatar {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .oc-level-badge, .oc-gender-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+  
+  .oc-child-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .oc-achievements-preview {
+    gap: 0.3rem;
+  }
+  
+  .oc-ach-badge {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+  
+  .oc-group-filter {
+    gap: 0.5rem;
+  }
+  
+  .oc-filter-btn {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.85rem;
+  }
+  
+  .oc-btn-emoji {
+    font-size: 1.1rem;
+  }
+  
+  .oc-modal {
+    border-radius: 20px;
+    margin: 1rem;
+  }
+  
+  .oc-modal-avatar {
+    width: 100px;
+    height: 100px;
+  }
+}

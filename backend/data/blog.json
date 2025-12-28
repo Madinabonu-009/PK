@@ -1,0 +1,140 @@
+[
+  {
+    "id": "1",
+    "title": {
+      "uz": "Play Kids yangi o'quv yilini boshladi!",
+      "ru": "Play Kids начал новый учебный год!",
+      "en": "Play Kids started new academic year!"
+    },
+    "excerpt": {
+      "uz": "Yangi o'quv yili boshlanishi munosabati bilan barcha ota-onalarni tabriklaymiz!",
+      "ru": "Поздравляем всех родителей с началом нового учебного года!",
+      "en": "Congratulations to all parents on the start of the new academic year!"
+    },
+    "content": {
+      "uz": "Yangi o'quv yili boshlanishi munosabati bilan barcha ota-onalarni tabriklaymiz! Bu yil biz yangi dasturlar, yangi o'qituvchilar va yangi imkoniyatlar bilan keldik. Farzandlaringiz biz bilan birga o'sib, rivojlanib boradi.",
+      "ru": "Поздравляем всех родителей с началом нового учебного года! В этом году мы пришли с новыми программами, новыми воспитателями и новыми возможностями.",
+      "en": "Congratulations to all parents on the start of the new academic year! This year we came with new programs, new teachers and new opportunities."
+    },
+    "image": "https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800&h=500&fit=crop",
+    "category": "news",
+    "author": "Admin",
+    "createdAt": "2025-09-01T09:00:00Z",
+    "published": true
+  },
+  {
+    "id": "2",
+    "title": {
+      "uz": "Bolalar uchun foydali ovqatlanish",
+      "ru": "Полезное питание для детей",
+      "en": "Healthy nutrition for children"
+    },
+    "excerpt": {
+      "uz": "Bolalar sog'lom o'sishi uchun to'g'ri ovqatlanish juda muhim.",
+      "ru": "Правильное питание очень важно для здорового роста детей.",
+      "en": "Proper nutrition is very important for healthy growth of children."
+    },
+    "content": {
+      "uz": "Bolalar sog'lom o'sishi uchun to'g'ri ovqatlanish juda muhim. Bizning bog'chamizda har kuni yangi va sifatli mahsulotlardan tayyorlangan ovqatlar beriladi. Menyumiz dietolog tomonidan tuzilgan.",
+      "ru": "Правильное питание очень важно для здорового роста детей. В нашем детском саду каждый день подаются блюда из свежих и качественных продуктов.",
+      "en": "Proper nutrition is very important for healthy growth of children. In our kindergarten, meals are prepared from fresh and quality products every day."
+    },
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
+    "category": "tips",
+    "author": "Nutritionist",
+    "createdAt": "2025-08-15T10:00:00Z",
+    "published": true
+  },
+  {
+    "id": "3",
+    "title": {
+      "uz": "Yangi yil bayramiga tayyorgarlik",
+      "ru": "Подготовка к Новому году",
+      "en": "New Year preparation"
+    },
+    "excerpt": {
+      "uz": "Bolalar yangi yil bayramiga tayyorgarlik ko'rmoqda!",
+      "ru": "Дети готовятся к новогоднему празднику!",
+      "en": "Children are preparing for the New Year celebration!"
+    },
+    "content": {
+      "uz": "Yangi yil bayramiga tayyorgarlik avjiga chiqdi! Bolalar bezaklar yasash, qo'shiqlar o'rganish va sahna ko'rinishlariga tayyorlanmoqda. 27-dekabr kuni katta konsert bo'ladi.",
+      "ru": "Подготовка к Новому году в самом разгаре! Дети делают украшения, учат песни и готовятся к сценическим выступлениям. 27 декабря состоится большой концерт.",
+      "en": "New Year preparations are in full swing! Children are making decorations, learning songs and preparing for stage performances. A big concert will be held on December 27."
+    },
+    "image": "https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=800&h=500&fit=crop",
+    "category": "events",
+    "author": "Admin",
+    "createdAt": "2025-12-15T14:00:00Z",
+    "published": true
+  },
+  {
+    "id": "4",
+    "title": {
+      "uz": "Bolalar rivojlanishida o'yinning ahamiyati",
+      "ru": "Важность игры в развитии детей",
+      "en": "The importance of play in child development"
+    },
+    "excerpt": {
+      "uz": "O'yin bolalar uchun eng yaxshi o'rganish usuli hisoblanadi.",
+      "ru": "Игра считается лучшим способом обучения для детей.",
+      "en": "Play is considered the best way of learning for children."
+    },
+    "content": {
+      "uz": "O'yin bolalar uchun eng yaxshi o'rganish usuli hisoblanadi. O'yin orqali bolalar ijtimoiy ko'nikmalar, muammolarni hal qilish va ijodkorlikni rivojlantiradi. Bizning bog'chamizda har kuni turli xil o'yinlar o'tkaziladi.",
+      "ru": "Игра считается лучшим способом обучения для детей. Через игру дети развивают социальные навыки, решение проблем и творчество. В нашем детском саду каждый день проводятся различные игры.",
+      "en": "Play is considered the best way of learning for children. Through play, children develop social skills, problem-solving and creativity. Various games are held every day in our kindergarten."
+    },
+    "image": "https://images.unsplash.com/photo-1566140967404-b8b3932483f5?w=800&h=500&fit=crop",
+    "category": "tips",
+    "author": "Nilufar Saidova",
+    "createdAt": "2025-11-20T11:00:00Z",
+    "published": true
+  },
+  {
+    "id": "5",
+    "title": {
+      "uz": "Kuzgi bayram muvaffaqiyatli o'tdi",
+      "ru": "Осенний праздник прошёл успешно",
+      "en": "Autumn festival was successful"
+    },
+    "excerpt": {
+      "uz": "Kuzgi bayramda bolalar ajoyib ko'rinishlar namoyish etdi.",
+      "ru": "На осеннем празднике дети показали замечательные выступления.",
+      "en": "Children showed wonderful performances at the autumn festival."
+    },
+    "content": {
+      "uz": "Kuzgi bayram juda ajoyib o'tdi! Bolalar qo'shiqlar kuyladi, raqs tushdi va she'rlar aytdi. Ota-onalar ham faol qatnashdi. Barcha ishtirokchilarga rahmat!",
+      "ru": "Осенний праздник прошёл замечательно! Дети пели песни, танцевали и читали стихи. Родители тоже активно участвовали. Спасибо всем участникам!",
+      "en": "The autumn festival was wonderful! Children sang songs, danced and recited poems. Parents also actively participated. Thanks to all participants!"
+    },
+    "image": "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?w=800&h=500&fit=crop",
+    "category": "events",
+    "author": "Admin",
+    "createdAt": "2025-10-20T16:00:00Z",
+    "published": true
+  },
+  {
+    "id": "6",
+    "title": {
+      "uz": "Bolalarni maktabga tayyorlash",
+      "ru": "Подготовка детей к школе",
+      "en": "Preparing children for school"
+    },
+    "excerpt": {
+      "uz": "Maktabga tayyorlov dasturimiz haqida batafsil ma'lumot.",
+      "ru": "Подробная информация о нашей программе подготовки к школе.",
+      "en": "Detailed information about our school preparation program."
+    },
+    "content": {
+      "uz": "Bizning maktabga tayyorlov dasturimiz 5-6 yoshli bolalar uchun mo'ljallangan. Dastur o'qish, yozish, matematika asoslari va ingliz tilini o'z ichiga oladi. Bolalar maktabga tayyor holda borishadi.",
+      "ru": "Наша программа подготовки к школе предназначена для детей 5-6 лет. Программа включает чтение, письмо, основы математики и английский язык. Дети идут в школу подготовленными.",
+      "en": "Our school preparation program is designed for children aged 5-6. The program includes reading, writing, math basics and English. Children go to school prepared."
+    },
+    "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&h=500&fit=crop",
+    "category": "tips",
+    "author": "Dilnoza Rahimova",
+    "createdAt": "2025-11-05T09:00:00Z",
+    "published": true
+  }
+]

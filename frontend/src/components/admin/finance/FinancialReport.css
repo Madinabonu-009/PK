@@ -1,0 +1,669 @@
+/**
+ * FinancialReport Styles
+ */
+
+.financial-report {
+  padding: 1.5rem;
+}
+
+/* Header */
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header-title h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-muted, #9ca3af);
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary, #f3f4f6);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.export-btn:hover:not(:disabled) {
+  background: var(--bg-hover, #e5e7eb);
+}
+
+.export-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Controls */
+.report-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.report-type-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.type-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary, #f3f4f6);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.type-btn:hover {
+  background: var(--bg-hover, #e5e7eb);
+}
+
+.type-btn.active {
+  background: var(--primary, #3b82f6);
+  color: white;
+}
+
+.period-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.period-selector select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: white;
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.summary-card--success {
+  border-left: 4px solid #22c55e;
+}
+
+.summary-card--warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.summary-card--primary {
+  border-left: 4px solid #3b82f6;
+}
+
+.summary-card--danger {
+  border-left: 4px solid #ef4444;
+}
+
+.summary-icon {
+  font-size: 2rem;
+}
+
+.summary-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-title {
+  font-size: 0.75rem;
+  color: var(--text-muted, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+}
+
+.summary-trend {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.summary-trend.up {
+  color: #22c55e;
+}
+
+.summary-trend.down {
+  color: #ef4444;
+}
+
+/* Charts Row */
+.charts-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Revenue Chart */
+.revenue-chart {
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.chart-header {
+  margin-bottom: 1rem;
+}
+
+.chart-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 200px;
+  padding: 0 0.5rem;
+}
+
+.chart-bar-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.chart-bar-container {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+}
+
+.chart-bar {
+  width: 40%;
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+}
+
+.chart-bar.revenue {
+  background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+}
+
+.chart-bar.expenses {
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+}
+
+.chart-label {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted, #9ca3af);
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.legend-item.revenue .legend-dot {
+  background: #22c55e;
+}
+
+.legend-item.expenses .legend-dot {
+  background: #f59e0b;
+}
+
+/* Payment Methods Chart */
+.payment-methods-chart {
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.payment-methods-chart h4 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.methods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.method-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.method-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.method-icon {
+  font-size: 1rem;
+}
+
+.method-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.method-bar-wrapper {
+  height: 8px;
+  background: var(--bg-secondary, #f3f4f6);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.method-bar {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.method-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.method-amount {
+  font-weight: 500;
+}
+
+.method-percent {
+  color: var(--text-muted, #9ca3af);
+}
+
+/* Analysis Row */
+.analysis-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Debt Analysis */
+.debt-analysis {
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.debt-analysis h4 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.debt-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.debt-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.debt-label {
+  font-size: 0.75rem;
+  color: var(--text-muted, #9ca3af);
+}
+
+.debt-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.debt-value.danger {
+  color: #ef4444;
+}
+
+.debt-value.success {
+  color: #22c55e;
+}
+
+.debt-breakdown h5 {
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary, #6b7280);
+}
+
+.breakdown-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.breakdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-secondary, #f9fafb);
+  border-radius: 6px;
+}
+
+.breakdown-item.warning {
+  background: #fef3c7;
+}
+
+.breakdown-item.danger {
+  background: #fee2e2;
+}
+
+.breakdown-label {
+  flex: 1;
+  font-size: 0.8125rem;
+}
+
+.breakdown-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.breakdown-count {
+  font-size: 0.75rem;
+  color: var(--text-muted, #9ca3af);
+}
+
+/* Trend Comparison */
+.trend-comparison {
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.trend-comparison h4 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.comparison-item {
+  padding: 0.75rem;
+  background: var(--bg-secondary, #f9fafb);
+  border-radius: 8px;
+}
+
+.comparison-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.comparison-icon {
+  font-size: 1rem;
+}
+
+.comparison-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.comparison-values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.value-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.value-label {
+  color: var(--text-muted, #9ca3af);
+}
+
+.value-amount {
+  font-weight: 500;
+}
+
+.value-row.current .value-amount {
+  color: var(--text-primary, #1f2937);
+}
+
+.value-row.previous .value-amount {
+  color: var(--text-muted, #9ca3af);
+}
+
+.comparison-growth {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.comparison-growth.positive {
+  color: #22c55e;
+}
+
+.comparison-growth.negative {
+  color: #ef4444;
+}
+
+/* Group Revenue Table */
+.group-revenue-table {
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+.group-revenue-table h4 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.group-revenue-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.group-revenue-table th,
+.group-revenue-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.group-revenue-table th {
+  font-weight: 500;
+  color: var(--text-muted, #6b7280);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.group-revenue-table tbody tr:hover {
+  background: var(--bg-secondary, #f9fafb);
+}
+
+.group-name {
+  font-weight: 500;
+}
+
+.success {
+  color: #22c55e;
+}
+
+.danger {
+  color: #ef4444;
+}
+
+.collection-rate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rate-bar {
+  height: 6px;
+  background: #22c55e;
+  border-radius: 3px;
+  max-width: 60px;
+}
+
+.group-revenue-table tfoot td {
+  font-weight: 600;
+  background: var(--bg-secondary, #f9fafb);
+}
+
+/* Dark Mode */
+[data-theme="dark"] .summary-card,
+[data-theme="dark"] .revenue-chart,
+[data-theme="dark"] .payment-methods-chart,
+[data-theme="dark"] .debt-analysis,
+[data-theme="dark"] .trend-comparison,
+[data-theme="dark"] .group-revenue-table {
+  background: var(--card-bg-dark, #1f2937);
+}
+
+[data-theme="dark"] .period-selector select {
+  background: var(--bg-dark, #111827);
+  border-color: var(--border-dark, #374151);
+  color: var(--text-light, #f9fafb);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .analysis-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .report-header {
+    flex-direction: column;
+  }
+  
+  .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  
+  .export-btn {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .report-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .report-type-selector {
+    flex-wrap: wrap;
+  }
+  
+  .type-btn {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .debt-stats {
+    grid-template-columns: 1fr;
+  }
+}

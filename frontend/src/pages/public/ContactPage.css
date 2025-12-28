@@ -1,0 +1,270 @@
+.contact-page {
+  min-height: 100vh;
+}
+
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Hero Section */
+.contact-hero {
+  background: var(--gradient-primary);
+  color: var(--text-inverse);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.contact-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.contact-subtitle {
+  font-size: 1.125rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Main Content */
+.contact-content {
+  padding: 4rem 0;
+  background: var(--bg-secondary);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+/* Form Section */
+.contact-form-section {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--card-border);
+}
+
+.contact-form-section h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.form-description {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* Info Section */
+.contact-info-section h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.contact-info-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--card-border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.info-icon {
+  font-size: 1.5rem;
+  width: 48px;
+  height: 48px;
+  background: var(--gradient-primary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-content h3 {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.info-content p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0.125rem 0;
+}
+
+.info-content a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.info-content a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.social-link:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+.social-link.telegram {
+  background: var(--info-color);
+  color: var(--text-inverse);
+}
+
+.social-link.instagram {
+  background: var(--chart-pink);
+  color: var(--text-inverse);
+}
+
+/* Map Section */
+.contact-map-section {
+  padding: 4rem 0;
+  background: var(--bg-primary);
+}
+
+.contact-map-section h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.map-wrapper {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.map-wrapper iframe {
+  display: block;
+}
+
+.map-directions {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.map-directions p {
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.map-directions strong {
+  color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-hero {
+    padding: 3rem 0;
+  }
+
+  .contact-title {
+    font-size: 2rem;
+  }
+
+  .contact-content {
+    padding: 2rem 0;
+  }
+
+  .contact-form-section {
+    padding: 1.5rem;
+  }
+
+  .contact-map-section {
+    padding: 2rem 0;
+  }
+
+  .map-wrapper iframe {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-title {
+    font-size: 1.75rem;
+  }
+
+  .info-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .info-icon {
+    margin: 0 auto;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+}
+
+
+/* Floating Panda */
+.contact-panda {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  z-index: 999;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+@media (max-width: 768px) {
+  .contact-panda {
+    bottom: 90px;
+    right: 16px;
+  }
+}

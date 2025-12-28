@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Play Kids</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      text-align: center;
+      max-width: 400px;
+    }
+    .icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    h1 {
+      color: #1976d2;
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+    p {
+      color: #546e7a;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 16px;
+      box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 195, 247, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">☁️</div>
+    <h1>Internet yo'q</h1>
+    <p>Hozircha internet aloqasi yo'q. Iltimos, ulanishni tekshiring va qayta urinib ko'ring.</p>
+    <a href="/" class="btn" onclick="window.location.reload(); return false;">Qayta urinish</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+/* Mobile Bottom Navigation */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border-top: 1px solid var(--border-color);
+  padding: 0.5rem 0;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  /* Add padding to main content to prevent overlap */
+  .main-content {
+    padding-bottom: 80px !important;
+  }
+  
+  /* Hide desktop footer on mobile */
+  footer {
+    display: none;
+  }
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  border-radius: 12px;
+  min-width: 60px;
+}
+
+.nav-item:active {
+  transform: scale(0.95);
+}
+
+.nav-item.active {
+  color: var(--accent-color);
+}
+
+.nav-item.active .nav-icon {
+  transform: scale(1.1);
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* More Menu */
+.more-menu {
+  position: fixed;
+  bottom: 70px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.more-menu.show {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.more-menu-content {
+  background: var(--card-bg);
+  margin: 0 1rem;
+  border-radius: 16px;
+  padding: 0.5rem;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.more-menu-content button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  background: var(--bg-secondary);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.more-menu-content button:active {
+  transform: scale(0.95);
+  background: var(--bg-tertiary);
+}
+
+.more-menu-content button span {
+  font-size: 1.5rem;
+}
+
+.more-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+
+/* Dark mode */
+[data-theme="dark"] .mobile-bottom-nav {
+  background: var(--card-bg);
+  border-top-color: var(--border-color);
+}
+
+[data-theme="dark"] .more-menu-content {
+  background: var(--card-bg);
+}
+
+/* Safe area for notched phones */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .mobile-bottom-nav {
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+  }
+  
+  .more-menu {
+    bottom: calc(70px + env(safe-area-inset-bottom));
+  }
+}

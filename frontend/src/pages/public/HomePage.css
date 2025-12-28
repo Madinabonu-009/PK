@@ -1,0 +1,253 @@
+.home-page {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-section {
+  position: relative;
+  overflow: visible;
+}
+
+/* Time-of-day mood styles */
+.home-mood-energetic { --mood-accent: #ffd89b; }
+.home-mood-calm { --mood-accent: #667eea; }
+.home-mood-warm { --mood-accent: #fa709a; }
+.home-mood-peaceful { --mood-accent: #6b5b95; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .story-section { padding: 0 1rem; }
+}
+
+@media (max-width: 768px) {
+  .home-page { overflow-x: hidden; }
+  .story-section { padding: 0 0.5rem; }
+  .story-section > [class*="StoryCharacter"] { display: none; }
+}
+
+@media (max-width: 480px) {
+  .story-section { padding: 0; }
+}
+
+/* Learning Section */
+.learning-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.learning-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.learning-card {
+  background: var(--bg-primary);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 3px solid transparent;
+}
+
+.learning-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-color);
+}
+
+.learning-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+.learning-card h3 {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.learning-card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (max-width: 768px) {
+  .learning-section {
+    padding: 2rem 1rem;
+  }
+  
+  .learning-title {
+    font-size: 1.8rem;
+  }
+  
+  .learning-icon {
+    font-size: 3rem;
+  }
+}
+
+/* Kids Section */
+.kids-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.kids-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.kids-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+.kids-header h2 {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.kids-header p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+.kids-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.kids-card {
+  background: var(--bg-primary);
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 4px solid var(--card-color, #8B5CF6);
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+.kids-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.kids-card-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.kids-card:hover .kids-card-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.kids-card h3 {
+  font-size: 1.4rem;
+  color: var(--card-color, var(--text-primary));
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.kids-card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .kids-section {
+    padding: 2rem 1rem;
+  }
+  
+  .kids-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .kids-icon {
+    font-size: 3rem;
+  }
+  
+  .kids-card-icon {
+    font-size: 3rem;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   🐼 FLOATING PANDA MASCOT
+   ═══════════════════════════════════════════════════════════════ */
+.floating-panda-mascot {
+  position: fixed;
+  bottom: 120px;
+  right: 24px;
+  z-index: 999;
+  cursor: pointer;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+}
+
+.floating-panda-mascot:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .floating-panda-mascot {
+    bottom: 100px;
+    right: 16px;
+  }
+  
+  .floating-panda-mascot .panda-mascot {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-panda-mascot {
+    bottom: 90px;
+    right: 12px;
+  }
+  
+  .floating-panda-mascot .panda-mascot {
+    width: 50px !important;
+    height: 50px !important;
+  }
+}

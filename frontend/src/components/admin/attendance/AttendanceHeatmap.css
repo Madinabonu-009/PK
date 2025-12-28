@@ -1,0 +1,183 @@
+.attendance-heatmap {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.attendance-heatmap__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.attendance-heatmap__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.attendance-heatmap__year {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.attendance-heatmap__container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.attendance-heatmap__days {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 24px;
+}
+
+.attendance-heatmap__day-label {
+  height: 12px;
+  font-size: 0.625rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+}
+
+.attendance-heatmap__grid {
+  flex: 1;
+  min-width: 0;
+}
+
+.attendance-heatmap__months {
+  display: grid;
+  grid-auto-columns: 15px;
+  grid-auto-flow: column;
+  gap: 3px;
+  margin-bottom: 8px;
+  height: 16px;
+}
+
+.attendance-heatmap__month-label {
+  font-size: 0.625rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.attendance-heatmap__weeks {
+  display: flex;
+  gap: 3px;
+}
+
+.attendance-heatmap__week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.attendance-heatmap__cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.attendance-heatmap__cell--empty {
+  background: transparent;
+  cursor: default;
+}
+
+.attendance-heatmap__cell--0 {
+  background: var(--bg-tertiary);
+}
+
+.attendance-heatmap__cell--1 {
+  background: #fecaca;
+}
+
+.attendance-heatmap__cell--2 {
+  background: #fde68a;
+}
+
+.attendance-heatmap__cell--3 {
+  background: #86efac;
+}
+
+.attendance-heatmap__cell--4 {
+  background: #22c55e;
+}
+
+.attendance-heatmap__cell--selected {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 1px;
+}
+
+.attendance-heatmap__legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.attendance-heatmap__legend-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.attendance-heatmap__legend-cells {
+  display: flex;
+  gap: 3px;
+}
+
+.attendance-heatmap__legend-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.attendance-heatmap__tooltip {
+  position: fixed;
+  z-index: 1000;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.attendance-heatmap__tooltip-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.attendance-heatmap__tooltip-status,
+.attendance-heatmap__tooltip-stat {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Dark mode */
+[data-theme="dark"] .attendance-heatmap__cell--1 {
+  background: #7f1d1d;
+}
+
+[data-theme="dark"] .attendance-heatmap__cell--2 {
+  background: #854d0e;
+}
+
+[data-theme="dark"] .attendance-heatmap__cell--3 {
+  background: #166534;
+}
+
+[data-theme="dark"] .attendance-heatmap__cell--4 {
+  background: #15803d;
+}

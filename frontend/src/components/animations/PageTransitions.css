@@ -1,0 +1,150 @@
+/* Liquid Wipe */
+.liquid-wipe-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color, #8b5cf6) 100%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Slide Color Shift */
+.slide-color-shift {
+  will-change: transform, filter;
+}
+
+/* Morph Shape */
+.morph-shape {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+}
+
+/* Flip 3D */
+.flip-3d-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Curtain */
+.curtain {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color, #8b5cf6) 100%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.curtain-left {
+  left: 0;
+}
+
+.curtain-right {
+  right: 0;
+}
+
+/* Pixelate */
+.pixelate-container {
+  will-change: filter, opacity;
+}
+
+/* Shared transition styles */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Overlay patterns */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.transition-overlay.dots {
+  background-image: radial-gradient(circle, var(--primary-color) 2px, transparent 2px);
+  background-size: 20px 20px;
+}
+
+.transition-overlay.lines {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--primary-color) 2px,
+    transparent 2px,
+    transparent 10px
+  );
+}
+
+.transition-overlay.grid {
+  background-image: 
+    linear-gradient(var(--primary-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--primary-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Stagger grid transition */
+.stagger-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.stagger-grid-item {
+  background: var(--primary-color);
+}
+
+/* Wave transition */
+@keyframes waveTransition {
+  0% {
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+}
+
+.wave-transition {
+  animation: waveTransition 1s ease-in-out forwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-wipe-overlay,
+  .morph-shape,
+  .curtain,
+  .flip-3d-container,
+  .slide-color-shift,
+  .pixelate-container {
+    animation: none !important;
+    transition: opacity 0.3s ease !important;
+  }
+}

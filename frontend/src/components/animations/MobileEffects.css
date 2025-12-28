@@ -1,0 +1,314 @@
+/* ============================================
+   PULL TO REFRESH
+   ============================================ */
+
+.pull-to-refresh {
+  position: relative;
+  overflow: hidden;
+}
+
+.pull-to-refresh__indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  z-index: 10;
+}
+
+.pull-to-refresh__icon {
+  font-size: 1.5rem;
+}
+
+.pull-to-refresh__text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   SWIPE ACTIONS
+   ============================================ */
+
+.swipe-actions {
+  position: relative;
+  overflow: hidden;
+}
+
+.swipe-actions__left,
+.swipe-actions__right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.swipe-actions__left {
+  left: 0;
+}
+
+.swipe-actions__right {
+  right: 0;
+}
+
+.swipe-actions__content {
+  position: relative;
+  background: var(--bg-primary);
+  z-index: 1;
+}
+
+/* ============================================
+   BOTTOM SHEET
+   ============================================ */
+
+.bottom-sheet__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-primary);
+  border-radius: 20px 20px 0 0;
+  z-index: 1001;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.bottom-sheet__handle {
+  width: 40px;
+  height: 4px;
+  background: var(--bg-tertiary);
+  border-radius: 2px;
+  margin: 12px auto;
+}
+
+.bottom-sheet__content {
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: calc(90vh - 40px);
+}
+
+/* ============================================
+   HAPTIC BUTTON
+   ============================================ */
+
+.haptic-btn {
+  padding: 1rem 2rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.haptic-btn--pressed {
+  transform: scale(0.97);
+  filter: brightness(0.95);
+}
+
+/* ============================================
+   TOUCH RIPPLE
+   ============================================ */
+
+.touch-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-ripple__effect {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  margin-left: -50px;
+  margin-top: -50px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: ripple-expand 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes ripple-expand {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   GESTURE HINT
+   ============================================ */
+
+.gesture-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.gesture-hint__icon {
+  font-size: 2rem;
+}
+
+.gesture-hint__text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   SAFE AREA
+   ============================================ */
+
+.safe-area {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.safe-area--top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area--bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ============================================
+   MOBILE NAVIGATION
+   ============================================ */
+
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  padding: 0.5rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: space-around;
+  z-index: 100;
+}
+
+.mobile-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav__item--active {
+  color: var(--primary-color);
+}
+
+.mobile-nav__icon {
+  font-size: 1.5rem;
+}
+
+.mobile-nav__label {
+  font-size: 0.7rem;
+}
+
+/* ============================================
+   FLOATING MENU
+   ============================================ */
+
+.floating-menu {
+  position: fixed;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  right: 1rem;
+  z-index: 100;
+}
+
+.floating-menu__trigger {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-menu__items {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.floating-menu__item {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   MOBILE CARD
+   ============================================ */
+
+.mobile-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1rem;
+}
+
+.mobile-card--interactive {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mobile-card--interactive:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-md);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .touch-ripple__effect,
+  .gesture-hint__icon {
+    animation: none;
+  }
+}

@@ -1,0 +1,420 @@
+/* ============================================
+   WOW EFFECTS - 10 NOYOB ANIMATSIYA
+   ============================================ */
+
+/* 1. LIQUID MORPHING CARD */
+.liquid-card {
+  position: relative;
+  overflow: hidden;
+  transition: border-radius 0.8s ease;
+  background: var(--card-bg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.liquid-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea);
+  background-size: 400% 400%;
+  animation: liquidGradient 8s ease infinite;
+  z-index: -1;
+  border-radius: inherit;
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.liquid-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes liquidGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.liquid-card-inner {
+  position: relative;
+  z-index: 1;
+  background: var(--card-bg);
+  border-radius: inherit;
+  height: 100%;
+}
+
+/* 2. 3D FLIP CARD */
+.flip-card-container {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* 3. PARTICLE EXPLOSION */
+.particle-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+/* 4. AURORA BACKGROUND */
+.aurora-container {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+}
+
+.aurora-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.aurora-gradient {
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: auroraMove 15s ease-in-out infinite;
+}
+
+.aurora-1 {
+  background: linear-gradient(135deg, #667eea 0%, transparent 70%);
+  top: -50%;
+  left: -25%;
+  animation-delay: 0s;
+}
+
+.aurora-2 {
+  background: linear-gradient(135deg, #764ba2 0%, transparent 70%);
+  top: 0;
+  right: -25%;
+  animation-delay: -5s;
+}
+
+.aurora-3 {
+  background: linear-gradient(135deg, #f093fb 0%, transparent 70%);
+  bottom: -50%;
+  left: 25%;
+  animation-delay: -10s;
+}
+
+@keyframes auroraMove {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  25% { transform: translate(10%, 10%) rotate(90deg) scale(1.1); }
+  50% { transform: translate(-5%, 15%) rotate(180deg) scale(0.9); }
+  75% { transform: translate(-10%, -5%) rotate(270deg) scale(1.05); }
+}
+
+.aurora-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 5. GLASSMORPHISM REVEAL */
+.glass-reveal {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+}
+
+[data-theme="dark"] .glass-reveal {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* 6. ELASTIC BOUNCE MENU */
+.elastic-menu {
+  position: relative;
+}
+
+.elastic-menu-trigger {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.elastic-menu-items {
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.elastic-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.elastic-menu-item .item-icon {
+  font-size: 1.25rem;
+}
+
+/* 7. MAGNETIC ELEMENT */
+.magnetic-element {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* 8. ANIMATED DATA VISUALIZATION */
+.animated-number {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.animated-progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.progress-label {
+  min-width: 80px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.progress-track {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progress-value {
+  min-width: 50px;
+  text-align: right;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 9. COLOR WAVE TRANSITION */
+.color-wave {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+}
+
+/* 10. STAGGERED LIST */
+.staggered-list {
+  display: contents;
+}
+
+/* BONUS: RIPPLE BUTTON */
+.ripple-button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%) scale(0);
+  animation: rippleEffect 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes rippleEffect {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* BONUS: FLOATING ELEMENT */
+.floating-element {
+  will-change: transform;
+}
+
+/* ============================================
+   GLOBAL ANIMATION UTILITIES
+   ============================================ */
+
+/* Fade In Up */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale In */
+.animate-scale-in {
+  animation: scaleIn 0.4s ease forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Slide In Left */
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s ease forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Bounce */
+.animate-bounce {
+  animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Pulse Glow */
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.5); }
+  50% { box-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
+}
+
+/* Shake */
+.animate-shake {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* Rotate In */
+.animate-rotate-in {
+  animation: rotateIn 0.6s ease forwards;
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

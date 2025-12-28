@@ -1,0 +1,991 @@
+{
+  "ageGroups": [
+    {
+      "id": "age-2-3",
+      "name": {
+        "uz": "2-3 yosh",
+        "ru": "2-3 года",
+        "en": "2-3 years"
+      },
+      "description": {
+        "uz": "Kichik guruh - asosiy ko'nikmalarni shakllantirish",
+        "ru": "Младшая группа - формирование основных навыков",
+        "en": "Junior group - forming basic skills"
+      },
+      "skills": {
+        "speech": {
+          "title": { "uz": "Nutq rivojlanishi", "ru": "Развитие речи", "en": "Speech Development" },
+          "goals": [
+            { "uz": "Oddiy so'zlarni aytish", "ru": "Произношение простых слов", "en": "Saying simple words" },
+            { "uz": "2-3 so'zli gaplar tuzish", "ru": "Составление предложений из 2-3 слов", "en": "Making 2-3 word sentences" },
+            { "uz": "Hayvonlar nomini bilish", "ru": "Знание названий животных", "en": "Knowing animal names" }
+          ]
+        },
+        "logic": {
+          "title": { "uz": "Mantiqiy fikrlash", "ru": "Логическое мышление", "en": "Logical Thinking" },
+          "goals": [
+            { "uz": "Ranglarni ajratish (3-4 ta)", "ru": "Различение цветов (3-4)", "en": "Distinguishing colors (3-4)" },
+            { "uz": "Katta-kichikni farqlash", "ru": "Различение большого и маленького", "en": "Distinguishing big and small" },
+            { "uz": "Oddiy puzzle yig'ish", "ru": "Сборка простых пазлов", "en": "Simple puzzle assembly" }
+          ]
+        },
+        "physical": {
+          "title": { "uz": "Jismoniy rivojlanish", "ru": "Физическое развитие", "en": "Physical Development" },
+          "goals": [
+            { "uz": "Mustaqil yurish va yugurish", "ru": "Самостоятельная ходьба и бег", "en": "Independent walking and running" },
+            { "uz": "To'pni ushlash va otish", "ru": "Ловля и бросание мяча", "en": "Catching and throwing ball" },
+            { "uz": "Zinapoyadan chiqish", "ru": "Подъем по лестнице", "en": "Climbing stairs" }
+          ]
+        },
+        "creative": {
+          "title": { "uz": "Ijodiy rivojlanish", "ru": "Творческое развитие", "en": "Creative Development" },
+          "goals": [
+            { "uz": "Qalam bilan chizish", "ru": "Рисование карандашом", "en": "Drawing with pencil" },
+            { "uz": "Plastilin bilan ishlash", "ru": "Работа с пластилином", "en": "Working with plasticine" },
+            { "uz": "Oddiy qo'shiqlar kuylash", "ru": "Пение простых песен", "en": "Singing simple songs" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "age-4-5",
+      "name": {
+        "uz": "4-5 yosh",
+        "ru": "4-5 лет",
+        "en": "4-5 years"
+      },
+      "description": {
+        "uz": "O'rta guruh - bilim va ko'nikmalarni kengaytirish",
+        "ru": "Средняя группа - расширение знаний и навыков",
+        "en": "Middle group - expanding knowledge and skills"
+      },
+      "skills": {
+        "speech": {
+          "title": { "uz": "Nutq rivojlanishi", "ru": "Развитие речи", "en": "Speech Development" },
+          "goals": [
+            { "uz": "To'liq gaplar bilan gapirish", "ru": "Говорение полными предложениями", "en": "Speaking in complete sentences" },
+            { "uz": "Hikoya aytib berish", "ru": "Рассказывание историй", "en": "Telling stories" },
+            { "uz": "She'rlarni yodlash", "ru": "Заучивание стихов", "en": "Memorizing poems" }
+          ]
+        },
+        "logic": {
+          "title": { "uz": "Mantiqiy fikrlash", "ru": "Логическое мышление", "en": "Logical Thinking" },
+          "goals": [
+            { "uz": "10 gacha sanash", "ru": "Счет до 10", "en": "Counting to 10" },
+            { "uz": "Geometrik shakllarni bilish", "ru": "Знание геометрических фигур", "en": "Knowing geometric shapes" },
+            { "uz": "Oddiy qo'shish va ayirish", "ru": "Простое сложение и вычитание", "en": "Simple addition and subtraction" }
+          ]
+        },
+        "physical": {
+          "title": { "uz": "Jismoniy rivojlanish", "ru": "Физическое развитие", "en": "Physical Development" },
+          "goals": [
+            { "uz": "Bir oyoqda sakrash", "ru": "Прыжки на одной ноге", "en": "Hopping on one foot" },
+            { "uz": "To'p bilan o'ynash", "ru": "Игра с мячом", "en": "Playing with ball" },
+            { "uz": "Muvozanatni saqlash", "ru": "Сохранение равновесия", "en": "Maintaining balance" }
+          ]
+        },
+        "creative": {
+          "title": { "uz": "Ijodiy rivojlanish", "ru": "Творческое развитие", "en": "Creative Development" },
+          "goals": [
+            { "uz": "Ranglar bilan ishlash", "ru": "Работа с красками", "en": "Working with paints" },
+            { "uz": "Qaychi bilan kesish", "ru": "Резка ножницами", "en": "Cutting with scissors" },
+            { "uz": "Musiqaga harakatlanish", "ru": "Движение под музыку", "en": "Moving to music" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "age-5-6",
+      "name": {
+        "uz": "5-6 yosh",
+        "ru": "5-6 лет",
+        "en": "5-6 years"
+      },
+      "description": {
+        "uz": "Katta guruh - maktabga tayyorgarlik",
+        "ru": "Старшая группа - подготовка к школе",
+        "en": "Senior group - school preparation"
+      },
+      "skills": {
+        "speech": {
+          "title": { "uz": "Nutq rivojlanishi", "ru": "Развитие речи", "en": "Speech Development" },
+          "goals": [
+            { "uz": "Alifboni bilish", "ru": "Знание алфавита", "en": "Knowing the alphabet" },
+            { "uz": "Oddiy so'zlarni o'qish", "ru": "Чтение простых слов", "en": "Reading simple words" },
+            { "uz": "O'z fikrini ifodalash", "ru": "Выражение своих мыслей", "en": "Expressing own thoughts" }
+          ]
+        },
+        "logic": {
+          "title": { "uz": "Mantiqiy fikrlash", "ru": "Логическое мышление", "en": "Logical Thinking" },
+          "goals": [
+            { "uz": "20 gacha sanash", "ru": "Счет до 20", "en": "Counting to 20" },
+            { "uz": "Qo'shish va ayirish (10 ichida)", "ru": "Сложение и вычитание (до 10)", "en": "Addition and subtraction (within 10)" },
+            { "uz": "Mantiqiy masalalar yechish", "ru": "Решение логических задач", "en": "Solving logical problems" }
+          ]
+        },
+        "physical": {
+          "title": { "uz": "Jismoniy rivojlanish", "ru": "Физическое развитие", "en": "Physical Development" },
+          "goals": [
+            { "uz": "Sport o'yinlari qoidalarini bilish", "ru": "Знание правил спортивных игр", "en": "Knowing sports game rules" },
+            { "uz": "Koordinatsiya mashqlari", "ru": "Упражнения на координацию", "en": "Coordination exercises" },
+            { "uz": "Jamoaviy o'yinlar", "ru": "Командные игры", "en": "Team games" }
+          ]
+        },
+        "creative": {
+          "title": { "uz": "Ijodiy rivojlanish", "ru": "Творческое развитие", "en": "Creative Development" },
+          "goals": [
+            { "uz": "Murakkab rasmlar chizish", "ru": "Рисование сложных картин", "en": "Drawing complex pictures" },
+            { "uz": "Qo'l ishlari yaratish", "ru": "Создание поделок", "en": "Creating crafts" },
+            { "uz": "Teatr ko'rsatuvlarida ishtirok", "ru": "Участие в театральных постановках", "en": "Participating in theater shows" }
+          ]
+        }
+      }
+    }
+  ],
+  "approaches": {
+    "gameLearning": {
+      "id": "game-learning",
+      "icon": "🎮",
+      "title": {
+        "uz": "O'yin orqali o'rganish",
+        "ru": "Обучение через игру",
+        "en": "Learning Through Play"
+      },
+      "description": {
+        "uz": "Bolalar tabiiy ravishda o'yin orqali o'rganadilar. Bizning metodikamiz o'yinni asosiy o'qitish vositasi sifatida ishlatadi.",
+        "ru": "Дети естественно учатся через игру. Наша методика использует игру как основной инструмент обучения.",
+        "en": "Children naturally learn through play. Our methodology uses play as the primary teaching tool."
+      },
+      "features": [
+        {
+          "title": { "uz": "Didaktik o'yinlar", "ru": "Дидактические игры", "en": "Didactic Games" },
+          "description": { "uz": "Mantiqiy fikrlash va xotirani rivojlantiruvchi maxsus o'yinlar", "ru": "Специальные игры для развития логического мышления и памяти", "en": "Special games for developing logical thinking and memory" }
+        },
+        {
+          "title": { "uz": "Rolli o'yinlar", "ru": "Ролевые игры", "en": "Role-Playing Games" },
+          "description": { "uz": "Ijtimoiy ko'nikmalar va muloqotni rivojlantirish", "ru": "Развитие социальных навыков и общения", "en": "Developing social skills and communication" }
+        },
+        {
+          "title": { "uz": "Harakatli o'yinlar", "ru": "Подвижные игры", "en": "Active Games" },
+          "description": { "uz": "Jismoniy rivojlanish va sog'lom turmush tarzi", "ru": "Физическое развитие и здоровый образ жизни", "en": "Physical development and healthy lifestyle" }
+        },
+        {
+          "title": { "uz": "Ijodiy o'yinlar", "ru": "Творческие игры", "en": "Creative Games" },
+          "description": { "uz": "Fantaziya va ijodkorlikni rivojlantirish", "ru": "Развитие фантазии и творчества", "en": "Developing imagination and creativity" }
+        },
+        {
+          "title": { "uz": "Konstruktor o'yinlari", "ru": "Конструкторские игры", "en": "Construction Games" },
+          "description": { "uz": "Fazoviy fikrlash va mayda motorikani rivojlantirish", "ru": "Развитие пространственного мышления и мелкой моторики", "en": "Developing spatial thinking and fine motor skills" }
+        },
+        {
+          "title": { "uz": "Musiqali o'yinlar", "ru": "Музыкальные игры", "en": "Musical Games" },
+          "description": { "uz": "Ritm hissi va musiqiy qobiliyatlarni shakllantirish", "ru": "Формирование чувства ритма и музыкальных способностей", "en": "Forming sense of rhythm and musical abilities" }
+        }
+      ]
+    },
+    "individualApproach": {
+      "id": "individual-approach",
+      "icon": "👤",
+      "title": {
+        "uz": "Individual yondashuv",
+        "ru": "Индивидуальный подход",
+        "en": "Individual Approach"
+      },
+      "description": {
+        "uz": "Har bir bola o'ziga xos. Biz har bir bolaning kuchli tomonlari va qiziqishlarini hisobga olamiz.",
+        "ru": "Каждый ребенок уникален. Мы учитываем сильные стороны и интересы каждого ребенка.",
+        "en": "Every child is unique. We consider each child's strengths and interests."
+      },
+      "features": [
+        {
+          "title": { "uz": "Shaxsiy rivojlanish rejasi", "ru": "Индивидуальный план развития", "en": "Personal Development Plan" },
+          "description": { "uz": "Har bir bola uchun alohida o'quv rejasi tuziladi", "ru": "Для каждого ребенка составляется отдельный учебный план", "en": "A separate learning plan is created for each child" },
+          "details": {
+            "uz": {
+              "content": "Shaxsiy rivojlanish rejasi - bu bolangiz uchun maxsus tuzilgan yo'l xaritasi. Biz har bir bolaning o'ziga xos xususiyatlarini hisobga olib, individual o'quv dasturi tuzamiz.",
+              "items": [
+                "Boshlang'ich diagnostika - bolaning hozirgi darajasini aniqlash",
+                "Qisqa muddatli maqsadlar - 1-3 oylik rejalar",
+                "Uzoq muddatli maqsadlar - yillik rivojlanish rejasi",
+                "Haftalik mashg'ulotlar jadvali",
+                "Ota-onalar bilan maslahatlashish",
+                "Har oyda rejani qayta ko'rib chiqish"
+              ],
+              "benefits": ["Bolaning tezligida o'rganish", "Kuchli tomonlarni rivojlantirish", "Zaif tomonlarni mustahkamlash"]
+            },
+            "ru": {
+              "content": "Индивидуальный план развития - это специально разработанная дорожная карта для вашего ребенка. Мы учитываем уникальные особенности каждого ребенка и составляем индивидуальную учебную программу.",
+              "items": [
+                "Начальная диагностика - определение текущего уровня ребенка",
+                "Краткосрочные цели - планы на 1-3 месяца",
+                "Долгосрочные цели - годовой план развития",
+                "Еженедельное расписание занятий",
+                "Консультации с родителями",
+                "Ежемесячный пересмотр плана"
+              ],
+              "benefits": ["Обучение в темпе ребенка", "Развитие сильных сторон", "Укрепление слабых сторон"]
+            },
+            "en": {
+              "content": "Personal Development Plan is a specially designed roadmap for your child. We consider each child's unique characteristics and create an individual learning program.",
+              "items": [
+                "Initial diagnostics - determining child's current level",
+                "Short-term goals - 1-3 month plans",
+                "Long-term goals - annual development plan",
+                "Weekly class schedule",
+                "Parent consultations",
+                "Monthly plan review"
+              ],
+              "benefits": ["Learning at child's pace", "Developing strengths", "Strengthening weaknesses"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Kuchli tomonlarni aniqlash", "ru": "Выявление сильных сторон", "en": "Identifying Strengths" },
+          "description": { "uz": "Bolaning tabiiy qobiliyatlarini aniqlash va rivojlantirish", "ru": "Выявление и развитие природных способностей ребенка", "en": "Identifying and developing child's natural abilities" },
+          "details": {
+            "uz": {
+              "content": "Har bir bola o'ziga xos iste'dod va qobiliyatlarga ega. Bizning mutaxassislarimiz bolangizning kuchli tomonlarini aniqlash uchun maxsus metodikalardan foydalanadi.",
+              "items": [
+                "Gardner ko'p qirrali intellekt nazariyasi asosida baholash",
+                "Ijodiy qobiliyatlarni aniqlash testlari",
+                "Mantiqiy-matematik qobiliyatlarni tekshirish",
+                "Musiqiy va badiiy qobiliyatlarni baholash",
+                "Jismoniy va kinestetik qobiliyatlar",
+                "Ijtimoiy va emotsional intellekt"
+              ],
+              "benefits": ["Tabiiy iste'dodlarni kashf etish", "To'g'ri yo'nalishda rivojlantirish", "O'ziga ishonchni oshirish"]
+            },
+            "ru": {
+              "content": "Каждый ребенок обладает уникальными талантами и способностями. Наши специалисты используют специальные методики для выявления сильных сторон вашего ребенка.",
+              "items": [
+                "Оценка по теории множественного интеллекта Гарднера",
+                "Тесты на выявление творческих способностей",
+                "Проверка логико-математических способностей",
+                "Оценка музыкальных и художественных способностей",
+                "Физические и кинестетические способности",
+                "Социальный и эмоциональный интеллект"
+              ],
+              "benefits": ["Открытие природных талантов", "Развитие в правильном направлении", "Повышение уверенности в себе"]
+            },
+            "en": {
+              "content": "Every child has unique talents and abilities. Our specialists use special methodologies to identify your child's strengths.",
+              "items": [
+                "Assessment based on Gardner's Multiple Intelligence Theory",
+                "Creative ability identification tests",
+                "Logical-mathematical ability testing",
+                "Musical and artistic ability assessment",
+                "Physical and kinesthetic abilities",
+                "Social and emotional intelligence"
+              ],
+              "benefits": ["Discovering natural talents", "Development in the right direction", "Building self-confidence"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Moslashuvchan o'qitish", "ru": "Гибкое обучение", "en": "Flexible Teaching" },
+          "description": { "uz": "O'qitish tezligi va usullari bolaga moslashtiriladi", "ru": "Темп и методы обучения адаптируются под ребенка", "en": "Learning pace and methods are adapted to the child" },
+          "details": {
+            "uz": {
+              "content": "Har bir bola o'ziga xos tezlikda o'rganadi. Biz o'qitish usullarini bolaning individual xususiyatlariga moslashtiramiz.",
+              "items": [
+                "Vizual o'rganuvchilar uchun - rasmlar, videolar, diagrammalar",
+                "Audial o'rganuvchilar uchun - qo'shiqlar, hikoyalar, muhokamalar",
+                "Kinestetik o'rganuvchilar uchun - amaliy mashg'ulotlar, o'yinlar",
+                "O'qish-yozish orqali o'rganuvchilar uchun - kitoblar, yozuv mashqlari",
+                "Guruhda yoki individual mashg'ulotlar",
+                "Bolaning kayfiyatiga qarab mashg'ulot o'zgartirish"
+              ],
+              "benefits": ["Samarali o'rganish", "Stress va bosimdan xoli muhit", "O'rganishdan zavq olish"]
+            },
+            "ru": {
+              "content": "Каждый ребенок учится в своем темпе. Мы адаптируем методы обучения к индивидуальным особенностям ребенка.",
+              "items": [
+                "Для визуалов - картинки, видео, диаграммы",
+                "Для аудиалов - песни, истории, обсуждения",
+                "Для кинестетиков - практические занятия, игры",
+                "Для читающих-пишущих - книги, письменные упражнения",
+                "Групповые или индивидуальные занятия",
+                "Изменение занятий в зависимости от настроения ребенка"
+              ],
+              "benefits": ["Эффективное обучение", "Среда без стресса и давления", "Удовольствие от обучения"]
+            },
+            "en": {
+              "content": "Every child learns at their own pace. We adapt teaching methods to the child's individual characteristics.",
+              "items": [
+                "For visual learners - pictures, videos, diagrams",
+                "For auditory learners - songs, stories, discussions",
+                "For kinesthetic learners - hands-on activities, games",
+                "For reading-writing learners - books, writing exercises",
+                "Group or individual classes",
+                "Adjusting activities based on child's mood"
+              ],
+              "benefits": ["Effective learning", "Stress and pressure-free environment", "Enjoying the learning process"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Qo'shimcha mashg'ulotlar", "ru": "Дополнительные занятия", "en": "Additional Classes" },
+          "description": { "uz": "Qiyin mavzular bo'yicha qo'shimcha yordam", "ru": "Дополнительная помощь по сложным темам", "en": "Extra help on difficult topics" },
+          "details": {
+            "uz": {
+              "content": "Ba'zi mavzular bolalar uchun qiyin bo'lishi mumkin. Biz qo'shimcha mashg'ulotlar orqali har bir bolaga kerakli yordamni beramiz.",
+              "items": [
+                "Nutq rivojlanishi bo'yicha logoped mashg'ulotlari",
+                "Mayda motorika rivojlantirish mashqlari",
+                "Diqqat va konsentratsiya mashg'ulotlari",
+                "Xotira rivojlantirish o'yinlari",
+                "Ijtimoiy ko'nikmalar trenningi",
+                "Maktabga tayyorlov kurslari"
+              ],
+              "benefits": ["Qiyin mavzularni o'zlashtirish", "Orqada qolmaslik", "Individual e'tibor"]
+            },
+            "ru": {
+              "content": "Некоторые темы могут быть сложными для детей. Мы предоставляем необходимую помощь каждому ребенку через дополнительные занятия.",
+              "items": [
+                "Логопедические занятия по развитию речи",
+                "Упражнения на развитие мелкой моторики",
+                "Занятия на внимание и концентрацию",
+                "Игры на развитие памяти",
+                "Тренинг социальных навыков",
+                "Курсы подготовки к школе"
+              ],
+              "benefits": ["Освоение сложных тем", "Не отставать от программы", "Индивидуальное внимание"]
+            },
+            "en": {
+              "content": "Some topics may be difficult for children. We provide necessary help to each child through additional classes.",
+              "items": [
+                "Speech therapy sessions for speech development",
+                "Fine motor skills development exercises",
+                "Attention and concentration activities",
+                "Memory development games",
+                "Social skills training",
+                "School preparation courses"
+              ],
+              "benefits": ["Mastering difficult topics", "Not falling behind", "Individual attention"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Iqtidorli bolalar dasturi", "ru": "Программа для одаренных детей", "en": "Gifted Children Program" },
+          "description": { "uz": "Yuqori qobiliyatli bolalar uchun maxsus mashg'ulotlar", "ru": "Специальные занятия для высокоспособных детей", "en": "Special classes for highly capable children" },
+          "details": {
+            "uz": {
+              "content": "Iqtidorli bolalar uchun maxsus dastur - ularning potentsialini to'liq ochish imkonini beradi. Biz ilg'or bolalar uchun qo'shimcha imkoniyatlar yaratamiz.",
+              "items": [
+                "Chuqurlashtirilgan matematika va mantiq",
+                "Ilmiy tajribalar va loyihalar",
+                "Chet tillari (ingliz, rus)",
+                "Shaxmat va strategik o'yinlar",
+                "Robototexnika asoslari",
+                "Ijodiy yozuv va nutq san'ati"
+              ],
+              "benefits": ["Potentsialni to'liq ochish", "Intellektual qiziqishlarni qondirish", "Kelajakka tayyorgarlik"]
+            },
+            "ru": {
+              "content": "Специальная программа для одаренных детей позволяет полностью раскрыть их потенциал. Мы создаем дополнительные возможности для продвинутых детей.",
+              "items": [
+                "Углубленная математика и логика",
+                "Научные эксперименты и проекты",
+                "Иностранные языки (английский, русский)",
+                "Шахматы и стратегические игры",
+                "Основы робототехники",
+                "Творческое письмо и ораторское искусство"
+              ],
+              "benefits": ["Полное раскрытие потенциала", "Удовлетворение интеллектуальных интересов", "Подготовка к будущему"]
+            },
+            "en": {
+              "content": "Special program for gifted children allows them to fully unlock their potential. We create additional opportunities for advanced children.",
+              "items": [
+                "Advanced mathematics and logic",
+                "Scientific experiments and projects",
+                "Foreign languages (English, Russian)",
+                "Chess and strategic games",
+                "Robotics basics",
+                "Creative writing and public speaking"
+              ],
+              "benefits": ["Fully unlocking potential", "Satisfying intellectual interests", "Preparing for the future"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Psixologik qo'llab-quvvatlash", "ru": "Психологическая поддержка", "en": "Psychological Support" },
+          "description": { "uz": "Bolaning emotsional rivojlanishini kuzatish", "ru": "Наблюдение за эмоциональным развитием ребенка", "en": "Monitoring child's emotional development" },
+          "details": {
+            "uz": {
+              "content": "Bolaning emotsional salomatligi jismoniy salomatlik kabi muhim. Bizning psixologlarimiz har bir bolaning emotsional rivojlanishini kuzatib boradi.",
+              "items": [
+                "Muntazam psixologik kuzatuv",
+                "Adaptatsiya davrida qo'llab-quvvatlash",
+                "Qo'rquv va xavotirlar bilan ishlash",
+                "Ijtimoiy munosabatlarni rivojlantirish",
+                "Ota-onalar uchun maslahatlar",
+                "Oilaviy konsultatsiyalar"
+              ],
+              "benefits": ["Emotsional barqarorlik", "Sog'lom o'ziga baho", "Ijobiy munosabatlar"]
+            },
+            "ru": {
+              "content": "Эмоциональное здоровье ребенка так же важно, как и физическое. Наши психологи следят за эмоциональным развитием каждого ребенка.",
+              "items": [
+                "Регулярное психологическое наблюдение",
+                "Поддержка в период адаптации",
+                "Работа со страхами и тревогами",
+                "Развитие социальных отношений",
+                "Консультации для родителей",
+                "Семейные консультации"
+              ],
+              "benefits": ["Эмоциональная стабильность", "Здоровая самооценка", "Позитивные отношения"]
+            },
+            "en": {
+              "content": "Child's emotional health is as important as physical health. Our psychologists monitor each child's emotional development.",
+              "items": [
+                "Regular psychological monitoring",
+                "Support during adaptation period",
+                "Working with fears and anxieties",
+                "Developing social relationships",
+                "Consultations for parents",
+                "Family consultations"
+              ],
+              "benefits": ["Emotional stability", "Healthy self-esteem", "Positive relationships"]
+            }
+          }
+        }
+      ]
+    },
+    "progressTracking": {
+      "id": "progress-tracking",
+      "icon": "📊",
+      "title": {
+        "uz": "Progress kuzatuvi",
+        "ru": "Отслеживание прогресса",
+        "en": "Progress Tracking"
+      },
+      "description": {
+        "uz": "Bolangizning rivojlanishini muntazam kuzatib boramiz va natijalarni siz bilan baham ko'ramiz.",
+        "ru": "Мы регулярно отслеживаем развитие вашего ребенка и делимся результатами с вами.",
+        "en": "We regularly track your child's development and share the results with you."
+      },
+      "features": [
+        {
+          "title": { "uz": "Oylik hisobotlar", "ru": "Ежемесячные отчеты", "en": "Monthly Reports" },
+          "description": { "uz": "Har oy oxirida batafsil rivojlanish hisoboti", "ru": "Подробный отчет о развитии в конце каждого месяца", "en": "Detailed development report at the end of each month" },
+          "details": {
+            "uz": {
+              "content": "Har oy oxirida bolangizning rivojlanishi haqida to'liq hisobot tayyorlaymiz. Bu hisobot barcha sohalarni qamrab oladi.",
+              "items": [
+                "Nutq rivojlanishi - yangi so'zlar, gaplar, talaffuz",
+                "Mantiqiy fikrlash - matematik tushunchalar, muammolarni hal qilish",
+                "Jismoniy rivojlanish - motorika, koordinatsiya, sport ko'rsatkichlari",
+                "Ijodiy rivojlanish - rasm, qo'l ishlari, musiqa",
+                "Ijtimoiy ko'nikmalar - do'stlar bilan munosabat, guruhda ishlash",
+                "Emotsional rivojlanish - kayfiyat, o'zini boshqarish"
+              ],
+              "benefits": ["Bolaning kuchli tomonlarini bilish", "Rivojlanish dinamikasini kuzatish", "Kerakli o'zgarishlarni kiritish"]
+            },
+            "ru": {
+              "content": "В конце каждого месяца мы готовим полный отчет о развитии вашего ребенка. Этот отчет охватывает все области.",
+              "items": [
+                "Развитие речи - новые слова, предложения, произношение",
+                "Логическое мышление - математические понятия, решение проблем",
+                "Физическое развитие - моторика, координация, спортивные показатели",
+                "Творческое развитие - рисование, поделки, музыка",
+                "Социальные навыки - отношения с друзьями, работа в группе",
+                "Эмоциональное развитие - настроение, самоконтроль"
+              ],
+              "benefits": ["Знать сильные стороны ребенка", "Следить за динамикой развития", "Вносить необходимые изменения"]
+            },
+            "en": {
+              "content": "At the end of each month, we prepare a complete report on your child's development. This report covers all areas.",
+              "items": [
+                "Speech development - new words, sentences, pronunciation",
+                "Logical thinking - mathematical concepts, problem solving",
+                "Physical development - motor skills, coordination, sports indicators",
+                "Creative development - drawing, crafts, music",
+                "Social skills - relationships with friends, group work",
+                "Emotional development - mood, self-control"
+              ],
+              "benefits": ["Know child's strengths", "Track development dynamics", "Make necessary changes"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Ko'nikmalar baholash", "ru": "Оценка навыков", "en": "Skills Assessment" },
+          "description": { "uz": "Har bir ko'nikma bo'yicha alohida baholash", "ru": "Отдельная оценка по каждому навыку", "en": "Separate assessment for each skill" },
+          "details": {
+            "uz": {
+              "content": "Bolangizning har bir ko'nikmasi alohida baholanadi va yosh me'yorlari bilan taqqoslanadi.",
+              "items": [
+                "5 balli baholash tizimi",
+                "Yosh guruhiga mos me'yorlar",
+                "Kuchli va zaif tomonlarni aniqlash",
+                "Rivojlanish yo'nalishlarini belgilash",
+                "Ota-onalar uchun tavsiyalar",
+                "Keyingi oy uchun maqsadlar"
+              ],
+              "benefits": ["Aniq rasm olish", "To'g'ri yo'nalishda ishlash", "Natijalarni kuzatish"]
+            },
+            "ru": {
+              "content": "Каждый навык вашего ребенка оценивается отдельно и сравнивается с возрастными нормами.",
+              "items": [
+                "5-балльная система оценки",
+                "Нормы соответствующие возрастной группе",
+                "Определение сильных и слабых сторон",
+                "Определение направлений развития",
+                "Рекомендации для родителей",
+                "Цели на следующий месяц"
+              ],
+              "benefits": ["Получить четкую картину", "Работать в правильном направлении", "Отслеживать результаты"]
+            },
+            "en": {
+              "content": "Each skill of your child is assessed separately and compared with age norms.",
+              "items": [
+                "5-point rating system",
+                "Age-appropriate norms",
+                "Identifying strengths and weaknesses",
+                "Setting development directions",
+                "Recommendations for parents",
+                "Goals for next month"
+              ],
+              "benefits": ["Get clear picture", "Work in right direction", "Track results"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Portfolio yaratish", "ru": "Создание портфолио", "en": "Portfolio Creation" },
+          "description": { "uz": "Bolaning ishlari va yutuqlarini to'plash", "ru": "Сбор работ и достижений ребенка", "en": "Collecting child's works and achievements" },
+          "details": {
+            "uz": {
+              "content": "Bolangizning barcha ishlari va yutuqlari maxsus portfolioda saqlanadi - bu uning rivojlanish tarixi.",
+              "items": [
+                "Rasmlar va qo'l ishlari",
+                "Yozuv namunalari",
+                "Foto va video materiallar",
+                "Sertifikatlar va mukofotlar",
+                "Tarbiyachilar izohlari",
+                "Bolaning o'z fikrlari"
+              ],
+              "benefits": ["Xotiralar saqlanadi", "Rivojlanishni ko'rish", "Maktabga taqdim etish"]
+            },
+            "ru": {
+              "content": "Все работы и достижения вашего ребенка хранятся в специальном портфолио - это история его развития.",
+              "items": [
+                "Рисунки и поделки",
+                "Образцы письма",
+                "Фото и видео материалы",
+                "Сертификаты и награды",
+                "Комментарии воспитателей",
+                "Собственные мысли ребенка"
+              ],
+              "benefits": ["Сохранение воспоминаний", "Видеть развитие", "Представить в школу"]
+            },
+            "en": {
+              "content": "All works and achievements of your child are stored in a special portfolio - this is the history of their development.",
+              "items": [
+                "Drawings and crafts",
+                "Writing samples",
+                "Photo and video materials",
+                "Certificates and awards",
+                "Teacher comments",
+                "Child's own thoughts"
+              ],
+              "benefits": ["Preserve memories", "See development", "Present to school"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Raqamli kuzatuv", "ru": "Цифровое отслеживание", "en": "Digital Tracking" },
+          "description": { "uz": "Mobil ilova orqali real vaqtda kuzatish", "ru": "Отслеживание в реальном времени через мобильное приложение", "en": "Real-time tracking through mobile app" },
+          "details": {
+            "uz": {
+              "content": "Zamonaviy texnologiyalar yordamida bolangizning rivojlanishini real vaqtda kuzating.",
+              "items": [
+                "Mobil ilova orqali kirish",
+                "Kunlik faoliyat jurnali",
+                "Foto va video galereyasi",
+                "Davomat statistikasi",
+                "Ovqatlanish hisoboti",
+                "Tarbiyachilar izohlari"
+              ],
+              "benefits": ["Istalgan vaqtda kirish", "Vizual ma'lumotlar", "Tezkor yangilanishlar"]
+            },
+            "ru": {
+              "content": "Следите за развитием вашего ребенка в реальном времени с помощью современных технологий.",
+              "items": [
+                "Доступ через мобильное приложение",
+                "Ежедневный журнал активности",
+                "Фото и видео галерея",
+                "Статистика посещаемости",
+                "Отчет о питании",
+                "Комментарии воспитателей"
+              ],
+              "benefits": ["Доступ в любое время", "Визуальная информация", "Быстрые обновления"]
+            },
+            "en": {
+              "content": "Track your child's development in real-time using modern technology.",
+              "items": [
+                "Access via mobile app",
+                "Daily activity journal",
+                "Photo and video gallery",
+                "Attendance statistics",
+                "Nutrition report",
+                "Teacher comments"
+              ],
+              "benefits": ["Access anytime", "Visual information", "Quick updates"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Maqsadlar belgilash", "ru": "Постановка целей", "en": "Goal Setting" },
+          "description": { "uz": "Har chorak uchun aniq maqsadlar belgilash", "ru": "Установка конкретных целей на каждый квартал", "en": "Setting specific goals for each quarter" },
+          "details": {
+            "uz": {
+              "content": "Har chorak uchun aniq va o'lchanadigan maqsadlar belgilaymiz va ularga erishish yo'llarini rejalashtiramiz.",
+              "items": [
+                "SMART maqsadlar metodikasi",
+                "Qisqa muddatli maqsadlar (1 oy)",
+                "O'rta muddatli maqsadlar (3 oy)",
+                "Uzoq muddatli maqsadlar (1 yil)",
+                "Ota-onalar bilan kelishilgan maqsadlar",
+                "Muntazam tekshirish va yangilash"
+              ],
+              "benefits": ["Aniq yo'nalish", "Motivatsiya oshishi", "Natijalarni o'lchash"]
+            },
+            "ru": {
+              "content": "Каждый квартал мы ставим конкретные и измеримые цели и планируем пути их достижения.",
+              "items": [
+                "Методика SMART целей",
+                "Краткосрочные цели (1 месяц)",
+                "Среднесрочные цели (3 месяца)",
+                "Долгосрочные цели (1 год)",
+                "Цели согласованные с родителями",
+                "Регулярная проверка и обновление"
+              ],
+              "benefits": ["Четкое направление", "Повышение мотивации", "Измерение результатов"]
+            },
+            "en": {
+              "content": "Each quarter we set specific and measurable goals and plan ways to achieve them.",
+              "items": [
+                "SMART goals methodology",
+                "Short-term goals (1 month)",
+                "Medium-term goals (3 months)",
+                "Long-term goals (1 year)",
+                "Goals agreed with parents",
+                "Regular review and update"
+              ],
+              "benefits": ["Clear direction", "Increased motivation", "Measuring results"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Taqqoslash va tahlil", "ru": "Сравнение и анализ", "en": "Comparison and Analysis" },
+          "description": { "uz": "Yosh me'yorlari bilan taqqoslash", "ru": "Сравнение с возрастными нормами", "en": "Comparison with age norms" },
+          "details": {
+            "uz": {
+              "content": "Bolangizning rivojlanishini ilmiy asoslangan yosh me'yorlari bilan taqqoslaymiz.",
+              "items": [
+                "Xalqaro rivojlanish standartlari",
+                "Yosh guruhiga mos me'yorlar",
+                "Individual rivojlanish tezligi",
+                "Kuchli tomonlarni aniqlash",
+                "Rivojlantirish kerak bo'lgan sohalar",
+                "Mutaxassislar tavsiyalari"
+              ],
+              "benefits": ["Ob'ektiv baholash", "Ilmiy yondashuv", "Aniq tavsiyalar"]
+            },
+            "ru": {
+              "content": "Мы сравниваем развитие вашего ребенка с научно обоснованными возрастными нормами.",
+              "items": [
+                "Международные стандарты развития",
+                "Нормы соответствующие возрастной группе",
+                "Индивидуальный темп развития",
+                "Определение сильных сторон",
+                "Области требующие развития",
+                "Рекомендации специалистов"
+              ],
+              "benefits": ["Объективная оценка", "Научный подход", "Конкретные рекомендации"]
+            },
+            "en": {
+              "content": "We compare your child's development with scientifically based age norms.",
+              "items": [
+                "International development standards",
+                "Age-appropriate norms",
+                "Individual development pace",
+                "Identifying strengths",
+                "Areas needing development",
+                "Specialist recommendations"
+              ],
+              "benefits": ["Objective assessment", "Scientific approach", "Specific recommendations"]
+            }
+          }
+        }
+      ]
+    },
+    "parentCommunication": {
+      "id": "parent-communication",
+      "icon": "👨‍👩‍👧",
+      "title": {
+        "uz": "Ota-onalar bilan aloqa",
+        "ru": "Связь с родителями",
+        "en": "Parent Communication"
+      },
+      "description": {
+        "uz": "Ota-onalar bilan doimiy aloqada bo'lish - bizning ustuvor yo'nalishimiz. Birgalikda bolangiz uchun eng yaxshi muhitni yaratamiz.",
+        "ru": "Постоянная связь с родителями - наш приоритет. Вместе мы создаем лучшую среду для вашего ребенка.",
+        "en": "Constant communication with parents is our priority. Together we create the best environment for your child."
+      },
+      "features": [
+        {
+          "title": { "uz": "Kunlik xabarlar", "ru": "Ежедневные сообщения", "en": "Daily Messages" },
+          "description": { "uz": "Har kuni bolangiz haqida qisqacha ma'lumot", "ru": "Краткая информация о вашем ребенке каждый день", "en": "Brief information about your child every day" },
+          "details": {
+            "uz": {
+              "content": "Har kuni kechqurun bolangiz haqida qisqacha hisobot olasiz - nima yedi, qanday o'ynadi, kayfiyati qanday edi.",
+              "items": [
+                "Ertalabki qabul - kayfiyat va sog'lik holati",
+                "Nonushta, tushlik, kechki ovqat - nima yedi",
+                "Uyqu vaqti - qancha uxladi",
+                "Mashg'ulotlar - nimalarni o'rgandi",
+                "O'yinlar - kim bilan o'ynadi",
+                "Maxsus hodisalar - muhim voqealar"
+              ],
+              "benefits": ["Bolangiz haqida xabardor bo'lish", "Uyda suhbat mavzusi", "Muammolarni erta aniqlash"]
+            },
+            "ru": {
+              "content": "Каждый вечер вы получаете краткий отчет о вашем ребенке - что ел, как играл, какое было настроение.",
+              "items": [
+                "Утренний прием - настроение и состояние здоровья",
+                "Завтрак, обед, ужин - что ел",
+                "Время сна - сколько спал",
+                "Занятия - чему научился",
+                "Игры - с кем играл",
+                "Особые события - важные происшествия"
+              ],
+              "benefits": ["Быть в курсе о ребенке", "Тема для разговора дома", "Раннее выявление проблем"]
+            },
+            "en": {
+              "content": "Every evening you receive a brief report about your child - what they ate, how they played, what their mood was.",
+              "items": [
+                "Morning reception - mood and health status",
+                "Breakfast, lunch, dinner - what they ate",
+                "Sleep time - how long they slept",
+                "Activities - what they learned",
+                "Games - who they played with",
+                "Special events - important occurrences"
+              ],
+              "benefits": ["Stay informed about your child", "Topic for conversation at home", "Early problem detection"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Telegram guruh", "ru": "Telegram группа", "en": "Telegram Group" },
+          "description": { "uz": "Tezkor aloqa va yangiliklar uchun guruh", "ru": "Группа для быстрой связи и новостей", "en": "Group for quick communication and news" },
+          "details": {
+            "uz": {
+              "content": "Telegram guruhimiz orqali tezkor aloqa va yangiliklar almashish imkoniyati mavjud.",
+              "items": [
+                "Muhim e'lonlar va yangiliklar",
+                "Foto va videolar - kunlik lahzalar",
+                "Tarbiyachilar bilan tezkor aloqa",
+                "Boshqa ota-onalar bilan tanishish",
+                "Savol-javob imkoniyati",
+                "Tadbirlar haqida eslatmalar"
+              ],
+              "benefits": ["Tezkor xabar olish", "Jamiyatga qo'shilish", "Savollaringizga javob"]
+            },
+            "ru": {
+              "content": "Через нашу Telegram группу есть возможность быстрой связи и обмена новостями.",
+              "items": [
+                "Важные объявления и новости",
+                "Фото и видео - ежедневные моменты",
+                "Быстрая связь с воспитателями",
+                "Знакомство с другими родителями",
+                "Возможность вопросов и ответов",
+                "Напоминания о мероприятиях"
+              ],
+              "benefits": ["Быстрое получение информации", "Присоединение к сообществу", "Ответы на ваши вопросы"]
+            },
+            "en": {
+              "content": "Through our Telegram group, there is an opportunity for quick communication and news sharing.",
+              "items": [
+                "Important announcements and news",
+                "Photos and videos - daily moments",
+                "Quick contact with teachers",
+                "Meeting other parents",
+                "Q&A opportunity",
+                "Event reminders"
+              ],
+              "benefits": ["Quick information", "Join the community", "Answers to your questions"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Ota-onalar yig'ilishi", "ru": "Родительские собрания", "en": "Parent Meetings" },
+          "description": { "uz": "Har oyda ota-onalar bilan uchrashuv", "ru": "Ежемесячные встречи с родителями", "en": "Monthly meetings with parents" },
+          "details": {
+            "uz": {
+              "content": "Har oyda ota-onalar yig'ilishi o'tkazamiz - bu yerda muhim masalalar muhokama qilinadi.",
+              "items": [
+                "O'tgan oy natijalari",
+                "Kelgusi oy rejalari",
+                "Umumiy masalalar muhokamasi",
+                "Mutaxassislar ma'ruzalari",
+                "Savollaringizga javoblar",
+                "Takliflar va fikr-mulohazalar"
+              ],
+              "benefits": ["Jarayondan xabardor bo'lish", "Boshqa ota-onalar bilan tanishish", "Fikringizni bildirish"]
+            },
+            "ru": {
+              "content": "Каждый месяц мы проводим родительское собрание - здесь обсуждаются важные вопросы.",
+              "items": [
+                "Результаты прошлого месяца",
+                "Планы на следующий месяц",
+                "Обсуждение общих вопросов",
+                "Доклады специалистов",
+                "Ответы на ваши вопросы",
+                "Предложения и отзывы"
+              ],
+              "benefits": ["Быть в курсе процесса", "Знакомство с другими родителями", "Высказать свое мнение"]
+            },
+            "en": {
+              "content": "Every month we hold a parent meeting - important issues are discussed here.",
+              "items": [
+                "Last month's results",
+                "Plans for next month",
+                "Discussion of general issues",
+                "Specialist presentations",
+                "Answers to your questions",
+                "Suggestions and feedback"
+              ],
+              "benefits": ["Stay informed about the process", "Meet other parents", "Express your opinion"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Individual konsultatsiya", "ru": "Индивидуальные консультации", "en": "Individual Consultations" },
+          "description": { "uz": "Tarbiyachi va psixolog bilan shaxsiy suhbat", "ru": "Личная беседа с воспитателем и психологом", "en": "Personal conversation with teacher and psychologist" },
+          "details": {
+            "uz": {
+              "content": "Tarbiyachi va psixolog bilan yakkama-yakka suhbat imkoniyati - bolangiz haqida batafsil gaplashing.",
+              "items": [
+                "Tarbiyachi bilan haftalik suhbat",
+                "Psixolog bilan oylik konsultatsiya",
+                "Logoped bilan uchrashuvlar",
+                "Rivojlanish haqida batafsil ma'lumot",
+                "Uyda qo'llash uchun tavsiyalar",
+                "Savollaringizga javoblar"
+              ],
+              "benefits": ["Shaxsiy e'tibor", "Chuqur tushunish", "Amaliy maslahatlar"]
+            },
+            "ru": {
+              "content": "Возможность личной беседы с воспитателем и психологом - подробно обсудите вашего ребенка.",
+              "items": [
+                "Еженедельная беседа с воспитателем",
+                "Ежемесячная консультация с психологом",
+                "Встречи с логопедом",
+                "Подробная информация о развитии",
+                "Рекомендации для применения дома",
+                "Ответы на ваши вопросы"
+              ],
+              "benefits": ["Личное внимание", "Глубокое понимание", "Практические советы"]
+            },
+            "en": {
+              "content": "Opportunity for one-on-one conversation with teacher and psychologist - discuss your child in detail.",
+              "items": [
+                "Weekly conversation with teacher",
+                "Monthly consultation with psychologist",
+                "Meetings with speech therapist",
+                "Detailed development information",
+                "Recommendations for home use",
+                "Answers to your questions"
+              ],
+              "benefits": ["Personal attention", "Deep understanding", "Practical advice"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Ochiq eshiklar kuni", "ru": "День открытых дверей", "en": "Open Door Day" },
+          "description": { "uz": "Har chorakda mashg'ulotlarni kuzatish imkoniyati", "ru": "Возможность наблюдать за занятиями каждый квартал", "en": "Opportunity to observe classes every quarter" },
+          "details": {
+            "uz": {
+              "content": "Har chorakda ochiq eshiklar kuni - kelib bolangizning mashg'ulotlarini kuzating.",
+              "items": [
+                "Mashg'ulotlarni jonli kuzatish",
+                "Tarbiyachilar bilan tanishish",
+                "Guruh muhitini ko'rish",
+                "Bolangiz bilan birga mashg'ulot",
+                "Savollar berish imkoniyati",
+                "Boshqa ota-onalar bilan tanishish"
+              ],
+              "benefits": ["Shaffoflik", "Ishonch oshishi", "Jarayonni tushunish"]
+            },
+            "ru": {
+              "content": "Каждый квартал день открытых дверей - приходите и наблюдайте за занятиями вашего ребенка.",
+              "items": [
+                "Наблюдение за занятиями вживую",
+                "Знакомство с воспитателями",
+                "Осмотр групповой среды",
+                "Занятие вместе с ребенком",
+                "Возможность задать вопросы",
+                "Знакомство с другими родителями"
+              ],
+              "benefits": ["Прозрачность", "Повышение доверия", "Понимание процесса"]
+            },
+            "en": {
+              "content": "Open door day every quarter - come and observe your child's classes.",
+              "items": [
+                "Live observation of classes",
+                "Meeting teachers",
+                "Viewing group environment",
+                "Class together with your child",
+                "Opportunity to ask questions",
+                "Meeting other parents"
+              ],
+              "benefits": ["Transparency", "Increased trust", "Understanding the process"]
+            }
+          }
+        },
+        {
+          "title": { "uz": "Oilaviy tadbirlar", "ru": "Семейные мероприятия", "en": "Family Events" },
+          "description": { "uz": "Bayramlar va tadbirlarda birgalikda ishtirok", "ru": "Совместное участие в праздниках и мероприятиях", "en": "Joint participation in holidays and events" },
+          "details": {
+            "uz": {
+              "content": "Yil davomida turli bayramlar va tadbirlar - oila bo'lib birga vaqt o'tkazing.",
+              "items": [
+                "Yangi yil bayrami",
+                "8-mart va 23-fevral",
+                "Navro'z bayrami",
+                "Mustaqillik kuni",
+                "Ota-onalar kuni",
+                "Bitiruvchilar kechasi"
+              ],
+              "benefits": ["Oilaviy vaqt", "Chiroyli xotiralar", "Jamoa ruhi"]
+            },
+            "ru": {
+              "content": "Различные праздники и мероприятия в течение года - проведите время вместе всей семьей.",
+              "items": [
+                "Новогодний праздник",
+                "8 марта и 23 февраля",
+                "Праздник Навруз",
+                "День независимости",
+                "День родителей",
+                "Выпускной вечер"
+              ],
+              "benefits": ["Семейное время", "Красивые воспоминания", "Командный дух"]
+            },
+            "en": {
+              "content": "Various holidays and events throughout the year - spend time together as a family.",
+              "items": [
+                "New Year celebration",
+                "March 8 and February 23",
+                "Navruz holiday",
+                "Independence Day",
+                "Parents' Day",
+                "Graduation evening"
+              ],
+              "benefits": ["Family time", "Beautiful memories", "Team spirit"]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

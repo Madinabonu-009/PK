@@ -1,0 +1,126 @@
+[
+  {
+    "id": "fb1",
+    "type": "feedback",
+    "rating": 5,
+    "comment": "Juda yaxshi bog'cha! Bolam har kuni xursand bo'lib boradi. O'qituvchilar juda mehribon.",
+    "parentName": "Dilnoza Karimova",
+    "parentPhone": "+998901234567",
+    "isApproved": true,
+    "createdAt": "2024-03-10T10:00:00Z",
+    "approvedAt": "2024-03-10T12:00:00Z"
+  },
+  {
+    "id": "fb2",
+    "type": "feedback",
+    "rating": 5,
+    "comment": "Professional o'qituvchilar va zamonaviy ta'lim metodlari. Tavsiya qilaman!",
+    "parentName": "Sardor Aliyev",
+    "parentPhone": "+998901234568",
+    "isApproved": true,
+    "createdAt": "2024-03-08T14:30:00Z",
+    "approvedAt": "2024-03-08T16:00:00Z"
+  },
+  {
+    "id": "fb3",
+    "type": "feedback",
+    "rating": 4,
+    "comment": "Yaxshi bog'cha, toza va qulay. Ovqatlar ham mazali.",
+    "parentName": "Malika Tosheva",
+    "parentPhone": "+998901234569",
+    "isApproved": true,
+    "createdAt": "2024-03-05T09:15:00Z",
+    "approvedAt": "2024-03-05T11:00:00Z"
+  },
+  {
+    "id": "fb4",
+    "type": "feedback",
+    "rating": 5,
+    "comment": "Bolam bu yerda juda rivojlandi. Rahmat!",
+    "parentName": "Akmal Rahimov",
+    "parentPhone": "+998901234570",
+    "isApproved": true,
+    "createdAt": "2024-03-01T10:00:00Z",
+    "approvedAt": "2024-03-01T12:00:00Z"
+  },
+  {
+    "id": "2edc5efa-c31c-4b36-973f-e5da85ca9abc",
+    "type": "feedback",
+    "rating": 4,
+    "comment": "Play Kids eng zo'ri barchaga tavsiya qilaman",
+    "parentName": "Temur Hamroyev",
+    "parentPhone": null,
+    "isApproved": true,
+    "createdAt": "2025-12-20T05:56:47.826Z",
+    "approvedAt": "2025-12-20T06:10:02.414Z"
+  },
+  {
+    "id": "52cc9c7a-4c21-4a32-bf50-cb29e8879c1e",
+    "type": "question",
+    "rating": 5,
+    "comment": "salom",
+    "parentName": "m",
+    "parentPhone": null,
+    "parentEmail": "1",
+    "targetName": "O'qituvchiga savol",
+    "isApproved": true,
+    "createdAt": "2025-12-20T06:18:08.435Z",
+    "messages": [
+      {
+        "id": 1,
+        "type": "parent",
+        "text": "salom",
+        "time": "2025-12-20T06:18:08.435Z",
+        "name": "m"
+      },
+      {
+        "id": 1766229380053,
+        "type": "admin",
+        "text": "Rahmat savolingiz uchun! ",
+        "time": "2025-12-20T11:16:20.053Z",
+        "name": "Admin"
+      },
+      {
+        "id": 1766229390583,
+        "type": "admin",
+        "text": "Admin bilan bog'laning: +998 94 514 09 49 ",
+        "time": "2025-12-20T11:16:30.583Z",
+        "name": "Admin"
+      }
+    ],
+    "status": "answered",
+    "answeredAt": "2025-12-20T11:16:30.583Z",
+    "updatedAt": "2025-12-20T11:16:30.607Z"
+  },
+  {
+    "id": "57966dbb-819a-48e9-b368-14b2f7b552d3",
+    "type": "question",
+    "rating": 5,
+    "comment": "q",
+    "parentName": "m",
+    "parentPhone": null,
+    "parentEmail": "1",
+    "targetName": "O'qituvchiga savol",
+    "isApproved": true,
+    "createdAt": "2025-12-20T10:40:16.828Z",
+    "messages": [
+      {
+        "id": 1,
+        "type": "parent",
+        "text": "q",
+        "time": "2025-12-20T10:40:16.828Z",
+        "name": "m"
+      },
+      {
+        "id": 1766229405756,
+        "type": "admin",
+        "text": "ha",
+        "time": "2025-12-20T11:16:45.756Z",
+        "name": "Admin"
+      }
+    ],
+    "status": "answered",
+    "answeredAt": "2025-12-20T11:16:45.756Z",
+    "updatedAt": "2025-12-20T11:16:45.774Z"
+  }
+]

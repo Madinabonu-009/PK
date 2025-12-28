@@ -1,0 +1,37 @@
+/**
+ * 🧲 GRAVITY UI STYLES
+ * 
+ * Sichqonchaga reaktsiya qiluvchi UI elementlar
+ * Yumshoq, sekin harakat
+ */
+
+.gravity-ui {
+  display: inline-block;
+  will-change: transform;
+  transition: box-shadow 0.3s ease;
+}
+
+.gravity-ui--active {
+  /* Subtle shadow when attracted */
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+.gravity-container {
+  position: relative;
+  width: 100%;
+}
+
+.gravity-item {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY - prefers-reduced-motion
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .gravity-ui,
+  .gravity-item {
+    transform: none !important;
+  }
+}

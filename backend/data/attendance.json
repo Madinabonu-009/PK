@@ -1,0 +1,843 @@
+[
+  {
+    "id": "att1",
+    "childId": "c1",
+    "date": "2024-12-18",
+    "checkIn": {
+      "time": "08:30",
+      "by": "Otasi",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "17:45",
+      "by": "Onasi",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": true
+  },
+  {
+    "id": "att2",
+    "childId": "c2",
+    "date": "2024-12-18",
+    "checkIn": {
+      "time": "09:00",
+      "by": "Onasi",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": true
+  },
+  {
+    "id": "att1766070170677",
+    "childId": "c1",
+    "date": "2025-12-18",
+    "checkIn": null,
+    "checkOut": null,
+    "status": "absent",
+    "absentReason": "",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766073240394",
+    "childId": "c2",
+    "date": "2025-12-18",
+    "checkIn": {
+      "time": "20:54",
+      "by": "men",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "21:23",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766074968196",
+    "childId": "c3",
+    "date": "2025-12-18",
+    "checkIn": {
+      "time": "21:22",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "21:23",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766074974629",
+    "childId": "c4",
+    "date": "2025-12-18",
+    "checkIn": {
+      "time": "21:22",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766074983352",
+    "childId": "c5",
+    "date": "2025-12-18",
+    "checkIn": {
+      "time": "21:23",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766074984549",
+    "childId": "c6",
+    "date": "2025-12-18",
+    "checkIn": null,
+    "checkOut": null,
+    "status": "absent",
+    "absentReason": "",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766074989188",
+    "childId": "c7",
+    "date": "2025-12-18",
+    "checkIn": {
+      "time": "21:23",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766074992619",
+    "childId": "c8",
+    "date": "2025-12-18",
+    "checkIn": {
+      "time": "21:23",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766078840852",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "date": "2025-12-18",
+    "checkIn": {
+      "time": "22:27",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "22:33",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112119663",
+    "childId": "c1",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:41",
+      "by": "men",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112125639",
+    "childId": "c6",
+    "date": "2025-12-19",
+    "checkIn": null,
+    "checkOut": null,
+    "status": "absent",
+    "absentReason": "",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112136220",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:42",
+      "by": "yana men",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112141860",
+    "childId": "c2",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:42",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112144970",
+    "childId": "c3",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:42",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112146325",
+    "childId": "c4",
+    "date": "2025-12-19",
+    "checkIn": null,
+    "checkOut": null,
+    "status": "absent",
+    "absentReason": "",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112149843",
+    "childId": "c8",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:42",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112153102",
+    "childId": "c7",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:42",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112156080",
+    "childId": "c5",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:42",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112162627",
+    "childId": "226ac247-1ad5-4789-9f07-223c071b1b35",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:42",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766112164962",
+    "childId": "6f757865-8211-4808-9a10-170599695eb5",
+    "date": "2025-12-19",
+    "checkIn": {
+      "time": "07:42",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201060981",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "16:30",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201066564",
+    "childId": "c6",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201070563",
+    "childId": "6f757865-8211-4808-9a10-170599695eb5",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "16:30",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201073949",
+    "childId": "226ac247-1ad5-4789-9f07-223c071b1b35",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201077393",
+    "childId": "c7",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201081363",
+    "childId": "c5",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201084942",
+    "childId": "c8",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201088047",
+    "childId": "c2",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201091110",
+    "childId": "c1",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201093636",
+    "childId": "c3",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "08:24",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766201095482",
+    "childId": "c4",
+    "date": "2025-12-20",
+    "checkIn": null,
+    "checkOut": null,
+    "status": "absent",
+    "absentReason": "",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766206618000",
+    "childId": "c03f4ef1-3c14-4350-bc2d-51ccf6e301b9",
+    "date": "2025-12-20",
+    "checkIn": {
+      "time": "09:56",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "16:30",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287900115",
+    "childId": "c1",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:31",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287903098",
+    "childId": "c2",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:31",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287905310",
+    "childId": "c3",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:31",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287909506",
+    "childId": "c4",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:31",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287912963",
+    "childId": "c5",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:31",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287916102",
+    "childId": "c6",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:31",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287919493",
+    "childId": "c7",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:31",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287922734",
+    "childId": "c8",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:32",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287927880",
+    "childId": "226ac247-1ad5-4789-9f07-223c071b1b35",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:32",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287930763",
+    "childId": "6f757865-8211-4808-9a10-170599695eb5",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:32",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287933984",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:32",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766287936772",
+    "childId": "c03f4ef1-3c14-4350-bc2d-51ccf6e301b9",
+    "date": "2025-12-21",
+    "checkIn": {
+      "time": "08:32",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": {
+      "time": "09:01",
+      "by": "",
+      "notes": ""
+    },
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766728054620",
+    "childId": "c1",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "10:47",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766728059201",
+    "childId": "c2",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "10:47",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766744446982",
+    "childId": "c3",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "15:20",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766744452292",
+    "childId": "c4",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "15:20",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766744455307",
+    "childId": "c5",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "15:20",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766744458142",
+    "childId": "c6",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "15:20",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766744467411",
+    "childId": "c7",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "15:21",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766754937576",
+    "childId": "c8",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "18:15",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766754939718",
+    "childId": "226ac247-1ad5-4789-9f07-223c071b1b35",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "18:15",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766754941389",
+    "childId": "6f757865-8211-4808-9a10-170599695eb5",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "18:15",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766754942969",
+    "childId": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "18:15",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766754944563",
+    "childId": "c03f4ef1-3c14-4350-bc2d-51ccf6e301b9",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "18:15",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766754947309",
+    "childId": "7141444d-d6be-4896-b9b6-7ed5eeef2268",
+    "date": "2025-12-26",
+    "checkIn": {
+      "time": "18:15",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  },
+  {
+    "id": "att1766812146193",
+    "childId": "c1",
+    "date": "2025-12-27",
+    "checkIn": {
+      "time": "10:09",
+      "by": "",
+      "notes": ""
+    },
+    "checkOut": null,
+    "status": "present",
+    "telegramNotified": false
+  }
+]

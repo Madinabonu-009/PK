@@ -1,0 +1,606 @@
+/* ============================================
+   🎓 ULTRA PREMIUM TEACHER DASHBOARD
+   Professional Educator Interface
+   ============================================ */
+
+/* CSS Variables */
+:root {
+  --teacher-gradient-start: #10b981;
+  --teacher-gradient-mid: #059669;
+  --teacher-gradient-end: #047857;
+  --teacher-card-radius: 24px;
+  --teacher-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================
+   PAGE CONTAINER
+   ============================================ */
+.teacher-dashboard {
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  position: relative;
+}
+
+/* Decorative pattern */
+.teacher-dashboard::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(16, 185, 129, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(5, 150, 105, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   HEADER - Premium Glassmorphism
+   ============================================ */
+.teacher-header {
+  background: linear-gradient(
+    135deg,
+    var(--teacher-gradient-start) 0%,
+    var(--teacher-gradient-mid) 50%,
+    var(--teacher-gradient-end) 100%
+  );
+  padding: 2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Animated shine effect */
+.teacher-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 70%
+  );
+  animation: headerShine 10s ease-in-out infinite;
+}
+
+@keyframes headerShine {
+  0%, 100% { transform: translateX(-100%) skewX(-15deg); }
+  50% { transform: translateX(100%) skewX(-15deg); }
+}
+
+/* Floating decorative orbs */
+.teacher-header::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -8%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 60%);
+  border-radius: 50%;
+  animation: orbFloat 14s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+  33% { transform: translateY(-25px) scale(1.08) rotate(5deg); }
+  66% { transform: translateY(12px) scale(0.96) rotate(-3deg); }
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.header-left h1 {
+  margin: 0;
+  color: white;
+  font-size: 2rem;
+  font-weight: 800;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.header-left h1::before {
+  content: '👩‍🏫';
+  font-size: 1.5rem;
+}
+
+.group-badge {
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--teacher-gradient-start);
+  padding: 0.65rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 
+    0 8px 25px rgba(0,0,0,0.2),
+    inset 0 -2px 0 rgba(0,0,0,0.05);
+  letter-spacing: -0.01em;
+  transition: all 0.3s ease;
+}
+
+.group-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.no-group {
+  text-align: center;
+  padding: 120px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.no-group h2 {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+}
+
+/* ============================================
+   STATS - Premium Cards
+   ============================================ */
+.teacher-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+  margin-top: -1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.75rem;
+  background: var(--card-bg);
+  border-radius: var(--teacher-card-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 20px 50px -15px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s var(--teacher-spring);
+  animation: cardReveal 0.6s ease-out forwards;
+  opacity: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes cardReveal {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px) scale(0.95);
+    filter: blur(4px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.18s; }
+.stat-card:nth-child(3) { animation-delay: 0.26s; }
+
+.stat-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 
+    0 25px 60px -15px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card .stat-icon {
+  font-size: 2.75rem;
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  transition: all 0.4s var(--teacher-spring);
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+.stat-card p {
+  margin: 0.25rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Stat variants */
+.stat-present {
+  border-left: 5px solid #10b981;
+}
+
+.stat-present .stat-icon {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+  color: #10b981;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+}
+
+.stat-absent {
+  border-left: 5px solid #ef4444;
+}
+
+.stat-absent .stat-icon {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
+  color: #ef4444;
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.2);
+}
+
+.stat-pending {
+  border-left: 5px solid #f59e0b;
+}
+
+.stat-pending .stat-icon {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%);
+  color: #f59e0b;
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+}
+
+/* ============================================
+   QUICK ACTIONS
+   ============================================ */
+.quick-actions {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0 2.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.quick-actions button {
+  flex: 1;
+  min-width: 220px;
+  padding: 1.35rem 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.4s var(--teacher-spring);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-actions button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+}
+
+.quick-actions button:first-child {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+}
+
+.quick-actions button:first-child:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(16, 185, 129, 0.45);
+}
+
+.quick-actions button:last-child {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
+}
+
+.quick-actions button:last-child:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(59, 130, 246, 0.45);
+}
+
+/* ============================================
+   SECTION CARD
+   ============================================ */
+.section-card {
+  padding: 1.75rem;
+  margin: 0 2.5rem 2rem;
+  background: var(--card-bg);
+  border-radius: var(--teacher-card-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 20px 50px -15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.section-card h2 {
+  margin: 0 0 1.5rem 0;
+  color: var(--text-primary);
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  letter-spacing: -0.02em;
+}
+
+.section-card h2::before {
+  content: '';
+  width: 4px;
+  height: 22px;
+  background: linear-gradient(180deg, var(--teacher-gradient-start), var(--teacher-gradient-end));
+  border-radius: 2px;
+}
+
+/* ============================================
+   ATTENDANCE LIST
+   ============================================ */
+.attendance-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.attendance-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.15rem;
+  background: var(--bg-tertiary);
+  border-radius: 18px;
+  border-left: 5px solid var(--border-color);
+  transition: all 0.4s var(--teacher-spring);
+  animation: cardReveal 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.attendance-item:nth-child(1) { animation-delay: 0.05s; }
+.attendance-item:nth-child(2) { animation-delay: 0.1s; }
+.attendance-item:nth-child(3) { animation-delay: 0.15s; }
+.attendance-item:nth-child(4) { animation-delay: 0.2s; }
+.attendance-item:nth-child(n+5) { animation-delay: 0.25s; }
+
+.attendance-item:hover {
+  transform: translateX(8px) scale(1.01);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.attendance-item.status-present {
+  border-left-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, var(--bg-tertiary) 100%);
+}
+
+.attendance-item.status-absent {
+  border-left-color: #ef4444;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, var(--bg-tertiary) 100%);
+}
+
+.attendance-item.status-not_marked {
+  border-left-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-tertiary) 100%);
+}
+
+.child-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teacher-gradient-start) 0%, var(--teacher-gradient-end) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+  transition: all 0.3s ease;
+}
+
+.attendance-item:hover .child-avatar {
+  transform: scale(1.1);
+}
+
+.child-name {
+  flex: 1;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.status-badge {
+  font-size: 1.35rem;
+}
+
+.check-time {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* ============================================
+   REPORTS SUMMARY
+   ============================================ */
+.reports-summary p {
+  color: var(--text-primary);
+  font-size: 1.15rem;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+}
+
+.missing-reports {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(217, 119, 6, 0.12) 100%);
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 2px solid rgba(245, 158, 11, 0.3);
+}
+
+.missing-reports p {
+  margin: 0 0 1rem 0;
+  color: #b45309;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.missing-child {
+  display: inline-block;
+  background: var(--card-bg);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  margin: 5px;
+  font-size: 0.9rem;
+  color: #b45309;
+  font-weight: 600;
+  transition: all 0.3s var(--teacher-spring);
+  border: 2px solid transparent;
+}
+
+.missing-child:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .teacher-header {
+    padding: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .header-left h1 {
+    font-size: 1.5rem;
+  }
+
+  .teacher-stats {
+    padding: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  .quick-actions {
+    padding: 0 1.25rem;
+    flex-direction: column;
+  }
+
+  .quick-actions button {
+    width: 100%;
+  }
+
+  .section-card {
+    margin: 0 1.25rem 1.25rem;
+  }
+
+  .attendance-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+[data-theme="dark"] .teacher-header {
+  background: linear-gradient(135deg, #047857 0%, #065f46 50%, #064e3b 100%);
+}
+
+[data-theme="dark"] .group-badge {
+  background: rgba(255, 255, 255, 0.98);
+  color: #047857;
+}
+
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .section-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .attendance-item {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .attendance-item.status-present {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(0, 0, 0, 0.25) 100%);
+}
+
+[data-theme="dark"] .attendance-item.status-absent {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(0, 0, 0, 0.25) 100%);
+}
+
+[data-theme="dark"] .missing-reports {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.2) 100%);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+[data-theme="dark"] .missing-reports p {
+  color: #fde68a;
+}
+
+[data-theme="dark"] .missing-child {
+  background: rgba(0, 0, 0, 0.35);
+  color: #fde68a;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .stat-card,
+  .attendance-item,
+  .teacher-header::before,
+  .teacher-header::after {
+    animation: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+}
+
+.stat-card:focus-visible,
+.quick-actions button:focus-visible,
+.attendance-item:focus-visible {
+  outline: 3px solid rgba(16, 185, 129, 0.5);
+  outline-offset: 2px;
+}

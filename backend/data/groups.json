@@ -1,0 +1,29 @@
+[
+  {
+    "id": "g1",
+    "name": "Quyoshlar",
+    "ageRange": "2-3 yosh",
+    "capacity": 15,
+    "teacherId": "t1",
+    "monthlyFee": 500000,
+    "isActive": true
+  },
+  {
+    "id": "g2",
+    "name": "Yulduzlar",
+    "ageRange": "4-5 yosh",
+    "capacity": 20,
+    "teacherId": "t2",
+    "monthlyFee": 500000,
+    "isActive": true
+  },
+  {
+    "id": "g3",
+    "name": "Oylar",
+    "ageRange": "5-6 yosh",
+    "capacity": 20,
+    "teacherId": "t3",
+    "monthlyFee": 500000,
+    "isActive": true
+  }
+]

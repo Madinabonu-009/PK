@@ -1,0 +1,25 @@
+/* 🧩 3D Tilt Card Styles */
+.tilt-card {
+  position: relative;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.3s ease;
+}
+
+.tilt-card-content {
+  position: relative;
+  z-index: 1;
+  transform-style: preserve-3d;
+}
+
+/* Shine effekti o'chirilgan - oq yorug'lik yo'q */
+.tilt-card-shine {
+  display: none;
+}
+
+/* 3D hover effekti */
+.tilt-card:hover {
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 10px 20px rgba(0, 0, 0, 0.1);
+}

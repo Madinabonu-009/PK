@@ -1,0 +1,49 @@
+[
+  {
+    "id": "1",
+    "username": "itsme",
+    "password": "$2a$10$xwnu4t1rTaRd78uDpYonCeLs9lX6ScXvbdlCrtygRLBEfeL59VV6G",
+    "role": "admin",
+    "name": "Administrator",
+    "email": "admin@playkids.uz",
+    "phone": "+998901234567",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "t1",
+    "username": "nilufar",
+    "password": "$2a$10$4jcOnLSlGe47pUyuvI23HePWYVxck5RlmvOQeY0UtOYTvp9oroVYu",
+    "role": "teacher",
+    "name": "Nilufar Saidova",
+    "email": "nilufar@playkids.uz",
+    "phone": "+998901112233",
+    "groupId": "g1",
+    "isActive": true,
+    "createdAt": "2024-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "t2",
+    "username": "madina",
+    "password": "$2a$10$4jcOnLSlGe47pUyuvI23HePWYVxck5RlmvOQeY0UtOYTvp9oroVYu",
+    "role": "teacher",
+    "name": "Madina Karimova",
+    "email": "madina@playkids.uz",
+    "phone": "+998902223344",
+    "groupId": "g2",
+    "isActive": true,
+    "createdAt": "2024-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "t3",
+    "username": "dilnoza",
+    "password": "$2a$10$4jcOnLSlGe47pUyuvI23HePWYVxck5RlmvOQeY0UtOYTvp9oroVYu",
+    "role": "teacher",
+    "name": "Dilnoza Rahimova",
+    "email": "dilnoza@playkids.uz",
+    "phone": "+998903334455",
+    "groupId": "g3",
+    "isActive": true,
+    "createdAt": "2024-01-15T00:00:00.000Z"
+  }
+]

@@ -1,0 +1,165 @@
+/* Horizontal Scroll */
+.horizontal-scroll-container {
+  height: 400vh;
+  position: relative;
+}
+
+.horizontal-scroll-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.horizontal-scroll-content {
+  display: flex;
+  gap: 40px;
+  padding: 0 100px;
+  will-change: transform;
+}
+
+.horizontal-scroll-content > * {
+  flex-shrink: 0;
+}
+
+/* Elastic Section */
+.elastic-section {
+  position: relative;
+  will-change: transform, opacity;
+}
+
+/* Reverse Parallax */
+.reverse-parallax {
+  position: relative;
+  will-change: transform;
+}
+
+/* Zoom Reveal */
+.zoom-reveal {
+  position: relative;
+  will-change: transform, opacity, filter;
+}
+
+/* Stagger Reveal */
+.stagger-reveal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stagger-reveal.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Infinite Scroll */
+.infinite-scroll {
+  overflow: hidden;
+  width: 100%;
+}
+
+.infinite-scroll-track {
+  display: flex;
+  gap: 40px;
+  width: fit-content;
+}
+
+.infinite-scroll-track > * {
+  flex-shrink: 0;
+}
+
+/* Scroll Progress */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color, #8b5cf6) 100%);
+  z-index: 9999;
+  transform-origin: left;
+}
+
+/* Scroll snap sections */
+.scroll-snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.scroll-snap-section {
+  scroll-snap-align: start;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Perspective scroll */
+.perspective-scroll {
+  perspective: 1000px;
+  perspective-origin: center center;
+}
+
+.perspective-scroll-item {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+/* Magnetic scroll */
+@keyframes magneticPull {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.magnetic-scroll:hover {
+  animation: magneticPull 0.5s ease;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .horizontal-scroll-content,
+  .elastic-section,
+  .reverse-parallax,
+  .zoom-reveal,
+  .infinite-scroll-track,
+  .scroll-progress {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .horizontal-scroll-container {
+    height: auto;
+  }
+  
+  .horizontal-scroll-sticky {
+    position: relative;
+  }
+  
+  .horizontal-scroll-content {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .horizontal-scroll-container {
+    height: auto;
+  }
+  
+  .horizontal-scroll-sticky {
+    position: relative;
+    height: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .horizontal-scroll-content {
+    padding: 20px;
+    gap: 20px;
+  }
+}

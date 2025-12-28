@@ -1,0 +1,391 @@
+/**
+ * Awards & Achievements Component Styles (Enhanced)
+ */
+
+.awards-section {
+  padding: 6rem 1rem;
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 30%, #fff7ed 60%, #fefce8 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background patterns */
+.awards-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(234, 179, 8, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  animation: awards-bg 15s ease-in-out infinite;
+}
+
+@keyframes awards-bg {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Floating trophy decoration */
+.awards-section::after {
+  content: '🏆';
+  position: absolute;
+  top: 8%;
+  left: 5%;
+  font-size: 5rem;
+  opacity: 0.1;
+  animation: trophy-float 8s ease-in-out infinite;
+}
+
+@keyframes trophy-float {
+  0%, 100% { transform: translateY(0) rotate(-10deg); }
+  50% { transform: translateY(-30px) rotate(10deg); }
+}
+
+.awards-section__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.awards-section__header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.awards-section__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+  animation: badge-shine 3s ease-in-out infinite;
+}
+
+@keyframes badge-shine {
+  0%, 100% { box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); }
+  50% { box-shadow: 0 8px 35px rgba(245, 158, 11, 0.6), 0 0 50px rgba(245, 158, 11, 0.2); }
+}
+
+.awards-section__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #92400e, #b45309, #d97706);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+  animation: title-shimmer 5s ease infinite;
+}
+
+@keyframes title-shimmer {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+.awards-section__subtitle {
+  font-size: 1.15rem;
+  color: #78716c;
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Stats */
+.awards-section__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
+  border-radius: 26px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px rgba(245, 158, 11, 0.2);
+}
+
+.stat-card__icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: icon-bounce-stat 3s ease-in-out infinite;
+}
+
+@keyframes icon-bounce-stat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.stat-card__number {
+  display: block;
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.stat-card__label {
+  font-size: 0.85rem;
+  color: #78716c;
+  font-weight: 600;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+/* Awards Grid */
+.awards-section__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.award-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.award-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.1), transparent);
+  transition: left 0.6s;
+}
+
+.award-card:hover::before {
+  left: 100%;
+}
+
+.award-card:hover {
+  border-color: #fbbf24;
+  box-shadow: 0 25px 60px rgba(251, 191, 36, 0.25);
+  transform: translateY(-8px);
+}
+
+.award-card__icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a, #fcd34d);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+  transition: all 0.3s ease;
+}
+
+.award-card:hover .award-card__icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.award-card__content {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.award-card__year {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.award-card__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #292524;
+  margin: 0 0 0.5rem;
+  transition: color 0.3s ease;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.award-card:hover .award-card__title {
+  color: #b45309;
+}
+
+.award-card__desc {
+  font-size: 0.9rem;
+  color: #78716c;
+  margin: 0;
+  line-height: 1.5;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Partners */
+.awards-section__partners {
+  text-align: center;
+  padding-top: 3rem;
+  border-top: 2px solid rgba(245, 158, 11, 0.15);
+  position: relative;
+}
+
+.awards-section__partners::before {
+  content: '⭐';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fef3c7;
+  padding: 0 1rem;
+  font-size: 1.5rem;
+}
+
+.partners__title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #78716c;
+  margin-bottom: 2rem;
+}
+
+.partners__logos {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.partner-logo {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid transparent;
+}
+
+.partner-logo:hover {
+  transform: translateY(-8px) scale(1.1);
+  box-shadow: 0 15px 40px rgba(251, 191, 36, 0.35);
+  border-color: #fbbf24;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .awards-section__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .awards-section__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .awards-section {
+    padding: 4rem 1rem;
+  }
+
+  .awards-section__stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .stat-card__icon {
+    font-size: 2.25rem;
+  }
+
+  .stat-card__number {
+    font-size: 2rem;
+  }
+
+  .award-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .award-card__icon {
+    margin: 0 auto;
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+
+  .partners__logos {
+    gap: 1rem;
+  }
+
+  .partner-logo {
+    width: 65px;
+    height: 65px;
+    font-size: 1.75rem;
+  }
+}

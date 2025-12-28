@@ -1,0 +1,69 @@
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contact-form .form-row {
+  width: 100%;
+}
+
+.contact-form .form-error-message {
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+.contact-form .form-actions {
+  margin-top: 0.5rem;
+}
+
+.contact-form .form-actions button {
+  width: 100%;
+}
+
+/* Success State */
+.contact-success {
+  text-align: center;
+  padding: 2rem;
+  background: var(--success-bg);
+  border-radius: 12px;
+  border: 1px solid var(--success-color);
+}
+
+.contact-success .success-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--success-color);
+  color: var(--text-inverse);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 1rem;
+}
+
+.contact-success h3 {
+  color: var(--success-color);
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.contact-success p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .contact-form {
+    gap: 1rem;
+  }
+  
+  .contact-success {
+    padding: 1.5rem;
+  }
+}

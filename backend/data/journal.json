@@ -1,0 +1,62 @@
+[
+  {
+    "id": "j1",
+    "title": "Bahorgi bayram tayyorgarligi",
+    "description": "Bolalar Navruz bayramiga tayyorgarlik ko'rmoqda. Raqs va qo'shiqlar mashq qilinmoqda.",
+    "type": "photo",
+    "mediaUrl": "/images/gallery-1.jpg",
+    "groupName": "Katta guruh",
+    "date": "2024-03-15",
+    "uploadedBy": "admin",
+    "isPublic": true,
+    "tags": ["bayram", "navruz", "raqs"]
+  },
+  {
+    "id": "j2",
+    "title": "Sport mashg'uloti",
+    "description": "Haftalik sport mashg'ulotimiz. Bolalar jismoniy mashqlar bilan shug'ullanmoqda.",
+    "type": "photo",
+    "mediaUrl": "/images/gallery-2.jpg",
+    "groupName": "O'rta guruh",
+    "date": "2024-03-10",
+    "uploadedBy": "teacher1",
+    "isPublic": true,
+    "tags": ["sport", "mashq", "salomatlik"]
+  },
+  {
+    "id": "j3",
+    "title": "Rasm chizish darsi",
+    "description": "Bugun bolalar tabiat manzarasini chizishdi. Juda chiroyli ishlar chiqdi!",
+    "type": "photo",
+    "mediaUrl": "/images/gallery-3.jpg",
+    "groupName": "Kichik guruh",
+    "date": "2024-03-08",
+    "uploadedBy": "admin",
+    "isPublic": true,
+    "tags": ["san'at", "rasm", "ijod"]
+  },
+  {
+    "id": "j4",
+    "title": "Tug'ilgan kun bayramchasi",
+    "description": "Guruhimizdagi bolalarning tug'ilgan kunini nishonladik.",
+    "type": "photo",
+    "mediaUrl": "/images/gallery-4.jpg",
+    "groupName": "Katta guruh",
+    "date": "2024-03-05",
+    "uploadedBy": "teacher1",
+    "isPublic": true,
+    "tags": ["bayram", "tug'ilgan kun"]
+  },
+  {
+    "id": "j5",
+    "title": "Bog'da sayr",
+    "description": "Yozgi bog'da bolalar bilan sayr qildik. Tabiat bilan tanishdik.",
+    "type": "photo",
+    "mediaUrl": "/images/gallery-5.jpg",
+    "groupName": "O'rta guruh",
+    "date": "2024-03-01",
+    "uploadedBy": "admin",
+    "isPublic": true,
+    "tags": ["tabiat", "sayr", "yoz"]
+  }
+]

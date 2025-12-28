@@ -1,0 +1,77 @@
+[
+  {
+    "id": "q1",
+    "question": "Bolam qachon bog'chaga kelishi kerak?",
+    "parentName": "Dilnoza Karimova",
+    "parentPhone": "+998901234567",
+    "childId": null,
+    "status": "answered",
+    "answerText": "Har kuni soat 8:00 dan 9:00 gacha olib kelishingiz mumkin.",
+    "answeredAt": "2025-12-18T10:00:00Z",
+    "answeredBy": "admin",
+    "createdAt": "2025-12-17T14:00:00Z"
+  },
+  {
+    "id": "q2",
+    "question": "Ovqatlanish qanday tashkil etilgan?",
+    "parentName": "Sardor Aliyev",
+    "parentPhone": "+998901234568",
+    "childId": null,
+    "status": "answered",
+    "answerText": "Menyu foydali va mazali mahsulotlardan tuzilgan bo'lib kuniga 3 mahal farzandingizga tortiq qilinadi",
+    "answeredAt": "2025-12-20T11:26:54.207Z",
+    "answeredBy": "itsme",
+    "createdAt": "2025-12-19T09:00:00Z"
+  },
+  {
+    "id": "1e952ef5-1f61-49c5-afc1-08a3fe631371",
+    "question": "2",
+    "parentName": "y",
+    "parentPhone": "2",
+    "childId": null,
+    "status": "answered",
+    "answerText": "Assalomu alaykum savollaringizni shu yerda yozib qoldirishingiz mumkin",
+    "answeredAt": "2025-12-20T11:27:36.799Z",
+    "answeredBy": "itsme",
+    "createdAt": "2025-12-20T05:59:21.794Z"
+  },
+  {
+    "id": "e0b14249-519e-4a7c-854b-a792856ab405",
+    "question": "aaa",
+    "parentName": "baqa",
+    "parentPhone": "1",
+    "childId": null,
+    "status": "answered",
+    "answerText": "b",
+    "answeredAt": "2025-12-20T11:27:42.998Z",
+    "answeredBy": "itsme",
+    "createdAt": "2025-12-20T11:23:48.361Z",
+    "seen": true
+  },
+  {
+    "id": "f1ad084e-bd74-4720-b768-1cb38554135d",
+    "question": "Menyu\nIsh vaqti\nTo'lov\nKasallik\nKiyim\nGuruhlar\nm",
+    "parentName": "q",
+    "parentPhone": "1",
+    "childId": null,
+    "status": "answered",
+    "answerText": "Rahmat savolingiz uchun! ",
+    "answeredAt": "2025-12-21T15:33:21.402Z",
+    "answeredBy": "itsme",
+    "createdAt": "2025-12-21T15:23:36.025Z",
+    "seen": true
+  },
+  {
+    "id": "f9cb137d-2391-477d-ab26-ac72c55b7101",
+    "question": "Assalomu alaykum",
+    "parentName": "Zilola",
+    "parentPhone": "+998951234567",
+    "childId": null,
+    "status": "answered",
+    "answerText": "Vaaleykum assalom",
+    "answeredAt": "2025-12-26T14:45:13.990Z",
+    "answeredBy": "itsme",
+    "createdAt": "2025-12-26T13:13:35.840Z",
+    "seen": true
+  }
+]

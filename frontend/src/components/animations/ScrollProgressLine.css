@@ -1,0 +1,301 @@
+/**
+ * Rainbow Scroll Progress Line
+ * 
+ * Bolalar uchun kamalakrang progress chiziq
+ * Yumshoq, ko'zni charchatmaydigan, professional
+ * 
+ * ❌ TAQIQLANADI: Qalin bar, keskin ranglar, flash, blink, emoji, spinner
+ */
+
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
+:root {
+  --rp-height: 3px;
+  --rp-z-index: 9990;
+  /* Yangilangan kamalak gradient - yumshoqroq ranglar */
+  --rp-gradient: linear-gradient(
+    90deg,
+    #ff6b6b 0%,        /* Yumshoq qizil */
+    #ffa726 12%,       /* To'q sariq */
+    #ffee58 25%,       /* Sariq */
+    #66bb6a 38%,       /* Yashil */
+    #48dbfb 50%,       /* Moviy */
+    #42a5f5 62%,       /* Ko'k */
+    #7e57c2 75%,       /* Binafsha */
+    #ec407a 88%,       /* Pushti */
+    #ff6b6b 100%       /* Loop uchun qizil */
+  );
+  --rp-glow-color: rgba(72, 219, 251, 0.4);
+  --rp-transition: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+.rainbow-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--rp-height);
+  z-index: var(--rp-z-index);
+  cursor: pointer;
+  user-select: none;
+  overflow: visible;
+  transition: opacity 0.3s var(--rp-transition);
+  /* Framer Motion scroll offset uchun */
+  contain: layout;
+}
+
+/* Hover - opacity +10% */
+.rainbow-progress:hover {
+  opacity: 1;
+}
+
+.rainbow-progress:hover .rainbow-progress__bar {
+  filter: brightness(1.1);
+}
+
+/* ============================================
+   TRACK - FON (juda och)
+   ============================================ */
+.rainbow-progress__track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 107, 107, 0.06) 0%,
+    rgba(255, 167, 38, 0.06) 12%,
+    rgba(255, 238, 88, 0.06) 25%,
+    rgba(102, 187, 106, 0.06) 38%,
+    rgba(72, 219, 251, 0.06) 50%,
+    rgba(66, 165, 245, 0.06) 62%,
+    rgba(126, 87, 194, 0.06) 75%,
+    rgba(236, 64, 122, 0.06) 88%,
+    rgba(255, 107, 107, 0.06) 100%
+  );
+  border-radius: 999px;
+}
+
+/* ============================================
+   RAINBOW BAR - KAMALAK CHIZIQ
+   ============================================ */
+.rainbow-progress__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--rp-gradient);
+  background-size: 300% 100%;
+  border-radius: 999px;
+  will-change: transform, background-position;
+  
+  /* Sekin oqib turuvchi gradient - 7s loop (yumshoqroq) */
+  animation: rainbowFlow 7s linear infinite;
+  
+  /* Yumshoq glow */
+  box-shadow: 
+    0 0 4px rgba(72, 219, 251, 0.25),
+    0 0 8px rgba(102, 187, 106, 0.15);
+  
+  transition: filter 0.3s var(--rp-transition),
+              box-shadow 0.3s var(--rp-transition);
+}
+
+/* Gradient sekin harakatda oqadi - yanada yumshoq */
+@keyframes rainbowFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* ============================================
+   GLOW EFFECT - Progress oxirida
+   ============================================ */
+.rainbow-progress__glow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(72, 219, 251, 0.4) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+  filter: blur(1px);
+  opacity: 0;
+  transition: opacity 0.3s var(--rp-transition);
+}
+
+/* Glow ko'rinadi faqat progress > 1% */
+.rainbow-progress__glow--visible {
+  opacity: 0.6;
+}
+
+/* ============================================
+   MILESTONE STATES - Har 25% da
+   ============================================ */
+
+/* 25% - qisqa glow pulse */
+.rainbow-progress--milestone-25 .rainbow-progress__bar {
+  filter: brightness(1.05);
+}
+
+/* 50% - qisqa glow pulse */
+.rainbow-progress--milestone-50 .rainbow-progress__bar {
+  filter: brightness(1.08);
+}
+
+/* 75% - qisqa glow pulse */
+.rainbow-progress--milestone-75 .rainbow-progress__bar {
+  filter: brightness(1.1);
+}
+
+/* 90%+ - Near end state */
+.rainbow-progress--near-end .rainbow-progress__bar {
+  filter: brightness(1.15);
+  box-shadow: 
+    0 0 6px rgba(72, 219, 251, 0.4),
+    0 0 12px rgba(29, 209, 161, 0.3);
+}
+
+/* ============================================
+   100% COMPLETE STATE - WOW EFFECT
+   ============================================ */
+.rainbow-progress--complete .rainbow-progress__bar {
+  filter: brightness(1.2);
+  box-shadow: 
+    0 0 8px rgba(72, 219, 251, 0.5),
+    0 0 16px rgba(29, 209, 161, 0.4),
+    0 0 24px rgba(254, 202, 87, 0.3);
+  animation: rainbowFlow 6s linear infinite, completeGlow 2s ease-in-out;
+}
+
+/* Bir marta soft pulse */
+@keyframes completeGlow {
+  0% { 
+    filter: brightness(1.2);
+  }
+  30% { 
+    filter: brightness(1.4);
+    box-shadow: 
+      0 0 12px rgba(72, 219, 251, 0.6),
+      0 0 24px rgba(29, 209, 161, 0.5),
+      0 0 36px rgba(254, 202, 87, 0.4);
+  }
+  100% { 
+    filter: brightness(1.2);
+  }
+}
+
+/* Complete glow effect */
+.rainbow-progress--complete .rainbow-progress__glow {
+  opacity: 1;
+  animation: glowBurst 0.6s ease-out forwards;
+}
+
+@keyframes glowBurst {
+  0% { 
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(-50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   MILESTONE PULSE ANIMATION
+   ============================================ */
+.rainbow-progress--pulse .rainbow-progress__bar {
+  animation: rainbowFlow 6s linear infinite, milestonePulse 0.4s ease-out;
+}
+
+@keyframes milestonePulse {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.2); }
+  100% { filter: brightness(1); }
+}
+
+/* ============================================
+   ACCESSIBILITY - prefers-reduced-motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .rainbow-progress__bar {
+    animation: none !important;
+    background-size: 100% 100%;
+    transition: none;
+  }
+  
+  .rainbow-progress__glow {
+    animation: none !important;
+    transition: none;
+  }
+  
+  .rainbow-progress:hover .rainbow-progress__bar {
+    filter: none;
+  }
+  
+  .rainbow-progress--complete .rainbow-progress__bar {
+    animation: none !important;
+    filter: brightness(1.1);
+  }
+  
+  .rainbow-progress--complete .rainbow-progress__glow {
+    animation: none !important;
+    opacity: 0.8;
+  }
+}
+
+/* ============================================
+   DARK THEME
+   ============================================ */
+[data-theme="dark"] .rainbow-progress__track {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 107, 107, 0.12) 0%,
+    rgba(254, 202, 87, 0.12) 20%,
+    rgba(72, 219, 251, 0.12) 40%,
+    rgba(29, 209, 161, 0.12) 60%,
+    rgba(95, 39, 205, 0.12) 80%,
+    rgba(255, 107, 107, 0.12) 100%
+  );
+}
+
+[data-theme="dark"] .rainbow-progress__bar {
+  box-shadow: 
+    0 0 6px rgba(72, 219, 251, 0.4),
+    0 0 12px rgba(29, 209, 161, 0.3);
+}
+
+/* ============================================
+   MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .rainbow-progress {
+    --rp-height: 3px;
+  }
+  
+  .rainbow-progress__glow {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* ============================================
+   PRINT - Yashirish
+   ============================================ */
+@media print {
+  .rainbow-progress {
+    display: none !important;
+  }
+}

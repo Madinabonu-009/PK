@@ -1,0 +1,103 @@
+/* 🎭 Story Mode Styles */
+.story-container {
+  position: relative;
+}
+
+.story-progress {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+
+.story-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.story-scene {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-scene-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.story-scene-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.story-scene-content {
+  max-width: 800px;
+  text-align: center;
+}
+
+/* Story Character */
+.story-character {
+  font-size: 3rem;
+  position: absolute;
+}
+
+.story-character-left {
+  left: 10%;
+  bottom: 20%;
+}
+
+.story-character-right {
+  right: 10%;
+  bottom: 20%;
+}
+
+.story-character-center {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10%;
+}
+
+/* Story Transition */
+.story-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-primary);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .story-progress {
+    right: 10px;
+  }
+  
+  .story-scene-icon {
+    font-size: 3rem;
+  }
+  
+  .story-scene-title {
+    font-size: 1.75rem;
+  }
+  
+  .story-character {
+    font-size: 2rem;
+  }
+}

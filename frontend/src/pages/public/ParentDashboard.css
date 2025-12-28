@@ -1,0 +1,377 @@
+/**
+ * Parent Dashboard Styles
+ */
+
+.parent-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  min-height: 100vh;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 20px;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.child-avatar {
+  font-size: 3.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  border-radius: 20px;
+}
+
+.header-info h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.header-info p {
+  margin: 0.25rem 0 0;
+  opacity: 0.9;
+}
+
+.today-status {
+  margin-left: auto;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.today-status.present {
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.today-status.absent {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Tabs */
+.dashboard-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.tab-btn:hover {
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.tab-icon {
+  font-size: 1.25rem;
+}
+
+/* Overview Tab */
+.overview-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: #f3f4f6;
+}
+
+.stat-card.attendance .stat-icon { background: #dbeafe; }
+.stat-card.payment.paid .stat-icon { background: #d1fae5; }
+.stat-card.payment.pending .stat-icon { background: #fef3c7; }
+.stat-card.payment.overdue .stat-icon { background: #fee2e2; }
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Daily Report Card */
+.daily-report-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.daily-report-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.report-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 12px;
+}
+
+.report-icon {
+  font-size: 1.5rem;
+}
+
+.report-label {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.report-value {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.meals-status {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.activities-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.activity-tag {
+  padding: 0.25rem 0.75rem;
+  background: #ede9fe;
+  color: #7c3aed;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+/* Recent Activity */
+.recent-activity {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.recent-activity h3 {
+  margin: 0 0 1rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.activity-icon {
+  font-size: 1.5rem;
+}
+
+.activity-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-name {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.activity-score {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Payments Tab */
+.payments-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.payment-summary {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.payment-status-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.payment-status-card.paid {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+}
+
+.payment-status-card.pending {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+.payment-status-card.overdue {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+}
+
+.status-icon {
+  font-size: 2rem;
+}
+
+.status-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.next-payment {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.next-payment span {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.next-payment strong {
+  font-size: 1.25rem;
+  color: #1f2937;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .daily-report-card,
+[data-theme="dark"] .recent-activity,
+[data-theme="dark"] .payment-status-card,
+[data-theme="dark"] .next-payment {
+  background: #1e293b;
+}
+
+[data-theme="dark"] .stat-value,
+[data-theme="dark"] .report-value,
+[data-theme="dark"] .activity-name,
+[data-theme="dark"] .next-payment strong {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .dashboard-tabs {
+  background: rgba(99, 102, 241, 0.15);
+}
+
+[data-theme="dark"] .tab-btn {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .report-item,
+[data-theme="dark"] .activity-item {
+  background: #334155;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .today-status {
+    margin-left: 0;
+  }
+
+  .tab-label {
+    display: none;
+  }
+
+  .tab-btn {
+    padding: 0.75rem;
+  }
+
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+}

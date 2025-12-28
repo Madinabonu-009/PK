@@ -1,0 +1,332 @@
+/* Event Attachments Styles */
+.event-attachments {
+  padding: 1.5rem;
+  background: var(--bg-primary, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.attachments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.attachments-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  color: var(--text-primary, #1f2937);
+}
+
+.file-count {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #6b7280);
+  background: var(--bg-secondary, #f3f4f6);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+/* Upload Zone */
+.upload-zone {
+  border: 2px dashed var(--border-color, #d1d5db);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 1.5rem;
+}
+
+.upload-zone:hover {
+  border-color: var(--primary-color, #3b82f6);
+  background: var(--primary-light, rgba(59, 130, 246, 0.05));
+}
+
+.upload-zone.drag-active {
+  border-color: var(--primary-color, #3b82f6);
+  background: var(--primary-light, rgba(59, 130, 246, 0.1));
+  transform: scale(1.01);
+}
+
+.upload-content {
+  pointer-events: none;
+}
+
+.upload-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.upload-text {
+  margin: 0 0 0.5rem;
+  color: var(--text-primary, #374151);
+  font-size: 0.9375rem;
+}
+
+.upload-text span {
+  color: var(--primary-color, #3b82f6);
+  font-weight: 600;
+}
+
+.upload-hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+/* Upload Progress */
+.uploading-list {
+  margin-bottom: 1.5rem;
+}
+
+.upload-progress {
+  background: var(--bg-secondary, #f9fafb);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.file-icon {
+  font-size: 1.25rem;
+}
+
+.file-name {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text-primary, #374151);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress-percent {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--primary-color, #3b82f6);
+}
+
+.progress-bar {
+  height: 4px;
+  background: var(--bg-tertiary, #e5e7eb);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-color, #3b82f6);
+  border-radius: 2px;
+}
+
+/* Attachments Grid */
+.attachments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* Attachment Card */
+.attachment-card {
+  background: var(--bg-secondary, #f9fafb);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.attachment-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.attachment-preview {
+  position: relative;
+  height: 120px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.attachment-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: white;
+  font-size: 0.875rem;
+}
+
+.attachment-preview:hover .preview-overlay {
+  opacity: 1;
+}
+
+.attachment-icon {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: var(--bg-tertiary, #e5e7eb);
+}
+
+.attachment-info {
+  padding: 0.75rem;
+}
+
+.attachment-name {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-primary, #374151);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.attachment-size {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #6b7280);
+  margin-top: 0.25rem;
+}
+
+.attachment-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 0.75rem 0.75rem;
+}
+
+.attachment-actions .action-btn {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--bg-tertiary, #e5e7eb);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.attachment-actions .action-btn:hover {
+  background: var(--bg-hover, #d1d5db);
+}
+
+.attachment-actions .action-btn.delete:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Empty State */
+.empty-attachments {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+.empty-attachments span {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.empty-attachments p {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* Preview Modal */
+.preview-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.preview-modal {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.preview-modal img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
+}
+
+.preview-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preview-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.preview-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .event-attachments {
+    --bg-primary: #1f2937;
+    --bg-secondary: #374151;
+    --bg-tertiary: #4b5563;
+    --bg-hover: #4b5563;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --border-color: #4b5563;
+    --primary-light: rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .event-attachments {
+    padding: 1rem;
+  }
+
+  .upload-zone {
+    padding: 1.5rem;
+  }
+
+  .attachments-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

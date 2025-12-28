@@ -1,0 +1,350 @@
+/* Error Fallback */
+.error-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--bg-primary, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.error-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 12px 0;
+}
+
+.error-message {
+  font-size: 0.9375rem;
+  color: var(--text-secondary, #6b7280);
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.error-component {
+  display: block;
+  font-weight: 500;
+  color: var(--danger, #ef4444);
+  margin-bottom: 4px;
+}
+
+.error-details {
+  width: 100%;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.error-details summary {
+  cursor: pointer;
+  font-size: 0.8125rem;
+  color: var(--text-secondary, #6b7280);
+  padding: 8px;
+}
+
+.error-stack {
+  background: var(--bg-secondary, #f3f4f6);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--danger, #ef4444);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.error-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.error-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.error-btn.retry {
+  background: var(--primary, #3b82f6);
+  color: white;
+}
+
+.error-btn.retry:hover {
+  background: var(--primary-dark, #2563eb);
+}
+
+.error-btn.reload {
+  background: var(--bg-secondary, #f3f4f6);
+  color: var(--text-primary, #1f2937);
+}
+
+.error-btn.reload:hover {
+  background: var(--bg-tertiary, #e5e7eb);
+}
+
+/* Inline Error */
+.inline-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--danger-bg, #fee2e2);
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+.inline-error-icon {
+  font-size: 1rem;
+}
+
+.inline-error-message {
+  flex: 1;
+  color: var(--danger-dark, #991b1b);
+}
+
+.inline-error-retry {
+  background: none;
+  border: none;
+  color: var(--danger, #ef4444);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Toast Error */
+.toast-error {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--danger, #ef4444);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3);
+  z-index: 9999;
+}
+
+.toast-icon {
+  font-size: 1.25rem;
+}
+
+.toast-message {
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.toast-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Network Error */
+.network-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.network-error-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.network-error h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 8px 0;
+}
+
+.network-error p {
+  font-size: 0.9375rem;
+  color: var(--text-secondary, #6b7280);
+  margin: 0 0 24px 0;
+}
+
+.network-error-btn {
+  padding: 12px 24px;
+  background: var(--primary, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.network-error-btn:hover {
+  background: var(--primary-dark, #2563eb);
+}
+
+/* Not Found */
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.not-found-code {
+  font-size: 6rem;
+  font-weight: 800;
+  color: var(--primary, #3b82f6);
+  line-height: 1;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.not-found-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 8px 0;
+}
+
+.not-found-desc {
+  font-size: 0.9375rem;
+  color: var(--text-secondary, #6b7280);
+  margin: 0 0 32px 0;
+  max-width: 400px;
+}
+
+.not-found-btn {
+  padding: 12px 24px;
+  background: var(--bg-secondary, #f3f4f6);
+  color: var(--text-primary, #1f2937);
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.not-found-btn:hover {
+  background: var(--bg-tertiary, #e5e7eb);
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 8px 0;
+}
+
+.empty-state-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #6b7280);
+  margin: 0 0 24px 0;
+  max-width: 300px;
+}
+
+.empty-state-btn {
+  padding: 10px 20px;
+  background: var(--primary, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.empty-state-btn:hover {
+  background: var(--primary-dark, #2563eb);
+}
+
+/* Dark Mode */
+[data-theme="dark"] .error-fallback {
+  background: var(--bg-secondary, #374151);
+}
+
+[data-theme="dark"] .error-stack {
+  background: var(--bg-tertiary, #4b5563);
+}
+
+[data-theme="dark"] .inline-error {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .error-fallback {
+    margin: 20px;
+    padding: 32px 20px;
+  }
+
+  .error-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .error-btn {
+    width: 100%;
+  }
+
+  .toast-error {
+    left: 16px;
+    right: 16px;
+    transform: none;
+  }
+
+  .not-found-code {
+    font-size: 4rem;
+  }
+}

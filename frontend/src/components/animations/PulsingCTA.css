@@ -1,0 +1,276 @@
+/* ============================================
+   PULSING CTA BUTTONS
+   ============================================ */
+
+.pulsing-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  isolation: isolate;
+}
+
+/* Sizes */
+.pulsing-btn--small { padding: 0.6rem 1.5rem; font-size: 0.9rem; }
+.pulsing-btn--medium { padding: 1rem 2.5rem; font-size: 1rem; }
+.pulsing-btn--large { padding: 1.2rem 3rem; font-size: 1.1rem; }
+
+/* Primary variant */
+.pulsing-btn--primary {
+  background: var(--cta-primary);
+  color: white;
+}
+
+.pulsing-btn--primary .pulsing-btn__bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  z-index: -2;
+}
+
+/* Secondary variant */
+.pulsing-btn--secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.pulsing-btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+/* Glow variant */
+.pulsing-btn--glow {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+/* Rainbow variant */
+.pulsing-btn--rainbow {
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #ff6b6b);
+  background-size: 200% 100%;
+  animation: rainbow-shift 3s linear infinite;
+  color: white;
+}
+
+@keyframes rainbow-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* Glow effect */
+.pulsing-btn__glow {
+  position: absolute;
+  inset: -2px;
+  background: inherit;
+  filter: blur(15px);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.pulsing-btn--glow:hover .pulsing-btn__glow {
+  opacity: 0.6;
+}
+
+/* Content */
+.pulsing-btn__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Pulse animation */
+.pulsing-btn__ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  animation: btn-pulse 2s ease-out infinite;
+}
+
+.pulsing-btn--primary .pulsing-btn__ripple {
+  background: rgba(56, 239, 125, 0.4);
+}
+
+.pulsing-btn--glow .pulsing-btn__ripple {
+  background: rgba(102, 126, 234, 0.4);
+}
+
+@keyframes btn-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   MAGNETIC BUTTON
+   ============================================ */
+
+.magnetic-btn {
+  position: relative;
+  padding: 1rem 2.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+}
+
+.magnetic-btn:hover {
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+}
+
+/* ============================================
+   SHINY BUTTON
+   ============================================ */
+
+.shiny-btn {
+  position: relative;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.shiny-btn__shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shine-sweep 3s ease-in-out infinite;
+}
+
+.shiny-btn__content {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes shine-sweep {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+/* ============================================
+   RAINBOW BUTTON
+   ============================================ */
+
+.rainbow-btn {
+  position: relative;
+  padding: 1rem 2.5rem;
+  background: transparent;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.rainbow-btn__bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd, #ff6b6b
+  );
+  background-size: 300% 100%;
+  animation: rainbow-flow 4s linear infinite;
+  border-radius: inherit;
+}
+
+.rainbow-btn__content {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes rainbow-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* ============================================
+   FLOATING ACTION BUTTON
+   ============================================ */
+
+.fab {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.fab--bottom-right { bottom: 2rem; right: 2rem; }
+.fab--bottom-left { bottom: 2rem; left: 2rem; }
+.fab--bottom-center { bottom: 2rem; left: 50%; transform: translateX(-50%); }
+
+.fab__pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  animation: fab-pulse 2s ease-out infinite;
+}
+
+.fab__content {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes fab-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pulsing-btn__ripple,
+  .shiny-btn__shine,
+  .rainbow-btn__bg,
+  .fab__pulse {
+    animation: none;
+  }
+}

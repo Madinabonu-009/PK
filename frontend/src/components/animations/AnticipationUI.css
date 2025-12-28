@@ -1,0 +1,82 @@
+/**
+ * 🧠 ANTICIPATION UI STYLES
+ * 
+ * Oldindan sezuvchi UI elementlar
+ * Yumshoq, sezilmas harakat
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   ANTICIPATION ELEMENT
+   ═══════════════════════════════════════════════════════════════ */
+.anticipation-element {
+  will-change: transform, opacity;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANTICIPATION LIST
+   ═══════════════════════════════════════════════════════════════ */
+.anticipation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.anticipation-list > * {
+  will-change: transform, opacity;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANTICIPATION BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+.anticipation-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(79, 195, 247, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.anticipation-button--approaching {
+  box-shadow: 0 6px 25px rgba(79, 195, 247, 0.4);
+}
+
+.anticipation-button__glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .anticipation-element,
+  .anticipation-list > *,
+  .anticipation-button {
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .anticipation-button__glow {
+    display: none;
+  }
+}

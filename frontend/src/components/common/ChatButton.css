@@ -1,0 +1,113 @@
+.chat-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color, #8b5cf6) 100%);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(var(--primary-rgb, 99, 102, 241), 0.4);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s;
+}
+
+.chat-fab:hover {
+  box-shadow: 0 12px 32px rgba(var(--primary-rgb, 99, 102, 241), 0.5);
+}
+
+.chat-fab-icon {
+  font-size: 28px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.chat-fab-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 14px;
+  height: 14px;
+  background: var(--error-color, #ef4444);
+  border-radius: 50%;
+  border: 3px solid var(--card-bg);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+.chat-fab-tooltip {
+  position: absolute;
+  right: 70px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.chat-fab-tooltip::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 6px solid var(--card-bg);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+}
+
+.chat-fab:hover .chat-fab-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Mobile - MobileBottomNav ustidan chiqmasligi uchun */
+@media (max-width: 768px) {
+  .chat-fab {
+    bottom: 100px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .chat-fab-icon {
+    font-size: 20px;
+  }
+  
+  .chat-fab-tooltip {
+    display: none;
+  }
+}
+
+/* Kichik telefonlar uchun */
+@media (max-width: 480px) {
+  .chat-fab {
+    bottom: 95px;
+    right: 12px;
+    width: 46px;
+    height: 46px;
+  }
+  
+  .chat-fab-icon {
+    font-size: 18px;
+  }
+}

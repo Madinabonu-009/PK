@@ -1,0 +1,168 @@
+/**
+ * 🎥 CINEMATIC SCENE TRANSITION STYLES
+ * 
+ * Kino sahnasi o'tishi
+ * Layerlar chuqurlik bilan harakatlanadi
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC CONTAINER
+   ═══════════════════════════════════════════════════════════════ */
+.cinematic-container {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC SCENE
+   ═══════════════════════════════════════════════════════════════ */
+.cinematic-scene {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC LAYER
+   ═══════════════════════════════════════════════════════════════ */
+.cinematic-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform, opacity, filter;
+}
+
+.cinematic-layer--background {
+  z-index: 1;
+}
+
+.cinematic-layer--middle {
+  z-index: 2;
+}
+
+.cinematic-layer--foreground {
+  z-index: 3;
+}
+
+.cinematic-layer--content {
+  position: relative;
+  z-index: 4;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC OVERLAY
+   ═══════════════════════════════════════════════════════════════ */
+.cinematic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.cinematic-overlay--fade {
+  background: black;
+}
+
+.cinematic-overlay--blur {
+  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC PAGE WRAPPER
+   ═══════════════════════════════════════════════════════════════ */
+.cinematic-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  transform-style: preserve-3d;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC CARD
+   ═══════════════════════════════════════════════════════════════ */
+.cinematic-card {
+  position: relative;
+  padding: 24px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  transform-style: preserve-3d;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.cinematic-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.cinematic-card--blue {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 3px solid #4fc3f7;
+}
+
+.cinematic-card--green {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border: 3px solid #81c784;
+}
+
+.cinematic-card--yellow {
+  background: linear-gradient(135deg, #fffde7 0%, #fff9c4 100%);
+  border: 3px solid #ffd54f;
+}
+
+.cinematic-card--pink {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+  border: 3px solid #f48fb1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-container,
+  .cinematic-scene,
+  .cinematic-layer,
+  .cinematic-page,
+  .cinematic-card {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .cinematic-overlay {
+    display: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .cinematic-container {
+    perspective: 500px;
+  }
+  
+  .cinematic-card {
+    padding: 20px;
+  }
+}

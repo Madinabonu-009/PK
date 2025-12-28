@@ -1,0 +1,309 @@
+[
+  {
+    "id": "c1",
+    "firstName": "Ali",
+    "lastName": "Karimov",
+    "birthDate": "2020-03-15",
+    "gender": "male",
+    "groupId": "g1",
+    "groupName": "Quyoshlar",
+    "parentName": "Karim Karimov",
+    "parentPhone": "+998901234568",
+    "allergies": [],
+    "notes": null,
+    "points": 250,
+    "level": 3,
+    "achievements": [
+      {
+        "achievementId": "a1",
+        "earnedAt": "2024-10-01"
+      },
+      {
+        "achievementId": "a2",
+        "earnedAt": "2024-11-15"
+      }
+    ],
+    "isActive": true,
+    "enrolledAt": "2024-09-01T00:00:00.000Z",
+    "updatedAt": "2025-12-27T09:42:46.659Z"
+  },
+  {
+    "id": "c2",
+    "firstName": "Malika",
+    "lastName": "Rahimova",
+    "birthDate": "2019-07-22",
+    "gender": "female",
+    "groupId": "g2",
+    "groupName": "Yulduzlar",
+    "parentName": "Rahim Rahimov",
+    "parentPhone": "+998901234568",
+    "allergies": [
+      "sut"
+    ],
+    "notes": "Sut mahsulotlariga allergiyasi bor",
+    "points": 180,
+    "level": 2,
+    "achievements": [
+      {
+        "achievementId": "a1",
+        "earnedAt": "2024-10-15"
+      }
+    ],
+    "isActive": true,
+    "enrolledAt": "2024-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "c3",
+    "firstName": "Jasur",
+    "lastName": "Toshmatov",
+    "birthDate": "2021-01-10",
+    "gender": "male",
+    "groupId": "g1",
+    "groupName": "Quyoshlar",
+    "parentName": "Toshmat Toshmatov",
+    "parentPhone": "+998901234569",
+    "allergies": [],
+    "notes": "",
+    "points": 75,
+    "level": 1,
+    "achievements": [],
+    "isActive": true,
+    "enrolledAt": "2024-09-15T00:00:00.000Z"
+  },
+  {
+    "id": "c4",
+    "firstName": "Nilufar",
+    "lastName": "Azimova",
+    "birthDate": "2020-05-20",
+    "gender": "female",
+    "groupId": "g1",
+    "groupName": "Quyoshlar",
+    "parentName": "Azim Azimov",
+    "parentPhone": "+998901234570",
+    "allergies": [],
+    "notes": "",
+    "points": 320,
+    "level": 4,
+    "achievements": [
+      {
+        "achievementId": "a1",
+        "earnedAt": "2024-09-20"
+      },
+      {
+        "achievementId": "a2",
+        "earnedAt": "2024-10-10"
+      },
+      {
+        "achievementId": "a3",
+        "earnedAt": "2024-11-05"
+      }
+    ],
+    "isActive": true,
+    "enrolledAt": "2024-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "c5",
+    "firstName": "Sardor",
+    "lastName": "Qodirov",
+    "birthDate": "2019-11-08",
+    "gender": "male",
+    "groupId": "g2",
+    "groupName": "Yulduzlar",
+    "parentName": "Qodir Qodirov",
+    "parentPhone": "+998901234571",
+    "allergies": [
+      "gluten"
+    ],
+    "notes": "Gluten allergiyasi",
+    "points": 420,
+    "level": 5,
+    "achievements": [
+      {
+        "achievementId": "a1",
+        "earnedAt": "2024-09-15"
+      },
+      {
+        "achievementId": "a2",
+        "earnedAt": "2024-10-01"
+      },
+      {
+        "achievementId": "a3",
+        "earnedAt": "2024-10-20"
+      },
+      {
+        "achievementId": "a4",
+        "earnedAt": "2024-11-10"
+      }
+    ],
+    "isActive": true,
+    "enrolledAt": "2024-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "c6",
+    "firstName": "Zarina",
+    "lastName": "Bekmurodova",
+    "birthDate": "2020-08-12",
+    "gender": "female",
+    "groupId": "g1",
+    "groupName": "Quyoshlar",
+    "parentName": "Bekmurod Bekmurodov",
+    "parentPhone": "+998901234572",
+    "allergies": [],
+    "notes": "",
+    "points": 165,
+    "level": 2,
+    "achievements": [
+      {
+        "achievementId": "a1",
+        "earnedAt": "2024-11-01"
+      },
+      {
+        "achievementId": "artist",
+        "earnedAt": "2025-12-19T04:51:14.257Z",
+        "awardedBy": "itsme"
+      }
+    ],
+    "isActive": true,
+    "enrolledAt": "2024-09-10T00:00:00.000Z"
+  },
+  {
+    "id": "c7",
+    "firstName": "Bobur",
+    "lastName": "Saidov",
+    "birthDate": "2021-02-25",
+    "gender": "male",
+    "groupId": "g1",
+    "groupName": "Quyoshlar",
+    "parentName": "Said Saidov",
+    "parentPhone": "+998901234573",
+    "allergies": [],
+    "notes": "",
+    "points": 95,
+    "level": 1,
+    "achievements": [],
+    "isActive": true,
+    "enrolledAt": "2024-10-01T00:00:00.000Z"
+  },
+  {
+    "id": "c8",
+    "firstName": "Madina",
+    "lastName": "Xolmatova",
+    "birthDate": "2019-04-18",
+    "gender": "female",
+    "groupId": "g2",
+    "groupName": "Yulduzlar",
+    "parentName": "Xolmat Xolmatov",
+    "parentPhone": "+998901234574",
+    "allergies": [],
+    "notes": "",
+    "points": 280,
+    "level": 3,
+    "achievements": [
+      {
+        "achievementId": "a1",
+        "earnedAt": "2024-09-25"
+      },
+      {
+        "achievementId": "a2",
+        "earnedAt": "2024-10-30"
+      }
+    ],
+    "isActive": true,
+    "enrolledAt": "2024-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "226ac247-1ad5-4789-9f07-223c071b1b35",
+    "firstName": "Nozanin",
+    "lastName": "Karimova",
+    "birthDate": "2023-01-31",
+    "gender": "female",
+    "groupId": "g1",
+    "groupName": "Quyoshlar",
+    "parentName": "Karim Karimov",
+    "parentPhone": "+998910821404",
+    "parentEmail": "boymurodovamadinabonuf9@gmail.com",
+    "allergies": [],
+    "notes": "",
+    "points": 0,
+    "level": 1,
+    "achievements": [],
+    "isActive": true,
+    "enrolledAt": "2025-12-18T17:23:02.514Z"
+  },
+  {
+    "id": "6f757865-8211-4808-9a10-170599695eb5",
+    "firstName": "Boymurod",
+    "lastName": "Toshmatov",
+    "birthDate": "2021-02-26",
+    "gender": "male",
+    "groupId": "g1",
+    "groupName": "Quyoshlar",
+    "parentName": "Toshmat Boymurodov",
+    "parentPhone": "+998945140949",
+    "parentEmail": "boymurodovamadinabonuf9@gmail.com",
+    "allergies": [
+      "sut"
+    ],
+    "notes": "Sut allergiyasi",
+    "points": 0,
+    "level": 1,
+    "achievements": [],
+    "isActive": true,
+    "enrolledAt": "2025-12-18T17:23:07.896Z",
+    "updatedAt": "2025-12-20T04:51:41.088Z"
+  },
+  {
+    "id": "c245a724-a675-4cb3-9589-9153ef6e0acb",
+    "firstName": "Madinabonu",
+    "lastName": "Boymurodova",
+    "birthDate": "2022-02-08",
+    "gender": "female",
+    "groupId": "g3",
+    "groupName": "Oylar",
+    "parentName": "Raximova Laylo",
+    "parentPhone": "+998905140949",
+    "allergies": [],
+    "notes": "",
+    "points": 0,
+    "level": 1,
+    "achievements": [],
+    "isActive": true,
+    "enrolledAt": "2025-12-18T17:25:30.691Z",
+    "updatedAt": "2025-12-18T17:32:23.677Z"
+  },
+  {
+    "id": "c03f4ef1-3c14-4350-bc2d-51ccf6e301b9",
+    "firstName": "Firdavs",
+    "lastName": "Boymurodov",
+    "birthDate": "2022-02-11",
+    "parentName": "Ro'ziyev Mustafo",
+    "parentPhone": "+998945140949",
+    "parentEmail": "boymurodovamadinabonuf9@gmail.com",
+    "groupId": "g3",
+    "allergies": [],
+    "notes": "",
+    "points": 0,
+    "level": 1,
+    "achievements": [],
+    "isActive": true,
+    "enrolledAt": "2025-12-20T04:53:50.994Z",
+    "updatedAt": "2025-12-20T04:54:24.181Z"
+  },
+  {
+    "id": "7141444d-d6be-4896-b9b6-7ed5eeef2268",
+    "firstName": "Asadbek",
+    "lastName": "Jalilov",
+    "birthDate": "2022-10-17",
+    "parentName": "Azim Akmalov",
+    "parentPhone": "+998911234567",
+    "parentEmail": "boymurodovamadinabonuf9@gmail.com",
+    "groupId": null,
+    "allergies": [],
+    "notes": "",
+    "points": 0,
+    "level": 1,
+    "achievements": [],
+    "isActive": true,
+    "enrolledAt": "2025-12-26T10:22:06.994Z"
+  }
+]

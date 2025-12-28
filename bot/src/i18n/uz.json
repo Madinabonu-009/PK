@@ -1,0 +1,62 @@
+{
+  "welcome": "👋 Assalomu alaykum!\n\n🏫 *Play Kids Bog'chasi*ga xush kelibsiz!\n\nBotdan foydalanish uchun ro'yxatdan o'ting.",
+  "welcome_back": "👋 Xush kelibsiz, {name}!\n\nQuyidagi tugmalardan birini tanlang:",
+  
+  "register_start": "📝 *Ro'yxatdan o'tish*\n\nIltimos, quyidagi ma'lumotlarni kiriting.",
+  "enter_parent_firstname": "👤 Ismingizni kiriting:",
+  "enter_parent_lastname": "👤 Familiyangizni kiriting:",
+  "enter_child_firstname": "👶 Bolangiz ismini kiriting:",
+  "enter_child_lastname": "👶 Bolangiz familiyasini kiriting:",
+  "enter_phone": "📱 Telefon raqamingizni kiriting yoki ulashing:",
+  "share_phone": "📱 Telefon raqamni ulashish",
+  
+  "invalid_name": "❌ Ism noto'g'ri. Faqat harflar kiriting (kamida 2 ta).",
+  "invalid_phone": "❌ Telefon raqam noto'g'ri. Masalan: +998901234567",
+  
+  "confirm_data": "✅ *Ma'lumotlaringizni tasdiqlang:*\n\n👤 Ota-ona: {parentName}\n👶 Bola: {childName}\n📱 Telefon: {phone}\n\nTo'g'rimi?",
+  "registration_success": "🎉 *Tabriklaymiz!*\n\nSiz muvaffaqiyatli ro'yxatdan o'tdingiz.\n\nEndi har kuni:\n🍽️ 07:30 - Bugungi menyu\n📋 17:00 - Kunlik hisobot\n\nxabarlari keladi.",
+  "registration_cancelled": "❌ Ro'yxatdan o'tish bekor qilindi.\n\nQayta boshlash uchun /start bosing.",
+  
+  "main_menu": "🏠 *Asosiy menyu*",
+  "btn_today_menu": "🍽️ Bugungi menyu",
+  "btn_my_child": "👶 Bolam haqida",
+  "btn_attendance": "📊 Davomat",
+  "btn_payments": "💰 To'lovlar",
+  "btn_daily_report": "📋 Kunlik hisobot",
+  "btn_settings": "⚙️ Sozlamalar",
+  "btn_contact": "📞 Bog'lanish",
+  "btn_back": "⬅️ Orqaga",
+  "btn_confirm": "✅ Tasdiqlash",
+  "btn_cancel": "❌ Bekor qilish",
+  "btn_register": "📝 Ro'yxatdan o'tish",
+  
+  "no_menu": "📭 Bugungi menyu hali kiritilmagan.",
+  "no_child": "👶 Bolangiz haqida ma'lumot topilmadi.\n\nAdmin bilan bog'laning.",
+  "no_attendance": "📊 Davomat ma'lumotlari topilmadi.",
+  "no_payments": "💰 To'lov ma'lumotlari topilmadi.",
+  "no_report": "📋 Bugungi hisobot hali yozilmagan.",
+  
+  "child_info": "👶 *Bola ma'lumotlari*\n\n👤 Ism: {name}\n👥 Guruh: {group}\n📅 Yoshi: {age}",
+  "attendance_info": "📊 *Davomat*\n\n✅ Kelgan: {present} kun\n❌ Kelmagan: {absent} kun\n📅 Jami: {total} kun",
+  "payment_info": "💰 *To'lovlar*\n\n✅ To'langan: {paid} so'm\n⏳ Kutilmoqda: {pending} so'm\n❌ Qarz: {debt} so'm",
+  
+  "settings_menu": "⚙️ *Sozlamalar*",
+  "btn_edit_info": "✏️ Ma'lumotlarni o'zgartirish",
+  "btn_notifications": "🔔 Bildirishnomalar",
+  "btn_language": "🌐 Til",
+  
+  "contact_info": "📞 *Bog'lanish*\n\n🏫 Play Kids Bog'chasi\n📍 G'ijduvon, Abdulla Qahhor MFY\n📱 +998 XX XXX XX XX\n\n⏰ Ish vaqti: 07:00 - 18:00",
+  
+  "error": "❌ Xatolik yuz berdi. Qayta urinib ko'ring.",
+  "loading": "⏳ Yuklanmoqda...",
+  
+  "days": {
+    "monday": "Dushanba",
+    "tuesday": "Seshanba", 
+    "wednesday": "Chorshanba",
+    "thursday": "Payshanba",
+    "friday": "Juma",
+    "saturday": "Shanba",
+    "sunday": "Yakshanba"
+  }
+}

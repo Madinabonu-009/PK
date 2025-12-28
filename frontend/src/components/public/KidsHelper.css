@@ -1,0 +1,458 @@
+/* ============================================
+   🐼 KIDS HELPER - Floating Assistant
+   Fun and Interactive Helper for Children
+   Cartoon-style, jonli, bolalar uchun
+   ============================================ */
+
+.kids-helper-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/* ============================================
+   HELPER BUTTON - Cartoon style
+   ============================================ */
+.kids-helper-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 4px solid white;
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 50%, #03a9f4 100%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 
+    0 8px 0 #0288d1,
+    0 12px 32px rgba(79, 195, 247, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: helperBounce 2s ease-in-out infinite;
+}
+
+@keyframes helperBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.kids-helper-btn:hover {
+  animation: none;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 12px 0 #0288d1,
+    0 16px 40px rgba(79, 195, 247, 0.5),
+    0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.kids-helper-btn:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 4px 0 #0288d1,
+    0 8px 24px rgba(79, 195, 247, 0.3);
+}
+
+.kids-helper-btn.open {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 50%, #e53935 100%);
+  box-shadow: 
+    0 8px 0 #c62828,
+    0 12px 32px rgba(255, 107, 107, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: none;
+}
+
+.helper-icon {
+  font-size: 2.2rem;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Pulsing Rings - Cartoon style */
+.helper-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 4px solid rgba(79, 195, 247, 0.5);
+  animation: pulse-ring 2.5s ease-out infinite;
+}
+
+.helper-ring.delay {
+  animation-delay: 0.8s;
+  border-color: rgba(129, 199, 132, 0.4);
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.kids-helper-btn.open .helper-ring {
+  display: none;
+}
+
+/* ============================================
+   WELCOME BUBBLE - Cartoon style
+   ============================================ */
+.helper-welcome-bubble {
+  position: absolute;
+  bottom: 90px;
+  right: 0;
+  background: linear-gradient(135deg, #fff9c4 0%, #ffecb3 100%);
+  padding: 14px 20px;
+  border-radius: 24px;
+  border: 3px solid #ffd54f;
+  box-shadow: 
+    0 6px 0 #f9a825,
+    0 10px 32px rgba(255, 213, 79, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  animation: bubbleFloat 3s ease-in-out infinite;
+}
+
+@keyframes bubbleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.welcome-emoji {
+  font-size: 1.6rem;
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(25deg) scale(1.1); }
+  75% { transform: rotate(-15deg) scale(1.05); }
+}
+
+.welcome-text {
+  font-family: 'Nunito', 'Comic Sans MS', cursive, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f57f17;
+}
+
+.bubble-arrow {
+  position: absolute;
+  bottom: -10px;
+  right: 30px;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #ffecb3 0%, #ffe082 100%);
+  border-right: 3px solid #ffd54f;
+  border-bottom: 3px solid #ffd54f;
+  transform: rotate(45deg);
+}
+
+/* ============================================
+   HELPER PANEL - Cartoon style
+   ============================================ */
+.helper-panel {
+  position: absolute;
+  bottom: 90px;
+  right: 0;
+  width: 340px;
+  background: white;
+  border-radius: 28px;
+  border: 4px solid #4fc3f7;
+  box-shadow: 
+    0 8px 0 #0288d1,
+    0 20px 60px rgba(79, 195, 247, 0.25),
+    0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.helper-panel-header {
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 50%, #03a9f4 100%);
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.helper-title {
+  font-family: 'Nunito', 'Comic Sans MS', cursive, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.helper-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid white;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.helper-close:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.15) rotate(90deg);
+}
+
+.helper-panel-content {
+  padding: 22px;
+}
+
+/* Tip Display - Cartoon style */
+.helper-tip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 20px;
+  border: 3px solid #90caf9;
+  margin-bottom: 18px;
+}
+
+.tip-emoji {
+  font-size: 2.4rem;
+  flex-shrink: 0;
+  animation: tipBounce 2s ease-in-out infinite;
+}
+
+@keyframes tipBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.tip-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  color: #1565c0;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Quick Links - Cartoon buttons */
+.helper-quick-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.quick-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  background: linear-gradient(135deg, #fff9c4 0%, #ffecb3 100%);
+  border: 3px solid #ffd54f;
+  border-radius: 18px;
+  text-decoration: none;
+  box-shadow: 0 4px 0 #f9a825;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quick-link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 0 #f9a825, 0 12px 24px rgba(255, 213, 79, 0.3);
+}
+
+.quick-link:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #f9a825;
+}
+
+.quick-link span:first-child {
+  font-size: 1.8rem;
+}
+
+.quick-link span:last-child {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f57f17;
+}
+
+/* Dots Navigation - Cartoon style */
+.helper-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 22px 22px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  border: 2px solid #bdbdbd;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dot:hover {
+  background: #90caf9;
+  border-color: #42a5f5;
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  border-color: #0288d1;
+  width: 28px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(79, 195, 247, 0.4);
+}
+
+/* ============================================
+   RESPONSIVE - Mobile friendly
+   ============================================ */
+@media (max-width: 480px) {
+  .kids-helper-container {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .kids-helper-btn {
+    width: 64px;
+    height: 64px;
+  }
+
+  .helper-icon {
+    font-size: 1.9rem;
+  }
+
+  .helper-panel {
+    width: calc(100vw - 32px);
+    right: 0;
+    bottom: 80px;
+  }
+
+  .helper-welcome-bubble {
+    right: 0;
+    bottom: 80px;
+  }
+  
+  .quick-link span:first-child {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   DARK MODE - Cartoon style preserved
+   ============================================ */
+[data-theme="dark"] .helper-welcome-bubble {
+  background: linear-gradient(135deg, #37474f 0%, #263238 100%);
+  border-color: #546e7a;
+  box-shadow: 
+    0 6px 0 #1c313a,
+    0 10px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .helper-panel {
+  background: #263238;
+  border-color: #546e7a;
+  box-shadow: 
+    0 8px 0 #1c313a,
+    0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .welcome-text {
+  color: #ffd54f;
+}
+
+[data-theme="dark"] .bubble-arrow {
+  background: linear-gradient(135deg, #263238 0%, #37474f 100%);
+  border-color: #546e7a;
+}
+
+[data-theme="dark"] .helper-tip {
+  background: linear-gradient(135deg, rgba(79, 195, 247, 0.15) 0%, rgba(41, 182, 246, 0.15) 100%);
+  border-color: #546e7a;
+}
+
+[data-theme="dark"] .tip-text {
+  color: #90caf9;
+}
+
+[data-theme="dark"] .quick-link {
+  background: linear-gradient(135deg, #37474f 0%, #455a64 100%);
+  border-color: #546e7a;
+  box-shadow: 0 4px 0 #1c313a;
+}
+
+[data-theme="dark"] .quick-link:hover {
+  box-shadow: 0 8px 0 #1c313a, 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .quick-link span:last-child {
+  color: #ffd54f;
+}
+
+[data-theme="dark"] .dot {
+  background: #455a64;
+  border-color: #546e7a;
+}
+
+[data-theme="dark"] .dot:hover {
+  background: #546e7a;
+  border-color: #78909c;
+}
+
+[data-theme="dark"] .dot.active {
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  border-color: #0288d1;
+}
+
+/* ============================================
+   ACCESSIBILITY - Safe animations
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .helper-ring,
+  .welcome-emoji,
+  .tip-emoji,
+  .kids-helper-btn {
+    animation: none !important;
+  }
+
+  .kids-helper-btn,
+  .helper-panel,
+  .helper-welcome-bubble,
+  .quick-link,
+  .helper-close,
+  .dot {
+    transition: opacity 0.2s ease, background-color 0.2s ease !important;
+  }
+  
+  .kids-helper-btn:hover,
+  .quick-link:hover {
+    transform: none !important;
+  }
+}
+
+.kids-helper-btn:focus-visible,
+.helper-close:focus-visible,
+.quick-link:focus-visible,
+.dot:focus-visible {
+  outline: 4px solid rgba(79, 195, 247, 0.6);
+  outline-offset: 3px;
+}

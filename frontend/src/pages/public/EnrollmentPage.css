@@ -1,0 +1,188 @@
+.enrollment-page {
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.enrollment-hero {
+  background: var(--gradient-primary);
+  color: var(--text-inverse);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.enrollment-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.enrollment-hero p {
+  font-size: 1.125rem;
+  opacity: 0.9;
+}
+
+/* Content Section */
+.enrollment-content {
+  padding: 3rem 0;
+  background-color: var(--bg-secondary);
+}
+
+.enrollment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Info Section */
+.enrollment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.enrollment-info h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.benefits-list li {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.benefits-list li:last-child {
+  margin-bottom: 0;
+}
+
+.benefit-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.benefits-list strong {
+  display: block;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.benefits-list p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Process Card */
+.process-card h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.process-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.process-list li {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.process-list li:last-child {
+  margin-bottom: 0;
+}
+
+.process-list li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 36px;
+  width: 2px;
+  height: calc(100% - 10px);
+  background-color: var(--border-color);
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  background: var(--gradient-primary);
+  color: var(--text-inverse);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.process-list strong {
+  display: block;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.process-list p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Form Section */
+.enrollment-form-section .card-header {
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.enrollment-form-section .card-header h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.enrollment-form-section .card-header p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .enrollment-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .enrollment-info {
+    order: 2;
+  }
+  
+  .enrollment-form-section {
+    order: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .enrollment-hero {
+    padding: 3rem 0;
+  }
+  
+  .enrollment-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .enrollment-content {
+    padding: 2rem 0;
+  }
+}

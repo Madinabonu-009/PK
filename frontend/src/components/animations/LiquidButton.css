@@ -1,0 +1,156 @@
+.liquid-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.2s;
+}
+
+/* Sizes */
+.liquid-button.small {
+  padding: 10px 24px;
+  font-size: 14px;
+}
+
+.liquid-button.large {
+  padding: 18px 40px;
+  font-size: 18px;
+}
+
+/* Variants */
+.liquid-button.primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color, #8b5cf6) 100%);
+  color: white;
+}
+
+.liquid-button.secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+}
+
+.liquid-button.success {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+}
+
+.liquid-button.danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.liquid-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Liquid Blob */
+.liquid-blob {
+  position: absolute;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.blob-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.blob-svg path {
+  fill: currentColor;
+  opacity: 0.5;
+}
+
+.liquid-button.primary .blob-svg path {
+  fill: white;
+}
+
+/* Glow */
+.liquid-glow {
+  position: absolute;
+  inset: -20px;
+  background: inherit;
+  filter: blur(30px);
+  opacity: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Ripple */
+.liquid-ripple {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Content */
+.liquid-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Shine */
+.liquid-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+/* Hover effects */
+.liquid-button:hover {
+  transform: translateY(-2px);
+}
+
+.liquid-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Focus */
+.liquid-button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .liquid-button.secondary {
+  background: var(--card-bg);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-button,
+  .liquid-blob,
+  .liquid-glow,
+  .liquid-shine {
+    transition: none !important;
+    animation: none !important;
+  }
+}

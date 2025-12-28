@@ -1,0 +1,575 @@
+/* FeeCalculator.css - To'lov hisoblagich stillari */
+
+.fee-calculator {
+  background: var(--bg-primary, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Header */
+.fee-calculator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+}
+
+.fee-header-title h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.fee-header-title p {
+  margin: 4px 0 0;
+  opacity: 0.9;
+  font-size: 0.875rem;
+}
+
+.fee-header-controls {
+  display: flex;
+  gap: 16px;
+}
+
+.month-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.month-selector label {
+  font-size: 0.875rem;
+}
+
+.month-selector input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 0.875rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.month-selector input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+/* Fee Structure Section */
+.fee-structure-section {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  color: var(--text-primary, #1f2937);
+}
+
+.add-fee-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-fee-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Fee Items */
+.fee-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fee-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-secondary, #f9fafb);
+  border-radius: 10px;
+  border: 1px solid var(--border-color, #e5e7eb);
+}
+
+.fee-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.fee-item-info {
+  flex: 1;
+}
+
+.fee-item-label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+}
+
+.fee-item-desc {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #6b7280);
+  margin-top: 2px;
+}
+
+.fee-item-amount {
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+}
+
+.fee-amount-input {
+  width: 120px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: right;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.fee-amount-input:focus {
+  border-color: #6366f1;
+}
+
+.discount-amount {
+  color: #ef4444;
+}
+
+.fee-item-remove {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.fee-item-remove:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Add Fee Modal */
+.add-fee-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.add-fee-modal {
+  background: var(--bg-primary, #ffffff);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.add-fee-modal h3 {
+  margin: 0 0 20px;
+  font-size: 1.25rem;
+  color: var(--text-primary, #1f2937);
+}
+
+.add-fee-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary, #1f2937);
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6366f1;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-btn.cancel {
+  background: var(--bg-secondary, #f3f4f6);
+  color: var(--text-secondary, #6b7280);
+}
+
+.modal-btn.confirm {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+}
+
+.modal-btn.confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Summary Stats */
+.fee-summary-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg-secondary, #f9fafb);
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-primary, #ffffff);
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+}
+
+.stat-icon {
+  font-size: 1.5rem;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+
+/* Children Section */
+.fee-children-section {
+  padding: 24px;
+}
+
+.children-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.children-search {
+  padding: 8px 16px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  outline: none;
+  width: 200px;
+}
+
+.children-search:focus {
+  border-color: #6366f1;
+}
+
+.select-all-btn {
+  padding: 8px 16px;
+  background: var(--bg-secondary, #f3f4f6);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.select-all-btn:hover {
+  background: var(--bg-tertiary, #e5e7eb);
+}
+
+.bulk-generate-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bulk-generate-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+/* Children Fee List */
+.children-fee-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.child-fee-card {
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.child-fee-card:hover {
+  border-color: var(--border-color, #e5e7eb);
+}
+
+.child-fee-card.selected {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.05);
+}
+
+/* Child Fee Summary */
+.child-fee-summary {
+  background: var(--bg-primary, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.fee-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: var(--bg-secondary, #f9fafb);
+}
+
+.fee-child-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fee-child-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  overflow: hidden;
+}
+
+.fee-child-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fee-child-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary, #1f2937);
+}
+
+.fee-child-group {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+.fee-summary-total {
+  text-align: right;
+}
+
+.total-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+.total-amount {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #6366f1;
+}
+
+/* Breakdown */
+.fee-summary-breakdown {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.875rem;
+  color: var(--text-primary, #1f2937);
+}
+
+.breakdown-row.discount {
+  color: #ef4444;
+}
+
+/* Attendance Info */
+.fee-attendance-info {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 16px;
+  background: var(--bg-secondary, #f9fafb);
+}
+
+.attendance-stat {
+  text-align: center;
+}
+
+.attendance-stat .stat-value {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+}
+
+.attendance-stat .stat-label {
+  display: block;
+  font-size: 0.625rem;
+  color: var(--text-secondary, #6b7280);
+  text-transform: uppercase;
+}
+
+/* Calculate Button */
+.fee-calculate-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fee-calculate-btn:hover {
+  filter: brightness(1.1);
+}
+
+/* Dark Mode */
+[data-theme="dark"] .fee-calculator {
+  background: var(--bg-primary, #1f2937);
+}
+
+[data-theme="dark"] .fee-item {
+  background: var(--bg-secondary, #111827);
+}
+
+[data-theme="dark"] .add-fee-modal {
+  background: var(--bg-primary, #1f2937);
+}
+
+[data-theme="dark"] .child-fee-summary {
+  background: var(--bg-secondary, #111827);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .fee-calculator-header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .fee-summary-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .children-controls {
+    flex-wrap: wrap;
+  }
+
+  .children-search {
+    width: 100%;
+  }
+
+  .children-fee-list {
+    grid-template-columns: 1fr;
+  }
+}

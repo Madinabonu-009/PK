@@ -1,0 +1,78 @@
+{
+  "welcome": "👋 Hello! Welcome to Play Kids kindergarten!",
+  "choose_role": "Please select your role:",
+  "role_parent": "👨‍👩‍👧 Parent",
+  "role_admin": "👑 Admin",
+  
+  "enter_phone": "📱 Send your phone number:",
+  "share_phone": "📱 Share phone number",
+  "phone_not_found": "❌ This number is not found in the system. Contact admin.",
+  "auth_success": "✅ Successfully logged in!",
+  
+  "main_menu": "🏠 Main menu",
+  "back": "⬅️ Back",
+  "settings": "⚙️ Settings",
+  "change_lang": "🌐 Change language",
+  "logout": "🚪 Logout",
+  
+  "parent_menu": "👨‍👩‍👧 Parent menu",
+  "my_child": "👶 About my child",
+  "today_menu": "🍽️ Today's menu",
+  "attendance": "📊 Attendance",
+  "daily_report": "📋 Daily report",
+  "payments": "💰 Payments",
+  "contact_teacher": "💬 Contact teacher",
+  "announcements": "📢 Announcements",
+  
+  "admin_menu": "👑 Admin menu",
+  "statistics": "📊 Statistics",
+  "all_groups": "👥 All groups",
+  "all_children": "👶 All children",
+  "enrollments": "📋 Enrollments",
+  "send_broadcast": "📢 Broadcast message",
+  "manage_menu": "🍽️ Manage menu",
+  
+  "no_data": "📭 No data found",
+  "loading": "⏳ Loading...",
+  "error": "❌ An error occurred",
+  "success": "✅ Success!",
+  
+  "child_info": "👶 Child information",
+  "child_name": "Name",
+  "child_group": "Group",
+  "child_age": "Age",
+  
+  "menu_breakfast": "🥣 Breakfast",
+  "menu_lunch": "🍲 Lunch",
+  "menu_snack": "🥛 Snack",
+  
+  "attendance_present": "✅ Present",
+  "attendance_absent": "❌ Absent",
+  "attendance_late": "⏰ Late",
+  
+  "select_child": "👶 Select child:",
+  "select_date": "📅 Select date:",
+  "confirm": "✅ Confirm",
+  "cancel": "❌ Cancel",
+  
+  "report_mood": "😊 Mood",
+  "report_meals": "🍽️ Meals",
+  "report_sleep": "😴 Sleep",
+  "report_activities": "🎨 Activities",
+  "report_notes": "📝 Notes",
+  
+  "payment_status": "💰 Payment status",
+  "payment_paid": "✅ Paid",
+  "payment_pending": "⏳ Pending",
+  "payment_overdue": "❌ Overdue",
+  
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  }
+}

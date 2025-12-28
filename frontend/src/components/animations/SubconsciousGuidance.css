@@ -1,0 +1,69 @@
+/* 🧠 Subconscious Guidance Styles */
+
+/* Breathing CTA */
+.breathing-cta {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background: var(--gradient-primary);
+  color: var(--text-inverse);
+  will-change: transform, box-shadow;
+}
+
+/* Attention Magnet */
+.attention-magnet {
+  will-change: transform;
+}
+
+/* Glow Pulse */
+.glow-pulse {
+  border-radius: 12px;
+  will-change: box-shadow;
+}
+
+/* Subtle Arrow */
+.subtle-arrow {
+  display: inline-block;
+  font-size: 1.5rem;
+  opacity: 0.6;
+  will-change: transform;
+}
+
+/* Focus Guide */
+.focus-guide {
+  border-radius: 8px;
+  will-change: outline, outline-offset;
+}
+
+/* Scroll Hint */
+.scroll-hint {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.scroll-hint-icon {
+  font-size: 1.5rem;
+}
+
+.scroll-hint-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Micro Nudge */
+.micro-nudge {
+  will-change: transform;
+}

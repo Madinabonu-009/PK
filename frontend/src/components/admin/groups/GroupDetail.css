@@ -1,0 +1,370 @@
+.group-detail {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.group-detail__header {
+  padding: 24px;
+  border-bottom: 3px solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.group-detail__info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.group-detail__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.group-detail__name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.group-detail__meta {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.group-detail__capacity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.group-detail__capacity-bar {
+  width: 120px;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.group-detail__capacity-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.group-detail__capacity-fill--normal {
+  background: #22c55e;
+}
+
+.group-detail__capacity-fill--warning {
+  background: #f59e0b;
+}
+
+.group-detail__capacity-fill--full {
+  background: #ef4444;
+}
+
+.group-detail__capacity-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.group-detail__teachers {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.group-detail__section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.group-detail__teachers-list {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.group-detail__teacher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+}
+
+.group-detail__teacher-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.group-detail__teacher-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-detail__teacher-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.group-detail__teacher-role {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.group-detail__tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.group-detail__tab {
+  flex: 1;
+  padding: 16px;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.group-detail__tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.group-detail__tab--active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.group-detail__children {
+  padding: 24px;
+}
+
+.group-detail__children-header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.group-detail__search {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.group-detail__search:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.group-detail__add-btn {
+  padding: 10px 20px;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.group-detail__add-btn:hover {
+  background: var(--primary-hover);
+}
+
+.group-detail__children-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.group-detail__child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.group-detail__child:hover {
+  background: var(--bg-tertiary);
+}
+
+.group-detail__child-photo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.group-detail__child-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.group-detail__child-name {
+  display: block;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-detail__child-age {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.group-detail__child-actions {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.group-detail__child:hover .group-detail__child-actions {
+  opacity: 1;
+}
+
+.group-detail__child-action {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.group-detail__child-action:hover {
+  background: #fee2e2;
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+.group-detail__empty {
+  text-align: center;
+  padding: 48px;
+  color: var(--text-secondary);
+}
+
+.group-detail__schedule {
+  padding: 24px;
+}
+
+.group-detail__schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.group-detail__schedule-header h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.group-detail__edit-btn {
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.group-detail__schedule-grid {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.group-detail__schedule-times {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.group-detail__schedule-corner {
+  height: 40px;
+}
+
+.group-detail__schedule-time {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  padding-right: 8px;
+}
+
+.group-detail__schedule-day {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 100px;
+}
+
+.group-detail__schedule-day-name {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border-radius: 6px;
+}
+
+.group-detail__schedule-cell {
+  height: 40px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+}
+
+.group-detail__schedule-cell--filled {
+  font-weight: 500;
+  color: var(--text-primary);
+}

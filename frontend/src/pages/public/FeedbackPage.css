@@ -1,0 +1,211 @@
+.feedback-page {
+  min-height: 100vh;
+}
+
+.feedback-hero {
+  background: var(--gradient-primary);
+  color: var(--text-inverse);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.feedback-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.feedback-stats {
+  padding: 2rem 0;
+  background: var(--bg-secondary);
+}
+
+.stats-card {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.stat-stars {
+  display: block;
+  color: var(--warning-color);
+  font-size: 1.5rem;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.leave-review-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.leave-review-btn:hover {
+  transform: scale(1.05);
+}
+
+.feedback-form-section {
+  padding: 2rem 0;
+  background: var(--card-bg);
+}
+
+.feedback-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 1rem;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.rating-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--border-color);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.star-btn.active,
+.star-btn:hover {
+  color: var(--warning-color);
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: var(--secondary-color);
+}
+
+.success-message {
+  text-align: center;
+  padding: 2rem;
+  background: var(--success-bg);
+  color: var(--success-color);
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.feedback-list {
+  padding: 3rem 0;
+}
+
+.feedbacks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.feedback-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: var(--shadow-md);
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.feedback-author {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.feedback-rating {
+  color: var(--warning-color);
+  font-size: 1.1rem;
+}
+
+.feedback-comment {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.feedback-date {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.loading,
+.no-feedbacks {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .stats-card {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .stat-value {
+    font-size: 2.5rem;
+  }
+}

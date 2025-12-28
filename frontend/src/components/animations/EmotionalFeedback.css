@@ -1,0 +1,73 @@
+/* 🧸 Emotional Feedback Styles */
+.emotion-wrapper {
+  will-change: transform, filter;
+}
+
+/* Emotional Input */
+.emotional-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.emotional-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-right: 2.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.emotional-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.emotional-input.invalid {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.emotional-input-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+}
+
+/* Emotional Button */
+.emotional-button {
+  padding: 0.875rem 1.75rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  background: var(--gradient-primary);
+  color: var(--text-inverse);
+  transition: box-shadow 0.3s ease;
+}
+
+.emotional-button:hover:not(:disabled) {
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.emotional-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Success Celebration */
+.success-celebration {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  z-index: 9999;
+  pointer-events: none;
+}

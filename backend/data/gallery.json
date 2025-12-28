@@ -1,0 +1,72 @@
+[
+  {
+    "id": "g1",
+    "type": "image",
+    "url": "/images/gallery-1.jpg",
+    "thumbnail": "/images/gallery-1.jpg",
+    "title": "Ertalabki mashqlar",
+    "album": "daily",
+    "createdAt": "2025-12-15T10:00:00Z",
+    "published": true
+  },
+  {
+    "id": "g2",
+    "type": "image",
+    "url": "/images/gallery-2.jpg",
+    "thumbnail": "/images/gallery-2.jpg",
+    "title": "San'at darsi",
+    "album": "activities",
+    "createdAt": "2025-12-14T11:00:00Z",
+    "published": true
+  },
+  {
+    "id": "g3",
+    "type": "image",
+    "url": "/images/gallery-3.jpg",
+    "thumbnail": "/images/gallery-3.jpg",
+    "title": "Tushlik vaqti",
+    "album": "daily",
+    "createdAt": "2025-12-13T12:00:00Z",
+    "published": true
+  },
+  {
+    "id": "g5",
+    "type": "image",
+    "url": "/images/gallery-5.jpg",
+    "thumbnail": "/images/gallery-5.jpg",
+    "title": "O'yin maydoni",
+    "album": "general",
+    "createdAt": "2025-12-11T09:00:00Z",
+    "published": true
+  },
+  {
+    "id": "g6",
+    "type": "image",
+    "url": "/images/gallery-6.jpg",
+    "thumbnail": "/images/gallery-6.jpg",
+    "title": "Bayram tadbiri",
+    "album": "events",
+    "createdAt": "2025-12-10T16:00:00Z",
+    "published": true
+  },
+  {
+    "id": "4214d4dc-a85d-4d0e-a59d-bea1645db4a6",
+    "type": "image",
+    "url": "https://avatars.mds.yandex.net/get-altay/367090/2a0000018f616917a5f60fa2c5676292b915/XL",
+    "thumbnail": "https://avatars.mds.yandex.net/get-altay/367090/2a0000018f616917a5f60fa2c5676292b915/XL",
+    "title": "Bayram dasturidan lavhalar",
+    "album": "events",
+    "createdAt": "2025-12-20T06:22:16.302Z",
+    "published": true
+  },
+  {
+    "id": "4da7f9ad-1295-4270-bf19-c227878b1b92",
+    "type": "video",
+    "url": "/uploads/gallery/1766728126220-869094337.mp4",
+    "thumbnail": "/uploads/gallery/1766728126220-869094337.mp4",
+    "title": "O'zbek asarlari bilan tanishuv",
+    "album": "activities",
+    "createdAt": "2025-12-26T05:49:17.369Z",
+    "published": true
+  }
+]

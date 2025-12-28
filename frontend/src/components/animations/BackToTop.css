@@ -1,0 +1,66 @@
+/**
+ * 🔝 BACK TO TOP STYLES
+ */
+
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(79, 195, 247, 0.4);
+  z-index: 1000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-to-top__icon {
+  position: relative;
+  z-index: 1;
+}
+
+.back-to-top__shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: backToTopShine 3s ease-in-out infinite;
+}
+
+@keyframes backToTopShine {
+  0%, 100% { left: -100%; }
+  50% { left: 150%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top__shine {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .back-to-top {
+    width: 48px;
+    height: 48px;
+    bottom: 16px;
+    right: 16px;
+    font-size: 20px;
+  }
+}

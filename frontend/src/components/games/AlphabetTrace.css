@@ -1,0 +1,628 @@
+/* ============================================
+   ALPHABET TRACE - NIGHT SKY THEME
+   Premium Design for Kids 3-7
+   ============================================ */
+
+.alphabet-trace {
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.night-sky-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stars-layer {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #fef3c7, transparent),
+    radial-gradient(2px 2px at 40px 70px, #fef3c7, transparent),
+    radial-gradient(1px 1px at 90px 40px, #fef3c7, transparent),
+    radial-gradient(2px 2px at 130px 80px, #fef3c7, transparent),
+    radial-gradient(1px 1px at 160px 120px, #fef3c7, transparent),
+    radial-gradient(2px 2px at 200px 50px, #fef3c7, transparent),
+    radial-gradient(1px 1px at 250px 90px, #fef3c7, transparent),
+    radial-gradient(2px 2px at 300px 60px, #fef3c7, transparent);
+  background-size: 400px 150px;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Header */
+.trace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.trace-header h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.trace-subtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.progress-badge {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Mode Selection */
+.mode-selection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 450px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.mode-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.mode-card:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.mode-card.letters-mode { border-color: rgba(59, 130, 246, 0.5); }
+.mode-card.numbers-mode { border-color: rgba(34, 197, 94, 0.5); }
+.mode-card.shapes-mode { border-color: rgba(236, 72, 153, 0.5); }
+
+.mode-preview {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-bottom: 0.8rem;
+}
+
+.mode-preview span {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.letters-mode .mode-preview span { color: #3b82f6; }
+.numbers-mode .mode-preview span { color: #22c55e; }
+
+.shapes-icons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mode-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 0.3rem 0;
+}
+
+.mode-count {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   LETTER INFO CARD
+   ============================================ */
+
+.letter-info-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.info-letter-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: white;
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-letter {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fbbf24;
+}
+
+.info-word {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+}
+
+.shape-info-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.shape-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+
+/* ============================================
+   TOOLS BAR
+   ============================================ */
+
+.tools-bar {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.case-toggle {
+  display: flex;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 0.2rem;
+}
+
+.case-btn {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background: transparent;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.case-btn.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.brush-colors {
+  display: flex;
+  gap: 0.3rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.5rem;
+  border-radius: 50px;
+}
+
+.color-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.color-btn:hover {
+  transform: scale(1.15);
+}
+
+.color-btn.active {
+  border-color: white;
+  box-shadow: 0 0 0 2px currentColor;
+  transform: scale(1.1);
+}
+
+.brush-sizes {
+  display: flex;
+  gap: 0.3rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.5rem;
+  border-radius: 50px;
+  align-items: center;
+}
+
+.size-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.size-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.size-btn.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+}
+
+.guide-btn, .sound-btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.guide-btn.active, .sound-btn.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* ============================================
+   CANVAS
+   ============================================ */
+
+.canvas-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.canvas-wrapper canvas {
+  border-radius: 20px;
+  box-shadow: 
+    0 15px 50px rgba(0, 0, 0, 0.3),
+    0 0 0 4px rgba(255, 255, 255, 0.1),
+    0 0 0 6px rgba(139, 92, 246, 0.3);
+  cursor: crosshair;
+  touch-action: none;
+  background: white;
+  max-width: 100%;
+}
+
+.great-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  padding: 1.5rem 3rem;
+  border-radius: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 20px 60px rgba(34, 197, 94, 0.4);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ============================================
+   ITEM SELECTOR
+   ============================================ */
+
+.item-selector {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.item-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  color: white;
+}
+
+.item-btn:hover {
+  transform: scale(1.1);
+  border-color: #8b5cf6;
+}
+
+.item-btn.active {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  border-color: #a78bfa;
+  transform: scale(1.1);
+}
+
+.item-btn.completed {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: #22c55e;
+}
+
+.item-btn.completed.active {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.check-mark {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 16px;
+  height: 16px;
+  background: #22c55e;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ============================================
+   CONTROLS
+   ============================================ */
+
+.trace-controls {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.control-btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.control-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.control-btn.prev {
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+  color: white;
+}
+
+.control-btn.clear {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.control-btn.next {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+}
+
+.control-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   PROGRESS INDICATOR
+   ============================================ */
+
+.progress-indicator {
+  max-width: 350px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  display: block;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 480px) {
+  .trace-header h1 {
+    font-size: 1.2rem;
+  }
+  
+  .mode-selection {
+    gap: 0.5rem;
+  }
+  
+  .mode-preview span {
+    font-size: 1.4rem;
+  }
+  
+  .mode-card h3 {
+    font-size: 0.85rem;
+  }
+  
+  .letter-info-card {
+    padding: 0.6rem 1rem;
+  }
+  
+  .info-image, .info-letter-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .tools-bar {
+    gap: 0.3rem;
+  }
+  
+  .color-btn {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .item-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+  
+  .control-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .stars-layer {
+    animation: none;
+  }
+  
+  .mode-card,
+  .item-btn,
+  .control-btn,
+  .color-btn {
+    transition: none;
+  }
+}
+
+.back-btn:focus-visible,
+.mode-card:focus-visible,
+.item-btn:focus-visible,
+.control-btn:focus-visible,
+.color-btn:focus-visible {
+  outline: 3px solid #fbbf24;
+  outline-offset: 2px;
+}

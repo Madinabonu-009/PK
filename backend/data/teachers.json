@@ -1,0 +1,239 @@
+[
+  {
+    "id": "t1",
+    "name": "Nilufar Saidova",
+    "category": "teacher",
+    "group": "Quyoshlar",
+    "role": {
+      "uz": "Quyoshlar guruhi tarbiyachisi",
+      "ru": "Воспитатель группы Солнышки",
+      "en": "Suns Group Teacher"
+    },
+    "experience": {
+      "uz": "8 yil",
+      "ru": "8 лет",
+      "en": "8 years"
+    },
+    "education": {
+      "uz": "Oliy pedagogik ta'lim",
+      "ru": "Высшее педагогическое образование",
+      "en": "Higher Pedagogical Education"
+    },
+    "photo": "/images/t1.png",
+    "bio": {
+      "uz": "Bolalar psixologiyasi bo'yicha mutaxassis. Montessori metodikasi bo'yicha sertifikatlangan.",
+      "ru": "Специалист по детской психологии. Сертифицирована по методике Монтессори.",
+      "en": "Child psychology specialist. Certified in Montessori methodology."
+    }
+  },
+  {
+    "id": "t2",
+    "name": "Madina Karimova",
+    "category": "teacher",
+    "group": "Yulduzlar",
+    "role": {
+      "uz": "Yulduzlar guruhi tarbiyachisi",
+      "ru": "Воспитатель группы Звёздочки",
+      "en": "Stars Group Teacher"
+    },
+    "experience": {
+      "uz": "12 yil",
+      "ru": "12 лет",
+      "en": "12 years"
+    },
+    "education": {
+      "uz": "Oliy pedagogik ta'lim, Magistr",
+      "ru": "Высшее педагогическое образование, Магистр",
+      "en": "Higher Pedagogical Education, Master's Degree"
+    },
+    "photo": "/images/t2.png",
+    "bio": {
+      "uz": "Maktabgacha ta'lim metodikasi bo'yicha tajribali mutaxassis.",
+      "ru": "Опытный специалист по методике дошкольного образования.",
+      "en": "Experienced specialist in preschool education methodology."
+    }
+  },
+  {
+    "id": "t3",
+    "name": "Dilnoza Rahimova",
+    "category": "teacher",
+    "group": "Oylar",
+    "role": {
+      "uz": "Oylar guruhi tarbiyachisi",
+      "ru": "Воспитатель группы Луны",
+      "en": "Moons Group Teacher"
+    },
+    "experience": {
+      "uz": "10 yil",
+      "ru": "10 лет",
+      "en": "10 years"
+    },
+    "education": {
+      "uz": "Oliy pedagogik ta'lim",
+      "ru": "Высшее педагогическое образование",
+      "en": "Higher Pedagogical Education"
+    },
+    "photo": "/images/t3.png",
+    "bio": {
+      "uz": "Maktabga tayyorlov dasturi bo'yicha mutaxassis.",
+      "ru": "Специалист по программе подготовки к школе.",
+      "en": "School preparation program specialist."
+    }
+  },
+  {
+    "id": "t4",
+    "name": "Jasur Aliyev",
+    "category": "specialist",
+    "role": {
+      "uz": "Sport ustozi",
+      "ru": "Учитель физкультуры",
+      "en": "Physical Education Teacher"
+    },
+    "experience": {
+      "uz": "6 yil",
+      "ru": "6 лет",
+      "en": "6 years"
+    },
+    "education": {
+      "uz": "Sport pedagogikasi",
+      "ru": "Спортивная педагогика",
+      "en": "Sports Pedagogy"
+    },
+    "photo": "/images/t4.png",
+    "bio": {
+      "uz": "Bolalar sportini rivojlantirish bo'yicha mutaxassis. Gimnastika va suzish bo'yicha murabbiy.",
+      "ru": "Специалист по развитию детского спорта. Тренер по гимнастике и плаванию.",
+      "en": "Specialist in children's sports development. Gymnastics and swimming coach."
+    }
+  },
+  {
+    "id": "t5",
+    "name": "Malika Tosheva",
+    "category": "specialist",
+    "role": {
+      "uz": "Musiqa ustozi",
+      "ru": "Учитель музыки",
+      "en": "Music Teacher"
+    },
+    "experience": {
+      "uz": "9 yil",
+      "ru": "9 лет",
+      "en": "9 years"
+    },
+    "education": {
+      "uz": "Konservatoriya, Musiqa pedagogikasi",
+      "ru": "Консерватория, Музыкальная педагогика",
+      "en": "Conservatory, Music Pedagogy"
+    },
+    "photo": "/images/t5.png",
+    "bio": {
+      "uz": "Fortepiano va vokal bo'yicha mutaxassis. Bolalar xori rahbari.",
+      "ru": "Специалист по фортепиано и вокалу. Руководитель детского хора.",
+      "en": "Piano and vocal specialist. Children's choir conductor."
+    }
+  },
+  {
+    "id": "t6",
+    "name": "Shahzoda Mirzayeva",
+    "category": "specialist",
+    "role": {
+      "uz": "Ingliz tili o'qituvchisi",
+      "ru": "Учитель английского языка",
+      "en": "English Language Teacher"
+    },
+    "experience": {
+      "uz": "7 yil",
+      "ru": "7 лет",
+      "en": "7 years"
+    },
+    "education": {
+      "uz": "Chet tillar universiteti, Ingliz filologiyasi",
+      "ru": "Университет иностранных языков, Английская филология",
+      "en": "Foreign Languages University, English Philology"
+    },
+    "photo": "/images/t6.png",
+    "bio": {
+      "uz": "IELTS sertifikati. Bolalarga ingliz tilini o'yin orqali o'rgatish metodikasi bo'yicha mutaxassis.",
+      "ru": "Сертификат IELTS. Специалист по методике обучения детей английскому через игру.",
+      "en": "IELTS certified. Specialist in teaching English to children through play."
+    }
+  },
+  {
+    "id": "t7",
+    "name": "Nodira Usmonova",
+    "category": "specialist",
+    "role": {
+      "uz": "Rus tili o'qituvchisi",
+      "ru": "Учитель русского языка",
+      "en": "Russian Language Teacher"
+    },
+    "experience": {
+      "uz": "11 yil",
+      "ru": "11 лет",
+      "en": "11 years"
+    },
+    "education": {
+      "uz": "Filologiya fakulteti, Rus tili va adabiyoti",
+      "ru": "Филологический факультет, Русский язык и литература",
+      "en": "Philology Faculty, Russian Language and Literature"
+    },
+    "photo": "/images/t7.png",
+    "bio": {
+      "uz": "Rus tili grammatikasi va nutq rivojlantirish bo'yicha tajribali pedagog.",
+      "ru": "Опытный педагог по грамматике русского языка и развитию речи.",
+      "en": "Experienced teacher in Russian grammar and speech development."
+    }
+  },
+  {
+    "id": "t8",
+    "name": "Gulnora Abdullayeva",
+    "category": "medical",
+    "role": {
+      "uz": "Tibbiy hamshira",
+      "ru": "Медицинская сестра",
+      "en": "Nurse"
+    },
+    "experience": {
+      "uz": "15 yil",
+      "ru": "15 лет",
+      "en": "15 years"
+    },
+    "education": {
+      "uz": "Tibbiyot kolleji, Hamshiralik ishi",
+      "ru": "Медицинский колледж, Сестринское дело",
+      "en": "Medical College, Nursing"
+    },
+    "photo": "/images/t8.png",
+    "bio": {
+      "uz": "Bolalar salomatligi va profilaktikasi bo'yicha mutaxassis. Birinchi yordam ko'rsatish bo'yicha sertifikatlangan.",
+      "ru": "Специалист по детскому здоровью и профилактике. Сертифицирована по оказанию первой помощи.",
+      "en": "Specialist in children's health and prevention. Certified in first aid."
+    }
+  },
+  {
+    "id": "t9",
+    "name": "Zulfiya Nazarova",
+    "category": "staff",
+    "role": {
+      "uz": "Bosh oshpaz",
+      "ru": "Шеф-повар",
+      "en": "Head Chef"
+    },
+    "experience": {
+      "uz": "18 yil",
+      "ru": "18 лет",
+      "en": "18 years"
+    },
+    "education": {
+      "uz": "Oshpazlik san'ati kolleji",
+      "ru": "Колледж кулинарного искусства",
+      "en": "Culinary Arts College"
+    },
+    "photo": "/images/t9.png",
+    "bio": {
+      "uz": "Bolalar ovqatlanishi bo'yicha mutaxassis. Sog'lom va mazali taomlar tayyorlash ustasi.",
+      "ru": "Специалист по детскому питанию. Мастер приготовления здоровой и вкусной еды.",
+      "en": "Specialist in children's nutrition. Master of preparing healthy and delicious meals."
+    }
+  }
+]

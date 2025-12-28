@@ -1,0 +1,33 @@
+/* Living Elements Styles */
+
+.shy-element,
+.magnetic-element,
+.breathing-element,
+.floating-element,
+.pulsing-element,
+.wobbly-element {
+  display: inline-block;
+  will-change: transform;
+}
+
+.pulsing-element {
+  border-radius: inherit;
+}
+
+/* Hover effects */
+.wobbly-element {
+  cursor: pointer;
+}
+
+/* Performance optimization */
+@media (prefers-reduced-motion: reduce) {
+  .shy-element,
+  .magnetic-element,
+  .breathing-element,
+  .floating-element,
+  .pulsing-element,
+  .wobbly-element {
+    animation: none !important;
+    transform: none !important;
+  }
+}

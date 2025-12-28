@@ -1,0 +1,89 @@
+/* 🧩 Soft Physics UI Styles */
+
+/* Physics Draggable */
+.physics-draggable {
+  cursor: grab;
+  touch-action: none;
+}
+
+.physics-draggable:active {
+  cursor: grabbing;
+}
+
+/* Bouncy Button */
+.bouncy-button {
+  padding: 0.875rem 1.75rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  background: var(--gradient-primary);
+  color: var(--text-inverse);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  will-change: transform;
+}
+
+.bouncy-button:hover {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Physics Drawer */
+.physics-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+.physics-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  background: var(--card-bg);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.physics-drawer-left {
+  left: 0;
+  border-right: 1px solid var(--border-color);
+}
+
+.physics-drawer-right {
+  right: 0;
+  border-left: 1px solid var(--border-color);
+}
+
+/* Wobbly Card */
+.wobbly-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* Inertia Scroll */
+.inertia-scroll {
+  display: flex;
+  gap: 1rem;
+  cursor: grab;
+  overflow: visible;
+}
+
+.inertia-scroll:active {
+  cursor: grabbing;
+}
+
+/* Rubber Band */
+.rubber-band {
+  display: inline-block;
+  will-change: transform;
+}

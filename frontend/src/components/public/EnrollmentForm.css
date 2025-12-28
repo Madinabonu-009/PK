@@ -1,0 +1,326 @@
+.enrollment-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-row {
+  margin-bottom: 1.25rem;
+}
+
+.form-row:last-of-type {
+  margin-bottom: 1.5rem;
+}
+
+.form-error-message {
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.form-actions .btn {
+  min-width: 200px;
+}
+
+/* Success State */
+.enrollment-success {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--success-bg);
+  border-radius: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background-color: var(--success-color);
+  color: var(--text-inverse);
+  font-size: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.enrollment-success h3 {
+  color: var(--success-color);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.enrollment-success p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .enrollment-form {
+    padding: 0 1rem;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+
+
+/* Contract Section */
+.contract-section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+}
+
+.contract-checkbox-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contract-checkbox-wrapper.has-error {
+  border-color: var(--error-color);
+}
+
+.contract-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.contract-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-custom {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background: var(--card-bg);
+}
+
+.contract-checkbox:checked + .checkbox-custom {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.contract-checkbox:checked + .checkbox-custom::after {
+  content: '✓';
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.contract-checkbox:focus + .checkbox-custom {
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.contract-checkbox-label:hover .checkbox-custom {
+  border-color: var(--primary-color);
+}
+
+.checkbox-text {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.view-contract-link {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+  text-align: left;
+}
+
+.view-contract-link:hover {
+  color: var(--primary-dark);
+}
+
+.contract-error {
+  color: var(--error-color);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.contract-error::before {
+  content: '⚠';
+}
+
+/* Contract Modal */
+.contract-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.contract-modal {
+  background: var(--card-bg);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.contract-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.contract-modal-header h2 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.contract-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.contract-modal-close:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.contract-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.contract-section-item {
+  margin-bottom: 1.5rem;
+}
+
+.contract-section-item:last-child {
+  margin-bottom: 0;
+}
+
+.contract-section-item h3 {
+  font-size: 1rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.contract-section-item p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  white-space: pre-line;
+  margin: 0;
+}
+
+.contract-agreement {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--primary-light);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.contract-agreement p {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin: 0;
+}
+
+.contract-modal-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border-light);
+  flex-wrap: wrap;
+}
+
+.contract-modal-footer .btn {
+  flex: 1;
+  min-width: 140px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contract-modal {
+    max-height: 90vh;
+    margin: 0.5rem;
+  }
+  
+  .contract-modal-header {
+    padding: 1rem;
+  }
+  
+  .contract-modal-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .contract-modal-body {
+    padding: 1rem;
+  }
+  
+  .contract-modal-footer {
+    padding: 1rem;
+    flex-direction: column;
+  }
+  
+  .contract-modal-footer .btn {
+    width: 100%;
+  }
+  
+  .contract-checkbox-wrapper {
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,122 @@
+/**
+ * Loading Overlay Styles
+ * Issue #31: Loading states
+ */
+
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+.loading-overlay.fullscreen {
+  position: fixed;
+  z-index: 9999;
+}
+
+.loading-overlay.transparent {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="dark"] .loading-overlay {
+  background: rgba(26, 26, 46, 0.95);
+}
+
+[data-theme="dark"] .loading-overlay.transparent {
+  background: rgba(26, 26, 46, 0.7);
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loading-spinner {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.spinner-ring {
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+}
+
+.spinner-ring:nth-child(1) {
+  border-top-color: #6366f1;
+  animation-delay: 0s;
+}
+
+.spinner-ring:nth-child(2) {
+  inset: 8px;
+  border-right-color: #ec4899;
+  animation-delay: 0.15s;
+  animation-direction: reverse;
+}
+
+.spinner-ring:nth-child(3) {
+  inset: 16px;
+  border-bottom-color: #22c55e;
+  animation-delay: 0.3s;
+}
+
+.spinner-emoji {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.loading-message {
+  color: var(--text-secondary, #4a4a6a);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .spinner-ring,
+  .spinner-emoji,
+  .loading-message {
+    animation: none;
+  }
+  
+  .loading-overlay {
+    animation: none;
+  }
+}

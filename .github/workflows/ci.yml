@@ -1,0 +1,184 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # Backend Tests
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+      
+      - name: Run linter
+        working-directory: ./backend
+        run: npm run lint --if-present
+      
+      - name: Run tests
+        working-directory: ./backend
+        run: npm test
+        env:
+          NODE_ENV: test
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./backend/coverage/lcov.info
+          flags: backend
+
+  # Frontend Tests
+  frontend-test:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+      
+      - name: Run linter
+        working-directory: ./frontend
+        run: npm run lint
+      
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build
+      
+      - name: Run tests
+        working-directory: ./frontend
+        run: npm test --if-present
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-build
+          path: frontend/dist
+
+  # Security Audit
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      
+      - name: Backend Security Audit
+        working-directory: ./backend
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+      
+      - name: Frontend Security Audit
+        working-directory: ./frontend
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+      
+      - name: Bot Security Audit
+        working-directory: ./bot
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+  # Docker Build
+  docker-build:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+    needs: [backend-test, frontend-test]
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Build Backend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          push: false
+          tags: playkids-backend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Build Frontend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          push: false
+          tags: playkids-frontend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Build Bot Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./bot
+          push: false
+          tags: playkids-bot:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # Code Quality
+  code-quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      
+      - name: Check for console.log
+        run: |
+          if grep -r "console\.log" --include="*.js" --include="*.jsx" frontend/src backend/src bot/src 2>/dev/null; then
+            echo "Warning: console.log found in source code"
+            exit 0
+          fi
+      
+      - name: Check for TODO comments
+        run: |
+          if grep -r "TODO\|FIXME\|HACK" --include="*.js" --include="*.jsx" frontend/src backend/src bot/src 2>/dev/null; then
+            echo "Warning: TODO/FIXME/HACK comments found"
+            exit 0
+          fi

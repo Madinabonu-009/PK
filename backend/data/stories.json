@@ -1,0 +1,83 @@
+[
+  {
+    "id": "story1",
+    "date": "2025-12-20",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gallery-1.jpg",
+        "caption": "Ertalabki mashqlar"
+      },
+      {
+        "type": "image",
+        "url": "/images/gallery-2.jpg",
+        "caption": "San'at darsi"
+      },
+      {
+        "type": "image",
+        "url": "/images/gallery-3.jpg",
+        "caption": "Tushlik vaqti"
+      }
+    ],
+    "description": "Bugun bolalar juda faol bo'lishdi! Ertalab mashqlar qildik, keyin san'at darsida qo'l ishlarini yaratdik.",
+    "createdBy": "t1",
+    "createdAt": "2025-12-20T08:00:00Z",
+    "views": 17
+  },
+  {
+    "id": "story2",
+    "date": "2025-12-19",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gallery-4.jpg",
+        "caption": "Musiqa darsi"
+      },
+      {
+        "type": "image",
+        "url": "/images/gallery-5.jpg",
+        "caption": "O'yin vaqti"
+      }
+    ],
+    "description": "Musiqa darsida bolalar yangi qo'shiq o'rganishdi. Keyin bog'da o'ynadik.",
+    "createdBy": "t2",
+    "createdAt": "2025-12-19T15:00:00Z",
+    "views": 28
+  },
+  {
+    "id": "story3",
+    "date": "2025-12-18",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gallery-6.jpg",
+        "caption": "Qo'l ishlari"
+      },
+      {
+        "type": "image",
+        "url": "/images/gallery-1.jpg",
+        "caption": "Yangi yil tayyorgarligi"
+      }
+    ],
+    "description": "Yangi yil bayramiga tayyorgarlik boshladik! Bolalar bezaklar yasashdi.",
+    "createdBy": "t1",
+    "createdAt": "2025-12-18T14:00:00Z",
+    "views": 45
+  },
+  {
+    "id": "story1766212823549",
+    "date": "2025-12-21",
+    "media": [
+      {
+        "type": "video",
+        "url": "/uploads/stories/1766212771748-784976662.mp4",
+        "caption": "",
+        "id": 1766212804617
+      }
+    ],
+    "description": "O'zbek asarlarini o'rgandik",
+    "createdBy": "1",
+    "createdAt": "2025-12-20T06:40:23.549Z",
+    "views": 8
+  }
+]

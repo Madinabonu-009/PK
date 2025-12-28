@@ -1,0 +1,175 @@
+.neon-glow-wrapper {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+/* Glow Layers */
+.neon-layer {
+  position: absolute;
+  inset: -10px;
+  border-radius: inherit;
+  background: var(--neon-color);
+  filter: blur(calc(20px * var(--neon-intensity, 1)));
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.neon-layer-2 {
+  inset: -15px;
+  filter: blur(calc(30px * var(--neon-intensity, 1)));
+  opacity: 0.2;
+}
+
+.neon-layer-3 {
+  inset: -20px;
+  filter: blur(calc(40px * var(--neon-intensity, 1)));
+  opacity: 0.1;
+}
+
+/* Content */
+.neon-content {
+  position: relative;
+  z-index: 1;
+  border: 2px solid var(--neon-color);
+  border-radius: inherit;
+  transition: border-color 0.5s ease;
+}
+
+/* Animated Border SVG */
+.neon-border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.neon-border rect {
+  filter: drop-shadow(0 0 5px var(--neon-color));
+}
+
+/* Corner Accents */
+.neon-corners {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--neon-color);
+  transition: all 0.3s ease;
+}
+
+.corner-tl {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-tr {
+  top: -3px;
+  right: -3px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner-bl {
+  bottom: -3px;
+  left: -3px;
+  border-right: none;
+  border-top: none;
+}
+
+.corner-br {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+}
+
+.neon-glow-wrapper:hover .corner {
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 0 10px var(--neon-color);
+}
+
+/* Neon Text */
+.neon-text {
+  font-weight: 700;
+  color: var(--neon-text-color);
+  text-shadow: 
+    0 0 10px var(--neon-text-color),
+    0 0 20px var(--neon-text-color),
+    0 0 40px var(--neon-text-color);
+  letter-spacing: 2px;
+}
+
+/* Pulse Animation */
+@keyframes neonPulse {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+}
+
+.neon-glow-wrapper.pulse .neon-content {
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+/* Flicker Effect */
+@keyframes neonFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.6;
+  }
+}
+
+.neon-glow-wrapper.flicker .neon-layer {
+  animation: neonFlicker 3s linear infinite;
+}
+
+/* Color Shift */
+@keyframes colorShift {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.neon-glow-wrapper.rainbow .neon-layer,
+.neon-glow-wrapper.rainbow .neon-content {
+  animation: colorShift 5s linear infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .neon-layer,
+  .neon-content,
+  .neon-text,
+  .corner {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Dark mode enhancement */
+[data-theme="dark"] .neon-layer {
+  opacity: 0.4;
+}
+
+[data-theme="dark"] .neon-glow-wrapper:hover .neon-layer {
+  opacity: 0.6;
+}

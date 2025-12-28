@@ -1,0 +1,440 @@
+/**
+ * FeedbackManagementPage - Pro Design
+ * Professional feedback management interface
+ */
+
+/* ============================================
+   PAGE CONTAINER
+   ============================================ */
+.feedback-management {
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+/* ============================================
+   HEADER - Glassmorphism Style
+   ============================================ */
+.feedback-header {
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 50%, #ef4444 100%);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.feedback-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatBubble 8s ease-in-out infinite;
+}
+
+.feedback-header::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: 10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatBubble 6s ease-in-out infinite reverse;
+}
+
+@keyframes floatBubble {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+.feedback-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.feedback-header .header-left h1 {
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.feedback-header .page-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.feedback-header .page-icon svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+.feedback-header .header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.feedback-header .header-right span {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.page-header {
+  display: none;
+}
+
+/* ============================================
+   ERROR MESSAGE
+   ============================================ */
+.feedback-error {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 1px solid #f87171;
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.feedback-error p {
+  color: #dc2626;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ============================================
+   TABS - Pro Style
+   ============================================ */
+.tabs {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.5rem 2rem;
+  flex-wrap: wrap;
+}
+
+.tab {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+/* ============================================
+   FEEDBACKS LIST - Pro Cards
+   ============================================ */
+.feedbacks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 2rem 2rem;
+}
+
+.feedback-item {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.feedback-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #f59e0b, #f97316);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.feedback-item:hover::before {
+  transform: scaleY(1);
+}
+
+.feedback-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+}
+
+.feedback-item:nth-child(1) { animation-delay: 0.1s; }
+.feedback-item:nth-child(2) { animation-delay: 0.15s; }
+.feedback-item:nth-child(3) { animation-delay: 0.2s; }
+.feedback-item:nth-child(4) { animation-delay: 0.25s; }
+.feedback-item:nth-child(5) { animation-delay: 0.3s; }
+.feedback-item:nth-child(n+6) { animation-delay: 0.35s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feedback-content {
+  flex: 1;
+}
+
+.feedback-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.author {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.rating {
+  color: #f59e0b;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+.date {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  background: var(--bg-tertiary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+
+.comment {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.target {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+/* ============================================
+   ACTION BUTTONS - Pro Style
+   ============================================ */
+.feedback-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn-approve,
+.btn-delete {
+  padding: 0.6rem 1.25rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.btn-approve {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-approve:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.btn-delete:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* ============================================
+   LOADING & EMPTY STATE
+   ============================================ */
+.loading {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+}
+
+.loading::before {
+  content: '⏳';
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  margin: 0 2rem;
+  background: var(--card-bg);
+  border-radius: 20px;
+  border: 2px dashed var(--border-color);
+}
+
+.empty-state::before {
+  content: '💬';
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .feedback-header {
+    padding: 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .feedback-header .header-left h1 {
+    font-size: 1.35rem;
+  }
+
+  .tabs {
+    padding: 1rem;
+  }
+
+  .feedbacks-list {
+    padding: 0 1rem 1rem;
+  }
+
+  .feedback-item {
+    flex-direction: column;
+    padding: 1.25rem;
+  }
+
+  .feedback-actions {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .feedback-actions button {
+    flex: 1;
+  }
+}
+
+/* ============================================
+   DARK MODE ENHANCEMENTS
+   ============================================ */
+[data-theme="dark"] .feedback-header {
+  background: linear-gradient(135deg, #b45309 0%, #c2410c 50%, #b91c1c 100%);
+}
+
+[data-theme="dark"] .feedback-item {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .target {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(249, 115, 22, 0.2) 100%);
+}
+
+[data-theme="dark"] .date {
+  background: var(--bg-tertiary);
+}

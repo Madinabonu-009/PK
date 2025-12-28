@@ -1,0 +1,249 @@
+/* Inline Editor Styles */
+
+.inline-editor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.inline-editor--select {
+  position: relative;
+}
+
+/* Input Styles */
+.inline-editor-input {
+  flex: 1;
+  min-width: 100px;
+  padding: 6px 10px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--text-primary, #1f2937);
+  background: var(--card-bg, #fff);
+  border: 2px solid var(--primary-color, #6366f1);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inline-editor-input:focus {
+  box-shadow: 0 0 0 3px var(--primary-light, rgba(99, 102, 241, 0.2));
+}
+
+.inline-editor-input.error {
+  border-color: #dc2626;
+}
+
+.inline-editor-input.error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+.inline-editor-input.multiline {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.inline-editor-input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Number Input */
+.inline-editor-number-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.inline-editor-number {
+  width: 100px;
+}
+
+.inline-editor-suffix {
+  margin-left: 6px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+/* Select */
+.inline-editor-select {
+  flex: 1;
+  min-width: 120px;
+  padding: 6px 10px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--text-primary, #1f2937);
+  background: var(--card-bg, #fff);
+  border: 2px solid var(--primary-color, #6366f1);
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+}
+
+.inline-editor-select:focus {
+  box-shadow: 0 0 0 3px var(--primary-light, rgba(99, 102, 241, 0.2));
+}
+
+/* Date Input */
+.inline-editor-date {
+  width: 150px;
+}
+
+/* Action Buttons */
+.inline-editor-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.inline-editor-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.inline-editor-btn.save {
+  color: #fff;
+  background: #22c55e;
+}
+
+.inline-editor-btn.save:hover {
+  background: #16a34a;
+}
+
+.inline-editor-btn.cancel {
+  color: var(--text-secondary, #6b7280);
+  background: var(--bg-secondary, #f3f4f6);
+}
+
+.inline-editor-btn.cancel:hover {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.inline-editor-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Error Message */
+.inline-editor-error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* Spinner */
+.inline-editor-spinner {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border-color, #e5e7eb);
+  border-top-color: var(--primary-color, #6366f1);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Editable Cell */
+.editable-cell-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.editable-cell-value.editable {
+  cursor: pointer;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.editable-cell-value.editable:hover {
+  background: var(--bg-secondary, #f3f4f6);
+}
+
+.editable-cell-icon {
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.editable-cell-value.editable:hover .editable-cell-icon {
+  opacity: 0.6;
+}
+
+.editable-cell-empty {
+  color: var(--text-tertiary, #9ca3af);
+  font-style: italic;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .inline-editor-input {
+  color: var(--text-primary-dark, #f9fafb);
+  background: var(--card-bg-dark, #1f2937);
+  border-color: var(--primary-color, #818cf8);
+}
+
+[data-theme="dark"] .inline-editor-select {
+  color: var(--text-primary-dark, #f9fafb);
+  background: var(--card-bg-dark, #1f2937);
+  border-color: var(--primary-color, #818cf8);
+}
+
+[data-theme="dark"] .inline-editor-suffix {
+  color: var(--text-secondary-dark, #9ca3af);
+}
+
+[data-theme="dark"] .inline-editor-btn.cancel {
+  color: var(--text-secondary-dark, #9ca3af);
+  background: var(--bg-secondary-dark, #374151);
+}
+
+[data-theme="dark"] .inline-editor-error {
+  background: rgba(220, 38, 38, 0.2);
+}
+
+[data-theme="dark"] .editable-cell-value.editable:hover {
+  background: var(--bg-secondary-dark, #374151);
+}
+
+[data-theme="dark"] .editable-cell-empty {
+  color: var(--text-tertiary-dark, #6b7280);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .inline-editor {
+    flex-wrap: wrap;
+  }
+
+  .inline-editor-input {
+    width: 100%;
+  }
+
+  .inline-editor-actions {
+    margin-top: 6px;
+  }
+}

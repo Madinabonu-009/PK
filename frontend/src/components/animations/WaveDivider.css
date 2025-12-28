@@ -1,0 +1,42 @@
+/* 🌊 Wave Divider Styles */
+.wave-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  margin: -1px 0;
+}
+
+.wave-divider.flip {
+  transform: rotate(180deg);
+}
+
+.wave-svg {
+  width: 100%;
+  height: 80px;
+  display: block;
+}
+
+/* Blob Divider */
+.blob-divider {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.blob-svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .wave-svg {
+    height: 50px;
+  }
+  
+  .blob-divider {
+    width: 200px;
+    height: 200px;
+  }
+}

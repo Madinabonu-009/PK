@@ -1,0 +1,130 @@
+[
+  {
+    "id": "first_day",
+    "name": {
+      "uz": "Birinchi kun",
+      "ru": "Первый день",
+      "en": "First Day"
+    },
+    "description": {
+      "uz": "Bog'chaga birinchi marta keldi",
+      "ru": "Первый раз пришёл в детский сад",
+      "en": "First time at kindergarten"
+    },
+    "icon": "🌟",
+    "color": "#f59e0b",
+    "points": 10
+  },
+  {
+    "id": "good_behavior",
+    "name": {
+      "uz": "Yaxshi xulq",
+      "ru": "Хорошее поведение",
+      "en": "Good Behavior"
+    },
+    "description": {
+      "uz": "Bir hafta davomida yaxshi xulq ko'rsatdi",
+      "ru": "Хорошее поведение в течение недели",
+      "en": "Good behavior for a week"
+    },
+    "icon": "⭐",
+    "color": "#22c55e",
+    "points": 25
+  },
+  {
+    "id": "helper",
+    "name": {
+      "uz": "Yordamchi",
+      "ru": "Помощник",
+      "en": "Helper"
+    },
+    "description": {
+      "uz": "Do'stlariga yordam berdi",
+      "ru": "Помогал друзьям",
+      "en": "Helped friends"
+    },
+    "icon": "🤝",
+    "color": "#3b82f6",
+    "points": 20
+  },
+  {
+    "id": "artist",
+    "name": {
+      "uz": "Rassom",
+      "ru": "Художник",
+      "en": "Artist"
+    },
+    "description": {
+      "uz": "Chiroyli rasm chizdi",
+      "ru": "Нарисовал красивую картину",
+      "en": "Drew a beautiful picture"
+    },
+    "icon": "🎨",
+    "color": "#ec4899",
+    "points": 15
+  },
+  {
+    "id": "reader",
+    "name": {
+      "uz": "Kitobxon",
+      "ru": "Читатель",
+      "en": "Reader"
+    },
+    "description": {
+      "uz": "Kitob o'qishni yaxshi ko'radi",
+      "ru": "Любит читать книги",
+      "en": "Loves reading books"
+    },
+    "icon": "📚",
+    "color": "#8b5cf6",
+    "points": 20
+  },
+  {
+    "id": "athlete",
+    "name": {
+      "uz": "Sportchi",
+      "ru": "Спортсмен",
+      "en": "Athlete"
+    },
+    "description": {
+      "uz": "Sport mashg'ulotlarida faol",
+      "ru": "Активен на спортивных занятиях",
+      "en": "Active in sports activities"
+    },
+    "icon": "🏃",
+    "color": "#ef4444",
+    "points": 20
+  },
+  {
+    "id": "singer",
+    "name": {
+      "uz": "Qo'shiqchi",
+      "ru": "Певец",
+      "en": "Singer"
+    },
+    "description": {
+      "uz": "Musiqa darslarida faol",
+      "ru": "Активен на уроках музыки",
+      "en": "Active in music classes"
+    },
+    "icon": "🎵",
+    "color": "#06b6d4",
+    "points": 15
+  },
+  {
+    "id": "perfect_attendance",
+    "name": {
+      "uz": "Mukammal davomat",
+      "ru": "Идеальная посещаемость",
+      "en": "Perfect Attendance"
+    },
+    "description": {
+      "uz": "Bir oy davomida har kuni keldi",
+      "ru": "Приходил каждый день в течение месяца",
+      "en": "Came every day for a month"
+    },
+    "icon": "🏆",
+    "color": "#f59e0b",
+    "points": 50
+  }
+]
