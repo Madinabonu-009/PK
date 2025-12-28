@@ -1,11 +1,10 @@
 import express from 'express'
-import bcrypt from 'bcryptjs'
-import Teacher from '../models/Teacher.js'
-import Child from '../models/Child.js'
-import User from '../models/User.js'
+import mongoose from 'mongoose'
 import { readData } from '../utils/db.js'
 
 const router = express.Router()
+
+const getCollection = (name) => mongoose.connection.collection(name)
 
 // Barcha ma'lumotlarni JSON'dan MongoDB'ga ko'chirish
 router.post('/all', async (req, res) => {
@@ -19,70 +18,94 @@ router.post('/all', async (req, res) => {
     // 1. Users
     const usersJson = readData('users.json') || []
     if (usersJson.length > 0) {
-      await User.deleteMany({})
-      const users = usersJson.map(u => ({
-        username: u.username,
-        password: u.password, // Already hashed
-        name: u.name,
-        role: u.role,
-        email: u.email,
-        phone: u.phone,
-        groupId: u.groupId,
-        isActive: u.isActive !== false
-      }))
-      await User.insertMany(users)
-      results.users = users.length
+      await getCollection('users').deleteMany({})
+      await getCollection('users').insertMany(usersJson.map(u => ({
+        ...u,
+        isActive: u.isActive !== false,
+        createdAt: u.createdAt || new Date().toISOString()
+      })))
+      results.users = usersJson.length
     }
 
     // 2. Children
     const childrenJson = readData('children.json') || []
     if (childrenJson.length > 0) {
-      await Child.deleteMany({})
-      const children = childrenJson.map(c => ({
-        firstName: c.firstName,
-        lastName: c.lastName,
-        birthDate: c.birthDate,
-        gender: c.gender,
-        groupId: c.groupId,
-        groupName: c.groupName,
-        parentName: c.parentName,
-        parentPhone: c.parentPhone,
-        parentEmail: c.parentEmail,
-        allergies: c.allergies || [],
-        notes: c.notes,
-        points: c.points || 0,
-        level: c.level || 1,
-        achievements: c.achievements || [],
+      await getCollection('children').deleteMany({})
+      await getCollection('children').insertMany(childrenJson.map(c => ({
+        ...c,
+        gender: c.gender || 'male',
         isActive: c.isActive !== false,
-        isDeleted: c.isDeleted || false,
-        enrolledAt: c.enrolledAt
-      }))
-      await Child.insertMany(children)
-      results.children = children.length
+        createdAt: c.createdAt || new Date().toISOString()
+      })))
+      results.children = childrenJson.length
     }
 
     // 3. Teachers
     const teachersJson = readData('teachers.json') || []
     if (teachersJson.length > 0) {
-      await Teacher.deleteMany({})
-      const teachers = teachersJson.map(t => ({
-        name: t.name,
+      await getCollection('teachers').deleteMany({})
+      await getCollection('teachers').insertMany(teachersJson.map(t => ({
+        ...t,
         firstName: t.name?.split(' ')[0] || t.name,
         lastName: t.name?.split(' ').slice(1).join(' ') || '',
-        position: t.role,
-        role: t.role,
-        education: t.education,
-        experience: t.experience,
-        phone: t.phone || '',
-        email: t.email || '',
-        photo: t.photo,
-        bio: t.bio,
-        category: t.category,
-        group: t.group,
-        isActive: !t.isDeleted
-      }))
-      await Teacher.insertMany(teachers)
-      results.teachers = teachers.length
+        position: t.role || t.position,
+        isActive: t.isDeleted !== true,
+        createdAt: t.createdAt || new Date().toISOString()
+      })))
+      results.teachers = teachersJson.length
+    }
+
+
+    // 4. Gallery
+    const galleryJson = readData('gallery.json') || []
+    if (galleryJson.length > 0) {
+      await getCollection('galleries').deleteMany({})
+      await getCollection('galleries').insertMany(galleryJson.map(g => ({
+        ...g,
+        published: g.published !== false,
+        createdAt: g.createdAt || new Date().toISOString()
+      })))
+      results.gallery = galleryJson.length
+    }
+
+    // 5. Groups
+    const groupsJson = readData('groups.json') || []
+    if (groupsJson.length > 0) {
+      await getCollection('groups').deleteMany({})
+      await getCollection('groups').insertMany(groupsJson)
+      results.groups = groupsJson.length
+    }
+
+    // 6. Other collections
+    const otherCollections = [
+      'menu', 'events', 'attendance', 'payments', 'dailyReports',
+      'debts', 'achievements', 'progress', 'enrollments', 'feedback',
+      'questions', 'journal', 'blog', 'stories'
+    ]
+
+    for (const name of otherCollections) {
+      const data = readData(`${name}.json`) || []
+      if (Array.isArray(data) && data.length > 0) {
+        await getCollection(name.toLowerCase()).deleteMany({})
+        await getCollection(name.toLowerCase()).insertMany(data)
+        results[name] = data.length
+      }
+    }
+
+    // 7. Settings (single document)
+    const settingsJson = readData('settings.json')
+    if (settingsJson && Object.keys(settingsJson).length > 0) {
+      await getCollection('settings').deleteMany({})
+      await getCollection('settings').insertOne(settingsJson)
+      results.settings = 1
+    }
+
+    // 8. Curriculum (single document)
+    const curriculumJson = readData('curriculum.json')
+    if (curriculumJson && Object.keys(curriculumJson).length > 0) {
+      await getCollection('curriculum').deleteMany({})
+      await getCollection('curriculum').insertOne(curriculumJson)
+      results.curriculum = 1
     }
 
     console.log('✅ MongoDB seeded:', results)
@@ -109,26 +132,17 @@ router.post('/teachers', async (req, res) => {
       return res.status(400).json({ error: 'No teachers in JSON file' })
     }
 
-    await Teacher.deleteMany({})
-    const teachers = teachersJson.map(t => ({
-      name: t.name,
+    await getCollection('teachers').deleteMany({})
+    await getCollection('teachers').insertMany(teachersJson.map(t => ({
+      ...t,
       firstName: t.name?.split(' ')[0] || t.name,
       lastName: t.name?.split(' ').slice(1).join(' ') || '',
-      position: t.role,
-      role: t.role,
-      education: t.education,
-      experience: t.experience,
-      phone: t.phone || '',
-      email: t.email || '',
-      photo: t.photo,
-      bio: t.bio,
-      category: t.category,
-      group: t.group,
-      isActive: !t.isDeleted
-    }))
-    await Teacher.insertMany(teachers)
+      position: t.role || t.position,
+      isActive: t.isDeleted !== true,
+      createdAt: t.createdAt || new Date().toISOString()
+    })))
 
-    res.json({ message: 'Teachers seeded', count: teachers.length })
+    res.json({ message: 'Teachers seeded', count: teachersJson.length })
   } catch (error) {
     console.error('Seed error:', error)
     res.status(500).json({ error: error.message })
@@ -147,8 +161,13 @@ router.post('/children', async (req, res) => {
       return res.status(400).json({ error: 'No children in JSON file' })
     }
 
-    await Child.deleteMany({})
-    await Child.insertMany(childrenJson)
+    await getCollection('children').deleteMany({})
+    await getCollection('children').insertMany(childrenJson.map(c => ({
+      ...c,
+      gender: c.gender || 'male',
+      isActive: c.isActive !== false,
+      createdAt: c.createdAt || new Date().toISOString()
+    })))
 
     res.json({ message: 'Children seeded', count: childrenJson.length })
   } catch (error) {
@@ -169,8 +188,8 @@ router.post('/users', async (req, res) => {
       return res.status(400).json({ error: 'No users in JSON file' })
     }
 
-    await User.deleteMany({})
-    await User.insertMany(usersJson)
+    await getCollection('users').deleteMany({})
+    await getCollection('users').insertMany(usersJson)
 
     res.json({ message: 'Users seeded', count: usersJson.length })
   } catch (error) {
@@ -183,16 +202,20 @@ router.post('/users', async (req, res) => {
 router.get('/status', async (req, res) => {
   try {
     const useDatabase = req.app.locals.useDatabase
-    let counts = { users: 0, children: 0, teachers: 0 }
+    let counts = { users: 0, children: 0, teachers: 0, gallery: 0, groups: 0 }
     
     if (useDatabase) {
-      counts.users = await User.countDocuments()
-      counts.children = await Child.countDocuments()
-      counts.teachers = await Teacher.countDocuments()
+      counts.users = await getCollection('users').countDocuments()
+      counts.children = await getCollection('children').countDocuments()
+      counts.teachers = await getCollection('teachers').countDocuments()
+      counts.gallery = await getCollection('galleries').countDocuments()
+      counts.groups = await getCollection('groups').countDocuments()
     } else {
       counts.users = (readData('users.json') || []).length
       counts.children = (readData('children.json') || []).length
       counts.teachers = (readData('teachers.json') || []).length
+      counts.gallery = (readData('gallery.json') || []).length
+      counts.groups = (readData('groups.json') || []).length
     }
 
     res.json({

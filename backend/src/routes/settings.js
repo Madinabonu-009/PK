@@ -1,14 +1,16 @@
 import express from 'express'
-import Settings from '../models/Settings.js'
+import mongoose from 'mongoose'
 import { authenticateToken, requireRole } from '../middleware/auth.js'
 
 const router = express.Router()
 
+const getCollection = (name) => mongoose.connection.collection(name)
+
 // Get public settings (no auth required)
 router.get('/public', async (req, res) => {
   try {
-    const settings = await Settings.getAll()
-    // Faqat ommaviy ma'lumotlarni qaytarish
+    const settings = await getCollection('settings').findOne({}) || {}
+    
     const publicSettings = {
       general: {
         siteName: settings.general?.siteName || 'Play Kids',
@@ -30,8 +32,9 @@ router.get('/public', async (req, res) => {
 // Get all settings
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const settings = await Settings.getAll()
-    res.json(settings)
+    const settings = await getCollection('settings').findOne({}) || {}
+    const { _id, ...rest } = settings
+    res.json(rest)
   } catch (error) {
     console.error('Get settings error:', error)
     res.status(500).json({ error: 'Sozlamalarni olishda xatolik' })
@@ -41,8 +44,9 @@ router.get('/', authenticateToken, async (req, res) => {
 // Get specific setting
 router.get('/:key', authenticateToken, async (req, res) => {
   try {
-    const value = await Settings.get(req.params.key)
-    if (value === null) {
+    const settings = await getCollection('settings').findOne({}) || {}
+    const value = settings[req.params.key]
+    if (value === undefined) {
       return res.status(404).json({ error: 'Sozlama topilmadi' })
     }
     res.json({ key: req.params.key, value })
@@ -52,15 +56,14 @@ router.get('/:key', authenticateToken, async (req, res) => {
   }
 })
 
-// Update settings (admin only for general settings, all users for profile)
+
+// Update settings
 router.put('/', authenticateToken, async (req, res) => {
   try {
     const settings = req.body
     const isAdmin = req.user.role === 'admin' || req.user.role === 'superadmin'
     
-    // Teacher faqat notifications va profile o'zgartira oladi
     if (!isAdmin) {
-      // Faqat notifications va profile ruxsat berilgan
       const allowedKeys = ['notifications']
       const requestedKeys = Object.keys(settings)
       const hasDisallowedKeys = requestedKeys.some(key => !allowedKeys.includes(key))
@@ -70,19 +73,46 @@ router.put('/', authenticateToken, async (req, res) => {
       }
     }
     
-    await Settings.setMultiple(settings)
-    res.json({ message: 'Sozlamalar saqlandi', settings })
+    const existingSettings = await getCollection('settings').findOne({}) || {}
+    const updatedSettings = { ...existingSettings, ...settings, updatedAt: new Date().toISOString() }
+    
+    if (existingSettings._id) {
+      await getCollection('settings').updateOne(
+        { _id: existingSettings._id },
+        { $set: updatedSettings }
+      )
+    } else {
+      await getCollection('settings').insertOne(updatedSettings)
+    }
+    
+    res.json({ message: 'Sozlamalar saqlandi', settings: updatedSettings })
   } catch (error) {
     console.error('Update settings error:', error)
     res.status(500).json({ error: 'Sozlamalarni saqlashda xatolik' })
   }
 })
 
-// Update specific setting (admin only)
+// Update specific setting
 router.put('/:key', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
     const { value } = req.body
-    await Settings.set(req.params.key, value)
+    const existingSettings = await getCollection('settings').findOne({}) || {}
+    
+    const updatedSettings = { 
+      ...existingSettings, 
+      [req.params.key]: value,
+      updatedAt: new Date().toISOString()
+    }
+    
+    if (existingSettings._id) {
+      await getCollection('settings').updateOne(
+        { _id: existingSettings._id },
+        { $set: updatedSettings }
+      )
+    } else {
+      await getCollection('settings').insertOne(updatedSettings)
+    }
+    
     res.json({ message: 'Sozlama saqlandi', key: req.params.key, value })
   } catch (error) {
     console.error('Update setting error:', error)
@@ -90,10 +120,18 @@ router.put('/:key', authenticateToken, requireRole('admin'), async (req, res) =>
   }
 })
 
-// Delete setting (admin only)
-router.delete('/:key', authenticateToken, requireRole('admin'), async (_req, res) => {
+// Delete setting
+router.delete('/:key', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
-    await Settings.delete(_req.params.key)
+    const existingSettings = await getCollection('settings').findOne({})
+    
+    if (existingSettings) {
+      await getCollection('settings').updateOne(
+        { _id: existingSettings._id },
+        { $unset: { [req.params.key]: '' } }
+      )
+    }
+    
     res.json({ message: 'Sozlama o\'chirildi' })
   } catch (error) {
     console.error('Delete setting error:', error)

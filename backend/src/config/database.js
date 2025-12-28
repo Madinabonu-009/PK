@@ -79,14 +79,15 @@ async function seedAllDataIfEmpty() {
       }
     }
 
-    // 2. CHILDREN
+    // 2. CHILDREN - validation o'chirilgan
     if (childCount === 0) {
       const childrenJson = readJsonFile('children.json')
       if (childrenJson.length > 0) {
-        await Child.insertMany(childrenJson.map(c => ({
+        const childrenCollection = mongoose.connection.collection('children')
+        await childrenCollection.insertMany(childrenJson.map(c => ({
           firstName: c.firstName,
           lastName: c.lastName,
-          birthDate: c.birthDate,
+          birthDate: c.birthDate ? new Date(c.birthDate) : new Date(),
           gender: c.gender || 'male',
           groupId: c.groupId,
           groupName: c.groupName,
@@ -101,17 +102,20 @@ async function seedAllDataIfEmpty() {
           achievements: c.achievements || [],
           isActive: c.isActive !== false,
           isDeleted: c.isDeleted || false,
-          enrolledAt: c.enrolledAt || new Date()
+          enrolledAt: c.enrolledAt ? new Date(c.enrolledAt) : new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date()
         })))
         console.log(`✅ Children seeded: ${childrenJson.length}`)
       }
     }
 
-    // 3. TEACHERS
+    // 3. TEACHERS - validation o'chirilgan
     if (teacherCount === 0) {
       const teachersJson = readJsonFile('teachers.json')
       if (teachersJson.length > 0) {
-        await Teacher.insertMany(teachersJson.map(t => ({
+        const teachersCollection = mongoose.connection.collection('teachers')
+        await teachersCollection.insertMany(teachersJson.map(t => ({
           name: t.name,
           firstName: t.name?.split(' ')[0] || t.name,
           lastName: t.name?.split(' ').slice(1).join(' ') || '',
@@ -125,18 +129,21 @@ async function seedAllDataIfEmpty() {
           bio: t.bio,
           category: t.category,
           specialization: t.specialization,
-          isActive: t.isDeleted !== true
+          isActive: t.isDeleted !== true,
+          createdAt: new Date(),
+          updatedAt: new Date()
         })))
         console.log(`✅ Teachers seeded: ${teachersJson.length}`)
       }
     }
 
-    // 4. GALLERY
+    // 4. GALLERY - validation o'chirilgan
     if (galleryCount === 0) {
       const galleryJson = readJsonFile('gallery.json')
       if (galleryJson.length > 0) {
-        await Gallery.insertMany(galleryJson.map(g => ({
-          type: g.type,
+        const galleryCollection = mongoose.connection.collection('galleries')
+        await galleryCollection.insertMany(galleryJson.map(g => ({
+          type: g.type || 'image',
           url: g.url,
           thumbnail: g.thumbnail || g.url,
           title: g.title || '',
@@ -144,7 +151,8 @@ async function seedAllDataIfEmpty() {
           album: g.album || 'general',
           published: g.published !== false,
           isDeleted: g.isDeleted || false,
-          createdAt: g.createdAt || g.date || new Date()
+          createdAt: g.createdAt ? new Date(g.createdAt) : new Date(),
+          updatedAt: new Date()
         })))
         console.log(`✅ Gallery seeded: ${galleryJson.length}`)
       }
@@ -163,10 +171,11 @@ async function seedAllDataIfEmpty() {
 // Generic collectionlarni seed qilish
 async function seedGenericCollections() {
   const collections = [
-    'groups', 'menu', 'gallery', 'stories', 'feedback', 
+    'groups', 'menu', 'stories', 'feedback', 
     'events', 'attendance', 'payments', 'dailyReports', 
     'debts', 'achievements', 'progress', 'enrollments',
-    'settings', 'questions', 'journal', 'blog', 'curriculum'
+    'settings', 'questions', 'journal', 'blog', 'curriculum',
+    'gameprogress'
   ]
 
   for (const name of collections) {
@@ -179,16 +188,26 @@ async function seedGenericCollections() {
         const count = await collection.countDocuments()
         if (count === 0) {
           if (Array.isArray(data)) {
-            await collection.insertMany(data)
+            // Ma'lumotlarni tozalash va createdAt qo'shish
+            const cleanedData = data.map(item => ({
+              ...item,
+              createdAt: item.createdAt || new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            }))
+            await collection.insertMany(cleanedData)
             console.log(`✅ ${name}: ${data.length}`)
           } else {
-            await collection.insertOne(data)
+            await collection.insertOne({
+              ...data,
+              createdAt: data.createdAt || new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            })
             console.log(`✅ ${name}: 1 document`)
           }
         }
       }
     } catch (error) {
-      // Skip errors for collections without models
+      console.error(`⚠️ ${name} seed xatosi:`, error.message)
     }
   }
 }

@@ -1,39 +1,32 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
-import { readData, writeData } from '../utils/db.js'
+import mongoose from 'mongoose'
 import { authenticateToken } from '../middleware/auth.js'
 
 const router = express.Router()
 
-// GET /api/journal - Barcha jurnal yozuvlarini olish
+const getCollection = (name) => mongoose.connection.collection(name)
+
+const normalizeDoc = (doc) => {
+  if (!doc) return null
+  const { _id, ...rest } = doc
+  return { id: _id.toString(), ...rest }
+}
+
+// GET /api/journal
 router.get('/', async (req, res) => {
   try {
     const { type, groupId, limit } = req.query
+    let query = { isDeleted: { $ne: true }, isPublic: { $ne: false } }
     
-    let journal = readData('journal.json') || []
+    if (type) query.type = type
+    if (groupId) query.groupId = groupId
     
-    // Filter out soft-deleted entries
-    journal = journal.filter(j => !j.isDeleted)
+    let cursor = getCollection('journal').find(query).sort({ date: -1 })
+    if (limit) cursor = cursor.limit(parseInt(limit))
     
-    // Faqat public yozuvlar
-    journal = journal.filter(j => j.isPublic !== false)
-    
-    if (type) {
-      journal = journal.filter(j => j.type === type)
-    }
-    
-    if (groupId) {
-      journal = journal.filter(j => j.groupId === groupId)
-    }
-    
-    // Eng yangilarini birinchi
-    journal.sort((a, b) => new Date(b.date) - new Date(a.date))
-    
-    if (limit) {
-      journal = journal.slice(0, parseInt(limit))
-    }
-    
-    res.json(journal)
+    const journal = await cursor.toArray()
+    res.json(journal.map(normalizeDoc))
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch journal' })
   }
@@ -42,20 +35,28 @@ router.get('/', async (req, res) => {
 // GET /api/journal/:id
 router.get('/:id', async (req, res) => {
   try {
-    const journal = readData('journal.json') || []
-    const entry = journal.find(j => j.id === req.params.id && !j.isDeleted)
-    
-    if (!entry) {
-      return res.status(404).json({ error: 'Journal entry not found' })
+    let entry
+    try {
+      entry = await getCollection('journal').findOne({ 
+        _id: new mongoose.Types.ObjectId(req.params.id),
+        isDeleted: { $ne: true }
+      })
+    } catch {
+      entry = await getCollection('journal').findOne({ 
+        id: req.params.id,
+        isDeleted: { $ne: true }
+      })
     }
     
-    res.json(entry)
+    if (!entry) return res.status(404).json({ error: 'Journal entry not found' })
+    res.json(normalizeDoc(entry))
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch journal entry' })
   }
 })
 
-// POST /api/journal - Yangi yozuv qo'shish (admin/teacher)
+
+// POST /api/journal
 router.post('/', authenticateToken, async (req, res) => {
   try {
     const { title, description, type, mediaUrl, groupId, groupName, date, tags } = req.body
@@ -63,8 +64,6 @@ router.post('/', authenticateToken, async (req, res) => {
     if (!title || !mediaUrl) {
       return res.status(400).json({ error: 'Title and mediaUrl are required' })
     }
-    
-    const journal = readData('journal.json') || []
     
     const newEntry = {
       id: uuidv4(),
@@ -82,10 +81,8 @@ router.post('/', authenticateToken, async (req, res) => {
       createdAt: new Date().toISOString()
     }
     
-    journal.push(newEntry)
-    writeData('journal.json', journal)
-    
-    res.status(201).json(newEntry)
+    await getCollection('journal').insertOne(newEntry)
+    res.status(201).json(normalizeDoc(newEntry))
   } catch (error) {
     res.status(500).json({ error: 'Failed to create journal entry' })
   }
@@ -94,42 +91,48 @@ router.post('/', authenticateToken, async (req, res) => {
 // PUT /api/journal/:id
 router.put('/:id', authenticateToken, async (req, res) => {
   try {
-    const journal = readData('journal.json') || []
-    const index = journal.findIndex(j => j.id === req.params.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Journal entry not found' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const result = await getCollection('journal').findOneAndUpdate(
+      filter,
+      { $set: { ...req.body, updatedAt: new Date().toISOString() } },
+      { returnDocument: 'after' }
+    )
     
-    journal[index] = {
-      ...journal[index],
-      ...req.body,
-      updatedAt: new Date().toISOString()
-    }
-    
-    writeData('journal.json', journal)
-    res.json(journal[index])
+    const entry = result.value || result
+    if (!entry) return res.status(404).json({ error: 'Journal entry not found' })
+    res.json(normalizeDoc(entry))
   } catch (error) {
     res.status(500).json({ error: 'Failed to update journal entry' })
   }
 })
 
-// DELETE /api/journal/:id (soft delete)
+// DELETE /api/journal/:id
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
-    const journal = readData('journal.json') || []
-    const index = journal.findIndex(j => j.id === req.params.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Journal entry not found' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const result = await getCollection('journal').findOneAndUpdate(
+      filter,
+      { $set: {
+        isDeleted: true,
+        deletedAt: new Date().toISOString(),
+        deletedBy: req.user?.username || 'admin'
+      }},
+      { returnDocument: 'after' }
+    )
     
-    // Soft delete
-    journal[index].isDeleted = true
-    journal[index].deletedAt = new Date().toISOString()
-    journal[index].deletedBy = req.user?.username || 'admin'
-    writeData('journal.json', journal)
-    
+    if (!result.value && !result._id) return res.status(404).json({ error: 'Journal entry not found' })
     res.json({ message: 'Journal entry deleted' })
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete journal entry' })

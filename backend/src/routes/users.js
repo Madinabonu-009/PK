@@ -1,67 +1,62 @@
 import express from 'express'
 import bcrypt from 'bcryptjs'
-import { readData, writeData } from '../utils/db.js'
+import mongoose from 'mongoose'
 import { authenticateToken, requireRole } from '../middleware/auth.js'
 import logger from '../utils/logger.js'
 
 const router = express.Router()
 
-// GET /api/users - Barcha foydalanuvchilarni olish (admin only)
+const getCollection = (name) => mongoose.connection.collection(name)
+
+const normalizeDoc = (doc) => {
+  if (!doc) return null
+  const { _id, password, ...rest } = doc
+  return { id: _id.toString(), ...rest }
+}
+
+// GET /api/users
 router.get('/', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
-    const users = readData('users.json') || []
-    
-    // Parollarni olib tashlash (lekin plainPassword qoldirish)
-    const safeUsers = users.map(({ password, ...user }) => user)
-    
-    res.json({ data: safeUsers })
+    const users = await getCollection('users').find({}).toArray()
+    res.json({ data: users.map(normalizeDoc) })
   } catch (error) {
     logger.error('Get users error:', error)
     res.status(500).json({ error: 'Foydalanuvchilarni yuklashda xatolik' })
   }
 })
 
-// GET /api/users/:id - Bitta foydalanuvchini olish
+// GET /api/users/:id
 router.get('/:id', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
-    const users = readData('users.json') || []
-    const user = users.find(u => u.id === req.params.id)
-    
-    if (!user) {
-      return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
+    let user
+    try {
+      user = await getCollection('users').findOne({ _id: new mongoose.Types.ObjectId(req.params.id) })
+    } catch {
+      user = await getCollection('users').findOne({ id: req.params.id })
     }
     
-    const { password, ...safeUser } = user
-    res.json(safeUser)
+    if (!user) return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
+    res.json(normalizeDoc(user))
   } catch (error) {
     logger.error('Get user error:', error)
     res.status(500).json({ error: 'Foydalanuvchini yuklashda xatolik' })
   }
 })
 
-// POST /api/users - Yangi foydalanuvchi yaratish (admin only)
+// POST /api/users
 router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
     const { name, email, phone, role, password, isActive } = req.body
     
-    if (!email) {
-      return res.status(400).json({ error: 'Email majburiy' })
-    }
+    if (!email) return res.status(400).json({ error: 'Email majburiy' })
+
+    const existingEmail = await getCollection('users').findOne({ email })
+    if (existingEmail) return res.status(400).json({ error: 'Bu email allaqachon mavjud' })
     
-    const users = readData('users.json') || []
-    
-    // Email mavjudligini tekshirish
-    if (users.find(u => u.email === email)) {
-      return res.status(400).json({ error: 'Bu email allaqachon mavjud' })
-    }
-    
-    // Username yaratish (email'dan)
     const username = email.split('@')[0].toLowerCase()
-    if (users.find(u => u.username === username)) {
-      return res.status(400).json({ error: 'Bu username allaqachon mavjud' })
-    }
+    const existingUsername = await getCollection('users').findOne({ username })
+    if (existingUsername) return res.status(400).json({ error: 'Bu username allaqachon mavjud' })
     
-    // Parolni hash qilish
     const plainPass = password || 'password123'
     const hashedPassword = await bcrypt.hash(plainPass, 10)
     
@@ -78,125 +73,111 @@ router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
       createdAt: new Date().toISOString()
     }
     
-    users.push(newUser)
-    
-    if (!writeData('users.json', users)) {
-      return res.status(500).json({ error: 'Ma\'lumotlarni saqlashda xatolik' })
-    }
-    
+    await getCollection('users').insertOne(newUser)
     logger.info('User created', { email, role, createdBy: req.user.username })
     
-    const { password: _, ...safeUser } = newUser
-    res.status(201).json(safeUser)
+    res.status(201).json(normalizeDoc(newUser))
   } catch (error) {
     logger.error('Create user error:', error)
     res.status(500).json({ error: 'Foydalanuvchi yaratishda xatolik' })
   }
 })
 
-// PUT /api/users/:id - Foydalanuvchini yangilash (admin only)
+// PUT /api/users/:id
 router.put('/:id', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
     const { name, email, phone, role, password, isActive } = req.body
     
-    const users = readData('users.json') || []
-    const index = users.findIndex(u => u.id === req.params.id)
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
+    }
+
+    const user = await getCollection('users').findOne(filter)
+    if (!user) return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
     
-    if (index === -1) {
-      return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
+    if (email && email !== user.email) {
+      const existingEmail = await getCollection('users').findOne({ email, _id: { $ne: user._id } })
+      if (existingEmail) return res.status(400).json({ error: 'Bu email allaqachon mavjud' })
     }
     
-    // Email o'zgartirilsa, boshqa foydalanuvchida mavjudligini tekshirish
-    if (email && email !== users[index].email) {
-      if (users.find(u => u.email === email && u.id !== req.params.id)) {
-        return res.status(400).json({ error: 'Bu email allaqachon mavjud' })
-      }
-    }
-    
-    // Ma'lumotlarni yangilash
-    if (name !== undefined) users[index].name = name
-    if (email !== undefined) users[index].email = email
-    if (phone !== undefined) users[index].phone = phone
-    if (role !== undefined) users[index].role = role
-    if (isActive !== undefined) users[index].isActive = isActive
-    users[index].updatedAt = new Date().toISOString()
-    
-    // Parol yangilanayotgan bo'lsa
-    if (password) {
-      users[index].password = await bcrypt.hash(password, 10)
-    }
-    
-    if (!writeData('users.json', users)) {
-      return res.status(500).json({ error: 'Ma\'lumotlarni saqlashda xatolik' })
-    }
+    const updateData = { updatedAt: new Date().toISOString() }
+    if (name !== undefined) updateData.name = name
+    if (email !== undefined) updateData.email = email
+    if (phone !== undefined) updateData.phone = phone
+    if (role !== undefined) updateData.role = role
+    if (isActive !== undefined) updateData.isActive = isActive
+    if (password) updateData.password = await bcrypt.hash(password, 10)
+
+    const result = await getCollection('users').findOneAndUpdate(
+      filter,
+      { $set: updateData },
+      { returnDocument: 'after' }
+    )
     
     logger.info('User updated', { userId: req.params.id, updatedBy: req.user.username })
-    
-    const { password: _, ...safeUser } = users[index]
-    res.json(safeUser)
+    res.json(normalizeDoc(result.value || result))
   } catch (error) {
     logger.error('Update user error:', error)
     res.status(500).json({ error: 'Foydalanuvchini yangilashda xatolik' })
   }
 })
 
-// DELETE /api/users/:id - Foydalanuvchini o'chirish (admin only)
+// DELETE /api/users/:id
 router.delete('/:id', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
-    const users = readData('users.json') || []
-    const index = users.findIndex(u => u.id === req.params.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const user = await getCollection('users').findOne(filter)
+    if (!user) return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
     
-    // O'zini o'chirmaslik
-    if (users[index].id === req.user.id) {
+    if (user.id === req.user.id || user._id?.toString() === req.user.id) {
       return res.status(400).json({ error: 'O\'zingizni o\'chira olmaysiz' })
     }
     
-    const deletedUser = users.splice(index, 1)[0]
-    
-    if (!writeData('users.json', users)) {
-      return res.status(500).json({ error: 'Ma\'lumotlarni saqlashda xatolik' })
-    }
-    
+    await getCollection('users').deleteOne(filter)
     logger.info('User deleted', { userId: req.params.id, deletedBy: req.user.username })
     
-    res.json({ message: 'Foydalanuvchi o\'chirildi', id: deletedUser.id })
+    res.json({ message: 'Foydalanuvchi o\'chirildi', id: req.params.id })
   } catch (error) {
     logger.error('Delete user error:', error)
     res.status(500).json({ error: 'Foydalanuvchini o\'chirishda xatolik' })
   }
 })
 
-// PUT /api/users/:id/password - Admin tomonidan foydalanuvchi parolini o'zgartirish
+// PUT /api/users/:id/password
 router.put('/:id/password', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
     const { password } = req.body
+    if (!password) return res.status(400).json({ error: 'Yangi parol majburiy' })
     
-    if (!password) {
-      return res.status(400).json({ error: 'Yangi parol majburiy' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const result = await getCollection('users').findOneAndUpdate(
+      filter,
+      { $set: { 
+        password: await bcrypt.hash(password, 10),
+        plainPassword: password,
+        updatedAt: new Date().toISOString()
+      }},
+      { returnDocument: 'after' }
+    )
     
-    const users = readData('users.json') || []
-    const index = users.findIndex(u => u.id === req.params.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
-    }
-    
-    // Yangi parolni saqlash
-    users[index].password = await bcrypt.hash(password, 10)
-    users[index].plainPassword = password // Admin ko'rishi uchun
-    users[index].updatedAt = new Date().toISOString()
-    
-    if (!writeData('users.json', users)) {
-      return res.status(500).json({ error: 'Ma\'lumotlarni saqlashda xatolik' })
-    }
+    if (!result.value && !result._id) return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
     
     logger.info('User password changed by admin', { userId: req.params.id, changedBy: req.user.username })
-    
     res.json({ message: 'Parol muvaffaqiyatli o\'zgartirildi' })
   } catch (error) {
     logger.error('Admin change password error:', error)
@@ -204,63 +185,64 @@ router.put('/:id/password', authenticateToken, requireRole('admin'), async (req,
   }
 })
 
-// PUT /api/users/profile - O'z profilini yangilash
+// PUT /api/users/profile
 router.put('/profile', authenticateToken, async (req, res) => {
   try {
     const { name, phone } = req.body
     
-    const users = readData('users.json') || []
-    const index = users.findIndex(u => u.id === req.user.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.user.id) }
+    } catch {
+      filter = { id: req.user.id }
     }
+
+    const updateData = { updatedAt: new Date().toISOString() }
+    if (name !== undefined) updateData.name = name
+    if (phone !== undefined) updateData.phone = phone
+
+    const result = await getCollection('users').findOneAndUpdate(
+      filter,
+      { $set: updateData },
+      { returnDocument: 'after' }
+    )
     
-    if (name !== undefined) users[index].name = name
-    if (phone !== undefined) users[index].phone = phone
-    users[index].updatedAt = new Date().toISOString()
-    
-    if (!writeData('users.json', users)) {
-      return res.status(500).json({ error: 'Ma\'lumotlarni saqlashda xatolik' })
-    }
-    
-    const { password: _, ...safeUser } = users[index]
-    res.json(safeUser)
+    if (!result.value && !result._id) return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
+    res.json(normalizeDoc(result.value || result))
   } catch (error) {
     logger.error('Update profile error:', error)
     res.status(500).json({ error: 'Profilni yangilashda xatolik' })
   }
 })
 
-// PUT /api/users/password - Parolni o'zgartirish
+// PUT /api/users/password
 router.put('/password', authenticateToken, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body
-    
     if (!currentPassword || !newPassword) {
       return res.status(400).json({ error: 'Joriy va yangi parol majburiy' })
     }
     
-    const users = readData('users.json') || []
-    const index = users.findIndex(u => u.id === req.user.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.user.id) }
+    } catch {
+      filter = { id: req.user.id }
     }
+
+    const user = await getCollection('users').findOne(filter)
+    if (!user) return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
     
-    // Joriy parolni tekshirish
-    const validPassword = await bcrypt.compare(currentPassword, users[index].password)
-    if (!validPassword) {
-      return res.status(400).json({ error: 'Joriy parol noto\'g\'ri' })
-    }
+    const validPassword = await bcrypt.compare(currentPassword, user.password)
+    if (!validPassword) return res.status(400).json({ error: 'Joriy parol noto\'g\'ri' })
     
-    // Yangi parolni saqlash
-    users[index].password = await bcrypt.hash(newPassword, 10)
-    users[index].updatedAt = new Date().toISOString()
-    
-    if (!writeData('users.json', users)) {
-      return res.status(500).json({ error: 'Ma\'lumotlarni saqlashda xatolik' })
-    }
+    await getCollection('users').updateOne(
+      filter,
+      { $set: { 
+        password: await bcrypt.hash(newPassword, 10),
+        updatedAt: new Date().toISOString()
+      }}
+    )
     
     res.json({ message: 'Parol muvaffaqiyatli o\'zgartirildi' })
   } catch (error) {

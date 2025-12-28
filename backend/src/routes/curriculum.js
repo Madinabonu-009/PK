@@ -1,40 +1,50 @@
-import express from 'express';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import express from 'express'
+import mongoose from 'mongoose'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const router = express.Router();
+const router = express.Router()
 
-const dataPath = path.join(__dirname, '../../data/curriculum.json');
+const getCollection = (name) => mongoose.connection.collection(name)
 
-const readData = () => JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+const normalizeDoc = (doc) => {
+  if (!doc) return null
+  const { _id, ...rest } = doc
+  return { id: _id.toString(), ...rest }
+}
 
 // O'quv dasturi (public)
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const curriculum = readData();
-    res.json(curriculum);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Yosh guruhi bo'yicha
-router.get('/:ageGroupId', (req, res) => {
-  try {
-    const curriculum = readData();
-    const ageGroup = curriculum.ageGroups.find(g => g.id === req.params.ageGroupId);
+    const curriculum = await getCollection('curriculum').findOne({})
     
-    if (!ageGroup) {
-      return res.status(404).json({ error: 'Yosh guruhi topilmadi' });
+    if (!curriculum) {
+      return res.json({ ageGroups: [], subjects: [], schedule: {} })
     }
     
-    res.json(ageGroup);
+    res.json(normalizeDoc(curriculum))
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
-});
+})
 
-export default router;
+// Yosh guruhi bo'yicha
+router.get('/:ageGroupId', async (req, res) => {
+  try {
+    const curriculum = await getCollection('curriculum').findOne({})
+    
+    if (!curriculum || !curriculum.ageGroups) {
+      return res.status(404).json({ error: 'Yosh guruhi topilmadi' })
+    }
+    
+    const ageGroup = curriculum.ageGroups.find(g => g.id === req.params.ageGroupId)
+    
+    if (!ageGroup) {
+      return res.status(404).json({ error: 'Yosh guruhi topilmadi' })
+    }
+    
+    res.json(ageGroup)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+export default router

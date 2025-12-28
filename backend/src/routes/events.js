@@ -1,81 +1,50 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
-import { readData, writeData } from '../utils/db.js'
+import mongoose from 'mongoose'
 import { authenticateToken } from '../middleware/auth.js'
-import { normalizeId } from '../utils/helpers.js'
 import logger from '../utils/logger.js'
-import Event from '../models/Event.js'
 
 const router = express.Router()
+
+const getCollection = (name) => mongoose.connection.collection(name)
+
+const normalizeDoc = (doc) => {
+  if (!doc) return null
+  const { _id, ...rest } = doc
+  return { id: _id.toString(), ...rest }
+}
 
 // GET /api/events
 router.get('/', async (req, res) => {
   try {
     const { month, year, type, all, page = 1, limit = 20 } = req.query
     const pageNum = parseInt(page) || 1
-    const limitNum = Math.min(parseInt(limit) || 20, 100) // Max 100 per page
+    const limitNum = Math.min(parseInt(limit) || 20, 100)
     const skip = (pageNum - 1) * limitNum
     
-    if (req.app.locals.useDatabase) {
-      let query = { isDeleted: { $ne: true } }
-      if (type) query.type = type
-      if (!all) query.published = true
-      
-      if (month && year) {
-        const startDate = new Date(year, month - 1, 1)
-        const endDate = new Date(year, month, 0)
-        query.date = { $gte: startDate, $lte: endDate }
-      }
-      
-      const [events, total] = await Promise.all([
-        Event.find(query).sort({ date: 1 }).skip(skip).limit(limitNum),
-        Event.countDocuments(query)
-      ])
-      
-      return res.json({
-        data: events.map(normalizeId),
-        pagination: {
-          page: pageNum,
-          limit: limitNum,
-          total,
-          pages: Math.ceil(total / limitNum),
-          hasNext: pageNum * limitNum < total,
-          hasPrev: pageNum > 1
-        }
-      })
-    }
-    
-    let events = readData('events.json') || []
-    
-    // Filter out deleted events
-    events = events.filter(e => !e.isDeleted)
-    
-    // Faqat published (agar all=true bo'lmasa)
-    if (!all) {
-      events = events.filter(e => e.published !== false)
-    }
+    let query = { isDeleted: { $ne: true } }
+    if (type) query.type = type
+    if (!all) query.published = { $ne: false }
     
     if (month && year) {
-      events = events.filter(e => {
-        const eventDate = new Date(e.date)
-        return eventDate.getMonth() + 1 === parseInt(month) && 
-               eventDate.getFullYear() === parseInt(year)
-      })
+      const startDate = new Date(year, month - 1, 1)
+      const endDate = new Date(year, month, 0)
+      query.date = { $gte: startDate.toISOString(), $lte: endDate.toISOString() }
     }
-    if (type) events = events.filter(e => e.type === type)
-    events.sort((a, b) => new Date(a.date) - new Date(b.date))
     
-    const total = events.length
-    const paginated = events.slice(skip, skip + limitNum)
+    const [events, total] = await Promise.all([
+      getCollection('events').find(query).sort({ date: 1 }).skip(skip).limit(limitNum).toArray(),
+      getCollection('events').countDocuments(query)
+    ])
     
     res.json({
-      data: paginated,
+      data: events.map(normalizeDoc),
       pagination: {
         page: pageNum,
         limit: limitNum,
         total,
         pages: Math.ceil(total / limitNum),
-        hasNext: skip + limitNum < total,
+        hasNext: pageNum * limitNum < total,
         hasPrev: pageNum > 1
       }
     })
@@ -88,16 +57,15 @@ router.get('/', async (req, res) => {
 // GET /api/events/:id
 router.get('/:id', async (req, res) => {
   try {
-    if (req.app.locals.useDatabase) {
-      const event = await Event.findById(req.params.id)
-      if (!event) return res.status(404).json({ error: 'Event not found' })
-      return res.json(event)
+    let event
+    try {
+      event = await getCollection('events').findOne({ _id: new mongoose.Types.ObjectId(req.params.id) })
+    } catch {
+      event = await getCollection('events').findOne({ id: req.params.id })
     }
     
-    const events = readData('events.json') || []
-    const event = events.find(e => e.id === req.params.id)
     if (!event) return res.status(404).json({ error: 'Event not found' })
-    res.json(event)
+    res.json(normalizeDoc(event))
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch event' })
   }
@@ -111,32 +79,20 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Title and date are required' })
     }
     
-    if (req.app.locals.useDatabase) {
-      const event = new Event({
-        title,
-        date,
-        type: type || 'event',
-        color: color || '#667eea',
-        description,
-        location
-      })
-      await event.save()
-      return res.status(201).json(event)
-    }
-    
-    const events = readData('events.json') || []
-    const newEvent = {
+    const event = {
       id: uuidv4(),
       title,
       date,
       type: type || 'event',
       color: color || '#667eea',
       description,
-      location
+      location,
+      published: true,
+      createdAt: new Date().toISOString()
     }
-    events.push(newEvent)
-    writeData('events.json', events)
-    res.status(201).json(newEvent)
+    
+    await getCollection('events').insertOne(event)
+    res.status(201).json(normalizeDoc(event))
   } catch (error) {
     res.status(500).json({ error: 'Failed to create event' })
   }
@@ -145,51 +101,48 @@ router.post('/', authenticateToken, async (req, res) => {
 // PUT /api/events/:id
 router.put('/:id', authenticateToken, async (req, res) => {
   try {
-    if (req.app.locals.useDatabase) {
-      const event = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true })
-      if (!event) return res.status(404).json({ error: 'Event not found' })
-      return res.json(event)
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const result = await getCollection('events').findOneAndUpdate(
+      filter,
+      { $set: { ...req.body, updatedAt: new Date().toISOString() } },
+      { returnDocument: 'after' }
+    )
     
-    const events = readData('events.json') || []
-    const index = events.findIndex(e => e.id === req.params.id)
-    if (index === -1) return res.status(404).json({ error: 'Event not found' })
-    
-    events[index] = { ...events[index], ...req.body }
-    writeData('events.json', events)
-    res.json(events[index])
+    const event = result.value || result
+    if (!event) return res.status(404).json({ error: 'Event not found' })
+    res.json(normalizeDoc(event))
   } catch (error) {
     res.status(500).json({ error: 'Failed to update event' })
   }
 })
 
-// DELETE /api/events/:id (soft delete)
+// DELETE /api/events/:id
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
-    if (req.app.locals.useDatabase) {
-      const event = await Event.findByIdAndUpdate(
-        req.params.id,
-        {
-          isDeleted: true,
-          deletedAt: new Date(),
-          deletedBy: req.user?.id || 'unknown'
-        },
-        { new: true }
-      )
-      if (!event) return res.status(404).json({ error: 'Event not found' })
-      return res.json({ message: 'Event deleted' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const result = await getCollection('events').findOneAndUpdate(
+      filter,
+      { $set: {
+        isDeleted: true,
+        deletedAt: new Date().toISOString(),
+        deletedBy: req.user?.id || 'unknown'
+      }},
+      { returnDocument: 'after' }
+    )
     
-    let events = readData('events.json') || []
-    const index = events.findIndex(e => e.id === req.params.id)
-    if (index === -1) return res.status(404).json({ error: 'Event not found' })
-    
-    // Soft delete
-    events[index].isDeleted = true
-    events[index].deletedAt = new Date().toISOString()
-    events[index].deletedBy = req.user?.id || 'unknown'
-    
-    writeData('events.json', events)
+    if (!result.value && !result._id) return res.status(404).json({ error: 'Event not found' })
     res.json({ message: 'Event deleted' })
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete event' })

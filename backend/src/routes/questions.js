@@ -1,54 +1,59 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
-import { readData, writeData } from '../utils/db.js'
+import mongoose from 'mongoose'
 import { authenticateToken } from '../middleware/auth.js'
 
 const router = express.Router()
 
-// GET /api/questions - Foydalanuvchi o'z savollarini ko'rish (telefon raqami bilan)
+const getCollection = (name) => mongoose.connection.collection(name)
+
+const normalizeDoc = (doc) => {
+  if (!doc) return null
+  const { _id, ...rest } = doc
+  return { id: _id.toString(), ...rest }
+}
+
+// GET /api/questions
 router.get('/', async (req, res) => {
   try {
     const { phone } = req.query
-    let questions = readData('questions.json') || []
+    let query = { isDeleted: { $ne: true } }
     
-    // Filter out soft-deleted questions
-    questions = questions.filter(q => !q.isDeleted)
+    if (phone) query.parentPhone = phone
     
-    if (phone) {
-      // Faqat o'z savollarini ko'rsin
-      questions = questions.filter(q => q.parentPhone === phone)
-    }
+    const questions = await getCollection('questions')
+      .find(query)
+      .sort({ createdAt: -1 })
+      .toArray()
     
-    questions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    res.json(questions)
+    res.json(questions.map(normalizeDoc))
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch questions' })
   }
 })
 
-// GET /api/questions/all - Admin uchun barcha savollar
+// GET /api/questions/all
 router.get('/all', authenticateToken, async (req, res) => {
   try {
     const { status, includeDeleted } = req.query
-    let questions = readData('questions.json') || []
+    let query = {}
     
-    // Filter out soft-deleted unless admin requests them
-    if (includeDeleted !== 'true') {
-      questions = questions.filter(q => !q.isDeleted)
-    }
+    if (includeDeleted !== 'true') query.isDeleted = { $ne: true }
+    if (status) query.status = status
     
-    if (status) {
-      questions = questions.filter(q => q.status === status)
-    }
+    const questions = await getCollection('questions')
+      .find(query)
+      .sort({ createdAt: -1 })
+      .toArray()
     
-    questions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    res.json(questions)
+    res.json(questions.map(normalizeDoc))
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch questions' })
   }
 })
 
-// POST /api/questions - Yangi savol yuborish
+
+// POST /api/questions
 router.post('/', async (req, res) => {
   try {
     const { question, parentName, parentPhone, childId } = req.body
@@ -56,8 +61,6 @@ router.post('/', async (req, res) => {
     if (!question || !parentName || !parentPhone) {
       return res.status(400).json({ error: 'Question, name and phone are required' })
     }
-    
-    const questions = readData('questions.json') || []
     
     const newQuestion = {
       id: uuidv4(),
@@ -72,80 +75,95 @@ router.post('/', async (req, res) => {
       createdAt: new Date().toISOString()
     }
     
-    questions.push(newQuestion)
-    writeData('questions.json', questions)
+    await getCollection('questions').insertOne(newQuestion)
     
     res.status(201).json({
       message: 'Savolingiz qabul qilindi. Tez orada javob beramiz.',
-      question: newQuestion
+      question: normalizeDoc(newQuestion)
     })
   } catch (error) {
     res.status(500).json({ error: 'Failed to submit question' })
   }
 })
 
-// PUT /api/questions/:id/answer - Savolga javob berish (admin)
+// PUT /api/questions/:id/answer
 router.put('/:id/answer', authenticateToken, async (req, res) => {
   try {
     const { answerText } = req.body
+    if (!answerText) return res.status(400).json({ error: 'Answer text is required' })
     
-    if (!answerText) {
-      return res.status(400).json({ error: 'Answer text is required' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const result = await getCollection('questions').findOneAndUpdate(
+      filter,
+      { $set: {
+        answerText,
+        status: 'answered',
+        answeredAt: new Date().toISOString(),
+        answeredBy: req.user.username || 'admin',
+        seen: false
+      }},
+      { returnDocument: 'after' }
+    )
     
-    const questions = readData('questions.json') || []
-    const index = questions.findIndex(q => q.id === req.params.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Question not found' })
-    }
-    
-    questions[index].answerText = answerText
-    questions[index].status = 'answered'
-    questions[index].answeredAt = new Date().toISOString()
-    questions[index].answeredBy = req.user.username || 'admin'
-    questions[index].seen = false // Yangi javob - hali ko'rilmagan
-    
-    writeData('questions.json', questions)
-    res.json(questions[index])
+    const question = result.value || result
+    if (!question) return res.status(404).json({ error: 'Question not found' })
+    res.json(normalizeDoc(question))
   } catch (error) {
     res.status(500).json({ error: 'Failed to answer question' })
   }
 })
 
-// PUT /api/questions/:id/seen - Javobni ko'rilgan deb belgilash
+// PUT /api/questions/:id/seen
 router.put('/:id/seen', async (req, res) => {
   try {
-    const questions = readData('questions.json') || []
-    const index = questions.findIndex(q => q.id === req.params.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Question not found' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const result = await getCollection('questions').findOneAndUpdate(
+      filter,
+      { $set: { seen: true } },
+      { returnDocument: 'after' }
+    )
     
-    questions[index].seen = true
-    writeData('questions.json', questions)
-    res.json(questions[index])
+    const question = result.value || result
+    if (!question) return res.status(404).json({ error: 'Question not found' })
+    res.json(normalizeDoc(question))
   } catch (error) {
     res.status(500).json({ error: 'Failed to mark as seen' })
   }
 })
 
-// DELETE /api/questions/:id - Savolni o'chirish (admin) - soft delete
+// DELETE /api/questions/:id
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
-    const questions = readData('questions.json') || []
-    const index = questions.findIndex(q => q.id === req.params.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Question not found' })
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const result = await getCollection('questions').findOneAndUpdate(
+      filter,
+      { $set: {
+        isDeleted: true,
+        deletedAt: new Date().toISOString(),
+        deletedBy: req.user?.username || 'admin'
+      }},
+      { returnDocument: 'after' }
+    )
     
-    // Soft delete
-    questions[index].isDeleted = true
-    questions[index].deletedAt = new Date().toISOString()
-    questions[index].deletedBy = req.user?.username || 'admin'
-    writeData('questions.json', questions)
+    if (!result.value && !result._id) return res.status(404).json({ error: 'Question not found' })
     res.json({ message: 'Question deleted' })
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete question' })

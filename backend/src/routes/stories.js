@@ -1,147 +1,157 @@
-import express from 'express';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { authenticateToken } from '../middleware/auth.js';
+import express from 'express'
+import mongoose from 'mongoose'
+import { authenticateToken } from '../middleware/auth.js'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const router = express.Router();
+const router = express.Router()
 
-const dataPath = path.join(__dirname, '../../data/stories.json');
+const getCollection = (name) => mongoose.connection.collection(name)
 
-const readData = () => JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-const writeData = (data) => fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+const normalizeDoc = (doc) => {
+  if (!doc) return null
+  const { _id, ...rest } = doc
+  return { id: _id.toString(), ...rest }
+}
 
 // Bugungi story (public)
-router.get('/today', (req, res) => {
+router.get('/today', async (req, res) => {
   try {
-    const stories = readData();
-    const today = new Date().toISOString().split('T')[0];
-    const todayStory = stories.find(s => s.date === today);
+    const today = new Date().toISOString().split('T')[0]
+    const todayStory = await getCollection('stories').findOne({ date: today, isDeleted: { $ne: true } })
     
     if (todayStory) {
-      // View count oshirish
-      const index = stories.findIndex(s => s.id === todayStory.id);
-      stories[index].views = (stories[index].views || 0) + 1;
-      writeData(stories);
+      await getCollection('stories').updateOne(
+        { _id: todayStory._id },
+        { $inc: { views: 1 } }
+      )
     }
     
-    res.json(todayStory || null);
+    res.json(todayStory ? normalizeDoc(todayStory) : null)
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
-});
+})
 
 // Barcha storylar (admin)
-router.get('/', authenticateToken, (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
-    const stories = readData();
-    res.json(stories.sort((a, b) => new Date(b.date) - new Date(a.date)));
+    const stories = await getCollection('stories')
+      .find({ isDeleted: { $ne: true } })
+      .sort({ date: -1 })
+      .toArray()
+    res.json(stories.map(normalizeDoc))
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
-});
+})
 
 // Yangi story yaratish
-router.post('/', authenticateToken, (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
-    const stories = readData();
-    const { date, media, description } = req.body;
-    
-    // Shu kun uchun story bormi tekshirish
-    const existing = stories.find(s => s.date === date);
+    const { date, media, description } = req.body
+    const storyDate = date || new Date().toISOString().split('T')[0]
+
+    const existing = await getCollection('stories').findOne({ date: storyDate, isDeleted: { $ne: true } })
     if (existing) {
-      return res.status(400).json({ error: 'Bu kun uchun story allaqachon mavjud' });
+      return res.status(400).json({ error: 'Bu kun uchun story allaqachon mavjud' })
     }
     
     const newStory = {
       id: `story${Date.now()}`,
-      date: date || new Date().toISOString().split('T')[0],
+      date: storyDate,
       media: media || [],
       description: description || '',
       createdBy: req.user.id,
       createdAt: new Date().toISOString(),
       views: 0
-    };
+    }
     
-    stories.push(newStory);
-    writeData(stories);
-    
-    res.status(201).json(newStory);
+    await getCollection('stories').insertOne(newStory)
+    res.status(201).json(normalizeDoc(newStory))
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
-});
+})
 
 // Story yangilash
-router.put('/:id', authenticateToken, (req, res) => {
+router.put('/:id', authenticateToken, async (req, res) => {
   try {
-    const stories = readData();
-    const index = stories.findIndex(s => s.id === req.params.id);
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Story topilmadi' });
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
+
+    const { media, description } = req.body
+    const updateData = { updatedAt: new Date().toISOString() }
+    if (media) updateData.media = media
+    if (description !== undefined) updateData.description = description
+
+    const result = await getCollection('stories').findOneAndUpdate(
+      filter,
+      { $set: updateData },
+      { returnDocument: 'after' }
+    )
     
-    const { media, description } = req.body;
-    
-    if (media) stories[index].media = media;
-    if (description !== undefined) stories[index].description = description;
-    stories[index].updatedAt = new Date().toISOString();
-    
-    writeData(stories);
-    res.json(stories[index]);
+    const story = result.value || result
+    if (!story) return res.status(404).json({ error: 'Story topilmadi' })
+    res.json(normalizeDoc(story))
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
-});
+})
 
 // Media qo'shish
-router.post('/:id/media', authenticateToken, (req, res) => {
+router.post('/:id/media', authenticateToken, async (req, res) => {
   try {
-    const stories = readData();
-    const index = stories.findIndex(s => s.id === req.params.id);
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Story topilmadi' });
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
-    
-    const { type, url, caption } = req.body;
-    
-    stories[index].media.push({
-      type: type || 'image',
-      url,
-      caption: caption || ''
-    });
-    
-    writeData(stories);
-    res.json(stories[index]);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
-// Story o'chirish (soft delete)
-router.delete('/:id', authenticateToken, (req, res) => {
+    const { type, url, caption } = req.body
+    
+    const result = await getCollection('stories').findOneAndUpdate(
+      filter,
+      { $push: { media: { type: type || 'image', url, caption: caption || '' } } },
+      { returnDocument: 'after' }
+    )
+    
+    const story = result.value || result
+    if (!story) return res.status(404).json({ error: 'Story topilmadi' })
+    res.json(normalizeDoc(story))
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Story o'chirish
+router.delete('/:id', authenticateToken, async (req, res) => {
   try {
-    const stories = readData();
-    const index = stories.findIndex(s => s.id === req.params.id);
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Story topilmadi' });
+    let filter
+    try {
+      filter = { _id: new mongoose.Types.ObjectId(req.params.id) }
+    } catch {
+      filter = { id: req.params.id }
     }
-    
-    // Soft delete - mark as deleted instead of removing
-    stories[index].isDeleted = true;
-    stories[index].deletedAt = new Date().toISOString();
-    stories[index].deletedBy = req.user?.id || 'unknown';
-    
-    writeData(stories);
-    res.json({ success: true, message: 'Story deleted' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
-export default router;
+    const result = await getCollection('stories').findOneAndUpdate(
+      filter,
+      { $set: {
+        isDeleted: true,
+        deletedAt: new Date().toISOString(),
+        deletedBy: req.user?.id || 'unknown'
+      }},
+      { returnDocument: 'after' }
+    )
+    
+    if (!result.value && !result._id) return res.status(404).json({ error: 'Story topilmadi' })
+    res.json({ success: true, message: 'Story deleted' })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+export default router
