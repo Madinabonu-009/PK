@@ -108,9 +108,12 @@ if (process.env.NODE_ENV === 'production') {
     if (idx > -1) allowedOrigins.splice(idx, 1)
   })
   
-  // Add production domain
+  // Add production domains
   if (!allowedOrigins.includes('https://play-kids.onrender.com')) {
     allowedOrigins.push('https://play-kids.onrender.com')
+  }
+  if (!allowedOrigins.includes('https://pk-skus.onrender.com')) {
+    allowedOrigins.push('https://pk-skus.onrender.com')
   }
   
   // Specific subdomains only, not wildcard
