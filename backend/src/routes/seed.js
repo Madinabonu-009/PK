@@ -227,4 +227,44 @@ router.get('/status', async (req, res) => {
   }
 })
 
+// POST /api/seed/fix - Ma'lumotlarni tuzatish
+router.post('/fix', async (req, res) => {
+  try {
+    const results = {}
+    
+    // Teachers - isActive: true, isDeleted: false qilish
+    const teachersResult = await getCollection('teachers').updateMany(
+      {},
+      { $set: { isActive: true, isDeleted: false } }
+    )
+    results.teachersFixed = teachersResult.modifiedCount
+    
+    // Children - isActive: true, isDeleted: false qilish
+    const childrenResult = await getCollection('children').updateMany(
+      {},
+      { $set: { isActive: true, isDeleted: false } }
+    )
+    results.childrenFixed = childrenResult.modifiedCount
+    
+    // Gallery - published: true, isDeleted: false qilish
+    const galleryResult = await getCollection('galleries').updateMany(
+      {},
+      { $set: { published: true, isDeleted: false } }
+    )
+    results.galleryFixed = galleryResult.modifiedCount
+    
+    // Groups - isActive: true qilish
+    const groupsResult = await getCollection('groups').updateMany(
+      {},
+      { $set: { isActive: true } }
+    )
+    results.groupsFixed = groupsResult.modifiedCount
+    
+    console.log('✅ Data fixed:', results)
+    res.json({ success: true, results })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 export default router

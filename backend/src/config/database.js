@@ -85,6 +85,7 @@ async function seedAllDataIfEmpty() {
       if (childrenJson.length > 0) {
         const childrenCollection = mongoose.connection.collection('children')
         await childrenCollection.insertMany(childrenJson.map(c => ({
+          id: c.id,
           firstName: c.firstName,
           lastName: c.lastName,
           birthDate: c.birthDate ? new Date(c.birthDate) : new Date(),
@@ -100,8 +101,8 @@ async function seedAllDataIfEmpty() {
           points: c.points || 0,
           level: c.level || 1,
           achievements: c.achievements || [],
-          isActive: c.isActive !== false,
-          isDeleted: c.isDeleted || false,
+          isActive: true,
+          isDeleted: false,
           enrolledAt: c.enrolledAt ? new Date(c.enrolledAt) : new Date(),
           createdAt: new Date(),
           updatedAt: new Date()
@@ -116,6 +117,7 @@ async function seedAllDataIfEmpty() {
       if (teachersJson.length > 0) {
         const teachersCollection = mongoose.connection.collection('teachers')
         await teachersCollection.insertMany(teachersJson.map(t => ({
+          id: t.id,
           name: t.name,
           firstName: t.name?.split(' ')[0] || t.name,
           lastName: t.name?.split(' ').slice(1).join(' ') || '',
@@ -128,8 +130,10 @@ async function seedAllDataIfEmpty() {
           photo: t.photo,
           bio: t.bio,
           category: t.category,
+          group: t.group,
           specialization: t.specialization,
-          isActive: t.isDeleted !== true,
+          isActive: true,
+          isDeleted: false,
           createdAt: new Date(),
           updatedAt: new Date()
         })))

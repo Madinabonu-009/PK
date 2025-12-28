@@ -9,8 +9,8 @@ const getCollection = (name) => mongoose.connection.collection(name)
 // GET /api/teachers
 router.get('/', async (req, res) => {
   try {
+    // Barcha teacherlarni olish (isDeleted: true bo'lmaganlarini)
     const teachers = await getCollection('teachers').find({ 
-      isActive: { $ne: false },
       isDeleted: { $ne: true }
     }).toArray()
     res.json(teachers.map(t => ({ ...t, id: t._id || t.id })))
