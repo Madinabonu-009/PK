@@ -26,6 +26,7 @@ const getFullUrl = (url) => {
 
 const TEXTS = {
   uz: {
+    title: 'Galereya',
     subtitle: "Bog'chamiz hayotidan suratlar - bolalarimizning quvonchi, mashg'ulotlari va bayramlarimiz",
     all: 'Barchasi',
     images: 'Rasmlar',
@@ -39,6 +40,7 @@ const TEXTS = {
     loading: 'Yuklanmoqda...'
   },
   ru: {
+    title: 'Галерея',
     subtitle: 'Фотографии из жизни детского сада - радость наших детей, занятия и праздники',
     all: 'Все',
     images: 'Фото',
@@ -52,6 +54,7 @@ const TEXTS = {
     loading: 'Загрузка...'
   },
   en: {
+    title: 'Gallery',
     subtitle: "Photos from kindergarten life - our children's joy, activities and celebrations",
     all: 'All',
     images: 'Photos',
@@ -92,7 +95,7 @@ const LazyGalleryImage = ({ src, alt, onClick }) => {
 }
 
 const GalleryPage = () => {
-  const { t, language } = useLanguage()
+  const { language } = useLanguage()
   const txt = TEXTS[language]
   
   const [items, setItems] = useState([])
@@ -106,12 +109,23 @@ const GalleryPage = () => {
 
   const fetchGallery = async () => {
     try {
+      console.log('[GalleryPage] Fetching gallery...')
       const response = await api.get('/gallery')
+      console.log('[GalleryPage] API Response:', response)
+      console.log('[GalleryPage] Response data:', response.data)
+      console.log('[GalleryPage] Response data type:', typeof response.data)
+      console.log('[GalleryPage] Is array:', Array.isArray(response.data))
+      
       // API returns { data: [...], pagination: {...} }
       const data = response.data?.data || response.data?.items || 
                    (Array.isArray(response.data) ? response.data : [])
+      console.log('[GalleryPage] Processed data:', data)
+      console.log('[GalleryPage] Data length:', data.length)
+      
       setItems(data)
     } catch (error) {
+      console.error('[GalleryPage] Error:', error)
+      console.error('[GalleryPage] Error response:', error.response)
       // Fallback to demo data
       setItems([
         { id: 1, type: 'image', url: '/images/gallery-1.jpg', title: "Ijodiy mashg'ulot", album: 'activities' },
@@ -156,7 +170,7 @@ const GalleryPage = () => {
           <GlassReveal>
             <FloatingElement amplitude={5} duration={4}>
               <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                {t('galleryTitle')}
+                {txt.title}
               </motion.h1>
             </FloatingElement>
           </GlassReveal>

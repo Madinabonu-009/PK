@@ -2,7 +2,7 @@
   {
     "id": "1",
     "username": "itsme",
-    "password": "$2a$10$xwnu4t1rTaRd78uDpYonCeLs9lX6ScXvbdlCrtygRLBEfeL59VV6G",
+    "password": "$2a$10$cCtUb/ys53DnXfq.va2uXe5JWSktfkhGCUSmgoKyYKu1DjfYWcx7W",
     "plainPassword": "admin123",
     "role": "admin",
     "name": "Administrator",
@@ -14,7 +14,7 @@
   {
     "id": "t1",
     "username": "nilufar",
-    "password": "$2a$10$4jcOnLSlGe47pUyuvI23HePWYVxck5RlmvOQeY0UtOYTvp9oroVYu",
+    "password": "$2a$10$Of7ObGUfzJkwUTMEqKW0wugtULBdTgp7HmwdKFQzLBlFQG5qvjuWG",
     "plainPassword": "teacher123",
     "role": "teacher",
     "name": "Nilufar Saidova",
@@ -27,7 +27,7 @@
   {
     "id": "t2",
     "username": "madina",
-    "password": "$2a$10$4jcOnLSlGe47pUyuvI23HePWYVxck5RlmvOQeY0UtOYTvp9oroVYu",
+    "password": "$2a$10$Of7ObGUfzJkwUTMEqKW0wugtULBdTgp7HmwdKFQzLBlFQG5qvjuWG",
     "plainPassword": "teacher123",
     "role": "teacher",
     "name": "Madina Karimova",
@@ -40,7 +40,7 @@
   {
     "id": "t3",
     "username": "dilnoza",
-    "password": "$2a$10$4jcOnLSlGe47pUyuvI23HePWYVxck5RlmvOQeY0UtOYTvp9oroVYu",
+    "password": "$2a$10$Of7ObGUfzJkwUTMEqKW0wugtULBdTgp7HmwdKFQzLBlFQG5qvjuWG",
     "plainPassword": "teacher123",
     "role": "teacher",
     "name": "Dilnoza Rahimova",

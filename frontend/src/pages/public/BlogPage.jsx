@@ -16,12 +16,23 @@ const BlogPage = () => {
 
   const fetchPosts = async () => {
     try {
+      console.log('[BlogPage] Fetching posts...')
       const response = await api.get('/blog')
+      console.log('[BlogPage] API Response:', response)
+      console.log('[BlogPage] Response data:', response.data)
+      console.log('[BlogPage] Response data type:', typeof response.data)
+      console.log('[BlogPage] Is array:', Array.isArray(response.data))
+      
       // API returns { data: [...], pagination: {...} } or array
       const data = response.data?.data || response.data?.posts || 
                    (Array.isArray(response.data) ? response.data : [])
+      console.log('[BlogPage] Processed data:', data)
+      console.log('[BlogPage] Data length:', data.length)
+      
       setPosts(data)
     } catch (error) {
+      console.error('[BlogPage] Error:', error)
+      console.error('[BlogPage] Error response:', error.response)
       // Error handled by UI state
       setPosts([])
     } finally {

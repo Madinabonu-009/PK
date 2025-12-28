@@ -4,7 +4,7 @@ import { PandaMascot, ScrollReveal } from '../../components/animations'
 import './ContactPage.css'
 
 const ContactPage = () => {
-  const { t, language } = useLanguage()
+  const { language } = useLanguage()
 
   const texts = {
     uz: {

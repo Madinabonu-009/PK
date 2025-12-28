@@ -5,7 +5,7 @@ import api from '../../services/api'
 import './MenuPage.css'
 
 const MenuPage = () => {
-  const { t, language } = useLanguage()
+  const { language } = useLanguage()
   const [menuData, setMenuData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -74,11 +74,21 @@ const MenuPage = () => {
       try {
         setLoading(true)
         setError(null)
+        console.log('[MenuPage] Fetching menu...')
         const response = await api.get('/menu')
+        console.log('[MenuPage] API Response:', response)
+        console.log('[MenuPage] Response data:', response.data)
+        console.log('[MenuPage] Response data type:', typeof response.data)
+        console.log('[MenuPage] Is array:', Array.isArray(response.data))
+        
         // API may return { data: [...] } or object/array directly
         const data = response.data?.data || response.data
+        console.log('[MenuPage] Processed data:', data)
+        
         setMenuData(data)
       } catch (err) {
+        console.error('[MenuPage] Error:', err)
+        console.error('[MenuPage] Error response:', err.response)
         setError(txt.loadError)
       } finally {
         setLoading(false)

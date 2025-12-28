@@ -205,7 +205,14 @@ const EnrollmentForm = ({ onSuccess }) => {
     setSubmitError('')
 
     try {
+      console.log('[EnrollmentForm] Submitting enrollment...')
+      console.log('[EnrollmentForm] Form data:', formData)
+      
       const response = await api.post('/enrollments', formData)
+      
+      console.log('[EnrollmentForm] API Response:', response)
+      console.log('[EnrollmentForm] Response data:', response.data)
+      
       setSubmitSuccess(true)
       setFormData(initialFormState)
       setTouched({})
@@ -213,6 +220,8 @@ const EnrollmentForm = ({ onSuccess }) => {
         onSuccess(response.data)
       }
     } catch (error) {
+      console.error('[EnrollmentForm] Error:', error)
+      console.error('[EnrollmentForm] Error response:', error.response)
       const message = error.response?.data?.error || txt.submitError
       setSubmitError(message)
     } finally {

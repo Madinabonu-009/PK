@@ -5,10 +5,11 @@ import EnrollmentStatus from '../../components/public/EnrollmentStatus'
 import './EnrollmentPage.css'
 
 const EnrollmentPage = () => {
-  const { t, language } = useLanguage()
+  const { language } = useLanguage()
 
   const texts = {
     uz: {
+      title: "Ro'yxatdan o'tish",
       subtitle: 'Farzandingizni Play Kids bog\'chasiga ro\'yxatdan o\'tkazing',
       whyPlayKids: 'Nima uchun Play Kids?',
       modernEducation: 'Zamonaviy ta\'lim',
@@ -32,6 +33,7 @@ const EnrollmentPage = () => {
       formSubtitle: 'Barcha maydonlarni to\'ldiring'
     },
     ru: {
+      title: 'Запись в детский сад',
       subtitle: 'Запишите вашего ребенка в детский сад Play Kids',
       whyPlayKids: 'Почему Play Kids?',
       modernEducation: 'Современное образование',
@@ -55,6 +57,7 @@ const EnrollmentPage = () => {
       formSubtitle: 'Заполните все поля'
     },
     en: {
+      title: 'Enrollment',
       subtitle: 'Enroll your child in Play Kids kindergarten',
       whyPlayKids: 'Why Play Kids?',
       modernEducation: 'Modern Education',
@@ -85,7 +88,7 @@ const EnrollmentPage = () => {
     <div className="enrollment-page">
       <section className="enrollment-hero">
         <div className="container">
-          <h1>{t('enrollmentTitle')}</h1>
+          <h1>{txt.title}</h1>
           <p>{txt.subtitle}</p>
         </div>
       </section>

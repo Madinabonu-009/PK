@@ -132,12 +132,32 @@ function TeachersPage() {
     const fetchStaff = async () => {
       try {
         setLoading(true)
+        console.log('[TeachersPage] Fetching teachers...')
         const response = await api.get('/teachers')
-        // API may return { data: [...] } or array directly
-        const data = response.data?.data || (Array.isArray(response.data) ? response.data : [])
+        console.log('[TeachersPage] API Response:', response)
+        console.log('[TeachersPage] Response data:', response.data)
+        console.log('[TeachersPage] Response data type:', typeof response.data)
+        console.log('[TeachersPage] Is array:', Array.isArray(response.data))
+        
+        // API to'g'ridan-to'g'ri array qaytaradi
+        let data = []
+        if (Array.isArray(response.data)) {
+          data = response.data
+        } else if (response.data?.data && Array.isArray(response.data.data)) {
+          data = response.data.data
+        } else if (response.data && typeof response.data === 'object') {
+          // Agar object bo'lsa, values ni olish
+          data = Object.values(response.data).filter(item => item && typeof item === 'object' && item.name)
+        }
+        
+        console.log('[TeachersPage] Processed data:', data)
+        console.log('[TeachersPage] Data length:', data.length)
+        
         setStaff(data)
         setError(null)
-      } catch {
+      } catch (err) {
+        console.error('[TeachersPage] Error:', err)
+        console.error('[TeachersPage] Error response:', err.response)
         setError(txt.error)
         setStaff([])
       } finally {

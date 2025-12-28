@@ -56,7 +56,21 @@ const translations = {
       profile: "Profil",
       settings: "Sozlamalar",
       logout: "Chiqish",
-      login: "Kirish"
+      login: "Kirish",
+      // Page titles
+      enrollmentTitle: "Ro'yxatdan o'tish",
+      galleryTitle: "Galereya",
+      aboutTitle: "Biz haqimizda",
+      menuTitle: "Kunlik menyu",
+      contactTitle: "Biz bilan bog'laning",
+      ourValues: "Bizning qadriyatlarimiz",
+      curriculum: "O'quv dasturi",
+      latestNews: "Yangiliklar",
+      readMore: "Batafsil",
+      feedbackTitle: "Fikr-mulohazalar",
+      feedbackSubtitle: "Ota-onalar fikrlari",
+      averageRating: "O'rtacha baho",
+      totalReviews: "Jami fikrlar"
     },
     ru: {
       welcome: "Добро пожаловать",
@@ -106,7 +120,21 @@ const translations = {
       profile: "Профиль",
       settings: "Настройки",
       logout: "Выход",
-      login: "Вход"
+      login: "Вход",
+      // Page titles
+      enrollmentTitle: "Запись в детский сад",
+      galleryTitle: "Галерея",
+      aboutTitle: "О нас",
+      menuTitle: "Ежедневное меню",
+      contactTitle: "Свяжитесь с нами",
+      ourValues: "Наши ценности",
+      curriculum: "Учебная программа",
+      latestNews: "Новости",
+      readMore: "Подробнее",
+      feedbackTitle: "Отзывы",
+      feedbackSubtitle: "Отзывы родителей",
+      averageRating: "Средний рейтинг",
+      totalReviews: "Всего отзывов"
     },
     en: {
       welcome: "Welcome",
@@ -156,7 +184,21 @@ const translations = {
       profile: "Profile",
       settings: "Settings",
       logout: "Logout",
-      login: "Login"
+      login: "Login",
+      // Page titles
+      enrollmentTitle: "Enrollment",
+      galleryTitle: "Gallery",
+      aboutTitle: "About Us",
+      menuTitle: "Daily Menu",
+      contactTitle: "Contact Us",
+      ourValues: "Our Values",
+      curriculum: "Curriculum",
+      latestNews: "Latest News",
+      readMore: "Read More",
+      feedbackTitle: "Feedback",
+      feedbackSubtitle: "Parent Reviews",
+      averageRating: "Average Rating",
+      totalReviews: "Total Reviews"
     }
   },
 

@@ -3,20 +3,26 @@ import { PandaMascot, CartoonCloud, CartoonStar, ScrollReveal } from '../../comp
 import './AboutPage.css'
 
 const AboutPage = () => {
-  const { t, language } = useLanguage()
+  const { language } = useLanguage()
 
   const missionData = {
     uz: {
+      aboutTitle: "Biz haqimizda",
+      ourValues: "Bizning qadriyatlarimiz",
       title: "Bizning missiyamiz",
       description: "Play Kids - bu har bir bolaning noyob qobiliyatlarini kashf etish va rivojlantirishga bag'ishlangan zamonaviy ta'lim maskani. Biz bolalarning baxtli bolalik davri va porloq kelajagiga asos solamiz.",
       slogan: "Farzandingiz baxtli bo'lsa — kelajak porloq bo'ladi"
     },
     ru: {
+      aboutTitle: "О нас",
+      ourValues: "Наши ценности",
       title: "Наша миссия",
       description: "Play Kids - это современный образовательный центр, посвященный раскрытию и развитию уникальных способностей каждого ребенка. Мы закладываем основу для счастливого детства и светлого будущего.",
       slogan: "Счастливый ребёнок — светлое будущее"
     },
     en: {
+      aboutTitle: "About Us",
+      ourValues: "Our Values",
       title: "Our Mission",
       description: "Play Kids is a modern educational center dedicated to discovering and developing each child's unique abilities. We lay the foundation for a happy childhood and a bright future.",
       slogan: "Happy Child — Bright Future"
@@ -134,7 +140,7 @@ const AboutPage = () => {
       <section className="about-mission">
         <div className="about-container">
           <ScrollReveal>
-            <h1 className="about-main-title">{t('aboutTitle')}</h1>
+            <h1 className="about-main-title">{mission.aboutTitle}</h1>
           </ScrollReveal>
           <div className="mission-content">
             <div className="mission-panda">
@@ -191,7 +197,7 @@ const AboutPage = () => {
       {/* Values Section */}
       <section className="about-values">
         <div className="about-container">
-          <h2 className="section-title">{t('ourValues')}</h2>
+          <h2 className="section-title">{mission.ourValues}</h2>
           <div className="values-grid">
             {values.map((value, index) => (
               <div key={index} className="value-card">

@@ -4,6 +4,29 @@ import { authenticateToken, requireRole } from '../middleware/auth.js'
 
 const router = express.Router()
 
+// Get public settings (no auth required)
+router.get('/public', async (req, res) => {
+  try {
+    const settings = await Settings.getAll()
+    // Faqat ommaviy ma'lumotlarni qaytarish
+    const publicSettings = {
+      general: {
+        siteName: settings.general?.siteName || 'Play Kids',
+        siteDescription: settings.general?.siteDescription || '',
+        contactEmail: settings.general?.contactEmail || '',
+        contactPhone: settings.general?.contactPhone || '',
+        address: settings.general?.address || '',
+        workingHours: settings.general?.workingHours || '',
+        yearsExperience: settings.general?.yearsExperience || 5
+      }
+    }
+    res.json(publicSettings)
+  } catch (error) {
+    console.error('Get public settings error:', error)
+    res.status(500).json({ error: 'Sozlamalarni olishda xatolik' })
+  }
+})
+
 // Get all settings
 router.get('/', authenticateToken, async (req, res) => {
   try {
