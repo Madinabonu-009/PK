@@ -4,7 +4,22 @@ import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+// Data directory - backend/data papkasi (git repo ichida)
+// __dirname = backend/src/utils, demak ../../data = backend/data
 const dataDir = path.join(__dirname, '../../data')
+
+console.log('📂 Data directory:', dataDir)
+console.log('📂 __dirname:', __dirname)
+console.log('📂 Current working directory:', process.cwd())
+
+// Data folder ichidagi fayllarni ro'yxatlash
+try {
+  const files = fs.readdirSync(dataDir)
+  console.log('📂 Data folder contents:', files.join(', '))
+} catch (err) {
+  console.log('📂 Data folder not found or empty:', err.message)
+}
 
 // Data folder va kerakli fayllarni yaratish (Render disk persistence uchun)
 const initializeDataFolder = () => {
@@ -40,30 +55,16 @@ const initializeDataFolder = () => {
     'migrations.json'
   ]
 
-  // Default admin user
-  const defaultUsers = [
-    {
-      id: 'admin_1',
-      username: 'admin',
-      password: '$2a$10$rQnM1.kK8LFmKgGqHqGqXOQz8z8z8z8z8z8z8z8z8z8z8z8z8z8z8', // admin123
-      name: 'Administrator',
-      role: 'admin',
-      isActive: true,
-      createdAt: new Date().toISOString()
-    }
-  ]
-
-  // Har bir fayl uchun tekshirish va yaratish
+  // Har bir fayl uchun tekshirish - FAQAT mavjud bo'lmasa yaratish
   requiredFiles.forEach(filename => {
     const filePath = path.join(dataDir, filename)
     if (!fs.existsSync(filePath)) {
-      console.log(`📄 ${filename} yaratilmoqda...`)
-      // users.json uchun default admin qo'shish
-      if (filename === 'users.json') {
-        fs.writeFileSync(filePath, JSON.stringify(defaultUsers, null, 2))
-      } else {
-        fs.writeFileSync(filePath, '[]')
-      }
+      console.log(`📄 ${filename} yaratilmoqda (mavjud emas)...`)
+      fs.writeFileSync(filePath, '[]')
+    } else {
+      // Fayl mavjud - hajmini tekshirish
+      const stats = fs.statSync(filePath)
+      console.log(`✓ ${filename} mavjud (${stats.size} bytes)`)
     }
   })
 

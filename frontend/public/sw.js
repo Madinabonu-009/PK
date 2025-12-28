@@ -43,6 +43,21 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests (POST, PUT, DELETE, etc.)
+  if (event.request.method !== 'GET') {
+    return
+  }
+
+  // Skip API requests
+  if (event.request.url.includes('/api/')) {
+    return
+  }
+
+  // Skip external URLs
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return
+  }
+
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() => {
@@ -69,6 +84,9 @@ self.addEventListener('fetch', (event) => {
         })
 
         return response
+      }).catch(() => {
+        // Return nothing for failed requests
+        return new Response('', { status: 408, statusText: 'Request Timeout' })
       })
     })
   )

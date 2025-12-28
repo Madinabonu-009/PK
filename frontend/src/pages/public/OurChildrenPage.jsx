@@ -106,7 +106,7 @@ const OurChildrenPage = () => {
       console.log('[OurChildrenPage] Fetching children and groups...')
       
       const [childrenRes, groupsRes] = await Promise.all([
-        api.get('/children'),
+        api.get('/children/public'),
         api.get('/groups')
       ])
       

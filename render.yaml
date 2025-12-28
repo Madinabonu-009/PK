@@ -7,8 +7,9 @@ services:
     runtime: node
     region: frankfurt
     plan: free
+    rootDir: .
     buildCommand: npm run render-build
-    startCommand: npm start
+    startCommand: cd backend && npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -16,13 +17,13 @@ services:
       - key: PORT
         value: 3000
       - key: JWT_SECRET
-        generateValue: true
+        sync: false
       - key: JWT_EXPIRES_IN
         value: 24h
       - key: ALLOWED_ORIGINS
         value: https://pk-skus.onrender.com
       - key: TELEGRAM_BOT_TOKEN
-        value: 8046634314:AAGdOOkGMG_V0wuYa1TQYmu2_xrOYdxkZ_M
+        sync: false
       - key: TELEGRAM_CHAT_ID
         value: 8058402292
       - key: RATE_LIMIT_WINDOW_MS

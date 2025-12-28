@@ -33,19 +33,25 @@ const validateChild = (data, isUpdate = false) => {
 // GET /api/children/public - Ommaviy (autentifikatsiyasiz)
 router.get('/public', async (req, res) => {
   try {
+    console.log('[Children Public] Fetching public children...')
+    
     if (req.app.locals.useDatabase) {
       const children = await Child.find({ isActive: true })
         .select('firstName lastName birthDate groupName group photo points level achievements gender')
         .populate('group', 'name')
+      console.log('[Children Public] MongoDB children count:', children.length)
       return res.json(children.map(normalizeId))
     }
     
     let children = readData('children.json') || []
+    console.log('[Children Public] JSON children count:', children.length)
+    
     const progress = readData('progress.json') || []
     const achievements = readData('achievements.json') || []
     
+    // isActive !== false - yangi va eski formatlarni qo'llab-quvvatlash
     children = children
-      .filter(c => c.isActive === true)
+      .filter(c => c.isActive !== false && !c.isDeleted)
       .map(c => {
         // Bolaning oxirgi progress ma'lumotlarini olish
         const childProgress = progress
