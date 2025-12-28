@@ -280,7 +280,9 @@ const playSound = (type) => {
       })
       setTimeout(() => ctx.close(), 800)
     }
-  } catch (e) {}
+  } catch {
+    // Audio not supported
+  }
 }
 
 export default function WordBuilder({ onBack, onComplete }) {

@@ -901,6 +901,7 @@ export const adminTranslations = {
   // Common Admin
   common: {
     uz: {
+      welcome: "Xush kelibsiz",
       actions: "Amallar",
       view: "Ko'rish",
       edit: "Tahrirlash",
@@ -934,6 +935,7 @@ export const adminTranslations = {
       showing: "Ko'rsatilmoqda"
     },
     ru: {
+      welcome: "Добро пожаловать",
       actions: "Действия",
       view: "Просмотр",
       edit: "Редактировать",
@@ -967,6 +969,7 @@ export const adminTranslations = {
       showing: "Показано"
     },
     en: {
+      welcome: "Welcome",
       actions: "Actions",
       view: "View",
       edit: "Edit",

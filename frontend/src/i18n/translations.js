@@ -9,6 +9,7 @@ const translations = {
   // Common
   common: {
     uz: {
+      welcome: "Xush kelibsiz",
       back: "Orqaga",
       next: "Keyingi",
       previous: "Oldingi",
@@ -58,6 +59,7 @@ const translations = {
       login: "Kirish"
     },
     ru: {
+      welcome: "Добро пожаловать",
       back: "Назад",
       next: "Далее",
       previous: "Предыдущий",
@@ -107,6 +109,7 @@ const translations = {
       login: "Вход"
     },
     en: {
+      welcome: "Welcome",
       back: "Back",
       next: "Next",
       previous: "Previous",

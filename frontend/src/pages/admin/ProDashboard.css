@@ -573,3 +573,340 @@
   outline: 3px solid rgba(139, 92, 246, 0.5);
   outline-offset: 2px;
 }
+
+/* ============================================
+   TEACHER DASHBOARD STYLES
+   ============================================ */
+.pro-dashboard.teacher-view {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0fdf4 100%);
+}
+
+.pro-dashboard.teacher-view::before {
+  background-image: 
+    linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+}
+
+.pro-dashboard.teacher-view .dashboard-header {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+}
+
+.group-badge {
+  background: rgba(255,255,255,0.2);
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+/* Teacher KPI Grid */
+.teacher-kpi {
+  grid-template-columns: repeat(4, 1fr) !important;
+}
+
+.teacher-stat-card {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 2px solid transparent;
+}
+
+.teacher-stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.teacher-stat-card.blue { border-color: #3b82f6; }
+.teacher-stat-card.green { border-color: #22c55e; }
+.teacher-stat-card.red { border-color: #ef4444; }
+.teacher-stat-card.orange { border-color: #f59e0b; }
+
+.teacher-stat-card.blue:hover { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+.teacher-stat-card.green:hover { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+.teacher-stat-card.red:hover { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+.teacher-stat-card.orange:hover { background: linear-gradient(135deg, #fffbeb, #fef3c7); }
+
+.teacher-stat-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.teacher-stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.teacher-stat-label {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* Section Title */
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+/* Quick Actions Grid */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.quick-action-btn {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quick-action-btn:hover {
+  border-color: #22c55e;
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.2);
+}
+
+.qa-icon {
+  font-size: 1.75rem;
+}
+
+.qa-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Teacher Lists Row */
+.teacher-lists-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.teacher-list-card {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.teacher-list-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+/* Attendance Mini List */
+.attendance-mini-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.att-mini-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: #f8fafc;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.att-mini-item:hover {
+  background: #f1f5f9;
+}
+
+.att-mini-item.present { border-left: 3px solid #22c55e; }
+.att-mini-item.absent { border-left: 3px solid #ef4444; }
+.att-mini-item.not_marked { border-left: 3px solid #f59e0b; }
+
+.att-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.att-name {
+  flex: 1;
+  font-weight: 500;
+  color: #374151;
+}
+
+.att-status {
+  font-size: 1rem;
+}
+
+.see-all-btn {
+  background: none;
+  border: none;
+  color: #22c55e;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem;
+  text-align: center;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.see-all-btn:hover {
+  text-decoration: underline;
+}
+
+/* Missing Reports List */
+.missing-reports-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.missing-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: #fef3c7;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.missing-item:hover {
+  background: #fde68a;
+}
+
+.missing-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.missing-name {
+  flex: 1;
+  font-weight: 500;
+  color: #92400e;
+}
+
+.missing-action {
+  font-size: 0.8rem;
+  color: #d97706;
+  font-weight: 600;
+}
+
+.all-done {
+  text-align: center;
+  padding: 2rem;
+  color: #22c55e;
+}
+
+.all-done span {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.all-done p {
+  font-weight: 600;
+}
+
+/* No Group Message */
+.no-group-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.no-group-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.no-group-message h2 {
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.no-group-message p {
+  color: #9ca3af;
+}
+
+/* Dashboard Loading */
+.dashboard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1rem;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #22c55e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Teacher Responsive */
+@media (max-width: 1024px) {
+  .teacher-kpi {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .teacher-lists-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .teacher-kpi {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .teacher-stat-value {
+    font-size: 1.5rem;
+  }
+}

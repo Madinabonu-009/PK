@@ -326,7 +326,9 @@ export default function AlphabetTrace({ onBack }) {
       gain.gain.value = 0.08
       osc.start()
       osc.stop(ctx.currentTime + 0.1)
-    } catch (e) {}
+    } catch {
+      // Audio not supported
+    }
   }
 
   const handleNext = () => {

@@ -219,19 +219,28 @@ export const schemas = {
     meals: Joi.object({
       breakfast: Joi.object({
         items: Joi.array().items(Joi.string().max(100)).max(20).optional(),
-        eaten: Joi.object().pattern(Joi.string(), Joi.string().valid('full', 'partial', 'none')).optional(),
+        eaten: Joi.alternatives().try(
+          Joi.string().valid('full', 'partial', 'none'),
+          Joi.object().pattern(Joi.string(), Joi.string().valid('full', 'partial', 'none'))
+        ).optional(),
         notes: Joi.string().max(500).allow(''),
         appetite: Joi.string().valid('good', 'normal', 'poor').default('good')
       }).optional(),
       lunch: Joi.object({
         items: Joi.array().items(Joi.string().max(100)).max(20).optional(),
-        eaten: Joi.object().pattern(Joi.string(), Joi.string().valid('full', 'partial', 'none')).optional(),
+        eaten: Joi.alternatives().try(
+          Joi.string().valid('full', 'partial', 'none'),
+          Joi.object().pattern(Joi.string(), Joi.string().valid('full', 'partial', 'none'))
+        ).optional(),
         notes: Joi.string().max(500).allow(''),
         appetite: Joi.string().valid('good', 'normal', 'poor').default('good')
       }).optional(),
       snack: Joi.object({
         items: Joi.array().items(Joi.string().max(100)).max(20).optional(),
-        eaten: Joi.object().pattern(Joi.string(), Joi.string().valid('full', 'partial', 'none')).optional(),
+        eaten: Joi.alternatives().try(
+          Joi.string().valid('full', 'partial', 'none'),
+          Joi.object().pattern(Joi.string(), Joi.string().valid('full', 'partial', 'none'))
+        ).optional(),
         notes: Joi.string().max(500).allow(''),
         appetite: Joi.string().valid('good', 'normal', 'poor').default('good')
       }).optional()
@@ -249,29 +258,39 @@ export const schemas = {
       notes: Joi.string().max(500).allow('')
     }).optional(),
     
-    // Kayfiyat
-    mood: Joi.object({
-      morning: Joi.object({
-        mood: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').default('neutral'),
-        energy: Joi.string().valid('high', 'normal', 'low').default('normal'),
-        notes: Joi.string().max(200).allow('')
-      }).optional(),
-      midday: Joi.object({
-        mood: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').default('neutral'),
-        energy: Joi.string().valid('high', 'normal', 'low').default('normal'),
-        notes: Joi.string().max(200).allow('')
-      }).optional(),
-      afternoon: Joi.object({
-        mood: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').default('neutral'),
-        energy: Joi.string().valid('high', 'normal', 'low').default('normal'),
-        notes: Joi.string().max(200).allow('')
-      }).optional(),
-      evening: Joi.object({
-        mood: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').default('neutral'),
-        energy: Joi.string().valid('high', 'normal', 'low').default('normal'),
-        notes: Joi.string().max(200).allow('')
-      }).optional()
-    }).optional(),
+    // Kayfiyat - frontend oddiy string yuboradi
+    mood: Joi.alternatives().try(
+      // Frontend format - oddiy stringlar
+      Joi.object({
+        morning: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').allow(''),
+        afternoon: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').allow(''),
+        evening: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').allow(''),
+        midday: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').allow('')
+      }),
+      // Backend format - nested objects
+      Joi.object({
+        morning: Joi.object({
+          mood: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').default('neutral'),
+          energy: Joi.string().valid('high', 'normal', 'low').default('normal'),
+          notes: Joi.string().max(200).allow('')
+        }).optional(),
+        midday: Joi.object({
+          mood: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').default('neutral'),
+          energy: Joi.string().valid('high', 'normal', 'low').default('normal'),
+          notes: Joi.string().max(200).allow('')
+        }).optional(),
+        afternoon: Joi.object({
+          mood: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').default('neutral'),
+          energy: Joi.string().valid('high', 'normal', 'low').default('normal'),
+          notes: Joi.string().max(200).allow('')
+        }).optional(),
+        evening: Joi.object({
+          mood: Joi.string().valid('happy', 'calm', 'sad', 'angry', 'tired', 'neutral', 'excited').default('neutral'),
+          energy: Joi.string().valid('high', 'normal', 'low').default('normal'),
+          notes: Joi.string().max(200).allow('')
+        }).optional()
+      })
+    ).optional(),
     
     // Faoliyatlar
     activities: Joi.array().items(Joi.object({

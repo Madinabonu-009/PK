@@ -210,8 +210,8 @@ const OurChildrenPage = () => {
         setChildren(demoChildren)
         setGroups(demoGroups)
       }
-    } catch (error) {
-      console.log('Using demo data')
+    } catch {
+      // API mavjud emas, demo ma'lumotlar ishlatiladi
       setChildren(demoChildren)
       setGroups(demoGroups)
     } finally {

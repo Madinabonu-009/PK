@@ -39,6 +39,12 @@ export function LanguageProvider({ children }) {
 
   // Tarjima funksiyasi - section va key bo'yicha
   const t = (section, key, params = {}) => {
+    // Agar faqat 1 ta argument berilsa, common section dan qidirish
+    if (key === undefined) {
+      key = section
+      section = 'common'
+    }
+    
     const sectionData = allTranslations[section]
     let text = sectionData?.[language]?.[key] || sectionData?.uz?.[key] || key
     

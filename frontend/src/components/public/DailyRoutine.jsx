@@ -18,8 +18,8 @@ const ROUTINE_DATA = {
       { time: "09:30", icon: "📚", title: "O'quv mashg'ulotlari", desc: "Interaktiv darslar va ijodiy faoliyat" },
       { time: "11:00", icon: "🎨", title: "Ijodiy vaqt", desc: "Rasm chizish, qo'shiq aytish, raqs" },
       { time: "12:00", icon: "🍽️", title: "Tushlik", desc: "To'yimli va sog'lom tushlik" },
-      { time: "13:00", icon: "😴", title: "Kunduzi uyqu", desc: "Dam olish va kuch to'plash" },
-      { time: "15:00", icon: "🍎", title: "Poldnik", desc: "Yengil tamaddi va mevalar" },
+      { time: "13:00", icon: "😴", title: "Kunduzgi uyqu", desc: "Dam olish va kuch to'plash" },
+      { time: "15:00", icon: "🍎", title: "Yengil tamaddi", desc: "Yengil tamaddi va mevalar" },
       { time: "15:30", icon: "🎮", title: "O'yin vaqti", desc: "Erkin o'yinlar va sport mashg'ulotlari" },
       { time: "17:00", icon: "👋", title: "Uyga jo'nash", desc: "Ota-onalar bilan uchrashish" }
     ]

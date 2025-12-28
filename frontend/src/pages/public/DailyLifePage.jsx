@@ -59,7 +59,7 @@ const scheduleData = [
   },
   {
     time: "13:00 - 15:00",
-    activity: "Kunduzi uyqu",
+    activity: "Kunduzgi uyqu",
     type: "rest",
     icon: "😴",
     description: "Tinch muhitda dam olish. Bolalar uchun qulay yotoqxona va individual karavotlar."

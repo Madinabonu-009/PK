@@ -197,7 +197,7 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.25rem;
   padding: 0 2rem 2rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 /* 360 Degree Child Card */
@@ -208,7 +208,8 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 
 .child-card-360:hover {
@@ -280,6 +281,9 @@
 /* Card Body - 360 Info */
 .card-body-360 {
   padding: 0.625rem 0.875rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .info-section {
@@ -423,6 +427,7 @@
   display: flex;
   gap: 0.4rem;
   border-top: 1px solid #e2e8f0;
+  margin-top: auto;
 }
 
 .card-footer-360 button {

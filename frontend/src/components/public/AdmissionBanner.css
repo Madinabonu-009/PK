@@ -3,8 +3,8 @@
    ============================================ */
 
 .admission-banner--floating {
-  position: fixed;
-  top: 70px;
+  position: sticky;
+  top: 0;
   left: 0;
   right: 0;
   background: linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #fb7185 100%);

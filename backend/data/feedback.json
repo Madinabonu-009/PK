@@ -122,5 +122,18 @@
     "status": "answered",
     "answeredAt": "2025-12-20T11:16:45.756Z",
     "updatedAt": "2025-12-20T11:16:45.774Z"
+  },
+  {
+    "id": "05ce5172-4a5c-4cdd-a1ea-e0a23c7bf431",
+    "type": "feedback",
+    "rating": 5,
+    "comment": "Test uchun",
+    "parentName": "Kimsanboy",
+    "parentPhone": null,
+    "parentEmail": "boymurodovamadinabonuf9@gmail.com",
+    "targetName": null,
+    "isApproved": true,
+    "createdAt": "2025-12-28T13:34:51.484Z",
+    "approvedAt": "2025-12-28T14:04:34.580Z"
   }
 ]

@@ -6,7 +6,7 @@ import './AskTeacherChat.css';
 
 // Tez-tez so'raladigan savollar (mini AI)
 const FAQ_RESPONSES = {
-  'menyu': 'Haftalik menyuni /menu sahifasidan ko\'rishingiz mumkin. Har kuni nonushta (08:30), tushlik (12:30) va poldnik (15:30) beriladi.',
+  'menyu': 'Haftalik menyuni /menu sahifasidan ko\'rishingiz mumkin. Har kuni nonushta (08:30), tushlik (12:30) va yengil tamaddi (15:30) beriladi.',
   'vaqt': 'Bog\'cha ish vaqti: 07:00 - 18:00 (Dushanba - Shanba). Yakshanba dam olish kuni.',
   'to\'lov': 'To\'lov har oyning 1-10 kunlari orasida qabul qilinadi. To\'lov miqdori: 500,000 so\'m/oy.',
   'kasallik': 'Bola kasal bo\'lsa, iltimos oldindan xabar bering. Shifokor ma\'lumotnomasi kerak bo\'ladi.',

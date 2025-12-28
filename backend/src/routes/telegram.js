@@ -27,6 +27,17 @@ const router = express.Router();
 // Bugungi menyuni qo'lda yuborish
 router.post('/send-menu', authenticateToken, async (req, res) => {
   try {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    
+    // Yakshanba kuni tekshirish
+    if (dayOfWeek === 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Yakshanba kuni menyu yuborilmaydi' 
+      });
+    }
+    
     const result = await sendDailyMenu();
     
     if (result) {
@@ -37,15 +48,14 @@ router.post('/send-menu', authenticateToken, async (req, res) => {
     } else {
       res.status(500).json({ 
         success: false, 
-        message: 'Menyu yuborishda xatolik yuz berdi' 
+        message: 'Menyu yuborishda xatolik. Telegram bot sozlamalarini tekshiring.' 
       });
     }
   } catch (error) {
     console.error('Telegram API xatolik:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Server xatoligi',
-      error: error.message 
+      message: error.message || 'Server xatoligi'
     });
   }
 });

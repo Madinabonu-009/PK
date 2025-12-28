@@ -428,79 +428,83 @@ function ChildProfilePage() {
       <div className="profile-layout">
         {/* Left Sidebar - Profile Card */}
         <Card className="profile-card">
-          <div className="profile-avatar">
-            {child.photo ? (
-              <img src={child.photo} alt={child.firstName} />
-            ) : (
-              <div className="avatar-placeholder">
-                {(child.firstName || child.name || '?').charAt(0).toUpperCase()}
+          <div className="profile-card-header">
+            <div className="profile-avatar">
+              {child.photo ? (
+                <img src={child.photo} alt={child.firstName} />
+              ) : (
+                <div className="avatar-placeholder">
+                  {(child.firstName || child.name || '?').charAt(0).toUpperCase()}
+                </div>
+              )}
+              <div className="level-badge" style={{ backgroundColor: levelInfo.color }}>
+                {levelInfo.icon} {levelInfo.level}
               </div>
-            )}
-            <div className="level-badge" style={{ backgroundColor: levelInfo.color }}>
-              {levelInfo.icon} {levelInfo.level}
             </div>
+            
+            <h1 className="profile-name">{child.firstName} {child.lastName}</h1>
+            <p className="profile-level" style={{ color: 'rgba(255,255,255,0.95)' }}>
+              {levelInfo.name}
+            </p>
           </div>
           
-          <h1 className="profile-name">{child.firstName} {child.lastName}</h1>
-          <p className="profile-level" style={{ color: levelInfo.color }}>
-            {levelInfo.name}
-          </p>
-          
-          <div className="profile-stats">
-            <div className="stat">
-              <span className="stat-value">{calculateAge(child.birthDate)}</span>
-              <span className="stat-label">{txt.age}</span>
+          <div className="profile-card-body">
+            <div className="profile-stats">
+              <div className="stat">
+                <span className="stat-value">{calculateAge(child.birthDate)}</span>
+                <span className="stat-label">{txt.age}</span>
+              </div>
+              <div className="stat">
+                <span className="stat-value">{totalPoints}</span>
+                <span className="stat-label">{txt.points}</span>
+              </div>
+              <div className="stat">
+                <span className="stat-value">{achievements.length}</span>
+                <span className="stat-label">{txt.medals}</span>
+              </div>
             </div>
-            <div className="stat">
-              <span className="stat-value">{totalPoints}</span>
-              <span className="stat-label">{txt.points}</span>
-            </div>
-            <div className="stat">
-              <span className="stat-value">{achievements.length}</span>
-              <span className="stat-label">{txt.medals}</span>
-            </div>
-          </div>
 
-          <div className="level-progress">
-            <div className="progress-header">
-              <span>{txt.nextLevel}</span>
-              <span>{totalPoints}/{nextLevelPoints}</span>
+            <div className="level-progress">
+              <div className="progress-header">
+                <span>{txt.nextLevel}</span>
+                <span>{totalPoints}/{nextLevelPoints}</span>
+              </div>
+              <div className="progress-bar">
+                <div 
+                  className="progress-fill" 
+                  style={{ width: `${progress}%`, backgroundColor: levelInfo.color }}
+                />
+              </div>
             </div>
-            <div className="progress-bar">
-              <div 
-                className="progress-fill" 
-                style={{ width: `${progress}%`, backgroundColor: levelInfo.color }}
-              />
-            </div>
-          </div>
 
-          <div className="profile-info">
-            <p><strong>{txt.group}:</strong> {child.groupName || txt.notAssigned}</p>
-            <p><strong>{txt.birthDate}:</strong> {new Date(child.birthDate).toLocaleDateString()}</p>
-            {child.parentName && <p><strong>{language === 'uz' ? 'Ota-ona' : 'Родитель'}:</strong> {child.parentName}</p>}
-            {child.parentPhone && <p><strong>{language === 'uz' ? 'Telefon' : 'Телефон'}:</strong> {child.parentPhone}</p>}
-          </div>
-
-          {/* Quick Stats */}
-          <div className="quick-stats">
-            <div className="quick-stat" style={{ background: attendanceRate >= 80 ? '#dcfce7' : attendanceRate >= 50 ? '#fef3c7' : '#fee2e2' }}>
-              <span className="quick-stat-value">{attendanceRate}%</span>
-              <span className="quick-stat-label">{txt.attendance}</span>
+            <div className="profile-info">
+              <p><strong>{txt.group}:</strong> {child.groupName || txt.notAssigned}</p>
+              <p><strong>{txt.birthDate}:</strong> {new Date(child.birthDate).toLocaleDateString()}</p>
+              {child.parentName && <p><strong>{language === 'uz' ? 'Ota-ona' : 'Родитель'}:</strong> {child.parentName}</p>}
+              {child.parentPhone && <p><strong>{language === 'uz' ? 'Telefon' : 'Телефон'}:</strong> {child.parentPhone}</p>}
             </div>
-            <div className="quick-stat" style={{ background: paymentStats.pending === 0 ? '#dcfce7' : '#fee2e2' }}>
-              <span className="quick-stat-value">{paymentStats.pending === 0 ? '✓' : paymentStats.pending}</span>
-              <span className="quick-stat-label">{txt.payments}</span>
-            </div>
-          </div>
 
-          {/* Action Buttons */}
-          <div className="profile-actions">
-            <Button size="small" onClick={() => setShowPointsModal(true)}>
-              ⭐ {txt.addPoints}
-            </Button>
-            <Button size="small" variant="secondary" onClick={() => setShowAwardModal(true)}>
-              🏅 {txt.awardMedal}
-            </Button>
+            {/* Quick Stats */}
+            <div className="quick-stats">
+              <div className="quick-stat" style={{ background: attendanceRate >= 80 ? '#dcfce7' : attendanceRate >= 50 ? '#fef3c7' : '#fee2e2' }}>
+                <span className="quick-stat-value">{attendanceRate}%</span>
+                <span className="quick-stat-label">{txt.attendance}</span>
+              </div>
+              <div className="quick-stat" style={{ background: paymentStats.pending === 0 ? '#dcfce7' : '#fee2e2' }}>
+                <span className="quick-stat-value">{paymentStats.pending === 0 ? '✓' : paymentStats.pending}</span>
+                <span className="quick-stat-label">{txt.payments}</span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="profile-actions">
+              <Button size="small" onClick={() => setShowPointsModal(true)}>
+                ⭐ {txt.addPoints}
+              </Button>
+              <Button size="small" variant="secondary" onClick={() => setShowAwardModal(true)}>
+                🏅 {txt.awardMedal}
+              </Button>
+            </div>
           </div>
         </Card>
 
@@ -674,54 +678,63 @@ function ChildProfilePage() {
                         <div className="mood-icons">
                           {report.mood && (
                             <>
-                              <span title="Ertalab">{getMoodText(report.mood.morning)}</span>
-                              <span title="Kunduzi">{getMoodText(report.mood.afternoon)}</span>
-                              <span title="Kechqurun">{getMoodText(report.mood.evening)}</span>
+                              <span title="Ertalab">{getMoodEmoji(report.mood.morning)}</span>
+                              <span title="Kunduzi">{getMoodEmoji(report.mood.afternoon)}</span>
+                              <span title="Kechqurun">{getMoodEmoji(report.mood.evening)}</span>
                             </>
                           )}
                         </div>
                       </div>
                       
-                      {report.meals && (
-                        <div className="report-section">
-                          <h4>{txt.meals}</h4>
-                          <div className="meals-grid">
-                            {Object.entries(report.meals).map(([meal, data]) => (
-                              <div key={meal} className="meal-item">
-                                <span className="meal-name">{meal}</span>
-                                <span style={{ color: getMealStatus(data.ate).color }}>
-                                  {getMealStatus(data.ate).text}
-                                </span>
-                              </div>
-                            ))}
+                      <div className="report-body">
+                        {report.meals && (
+                          <div className="report-section">
+                            <h4>🍽️ {txt.meals}</h4>
+                            <div className="meals-grid">
+                              {Object.entries(report.meals).map(([meal, data]) => (
+                                <div key={meal} className={`meal-item ${data.ate}`}>
+                                  <span className="meal-name">
+                                    {meal === 'breakfast' ? 'Nonushta' : meal === 'lunch' ? 'Tushlik' : 'Yengil tamaddi'}
+                                  </span>
+                                  <span className={`meal-status ${data.ate}`}>
+                                    {getMealStatus(data.ate).text}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {report.sleep && (
-                        <div className="report-section">
-                          <h4>{txt.sleep}</h4>
-                          <p>{report.sleep.slept ? `${report.sleep.duration} min - ${report.sleep.quality}` : 'Uxlamadi'}</p>
-                        </div>
-                      )}
+                        {report.sleep && (
+                          <div className="report-section">
+                            <h4>😴 {txt.sleep}</h4>
+                            <div className="sleep-info">
+                              <span className="sleep-icon">🛏️</span>
+                              <span className="sleep-text">
+                                {report.sleep.slept ? `${report.sleep.duration} min - ${report.sleep.quality}` : 'Uxlamadi'}
+                              </span>
+                            </div>
+                          </div>
+                        )}
 
-                      {report.activities && report.activities.length > 0 && (
-                        <div className="report-section">
-                          <h4>{txt.activities}</h4>
-                          <ul className="activities-list">
-                            {report.activities.map((act, i) => (
-                              <li key={i}>{act.description}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                        {report.activities && report.activities.length > 0 && (
+                          <div className="report-section">
+                            <h4>🎯 {txt.activities}</h4>
+                            <ul className="activities-list">
+                              {report.activities.map((act, i) => (
+                                <li key={i}>{act.description}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
 
-                      {report.teacherNotes && (
-                        <div className="report-section teacher-notes">
-                          <h4>{txt.teacherNotes}</h4>
-                          <p>{report.teacherNotes}</p>
-                        </div>
-                      )}
+                        {report.teacherNotes && (
+                          <div className="report-section teacher-notes">
+                            <h4>📝 {txt.teacherNotes}</h4>
+                            <p>{report.teacherNotes}</p>
+                          </div>
+                        )}
+                      </div>
                     </Card>
                   ))
                 )}

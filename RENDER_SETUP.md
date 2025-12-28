@@ -33,7 +33,7 @@ Render free plan 15 daqiqa inactivity'dan keyin uyquga ketadi. Buning oldini oli
 3. Sozlamalar:
    - Monitor Type: HTTP(s)
    - Friendly Name: Play Kids
-   - URL: `https://play-kids.onrender.com/api/health`
+   - URL: `https://pk-skus.onrender.com/api/health`
    - Monitoring Interval: 5 minutes
 4. "Create Monitor" bosing
 
@@ -42,7 +42,7 @@ Render free plan 15 daqiqa inactivity'dan keyin uyquga ketadi. Buning oldini oli
 2. "Create cronjob" bosing
 3. Sozlamalar:
    - Title: Play Kids Keep-Alive
-   - URL: `https://play-kids.onrender.com/api/health`
+   - URL: `https://pk-skus.onrender.com/api/health`
    - Schedule: Every 5 minutes
 4. "Create" bosing
 
@@ -57,9 +57,9 @@ Bu barcha JSON ma'lumotlar saqlanishini ta'minlaydi.
 ## 6. Deploy tekshirish
 
 Deploy tugagandan keyin:
-1. `https://play-kids.onrender.com` - Bosh sahifa
-2. `https://play-kids.onrender.com/api/health` - Health check
-3. `https://play-kids.onrender.com/admin/login` - Admin panel
+1. `https://pk-skus.onrender.com` - Bosh sahifa
+2. `https://pk-skus.onrender.com/api/health` - Health check
+3. `https://pk-skus.onrender.com/admin/login` - Admin panel
 
 ## 7. Admin kirish
 

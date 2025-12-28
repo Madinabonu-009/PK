@@ -143,8 +143,8 @@ const playNote = (frequency, duration = 0.4, type = 'sine', volume = 0.3, attack
     
     osc.start(now)
     osc.stop(now + duration)
-  } catch (e) {
-    console.log('Audio error:', e)
+  } catch {
+    // Audio not supported
   }
 }
 

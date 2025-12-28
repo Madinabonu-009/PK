@@ -29,7 +29,7 @@ const FAQ_DATA = {
       },
       {
         q: "Ovqatlanish qanday tashkil etilgan?",
-        a: "Kuniga 4 mahal ovqatlanish: nonushta, tushlik, poldnik va kechki ovqat. Barcha taomlar sog'lom va bolalar uchun maxsus tayyorlanadi."
+        a: "Kuniga 4 mahal ovqatlanish: nonushta, tushlik, yengil tamaddi va kechki ovqat. Barcha taomlar sog'lom va bolalar uchun maxsus tayyorlanadi."
       },
       {
         q: "Xavfsizlik qanday ta'minlangan?",

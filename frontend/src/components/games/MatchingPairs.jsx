@@ -240,7 +240,9 @@ const playSound = (type) => {
       })
       setTimeout(() => ctx.close(), 800)
     }
-  } catch (e) {}
+  } catch {
+    // Audio not supported
+  }
 }
 
 const formatTime = (seconds) => {

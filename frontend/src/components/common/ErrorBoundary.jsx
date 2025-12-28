@@ -35,7 +35,7 @@ class ErrorBoundary extends React.Component {
   }
 
   logErrorToService = (error, errorInfo) => {
-    // TODO: Integrate with Sentry, LogRocket, etc.
+    // Error logging service - sends to backend API
     try {
       const errorData = {
         message: error.toString(),

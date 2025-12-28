@@ -37,6 +37,8 @@
   gap: 1.5rem;
   position: relative;
   z-index: 1;
+  flex: 1;
+  min-width: 0;
 }
 
 .us-back-btn {
@@ -48,6 +50,8 @@
   cursor: pointer;
   font-weight: 500;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .us-back-btn:hover {
@@ -55,11 +59,18 @@
   transform: translateX(-3px);
 }
 
+.us-header-title {
+  min-width: 0;
+}
+
 .us-header-title h1 {
   color: white;
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .us-header-title p {
@@ -82,6 +93,12 @@
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.us-new-btn span {
+  font-size: 1.1rem;
 }
 
 .us-new-btn:hover {
@@ -305,6 +322,53 @@
   color: #6b7280;
 }
 
+/* User Credentials */
+.us-user-credentials {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #e5e7eb;
+}
+
+.us-credential {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.us-credential:last-child {
+  margin-bottom: 0;
+}
+
+.us-credential-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  min-width: 50px;
+}
+
+.us-credential-value {
+  font-size: 0.85rem;
+  color: #374151;
+  font-family: 'Courier New', monospace;
+  background: #f3f4f6;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.us-show-password-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.2rem;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.us-show-password-btn:hover {
+  opacity: 1;
+}
+
 .us-user-meta {
   display: flex;
   flex-direction: column;
@@ -357,6 +421,10 @@
 
 .us-btn-edit {
   background: #fef3c7;
+}
+
+.us-btn-password {
+  background: #dbeafe;
 }
 
 .us-btn-delete {
@@ -526,6 +594,21 @@
   cursor: not-allowed;
 }
 
+/* Password Modal */
+.us-password-modal {
+  max-width: 400px;
+}
+
+.us-password-user {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
 /* Loading */
 .us-loading {
   display: flex;
@@ -550,17 +633,49 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .us-header-title h1 {
+    font-size: 1.5rem;
+  }
+  
+  .us-new-btn {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
 @media (max-width: 768px) {
   .us-header {
     padding: 1rem;
     flex-direction: column;
     align-items: stretch;
+    gap: 0.75rem;
   }
 
   .us-header-content {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     gap: 1rem;
+    width: 100%;
+  }
+  
+  .us-back-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .us-header-title h1 {
+    font-size: 1.25rem;
+  }
+  
+  .us-header-title p {
+    font-size: 0.8rem;
+  }
+  
+  .us-new-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
   }
 
   .us-stats {
@@ -603,5 +718,33 @@
     width: 100%;
     justify-content: flex-end;
     margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .us-header {
+    padding: 0.75rem;
+  }
+  
+  .us-header-content {
+    gap: 0.75rem;
+  }
+  
+  .us-back-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  .us-header-title h1 {
+    font-size: 1.1rem;
+  }
+  
+  .us-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  
+  .us-stat-card {
+    padding: 1rem;
   }
 }

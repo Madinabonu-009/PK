@@ -52,12 +52,10 @@ export function WebSocketProvider({ children, url = getWebSocketUrl() }) {
     socketRef.current.on('connect', () => {
       setConnectionStatus('connected')
       reconnectAttempts.current = 0
-      console.log('WebSocket connected')
     })
 
     socketRef.current.on('disconnect', (reason) => {
       setConnectionStatus('disconnected')
-      console.log('WebSocket disconnected:', reason)
       
       if (reason !== 'io client disconnect') {
         scheduleReconnect()

@@ -45,6 +45,7 @@ import migrationsRoutes from './routes/migrations.js'
 import uploadRoutes from './routes/upload.js'
 import settingsRoutes from './routes/settings.js'
 import usersRoutes from './routes/users.js'
+import seedRoutes from './routes/seed.js'
 import { csrfTokenHandler } from './middleware/csrf.js'
 import { initCronJobs } from './services/cronJobs.js'
 import logger from './utils/logger.js'
@@ -108,10 +109,7 @@ if (process.env.NODE_ENV === 'production') {
     if (idx > -1) allowedOrigins.splice(idx, 1)
   })
   
-  // Add production domains
-  if (!allowedOrigins.includes('https://play-kids.onrender.com')) {
-    allowedOrigins.push('https://play-kids.onrender.com')
-  }
+  // Add production domain
   if (!allowedOrigins.includes('https://pk-skus.onrender.com')) {
     allowedOrigins.push('https://pk-skus.onrender.com')
   }
@@ -200,6 +198,7 @@ app.use('/api/migrations', migrationsRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/settings', settingsRoutes)
 app.use('/api/users', usersRoutes)
+app.use('/api/seed', seedRoutes)
 
 // CSRF token endpoint
 app.get('/api/csrf-token', csrfTokenHandler)

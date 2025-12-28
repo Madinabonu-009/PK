@@ -14,7 +14,7 @@ const TEMPLATE_CATEGORIES = [
 const MEAL_TYPES = [
   { id: 'breakfast', name: 'Nonushta', icon: '🍳' },
   { id: 'lunch', name: 'Tushlik', icon: '🍲' },
-  { id: 'snack', name: 'Poldnik', icon: '🍎' }
+  { id: 'snack', name: 'Yengil tamaddi', icon: '🍎' }
 ]
 
 // Template Card Component

@@ -24,7 +24,7 @@ function MenuPreviewCard({ weekMenu, weekRange }) {
   const mealLabels = {
     breakfast: 'Nonushta',
     lunch: 'Tushlik',
-    snack: 'Poldnik'
+    snack: 'Yengil tamaddi'
   }
   const weekDays = ['Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma']
 

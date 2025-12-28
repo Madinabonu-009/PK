@@ -13,7 +13,7 @@ let lastMenuDate = null;
 let lastAttendanceDate = null;
 
 // Keep-alive ping uchun
-const RENDER_URL = process.env.SITE_URL || process.env.RENDER_EXTERNAL_URL || 'https://play-kids.onrender.com';
+const RENDER_URL = process.env.SITE_URL || process.env.RENDER_EXTERNAL_URL || 'https://pk-skus.onrender.com';
 
 export const initCronJobs = () => {
   // ============================================

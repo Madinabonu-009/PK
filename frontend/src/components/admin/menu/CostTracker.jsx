@@ -80,7 +80,7 @@ function MealCostCard({ meal, mealType, onEdit }) {
   const mealTypeInfo = {
     breakfast: { icon: '🍳', name: 'Nonushta' },
     lunch: { icon: '🍲', name: 'Tushlik' },
-    snack: { icon: '🍎', name: 'Poldnik' }
+    snack: { icon: '🍎', name: 'Yengil tamaddi' }
   }
 
   const info = mealTypeInfo[mealType] || { icon: '🍽️', name: mealType }

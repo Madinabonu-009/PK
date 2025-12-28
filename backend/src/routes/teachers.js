@@ -25,6 +25,12 @@ router.get('/', async (req, res) => {
   try {
     if (req.app.locals.useDatabase) {
       const teachers = await Teacher.find({ isActive: true })
+      // Agar MongoDB'da ma'lumot bo'lmasa, JSON'dan o'qish
+      if (teachers.length === 0) {
+        const jsonTeachers = readData('teachers.json') || []
+        const activeTeachers = jsonTeachers.filter(t => !t.isDeleted)
+        return res.json(activeTeachers)
+      }
       return res.json(teachers)
     }
     

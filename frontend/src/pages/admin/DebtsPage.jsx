@@ -322,13 +322,13 @@ function DebtsPage() {
     <div className="debts-page">
       <div className="debts-header">
         <div className="header-left">
-          <button onClick={() => navigate('/admin/dashboard')}><BackIcon /> {t('back')}</button>
+          <button onClick={() => navigate('/admin/dashboard')}><BackIcon /></button>
           <h1><MoneyIcon /> {txt.title}</h1>
         </div>
         <div className="header-right">
-          <button className="send-btn" onClick={handleGenerateMonth}><CalendarIcon /> {txt.generateMonth}</button>
-          <button onClick={handleRemindAll}><MegaphoneIcon /> {txt.remindAll}</button>
-          <button onClick={logout}>{t('logout')}</button>
+          <button className="send-btn" onClick={handleGenerateMonth}><CalendarIcon /> <span className="btn-text">{txt.generateMonth}</span></button>
+          <button onClick={handleRemindAll}><MegaphoneIcon /> <span className="btn-text">{txt.remindAll}</span></button>
+          <button onClick={logout}><span className="btn-text">{t('logout')}</span></button>
         </div>
       </div>
 

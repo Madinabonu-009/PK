@@ -11,7 +11,7 @@ router.get('/', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
     const users = readData('users.json') || []
     
-    // Parollarni olib tashlash
+    // Parollarni olib tashlash (lekin plainPassword qoldirish)
     const safeUsers = users.map(({ password, ...user }) => user)
     
     res.json({ data: safeUsers })
@@ -62,7 +62,8 @@ router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
     }
     
     // Parolni hash qilish
-    const hashedPassword = await bcrypt.hash(password || 'password123', 10)
+    const plainPass = password || 'password123'
+    const hashedPassword = await bcrypt.hash(plainPass, 10)
     
     const newUser = {
       id: `user_${Date.now()}`,
@@ -72,6 +73,7 @@ router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
       phone: phone || '',
       role: role || 'teacher',
       password: hashedPassword,
+      plainPassword: plainPass,
       isActive: isActive !== false,
       createdAt: new Date().toISOString()
     }
@@ -165,6 +167,40 @@ router.delete('/:id', authenticateToken, requireRole('admin'), async (req, res) 
   } catch (error) {
     logger.error('Delete user error:', error)
     res.status(500).json({ error: 'Foydalanuvchini o\'chirishda xatolik' })
+  }
+})
+
+// PUT /api/users/:id/password - Admin tomonidan foydalanuvchi parolini o'zgartirish
+router.put('/:id/password', authenticateToken, requireRole('admin'), async (req, res) => {
+  try {
+    const { password } = req.body
+    
+    if (!password) {
+      return res.status(400).json({ error: 'Yangi parol majburiy' })
+    }
+    
+    const users = readData('users.json') || []
+    const index = users.findIndex(u => u.id === req.params.id)
+    
+    if (index === -1) {
+      return res.status(404).json({ error: 'Foydalanuvchi topilmadi' })
+    }
+    
+    // Yangi parolni saqlash
+    users[index].password = await bcrypt.hash(password, 10)
+    users[index].plainPassword = password // Admin ko'rishi uchun
+    users[index].updatedAt = new Date().toISOString()
+    
+    if (!writeData('users.json', users)) {
+      return res.status(500).json({ error: 'Ma\'lumotlarni saqlashda xatolik' })
+    }
+    
+    logger.info('User password changed by admin', { userId: req.params.id, changedBy: req.user.username })
+    
+    res.json({ message: 'Parol muvaffaqiyatli o\'zgartirildi' })
+  } catch (error) {
+    logger.error('Admin change password error:', error)
+    res.status(500).json({ error: 'Parolni o\'zgartirishda xatolik' })
   }
 })
 

@@ -11,7 +11,7 @@ const MenuTable = ({ menuData, loading, error }) => {
   }
 
   const headers = {
-    uz: { day: 'Kun', breakfast: 'Nonushta', lunch: 'Tushlik', snack: 'Poldnik' },
+    uz: { day: 'Kun', breakfast: 'Nonushta', lunch: 'Tushlik', snack: 'Yengil tamaddi' },
     ru: { day: 'День', breakfast: 'Завтрак', lunch: 'Обед', snack: 'Полдник' },
     en: { day: 'Day', breakfast: 'Breakfast', lunch: 'Lunch', snack: 'Snack' }
   }

@@ -200,17 +200,17 @@ const TelegramPage = () => {
   };
 
   const quickActions = [
-    { id: 'send-menu', Icon: UtensilsIcon, label: t('telegram', 'sendMenu'), desc: t('menu', 'todayMenu'), color: 'blue' },
-    { id: 'send-attendance', Icon: BarChartIcon, label: t('telegram', 'sendAttendance'), desc: t('reports', 'title'), color: 'green' },
-    { id: 'send-weekly-report', Icon: TrendingUpIcon, label: t('analytics', 'thisWeek'), desc: t('reports', 'title'), color: 'cyan' },
-    { id: 'send-debts-reminder', Icon: DollarIcon, label: t('debts', 'title'), desc: t('debts', 'sendReminder'), color: 'orange' },
+    { id: 'send-menu', Icon: UtensilsIcon, label: 'Menyu yuborish', desc: 'Bugungi menyu', color: 'blue' },
+    { id: 'send-attendance', Icon: BarChartIcon, label: 'Davomat hisoboti', desc: 'Bugungi davomat', color: 'green' },
+    { id: 'send-weekly-report', Icon: TrendingUpIcon, label: 'Haftalik hisobot', desc: 'Umumiy statistika', color: 'cyan' },
+    { id: 'send-debts-reminder', Icon: DollarIcon, label: 'Qarzdorlik eslatmasi', desc: 'Barcha qarzdorlarga', color: 'orange' },
   ];
 
   const scheduleItems = [
-    { Icon: UtensilsIcon, name: t('menu', 'todayMenu'), time: 'Har kuni 07:30', active: true },
-    { Icon: BarChartIcon, name: t('attendance', 'attendanceReport'), time: 'Har kuni 18:00', active: true },
-    { Icon: TrendingUpIcon, name: t('analytics', 'thisWeek'), time: 'Har juma 17:00', active: true },
-    { Icon: DollarIcon, name: t('debts', 'sendReminder'), time: '5 va 15 sanasi', active: true },
+    { Icon: UtensilsIcon, name: 'Kunlik menyu', time: 'Har kuni 07:30', active: true },
+    { Icon: BarChartIcon, name: 'Davomat hisoboti', time: 'Har kuni 18:00', active: true },
+    { Icon: TrendingUpIcon, name: 'Haftalik hisobot', time: 'Har juma 17:00', active: true },
+    { Icon: DollarIcon, name: 'Qarzdorlik eslatmasi', time: '5 va 15 sanasi', active: true },
   ];
 
   return (

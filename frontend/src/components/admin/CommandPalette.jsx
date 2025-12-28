@@ -102,7 +102,6 @@ function CommandPalette({ isOpen, onClose }) {
     { id: 'nav-debts', label: txt.debts, icon: '💰', category: 'navigation', action: () => navigate('/admin/debts') },
     { id: 'nav-enrollments', label: txt.enrollments, icon: '📋', category: 'navigation', action: () => navigate('/admin/enrollments') },
     { id: 'nav-menu', label: txt.menu, icon: '🍽️', category: 'navigation', action: () => navigate('/admin/menu') },
-    { id: 'nav-events', label: txt.events, icon: '📅', category: 'navigation', action: () => navigate('/admin/events') },
     { id: 'nav-gallery', label: txt.gallery, icon: '🖼️', category: 'navigation', action: () => navigate('/admin/gallery') },
     { id: 'nav-messages', label: txt.messages, icon: '💬', category: 'navigation', action: () => navigate('/admin/chat') },
     { id: 'nav-reports', label: txt.reports, icon: '📈', category: 'navigation', action: () => navigate('/admin/daily-reports') },
@@ -111,8 +110,7 @@ function CommandPalette({ isOpen, onClose }) {
     { id: 'act-add-child', label: txt.addChild, icon: '➕', category: 'actions', shortcut: 'Ctrl+N', action: () => navigate('/admin/children?action=add') },
     { id: 'act-attendance', label: txt.takeAttendance, icon: '✓', category: 'actions', shortcut: 'Ctrl+A', action: () => navigate('/admin/attendance') },
     { id: 'act-payment', label: txt.addPayment, icon: '💵', category: 'actions', action: () => navigate('/admin/payments?action=add') },
-    { id: 'act-event', label: txt.createEvent, icon: '📅', category: 'actions', action: () => navigate('/admin/events?action=add') },
-    { id: 'act-message', label: txt.sendMessage, icon: '✉️', category: 'actions', action: () => navigate('/admin/chat?action=new') },
+    { id: 'act-message', label: txt.sendMessage, icon: '✉️', category: 'actions', action: () => navigate('/admin/chat') },
   ], [txt, navigate])
 
   // Filter commands based on query

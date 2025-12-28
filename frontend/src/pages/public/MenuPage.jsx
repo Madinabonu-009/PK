@@ -12,6 +12,7 @@ const MenuPage = () => {
 
   const texts = {
     uz: {
+      menuTitle: 'Kundalik menyu',
       subtitle: 'Bolalarimiz uchun sog\'lom va mazali ovqatlar. Har bir taom diqqat bilan tayyorlanadi',
       healthyEating: 'Sog\'lom ovqatlanish',
       healthyDesc: 'Barcha taomlar bolalar uchun foydali va to\'yimli',
@@ -29,6 +30,7 @@ const MenuPage = () => {
       loadError: 'Menyuni yuklashda xatolik yuz berdi. Iltimos, keyinroq urinib ko\'ring.'
     },
     ru: {
+      menuTitle: 'Ежедневное меню',
       subtitle: 'Здоровая и вкусная еда для наших детей. Каждое блюдо готовится с заботой',
       healthyEating: 'Здоровое питание',
       healthyDesc: 'Все блюда полезны и питательны для детей',
@@ -46,6 +48,7 @@ const MenuPage = () => {
       loadError: 'Ошибка загрузки меню. Пожалуйста, попробуйте позже.'
     },
     en: {
+      menuTitle: 'Daily Menu',
       subtitle: 'Healthy and delicious food for our children. Every dish is prepared with care',
       healthyEating: 'Healthy Eating',
       healthyDesc: 'All dishes are nutritious and beneficial for children',
@@ -64,7 +67,7 @@ const MenuPage = () => {
     }
   }
 
-  const txt = texts[language]
+  const txt = texts[language] || texts.uz
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -90,7 +93,7 @@ const MenuPage = () => {
       {/* Hero Section */}
       <section className="menu-hero">
         <div className="menu-container">
-          <h1 className="menu-main-title">{t('menuTitle')}</h1>
+          <h1 className="menu-main-title">{txt.menuTitle}</h1>
           <p className="menu-subtitle">{txt.subtitle}</p>
         </div>
       </section>

@@ -18,6 +18,7 @@ const Icons = {
   Events: () => <span className="nav-icon">📅</span>,
   Gallery: () => <span className="nav-icon">🖼️</span>,
   Messages: () => <span className="nav-icon">💬</span>,
+  Feedback: () => <span className="nav-icon">⭐</span>,
   Telegram: () => <span className="nav-icon">📱</span>,
   Reports: () => <span className="nav-icon">📈</span>,
   Users: () => <span className="nav-icon">👤</span>,
@@ -51,6 +52,7 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
       events: 'Tadbirlar',
       gallery: 'Galereya',
       messages: 'Xabarlar',
+      feedback: 'Fikrlar',
       telegram: 'Telegram',
       reports: 'Hisobotlar',
       dailyReports: 'Kunlik hisobotlar',
@@ -74,6 +76,7 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
       events: 'Мероприятия',
       gallery: 'Галерея',
       messages: 'Сообщения',
+      feedback: 'Отзывы',
       telegram: 'Телеграм',
       reports: 'Отчеты',
       dailyReports: 'Ежедневные отчеты',
@@ -97,6 +100,7 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
       events: 'Events',
       gallery: 'Gallery',
       messages: 'Messages',
+      feedback: 'Feedback',
       telegram: 'Telegram',
       reports: 'Reports',
       dailyReports: 'Daily Reports',
@@ -111,37 +115,41 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
 
   const txt = texts[language] || texts.uz
 
-  // Navigation items
+  // Navigation items - teacherAllowed: true = teacher ko'ra oladi
   const navItems = useMemo(() => [
-    { id: 'dashboard', label: txt.dashboard, icon: Icons.Dashboard, path: '/admin/dashboard' },
-    { id: 'children', label: txt.children, icon: Icons.Children, path: '/admin/children' },
-    { id: 'groups', label: txt.groups, icon: Icons.Groups, path: '/admin/groups' },
-    { id: 'attendance', label: txt.attendance, icon: Icons.Attendance, path: '/admin/attendance' },
+    { id: 'dashboard', label: txt.dashboard, icon: Icons.Dashboard, path: '/admin/dashboard', teacherAllowed: true },
+    { id: 'children', label: txt.children, icon: Icons.Children, path: '/admin/children', teacherAllowed: true },
+    { id: 'groups', label: txt.groups, icon: Icons.Groups, path: '/admin/groups', adminOnly: true },
+    { id: 'attendance', label: txt.attendance, icon: Icons.Attendance, path: '/admin/attendance', teacherAllowed: true },
     { 
       id: 'finance', 
       label: txt.finance, 
       icon: Icons.Payments,
+      adminOnly: true,
       children: [
         { id: 'payments', label: txt.payments, path: '/admin/payments' },
         { id: 'debts', label: txt.debts, path: '/admin/debts' },
       ]
     },
-    { id: 'enrollments', label: txt.enrollments, icon: Icons.Enrollments, path: '/admin/enrollments', badge: 3 },
-    { id: 'menu', label: txt.menu, icon: Icons.Menu, path: '/admin/menu' },
-    { id: 'gallery', label: txt.gallery, icon: Icons.Gallery, path: '/admin/gallery' },
-    { id: 'messages', label: txt.messages, icon: Icons.Messages, path: '/admin/chat', badge: 5 },
-    { id: 'telegram', label: txt.telegram, icon: Icons.Telegram, path: '/admin/telegram' },
+    { id: 'enrollments', label: txt.enrollments, icon: Icons.Enrollments, path: '/admin/enrollments', adminOnly: true },
+    { id: 'menu', label: txt.menu, icon: Icons.Menu, path: '/admin/menu', adminOnly: true },
+    { id: 'gallery', label: txt.gallery, icon: Icons.Gallery, path: '/admin/gallery', adminOnly: true },
+    { id: 'messages', label: txt.messages, icon: Icons.Messages, path: '/admin/chat', adminOnly: true },
+    { id: 'feedback', label: txt.feedback, icon: Icons.Feedback, path: '/admin/feedback', adminOnly: true },
+    { id: 'telegram', label: txt.telegram, icon: Icons.Telegram, path: '/admin/telegram', adminOnly: true },
     { 
       id: 'reports', 
       label: txt.reports, 
       icon: Icons.Reports,
+      adminOnly: true,
       children: [
         { id: 'daily-reports', label: txt.dailyReports, path: '/admin/daily-reports' },
         { id: 'analytics', label: txt.analytics, path: '/admin/analytics' },
       ]
     },
+    { id: 'daily-reports-teacher', label: txt.dailyReports, icon: Icons.Reports, path: '/admin/daily-reports', teacherAllowed: true, teacherOnly: true },
     { id: 'users', label: txt.users, icon: Icons.Users, path: '/admin/users', adminOnly: true },
-    { id: 'settings', label: txt.settings, icon: Icons.Settings, path: '/admin/settings' },
+    { id: 'settings', label: txt.settings, icon: Icons.Settings, path: '/admin/settings', teacherAllowed: true },
   ], [txt])
 
   const toggleMenu = (menuId) => {
@@ -165,8 +173,21 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
   }
 
   const renderNavItem = (item) => {
-    // Skip admin-only items for non-admin users
-    if (item.adminOnly && user?.role !== 'admin' && user?.role !== 'superadmin') {
+    const isAdmin = user?.role === 'admin' || user?.role === 'superadmin'
+    const isTeacher = user?.role === 'teacher'
+    
+    // Admin-only items - faqat admin ko'radi
+    if (item.adminOnly && !isAdmin) {
+      return null
+    }
+    
+    // Teacher-only items - faqat teacher ko'radi
+    if (item.teacherOnly && !isTeacher) {
+      return null
+    }
+    
+    // Teacher uchun - faqat teacherAllowed bo'lgan itemlar
+    if (isTeacher && !item.teacherAllowed) {
       return null
     }
 
@@ -201,7 +222,13 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                {item.children.map(child => (
+                {item.children
+                  .filter(child => {
+                    // Teacher uchun faqat teacherAllowed submenu
+                    if (isTeacher && !child.teacherAllowed) return false
+                    return true
+                  })
+                  .map(child => (
                   <NavLink
                     key={child.id}
                     to={child.path}

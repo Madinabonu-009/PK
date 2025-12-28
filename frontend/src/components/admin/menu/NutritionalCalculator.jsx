@@ -100,7 +100,7 @@ function MealBreakdownCard({ meal, mealType }) {
   const mealTypeInfo = {
     breakfast: { icon: '🍳', name: 'Nonushta', targetPercent: 25 },
     lunch: { icon: '🍲', name: 'Tushlik', targetPercent: 40 },
-    snack: { icon: '🍎', name: 'Poldnik', targetPercent: 15 },
+    snack: { icon: '🍎', name: 'Yengil tamaddi', targetPercent: 15 },
     dinner: { icon: '🍽️', name: 'Kechki ovqat', targetPercent: 20 }
   }
 

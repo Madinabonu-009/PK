@@ -29,10 +29,24 @@ router.get('/:key', authenticateToken, async (req, res) => {
   }
 })
 
-// Update settings (admin only)
-router.put('/', authenticateToken, requireRole(['admin']), async (req, res) => {
+// Update settings (admin only for general settings, all users for profile)
+router.put('/', authenticateToken, async (req, res) => {
   try {
     const settings = req.body
+    const isAdmin = req.user.role === 'admin' || req.user.role === 'superadmin'
+    
+    // Teacher faqat notifications va profile o'zgartira oladi
+    if (!isAdmin) {
+      // Faqat notifications va profile ruxsat berilgan
+      const allowedKeys = ['notifications']
+      const requestedKeys = Object.keys(settings)
+      const hasDisallowedKeys = requestedKeys.some(key => !allowedKeys.includes(key))
+      
+      if (hasDisallowedKeys) {
+        return res.status(403).json({ error: 'Ruxsat yo\'q. Faqat bildirishnoma sozlamalarini o\'zgartira olasiz.' })
+      }
+    }
+    
     await Settings.setMultiple(settings)
     res.json({ message: 'Sozlamalar saqlandi', settings })
   } catch (error) {
@@ -42,7 +56,7 @@ router.put('/', authenticateToken, requireRole(['admin']), async (req, res) => {
 })
 
 // Update specific setting (admin only)
-router.put('/:key', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.put('/:key', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
     const { value } = req.body
     await Settings.set(req.params.key, value)
@@ -54,7 +68,7 @@ router.put('/:key', authenticateToken, requireRole(['admin']), async (req, res) 
 })
 
 // Delete setting (admin only)
-router.delete('/:key', authenticateToken, requireRole(['admin']), async (_req, res) => {
+router.delete('/:key', authenticateToken, requireRole('admin'), async (_req, res) => {
   try {
     await Settings.delete(_req.params.key)
     res.json({ message: 'Sozlama o\'chirildi' })

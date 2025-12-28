@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
-import ThemeToggle from './ThemeToggle'
 import LanguageSelector from './LanguageSelector'
 import './Header.css'
 
@@ -87,7 +86,6 @@ const Header = () => {
           
           <div className="header-controls">
             <LanguageSelector />
-            <ThemeToggle />
           </div>
         </nav>
       </div>

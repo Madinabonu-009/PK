@@ -206,11 +206,11 @@ function AdminHeader({ onMenuClick, onSearchClick, user, notifications = [], unr
                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
                 transition={{ duration: 0.15 }}
               >
-                <button className="user-menu-item" onClick={() => navigate('/admin/settings')}>
+                <button className="user-menu-item" onClick={() => { setShowUserMenu(false); navigate('/admin/settings?tab=profile'); }}>
                   <span>👤</span>
                   <span>{txt.profile}</span>
                 </button>
-                <button className="user-menu-item" onClick={() => navigate('/admin/settings')}>
+                <button className="user-menu-item" onClick={() => { setShowUserMenu(false); navigate('/admin/settings'); }}>
                   <span>⚙️</span>
                   <span>{txt.settings}</span>
                 </button>

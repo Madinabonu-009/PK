@@ -222,22 +222,29 @@
   box-shadow: var(--glow-primary);
 }
 
-.stat-card.stat-teachers .stat-icon {
+.stat-card.stat-teachers .stat-icon,
+.stat-card.stat-capacity .stat-icon {
   background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
   box-shadow: var(--glow-success);
+}
+
+.stat-card.stat-occupancy .stat-icon,
+.stat-card.stat-occupied .stat-icon {
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+  box-shadow: 0 8px 32px rgba(236, 72, 153, 0.35);
 }
 
 .stat-card h3 {
   font-size: 2.25rem;
   font-weight: 800;
-  color: #1f2937;
+  color: var(--text-primary);
   margin: 0;
   letter-spacing: -1px;
 }
 
 .stat-card p {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--text-secondary);
   margin: 0;
   font-weight: 500;
 }

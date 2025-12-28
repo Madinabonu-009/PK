@@ -64,7 +64,9 @@ function FeedbackPage() {
   const fetchFeedbacks = async () => {
     try {
       const response = await api.get('/feedback')
-      setFeedbacks(response.data)
+      // Backend to'g'ridan-to'g'ri array qaytaradi
+      const data = Array.isArray(response.data) ? response.data : (response.data?.data || [])
+      setFeedbacks(data)
     } catch (error) {
       // Error handled by UI state
     } finally {

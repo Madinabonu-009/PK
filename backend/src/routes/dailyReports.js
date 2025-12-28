@@ -829,7 +829,7 @@ function formatReportForTelegram(report, child) {
   // Ovqatlanish
   message += `🍽 *Ovqatlanish:*\n`;
   
-  const mealNames = { breakfast: 'Nonushta', lunch: 'Tushlik', snack: 'Poldnik' };
+  const mealNames = { breakfast: 'Nonushta', lunch: 'Tushlik', snack: 'Yengil tamaddi' };
   
   for (const [mealType, mealName] of Object.entries(mealNames)) {
     const meal = report.meals?.[mealType];

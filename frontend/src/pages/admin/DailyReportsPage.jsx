@@ -46,7 +46,7 @@ const texts = {
     poor: 'Yomon',
     breakfast: 'Nonushta',
     lunch: 'Tushlik',
-    snack: 'Poldnik',
+    snack: 'Yengil tamaddi',
     full: "To'liq yedi",
     partial: 'Qisman yedi',
     none: 'Yemadi',
@@ -226,8 +226,8 @@ function ReportCard({ report, child, group, txt, onEdit, onSend, onDelete }) {
             <span className="dr-group-name">{group?.name || 'Guruh'}</span>
           </div>
         </div>
-        <div className={`dr-status-badge ${report.sentToTelegram ? 'sent' : 'pending'}`}>
-          {report.sentToTelegram ? txt.sent : txt.pending}
+        <div className={`dr-status-badge ${report.telegramSent ? 'sent' : 'pending'}`}>
+          {report.telegramSent ? txt.sent : txt.pending}
         </div>
       </div>
 
@@ -291,7 +291,7 @@ function ReportCard({ report, child, group, txt, onEdit, onSend, onDelete }) {
         <button className="dr-btn dr-btn-edit" onClick={onEdit}>
           <span>✏️</span> {txt.edit}
         </button>
-        {!report.sentToTelegram && (
+        {!report.telegramSent && (
           <button className="dr-btn dr-btn-send" onClick={onSend}>
             <span>📤</span> {txt.send}
           </button>
@@ -604,6 +604,80 @@ function ReportFormModal({ show, onClose, child, report, txt, onSave }) {
   )
 }
 
+// Child Selection Modal Component
+function ChildSelectionModal({ show, onClose, children, groups, txt, onSelect }) {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterGroup, setFilterGroup] = useState('all')
+
+  if (!show) return null
+
+  const filteredChildren = children.filter(child => {
+    const matchesSearch = `${child.firstName} ${child.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesGroup = filterGroup === 'all' || child.groupId === filterGroup
+    return matchesSearch && matchesGroup
+  })
+
+  return (
+    <div className="dr-modal-overlay" onClick={onClose}>
+      <div className="dr-modal dr-child-select-modal" onClick={e => e.stopPropagation()}>
+        <div className="dr-modal-header">
+          <h2>{txt.selectChild}</h2>
+          <button className="dr-modal-close" onClick={onClose}>✕</button>
+        </div>
+        <div className="dr-modal-body">
+          <div className="dr-search-row">
+            <input
+              type="text"
+              placeholder="Qidirish..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="dr-search-input"
+            />
+            <select
+              value={filterGroup}
+              onChange={e => setFilterGroup(e.target.value)}
+              className="dr-select"
+            >
+              <option value="all">{txt.allGroups}</option>
+              {groups.map(g => (
+                <option key={g.id} value={g.id}>{g.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="dr-children-list">
+            {filteredChildren.length === 0 ? (
+              <p className="dr-no-children">Bolalar topilmadi</p>
+            ) : (
+              filteredChildren.map(child => {
+                const group = groups.find(g => g.id === child.groupId)
+                return (
+                  <button
+                    key={child.id}
+                    className="dr-child-item"
+                    onClick={() => onSelect(child)}
+                  >
+                    <div className="dr-child-avatar">
+                      {child.photo ? (
+                        <img src={child.photo} alt={child.firstName} />
+                      ) : (
+                        <span>{child.firstName?.[0]}{child.lastName?.[0]}</span>
+                      )}
+                    </div>
+                    <div className="dr-child-info">
+                      <span className="dr-child-name">{child.firstName} {child.lastName}</span>
+                      <span className="dr-child-group">{group?.name || 'Guruh'}</span>
+                    </div>
+                  </button>
+                )
+              })
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // Main Component
 export default function DailyReportsPage() {
   const { user } = useAuth()
@@ -617,6 +691,7 @@ export default function DailyReportsPage() {
   const [selectedGroup, setSelectedGroup] = useState('all')
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
+  const [showChildSelect, setShowChildSelect] = useState(false)
   const [selectedChild, setSelectedChild] = useState(null)
   const [editingReport, setEditingReport] = useState(null)
 
@@ -649,6 +724,18 @@ export default function DailyReportsPage() {
   const handleOpenForm = (child = null, report = null) => {
     setSelectedChild(child)
     setEditingReport(report)
+    setShowModal(true)
+  }
+
+  const handleNewReport = () => {
+    // Yangi hisobot uchun avval bolani tanlash kerak
+    setShowChildSelect(true)
+  }
+
+  const handleChildSelected = (child) => {
+    setShowChildSelect(false)
+    setSelectedChild(child)
+    setEditingReport(null)
     setShowModal(true)
   }
 
@@ -730,7 +817,7 @@ export default function DailyReportsPage() {
             <p>{txt.subtitle}</p>
           </div>
         </div>
-        <button className="dr-new-btn" onClick={() => setShowModal(true)}>
+        <button className="dr-new-btn" onClick={handleNewReport}>
           <span>+</span> {txt.newReport}
         </button>
       </div>
@@ -746,13 +833,13 @@ export default function DailyReportsPage() {
         <StatsCard
           icon="✅"
           label={txt.sent}
-          value={reports.filter(r => r.sentToTelegram).length}
+          value={reports.filter(r => r.telegramSent).length}
           color="#10b981"
         />
         <StatsCard
           icon="⏳"
           label={txt.pending}
-          value={reports.filter(r => !r.sentToTelegram).length}
+          value={reports.filter(r => !r.telegramSent).length}
           color="#f59e0b"
         />
         <StatsCard
@@ -824,7 +911,17 @@ export default function DailyReportsPage() {
         )}
       </div>
 
-      {/* Modal */}
+      {/* Child Selection Modal */}
+      <ChildSelectionModal
+        show={showChildSelect}
+        onClose={() => setShowChildSelect(false)}
+        children={childrenWithoutReport}
+        groups={groups}
+        txt={txt}
+        onSelect={handleChildSelected}
+      />
+
+      {/* Report Form Modal */}
       <ReportFormModal
         show={showModal}
         onClose={() => {

@@ -32,7 +32,13 @@ const texts = {
     confirmDelete: "O'chirishni tasdiqlaysizmi?",
     noUsers: 'Foydalanuvchilar topilmadi',
     userSaved: 'Saqlandi!',
-    userDeleted: "O'chirildi!"
+    userDeleted: "O'chirildi!",
+    login: 'Login',
+    changePassword: 'Parol o\'zgartirish',
+    newPassword: 'Yangi parol',
+    showPassword: 'Ko\'rsatish',
+    hidePassword: 'Yashirish',
+    passwordChanged: 'Parol o\'zgartirildi!'
   },
   ru: {
     title: 'Пользователи',
@@ -59,7 +65,13 @@ const texts = {
     confirmDelete: 'Подтвердите удаление',
     noUsers: 'Пользователи не найдены',
     userSaved: 'Сохранено!',
-    userDeleted: 'Удалено!'
+    userDeleted: 'Удалено!',
+    login: 'Логин',
+    changePassword: 'Изменить пароль',
+    newPassword: 'Новый пароль',
+    showPassword: 'Показать',
+    hidePassword: 'Скрыть',
+    passwordChanged: 'Пароль изменен!'
   },
   en: {
     title: 'Users',
@@ -86,7 +98,13 @@ const texts = {
     confirmDelete: 'Confirm delete?',
     noUsers: 'No users found',
     userSaved: 'Saved!',
-    userDeleted: 'Deleted!'
+    userDeleted: 'Deleted!',
+    login: 'Login',
+    changePassword: 'Change Password',
+    newPassword: 'New Password',
+    showPassword: 'Show',
+    hidePassword: 'Hide',
+    passwordChanged: 'Password changed!'
   }
 }
 
@@ -104,7 +122,9 @@ function StatsCard({ icon, label, value, color }) {
 }
 
 // User Card
-function UserCard({ user, txt, onEdit, onDelete }) {
+function UserCard({ user, txt, onEdit, onDelete, onChangePassword }) {
+  const [showPassword, setShowPassword] = useState(false)
+  
   const getRoleColor = (role) => {
     const colors = {
       admin: '#ef4444',
@@ -132,6 +152,25 @@ function UserCard({ user, txt, onEdit, onDelete }) {
         <h3>{user.name || user.email}</h3>
         <p className="us-user-email">{user.email}</p>
         {user.phone && <p className="us-user-phone">📞 {user.phone}</p>}
+        <div className="us-user-credentials">
+          <div className="us-credential">
+            <span className="us-credential-label">{txt.login}:</span>
+            <span className="us-credential-value">{user.username || user.email?.split('@')[0]}</span>
+          </div>
+          <div className="us-credential">
+            <span className="us-credential-label">{txt.password}:</span>
+            <span className="us-credential-value">
+              {showPassword ? (user.plainPassword || 'Mavjud emas') : '••••••••'}
+            </span>
+            <button 
+              className="us-show-password-btn"
+              onClick={() => setShowPassword(!showPassword)}
+              title={showPassword ? txt.hidePassword : txt.showPassword}
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </button>
+          </div>
+        </div>
       </div>
       <div className="us-user-meta">
         <span className="us-role-badge" style={{ background: getRoleColor(user.role) }}>
@@ -142,8 +181,9 @@ function UserCard({ user, txt, onEdit, onDelete }) {
         </span>
       </div>
       <div className="us-user-actions">
-        <button className="us-btn us-btn-edit" onClick={onEdit}>✏️</button>
-        <button className="us-btn us-btn-delete" onClick={onDelete}>🗑️</button>
+        <button className="us-btn us-btn-edit" onClick={onEdit} title={txt.edit}>✏️</button>
+        <button className="us-btn us-btn-password" onClick={onChangePassword} title={txt.changePassword}>🔑</button>
+        <button className="us-btn us-btn-delete" onClick={onDelete} title={txt.delete}>🗑️</button>
       </div>
     </div>
   )
@@ -304,6 +344,8 @@ export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [editingUser, setEditingUser] = useState(null)
+  const [showPasswordModal, setShowPasswordModal] = useState(null)
+  const [newPassword, setNewPassword] = useState('')
 
   const txt = texts[language] || texts.uz
 
@@ -317,7 +359,6 @@ export default function UsersPage() {
       const response = await api.get('/users', { skipCache: true })
       setUsers(response.data?.data || response.data || [])
     } catch (error) {
-      console.error('Error:', error)
       toast.error('Foydalanuvchilarni yuklashda xatolik')
     } finally {
       setLoading(false)
@@ -349,6 +390,19 @@ export default function UsersPage() {
       toast.success(txt.userDeleted)
     } catch (error) {
       toast.error(error.response?.data?.error || 'O\'chirishda xatolik')
+    }
+  }
+
+  const handleChangePassword = async () => {
+    if (!showPasswordModal || !newPassword) return
+    try {
+      await api.put(`/users/${showPasswordModal.id}/password`, { password: newPassword })
+      toast.success(txt.passwordChanged)
+      setShowPasswordModal(null)
+      setNewPassword('')
+      fetchUsers()
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Xatolik')
     }
   }
 
@@ -460,6 +514,7 @@ export default function UsersPage() {
               txt={txt}
               onEdit={() => { setEditingUser(user); setShowModal(true); }}
               onDelete={() => handleDelete(user.id)}
+              onChangePassword={() => setShowPasswordModal(user)}
             />
           ))
         )}
@@ -473,6 +528,37 @@ export default function UsersPage() {
         txt={txt}
         onSave={handleSave}
       />
+
+      {/* Password Change Modal */}
+      {showPasswordModal && (
+        <div className="us-modal-overlay" onClick={() => setShowPasswordModal(null)}>
+          <div className="us-modal us-password-modal" onClick={e => e.stopPropagation()}>
+            <div className="us-modal-header">
+              <h2>🔑 {txt.changePassword}</h2>
+              <button className="us-modal-close" onClick={() => setShowPasswordModal(null)}>✕</button>
+            </div>
+            <div className="us-modal-body">
+              <p className="us-password-user">{showPasswordModal.name || showPasswordModal.email}</p>
+              <div className="us-form-row">
+                <label>{txt.newPassword}</label>
+                <input
+                  type="text"
+                  value={newPassword}
+                  onChange={e => setNewPassword(e.target.value)}
+                  placeholder="Yangi parol kiriting"
+                  autoFocus
+                />
+              </div>
+            </div>
+            <div className="us-modal-footer">
+              <button className="us-btn us-btn-cancel" onClick={() => setShowPasswordModal(null)}>{txt.cancel}</button>
+              <button className="us-btn us-btn-save" onClick={handleChangePassword} disabled={!newPassword}>
+                {txt.save}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -7,7 +7,9 @@ const TEACHER_ALLOWED_ROUTES = [
   '/admin/dashboard',
   '/admin/attendance',
   '/admin/daily-reports',
-  '/admin/children'
+  '/admin/children',
+  '/admin/settings',
+  '/admin/chat'
 ]
 
 function ProtectedRoute({ children }) {

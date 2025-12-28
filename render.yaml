@@ -3,7 +3,7 @@
 
 services:
   - type: web
-    name: play-kids
+    name: pk-skus
     runtime: node
     region: frankfurt
     plan: free
@@ -20,7 +20,7 @@ services:
       - key: JWT_EXPIRES_IN
         value: 24h
       - key: ALLOWED_ORIGINS
-        value: https://play-kids.onrender.com
+        value: https://pk-skus.onrender.com
       - key: TELEGRAM_BOT_TOKEN
         value: 8046634314:AAGdOOkGMG_V0wuYa1TQYmu2_xrOYdxkZ_M
       - key: TELEGRAM_CHAT_ID
@@ -32,5 +32,5 @@ services:
       - key: LOG_LEVEL
         value: info
       - key: SITE_URL
-        value: https://play-kids.onrender.com
+        value: https://pk-skus.onrender.com
     autoDeploy: true

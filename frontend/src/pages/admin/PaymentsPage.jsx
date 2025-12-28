@@ -99,7 +99,14 @@ const TEXTS = {
     monthlyFee: 'Oylik to\'lov',
     active: 'Faol',
     disabled: 'O\'chirilgan',
-    error: 'Xatolik yuz berdi'
+    error: 'Xatolik yuz berdi',
+    paymentDetails: 'To\'lov tafsilotlari',
+    close: 'Yopish',
+    transactionId: 'Tranzaksiya ID',
+    paymentMethod: 'To\'lov usuli',
+    description: 'Tavsif',
+    createdAt: 'Yaratilgan',
+    updatedAt: 'Yangilangan'
   },
   ru: {
     pageTitle: 'Платежи',
@@ -134,7 +141,14 @@ const TEXTS = {
     monthlyFee: 'Ежемесячная плата',
     active: 'Активен',
     disabled: 'Отключен',
-    error: 'Произошла ошибка'
+    error: 'Произошла ошибка',
+    paymentDetails: 'Детали платежа',
+    close: 'Закрыть',
+    transactionId: 'ID транзакции',
+    paymentMethod: 'Способ оплаты',
+    description: 'Описание',
+    createdAt: 'Создано',
+    updatedAt: 'Обновлено'
   },
   en: {
     pageTitle: 'Payments',
@@ -169,16 +183,23 @@ const TEXTS = {
     monthlyFee: 'Monthly Fee',
     active: 'Active',
     disabled: 'Disabled',
-    error: 'An error occurred'
+    error: 'An error occurred',
+    paymentDetails: 'Payment Details',
+    close: 'Close',
+    transactionId: 'Transaction ID',
+    paymentMethod: 'Payment Method',
+    description: 'Description',
+    createdAt: 'Created At',
+    updatedAt: 'Updated At'
   }
 }
 
 // Filter tabs
 const FILTERS = [
   { id: 'all', label: { uz: 'Barchasi', ru: 'Все', en: 'All' } },
-  { id: 'completed', label: { uz: 'To\'langan', ru: 'Оплачено', en: 'Paid' } },
   { id: 'pending', label: { uz: 'Kutilmoqda', ru: 'Ожидание', en: 'Pending' } },
-  { id: 'failed', label: { uz: 'Bekor qilingan', ru: 'Отменено', en: 'Failed' } }
+  { id: 'completed', label: { uz: 'To\'langan', ru: 'Оплачено', en: 'Paid' } },
+  { id: 'overdue', label: { uz: 'Muddati o\'tgan', ru: 'Просрочено', en: 'Overdue' } }
 ]
 
 // Main Component
@@ -189,25 +210,30 @@ function PaymentsPage() {
   
   const [loading, setLoading] = useState(true)
   const [payments, setPayments] = useState([])
+  const [debts, setDebts] = useState([])
   const [stats, setStats] = useState(null)
   const [paymentConfig, setPaymentConfig] = useState(null)
   const [filter, setFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedPayment, setSelectedPayment] = useState(null)
 
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      const [paymentsRes, statsRes, configRes] = await Promise.all([
+      const [paymentsRes, debtsRes, statsRes, configRes] = await Promise.all([
         api.get('/payments'),
+        api.get('/debts'),
         api.get('/payments/stats'),
         api.get('/payments/config')
       ])
       
       const paymentsData = paymentsRes.data?.data || (Array.isArray(paymentsRes.data) ? paymentsRes.data : [])
+      const debtsData = debtsRes.data?.data || (Array.isArray(debtsRes.data) ? debtsRes.data : [])
       const statsData = statsRes.data?.data || statsRes.data || {}
       const configData = configRes.data?.data || configRes.data || {}
       
       setPayments(paymentsData)
+      setDebts(debtsData)
       setStats(statsData)
       setPaymentConfig(configData)
     } catch (err) {
@@ -255,10 +281,41 @@ function PaymentsPage() {
   }
 
   const filteredPayments = useMemo(() => {
-    let result = payments
+    // Debts'ni payment formatiga o'tkazish
+    const pendingDebts = debts
+      .filter(d => d.status === 'pending' || d.status === 'partial')
+      .map(d => ({
+        id: d.id,
+        childId: d.childId,
+        childName: d.childName || `Bola #${d.childId}`,
+        amount: d.amount - (d.paidAmount || 0),
+        originalAmount: d.amount,
+        paidAmount: d.paidAmount || 0,
+        status: 'pending',
+        provider: '-',
+        month: d.month,
+        dueDate: d.dueDate,
+        createdAt: d.createdAt,
+        isDebt: true,
+        isOverdue: new Date(d.dueDate) < new Date()
+      }))
     
-    if (filter !== 'all') {
-      result = result.filter(p => p.status === filter)
+    // Muddati o'tgan debts
+    const overdueDebts = pendingDebts.filter(d => d.isOverdue)
+    
+    let result = []
+    
+    if (filter === 'all') {
+      // Barcha to'lovlar + kutilayotgan qarzdorliklar
+      result = [...payments, ...pendingDebts]
+    } else if (filter === 'completed') {
+      result = payments.filter(p => p.status === 'completed')
+    } else if (filter === 'pending') {
+      // Faqat kutilayotgan (muddati o'tmagan)
+      result = pendingDebts.filter(d => !d.isOverdue)
+    } else if (filter === 'overdue') {
+      // Muddati o'tgan
+      result = overdueDebts
     }
     
     if (searchQuery) {
@@ -269,10 +326,16 @@ function PaymentsPage() {
       )
     }
     
+    // Sanasi bo'yicha tartiblash
+    result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    
     return result
-  }, [payments, filter, searchQuery])
+  }, [payments, debts, filter, searchQuery])
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status, isOverdue) => {
+    if (isOverdue) {
+      return { class: 'status-overdue', text: language === 'uz' ? 'Muddati o\'tgan' : language === 'ru' ? 'Просрочено' : 'Overdue' }
+    }
     const badges = {
       completed: { class: 'status-completed', text: txt.completed },
       pending: { class: 'status-pending', text: txt.pending },
@@ -300,52 +363,62 @@ function PaymentsPage() {
       </div>
 
       {/* Stats */}
-      {stats && (
-        <div className="payments-stats">
-          <div className="stat-card stat-total">
-            <div className="stat-icon"><MoneyIcon /></div>
-            <div className="stat-info">
-              <h3>{formatAmount(stats.totalRevenue || 0)}</h3>
-              <p>{txt.totalRevenue}</p>
-            </div>
-          </div>
-          <div className="stat-card stat-pending">
-            <div className="stat-icon"><ClockIcon /></div>
-            <div className="stat-info">
-              <h3>{formatAmount(stats.pendingAmount || 0)}</h3>
-              <p>{txt.pendingAmount}</p>
-            </div>
-          </div>
-          <div className="stat-card stat-completed">
-            <div className="stat-icon"><CheckIcon /></div>
-            <div className="stat-info">
-              <h3>{stats.completedCount || 0}</h3>
-              <p>{txt.completedCount}</p>
-            </div>
-          </div>
-          <div className="stat-card stat-failed">
-            <div className="stat-icon"><XIcon /></div>
-            <div className="stat-info">
-              <h3>{stats.failedCount || 0}</h3>
-              <p>{txt.failedCount}</p>
-            </div>
+      <div className="payments-stats">
+        <div className="stat-card stat-total">
+          <div className="stat-icon"><MoneyIcon /></div>
+          <div className="stat-info">
+            <h3>{formatAmount(stats?.totalRevenue || payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0))}</h3>
+            <p>{txt.totalRevenue}</p>
           </div>
         </div>
-      )}
+        <div className="stat-card stat-pending">
+          <div className="stat-icon"><ClockIcon /></div>
+          <div className="stat-info">
+            <h3>{formatAmount(debts.filter(d => d.status === 'pending' || d.status === 'partial').reduce((sum, d) => sum + (d.amount - (d.paidAmount || 0)), 0))}</h3>
+            <p>{txt.pendingAmount}</p>
+          </div>
+        </div>
+        <div className="stat-card stat-completed">
+          <div className="stat-icon"><CheckIcon /></div>
+          <div className="stat-info">
+            <h3>{payments.filter(p => p.status === 'completed').length}</h3>
+            <p>{txt.completedCount}</p>
+          </div>
+        </div>
+        <div className="stat-card stat-failed">
+          <div className="stat-icon"><XIcon /></div>
+          <div className="stat-info">
+            <h3>{debts.filter(d => (d.status === 'pending' || d.status === 'partial') && new Date(d.dueDate) < new Date()).length}</h3>
+            <p>{language === 'uz' ? 'Muddati o\'tgan' : language === 'ru' ? 'Просрочено' : 'Overdue'}</p>
+          </div>
+        </div>
+      </div>
 
       {/* Filters */}
       <div className="payments-filters">
         <div className="filter-tabs">
-          {FILTERS.map(f => (
-            <button
-              key={f.id}
-              className={`filter-tab ${filter === f.id ? 'active' : ''}`}
-              onClick={() => setFilter(f.id)}
-            >
-              {f.label[language]}
-              {f.id === 'all' && ` (${payments.length})`}
-            </button>
-          ))}
+          {FILTERS.map(f => {
+            // Har bir tab uchun count hisoblash
+            let count = 0
+            const pendingDebts = debts.filter(d => d.status === 'pending' || d.status === 'partial')
+            const overdueDebts = pendingDebts.filter(d => new Date(d.dueDate) < new Date())
+            const nonOverdueDebts = pendingDebts.filter(d => new Date(d.dueDate) >= new Date())
+            
+            if (f.id === 'all') count = payments.length + pendingDebts.length
+            else if (f.id === 'completed') count = payments.filter(p => p.status === 'completed').length
+            else if (f.id === 'pending') count = nonOverdueDebts.length
+            else if (f.id === 'overdue') count = overdueDebts.length
+            
+            return (
+              <button
+                key={f.id}
+                className={`filter-tab ${filter === f.id ? 'active' : ''}`}
+                onClick={() => setFilter(f.id)}
+              >
+                {f.label[language]} ({count})
+              </button>
+            )
+          })}
         </div>
         <div className="search-box">
           <SearchIcon />
@@ -381,7 +454,6 @@ function PaymentsPage() {
             </thead>
             <tbody>
               {filteredPayments.map((payment, idx) => {
-                const badge = getStatusBadge(payment.status)
                 return (
                   <motion.tr
                     key={payment.id || idx}
@@ -405,16 +477,20 @@ function PaymentsPage() {
                       </span>
                     </td>
                     <td>
-                      <span className={`status-badge ${badge.class}`}>
-                        {badge.text}
+                      <span className={`status-badge ${getStatusBadge(payment.status, payment.isOverdue).class}`}>
+                        {getStatusBadge(payment.status, payment.isOverdue).text}
                       </span>
                     </td>
                     <td>{formatDate(payment.createdAt)}</td>
                     <td className="actions-cell">
-                      <button className="action-btn view" title={txt.view}>
+                      <button 
+                        className="action-btn view" 
+                        title={txt.view}
+                        onClick={() => setSelectedPayment(payment)}
+                      >
                         <EyeIcon />
                       </button>
-                      {payment.status === 'pending' && (
+                      {payment.status === 'pending' && !payment.isDebt && (
                         <button 
                           className="action-btn simulate"
                           onClick={() => simulatePayment(payment.id)}
@@ -481,6 +557,87 @@ function PaymentsPage() {
           </div>
         </div>
       )}
+
+      {/* Payment Details Modal */}
+      <AnimatePresence>
+        {selectedPayment && (
+          <motion.div 
+            className="payment-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedPayment(null)}
+          >
+            <motion.div 
+              className="payment-modal"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="payment-modal-header">
+                <h2>{txt.paymentDetails}</h2>
+                <button className="modal-close-btn" onClick={() => setSelectedPayment(null)}>
+                  <XIcon />
+                </button>
+              </div>
+              <div className="payment-modal-body">
+                <div className="payment-detail-row">
+                  <span className="detail-label">{txt.id}:</span>
+                  <span className="detail-value">#{selectedPayment.id}</span>
+                </div>
+                <div className="payment-detail-row">
+                  <span className="detail-label">{txt.child}:</span>
+                  <span className="detail-value">{selectedPayment.childName || '-'}</span>
+                </div>
+                <div className="payment-detail-row">
+                  <span className="detail-label">{txt.amount}:</span>
+                  <span className="detail-value amount-highlight">{formatAmount(selectedPayment.amount)}</span>
+                </div>
+                <div className="payment-detail-row">
+                  <span className="detail-label">{txt.provider}:</span>
+                  <span className={`provider-badge ${selectedPayment.provider}`}>
+                    {selectedPayment.provider || '-'}
+                  </span>
+                </div>
+                <div className="payment-detail-row">
+                  <span className="detail-label">{txt.status}:</span>
+                  <span className={`status-badge ${getStatusBadge(selectedPayment.status, selectedPayment.isOverdue).class}`}>
+                    {getStatusBadge(selectedPayment.status, selectedPayment.isOverdue).text}
+                  </span>
+                </div>
+                {selectedPayment.transactionId && (
+                  <div className="payment-detail-row">
+                    <span className="detail-label">{txt.transactionId}:</span>
+                    <span className="detail-value">{selectedPayment.transactionId}</span>
+                  </div>
+                )}
+                {selectedPayment.description && (
+                  <div className="payment-detail-row">
+                    <span className="detail-label">{txt.description}:</span>
+                    <span className="detail-value">{selectedPayment.description}</span>
+                  </div>
+                )}
+                <div className="payment-detail-row">
+                  <span className="detail-label">{txt.createdAt}:</span>
+                  <span className="detail-value">{formatDate(selectedPayment.createdAt)}</span>
+                </div>
+                {selectedPayment.updatedAt && (
+                  <div className="payment-detail-row">
+                    <span className="detail-label">{txt.updatedAt}:</span>
+                    <span className="detail-value">{formatDate(selectedPayment.updatedAt)}</span>
+                  </div>
+                )}
+              </div>
+              <div className="payment-modal-footer">
+                <button className="modal-btn" onClick={() => setSelectedPayment(null)}>
+                  {txt.close}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

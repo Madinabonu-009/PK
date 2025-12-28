@@ -43,9 +43,15 @@
    RESPONSIVE STYLES
    ============================================ */
 
+@media (max-width: 1200px) {
+  .admin-main-wrapper {
+    margin-left: 240px;
+  }
+}
+
 @media (max-width: 1024px) {
   .admin-main-wrapper {
-    margin-left: 80px;
+    margin-left: 220px;
   }
 }
 

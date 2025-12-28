@@ -113,6 +113,10 @@
   font-size: 1.25rem;
 }
 
+.st-sidebar-label {
+  flex: 1;
+}
+
 /* Content */
 .st-content {
   flex: 1;

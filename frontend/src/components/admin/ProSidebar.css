@@ -334,35 +334,24 @@
    RESPONSIVE
    ============================================ */
 
+@media (max-width: 1200px) {
+  .pro-sidebar {
+    width: 240px;
+  }
+}
+
 @media (max-width: 1024px) {
   .pro-sidebar {
-    width: 80px;
+    width: 220px;
   }
-
-  .pro-sidebar .nav-label,
-  .pro-sidebar .nav-badge,
-  .pro-sidebar .nav-chevron,
-  .pro-sidebar .logo-text,
-  .pro-sidebar .user-info {
-    display: none;
+  
+  .nav-item {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.85rem;
   }
-
-  .pro-sidebar .nav-item {
-    justify-content: center;
-    padding: 0.75rem;
-  }
-
-  .pro-sidebar .sidebar-user {
-    justify-content: center;
-    padding: 0.75rem;
-  }
-
-  .pro-sidebar .nav-submenu {
-    display: none;
-  }
-
-  .sidebar-toggle {
-    display: none;
+  
+  .nav-icon {
+    font-size: 1.1rem;
   }
 }
 

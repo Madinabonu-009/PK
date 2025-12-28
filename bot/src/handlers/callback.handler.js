@@ -192,7 +192,7 @@ const handleMenu = async (ctx, action) => {
         text += `🍲 *Tushlik* (12:30)\n${todayData.menu.lunch.name}\n\n`;
       }
       if (todayData.menu.snack?.name) {
-        text += `🥛 *Poldnik* (15:30)\n${todayData.menu.snack.name}`;
+        text += `🥛 *Yengil tamaddi* (15:30)\n${todayData.menu.snack.name}`;
       }
       
       await ctx.editMessageText(text, { 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useGamification } from '../../context/GamificationContext'
+import { useSound } from '../../hooks/useSound'
 import PuzzleGame from './PuzzleGame'
 import MusicGame from './MusicGame'
 import DrawingCanvas from './DrawingCanvas'
@@ -265,7 +266,7 @@ function TwinklingStars() {
 }
 
 // ============ MEMORY GAME - ADVANCED ============
-function MemoryGame({ t, onBack, onComplete }) {
+function MemoryGame({ t, onBack, onComplete, playSound }) {
   const [cards, setCards] = useState([])
   const [flipped, setFlipped] = useState([])
   const [matched, setMatched] = useState([])
@@ -295,6 +296,7 @@ function MemoryGame({ t, onBack, onComplete }) {
   }, [timeLeft, gameStarted, gameWon])
 
   const startGame = (diff) => {
+    if (playSound) playSound('click')
     setDifficulty(diff)
     const config = difficulties[diff]
     const selectedCards = memoryCards.slice(0, config.pairs)
@@ -316,6 +318,7 @@ function MemoryGame({ t, onBack, onComplete }) {
   const handleCardClick = (uniqueId) => {
     if (flipped.length === 2 || flipped.includes(uniqueId) || matched.includes(uniqueId)) return
 
+    if (playSound) playSound('flip')
     const newFlipped = [...flipped, uniqueId]
     setFlipped(newFlipped)
 
@@ -326,9 +329,11 @@ function MemoryGame({ t, onBack, onComplete }) {
       const secondCard = cards.find(c => c.uniqueId === second)
 
       if (firstCard.id === secondCard.id) {
+        if (playSound) playSound('match')
         const newCombo = combo + 1
         setCombo(newCombo)
         if (newCombo > maxCombo) setMaxCombo(newCombo)
+        if (newCombo > 1 && playSound) playSound('combo')
         
         const comboBonus = newCombo * 5
         const timeBonus = Math.floor(timeLeft / 10)
@@ -341,10 +346,12 @@ function MemoryGame({ t, onBack, onComplete }) {
         
         if (newMatched.length === cards.length) {
           setGameWon(true)
+          if (playSound) playSound('win')
           const finalScore = score + pointsEarned + (timeLeft * 2)
           if (onComplete) onComplete(finalScore, difficulties[difficulty].pairs * 20)
         }
       } else {
+        if (playSound) playSound('error')
         setCombo(0)
         setTimeout(() => setFlipped([]), 800)
       }
@@ -435,7 +442,7 @@ function MemoryGame({ t, onBack, onComplete }) {
 }
 
 // ============ DRAG & DROP GAME - SPACE THEME ============
-function DragDropGame({ lang, t, onBack, onComplete }) {
+function DragDropGame({ lang, t, onBack, onComplete, playSound }) {
   const [placed, setPlaced] = useState({})
   const [draggedItem, setDraggedItem] = useState(null)
   const [gameWon, setGameWon] = useState(false)
@@ -456,22 +463,27 @@ function DragDropGame({ lang, t, onBack, onComplete }) {
     setAttempts(a => a + 1)
     
     if (draggedItem.home === homeId) {
+      if (playSound) playSound('drop')
       const newPlaced = { ...placed, [draggedItem.id]: homeId }
       setPlaced(newPlaced)
       setScore(s => s + 20)
+      if (playSound) playSound('success')
       
       if (Object.keys(newPlaced).length === spaceAnimals.length) {
         setGameWon(true)
+        if (playSound) playSound('win')
         const finalScore = score + 20 + Math.max(0, (50 - attempts) * 2)
         if (onComplete) onComplete(finalScore, spaceAnimals.length * 20)
       }
     } else {
+      if (playSound) playSound('error')
       setScore(s => Math.max(0, s - 5))
     }
     setDraggedItem(null)
   }
 
   const resetGame = () => {
+    if (playSound) playSound('click')
     setPlaced({})
     setDraggedItem(null)
     setGameWon(false)
@@ -549,7 +561,7 @@ function DragDropGame({ lang, t, onBack, onComplete }) {
 }
 
 // ============ QUIZ GAME - ADVANCED ============
-function QuizGame({ lang, t, onBack, onComplete }) {
+function QuizGame({ lang, t, onBack, onComplete, playSound }) {
   const [currentQ, setCurrentQ] = useState(0)
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(null)
@@ -570,20 +582,31 @@ function QuizGame({ lang, t, onBack, onComplete }) {
     }
   }, [timeLeft, answered, gameOver])
 
+  // Warning sound when time is low
+  useEffect(() => {
+    if (timeLeft === 5 && playSound) playSound('warning')
+  }, [timeLeft])
+
   const handleAnswer = (index) => {
     if (answered !== null) return
+    if (playSound) playSound('click')
     setAnswered(index)
     const isCorrect = index === questions[currentQ].answer
     
     if (isCorrect) {
+      if (playSound) playSound('success')
       const timeBonus = timeLeft * 2
       const streakBonus = streak * 5
       const difficultyBonus = questions[currentQ].difficulty * 10
       setScore(s => s + 10 + timeBonus + streakBonus + difficultyBonus)
       setStreak(s => s + 1)
       if (streak + 1 > maxStreak) setMaxStreak(streak + 1)
-      if (streak > 0 && streak % 3 === 2) setDifficulty(d => Math.min(3, d + 1))
+      if (streak > 0 && streak % 3 === 2) {
+        setDifficulty(d => Math.min(3, d + 1))
+        if (playSound) playSound('levelUp')
+      }
     } else {
+      if (playSound) playSound('error')
       setStreak(0)
     }
 
@@ -594,12 +617,14 @@ function QuizGame({ lang, t, onBack, onComplete }) {
         setTimeLeft(15 - difficulty * 2)
       } else {
         setGameOver(true)
+        if (playSound) playSound('win')
         if (onComplete) onComplete(score + (isCorrect ? 10 : 0), questions.length * 30)
       }
     }, 1500)
   }
 
   const resetGame = () => {
+    if (playSound) playSound('click')
     setCurrentQ(0)
     setScore(0)
     setAnswered(null)
@@ -689,7 +714,7 @@ function QuizGame({ lang, t, onBack, onComplete }) {
 }
 
 // ============ COUNTING GAME - ADVANCED ============
-function CountingGame({ t, onBack, onComplete }) {
+function CountingGame({ t, onBack, onComplete, playSound }) {
   const [level, setLevel] = useState(0)
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(null)
@@ -710,6 +735,11 @@ function CountingGame({ t, onBack, onComplete }) {
       handleAnswer(-1)
     }
   }, [timeLeft, answered, gameOver])
+
+  // Warning sound
+  useEffect(() => {
+    if (timeLeft === 3 && playSound) playSound('warning')
+  }, [timeLeft])
 
   const generatePositions = () => {
     const current = countingLevels[level]
@@ -733,15 +763,19 @@ function CountingGame({ t, onBack, onComplete }) {
 
   const handleAnswer = (num) => {
     if (answered !== null) return
+    if (playSound) playSound('click')
     setAnswered(num)
     const isCorrect = num === current.count
     
     if (isCorrect) {
+      if (playSound) playSound('success')
       const timeBonus = timeLeft * 3
       const streakBonus = streak * 10
       setScore(s => s + 15 + timeBonus + streakBonus)
       setStreak(s => s + 1)
+      if (streak > 0 && streak % 2 === 1 && playSound) playSound('levelUp')
     } else {
+      if (playSound) playSound('error')
       setStreak(0)
     }
 
@@ -752,12 +786,14 @@ function CountingGame({ t, onBack, onComplete }) {
         setTimeLeft(countingLevels[level + 1].time)
       } else {
         setGameOver(true)
+        if (playSound) playSound('win')
         if (onComplete) onComplete(score + (isCorrect ? 15 : 0), countingLevels.length * 30)
       }
     }, 1200)
   }
 
   const resetGame = () => {
+    if (playSound) playSound('click')
     setLevel(0)
     setScore(0)
     setAnswered(null)
@@ -838,7 +874,7 @@ function CountingGame({ t, onBack, onComplete }) {
 }
 
 // ============ MATH ADVENTURE GAME - GALACTIC BATTLE ============
-function MathAdventureGame({ t, onBack, onComplete }) {
+function MathAdventureGame({ t, onBack, onComplete, playSound }) {
   const [level, setLevel] = useState(1)
   const [score, setScore] = useState(0)
   const [lives, setLives] = useState(3)
@@ -1122,7 +1158,7 @@ function MathAdventureGame({ t, onBack, onComplete }) {
 }
 
 // ============ MULTIPLICATION GAME - SPACE THEME ============
-function MultiplicationGame({ t, onBack, onComplete }) {
+function MultiplicationGame({ t, onBack, onComplete, playSound }) {
   const [selectedTable, setSelectedTable] = useState(null)
   const [currentQ, setCurrentQ] = useState(0)
   const [score, setScore] = useState(0)
@@ -1355,12 +1391,34 @@ export default function GamesCenter() {
   const [currentGame, setCurrentGame] = useState(null)
   const [lang, setLang] = useState('uz')
   const { addXP } = useGamification()
+  const { play, init } = useSound()
 
   const t = translations[lang]
+
+  // Initialize sound on first interaction
+  useEffect(() => {
+    const handleInteraction = () => {
+      init()
+      document.removeEventListener('click', handleInteraction)
+    }
+    document.addEventListener('click', handleInteraction)
+    return () => document.removeEventListener('click', handleInteraction)
+  }, [init])
 
   const handleGameComplete = (score, maxScore) => {
     const xpEarned = Math.floor((score / maxScore) * 50)
     if (addXP) addXP(xpEarned)
+    play('win')
+  }
+
+  const handleGameSelect = (gameId) => {
+    play('click')
+    setCurrentGame(gameId)
+  }
+
+  const handleBack = () => {
+    play('pop')
+    setCurrentGame(null)
   }
 
   const games = [
@@ -1379,31 +1437,38 @@ export default function GamesCenter() {
   ]
 
   const renderGame = () => {
+    const gameProps = { 
+      t, 
+      onBack: handleBack, 
+      onComplete: handleGameComplete,
+      playSound: play 
+    }
+    
     switch (currentGame) {
       case 'memory':
-        return <MemoryGame t={t} onBack={() => setCurrentGame(null)} onComplete={handleGameComplete} />
+        return <MemoryGame {...gameProps} />
       case 'dragdrop':
-        return <DragDropGame lang={lang} t={t} onBack={() => setCurrentGame(null)} onComplete={handleGameComplete} />
+        return <DragDropGame lang={lang} {...gameProps} />
       case 'quiz':
-        return <QuizGame lang={lang} t={t} onBack={() => setCurrentGame(null)} onComplete={handleGameComplete} />
+        return <QuizGame lang={lang} {...gameProps} />
       case 'counting':
-        return <CountingGame t={t} onBack={() => setCurrentGame(null)} onComplete={handleGameComplete} />
+        return <CountingGame {...gameProps} />
       case 'adventure':
-        return <MathAdventureGame t={t} onBack={() => setCurrentGame(null)} onComplete={handleGameComplete} />
+        return <MathAdventureGame {...gameProps} />
       case 'multiplication':
-        return <MultiplicationGame t={t} onBack={() => setCurrentGame(null)} onComplete={handleGameComplete} />
+        return <MultiplicationGame {...gameProps} />
       case 'puzzle':
-        return <PuzzleGame onBack={() => setCurrentGame(null)} />
+        return <PuzzleGame onBack={handleBack} playSound={play} />
       case 'music':
-        return <MusicGame onBack={() => setCurrentGame(null)} />
+        return <MusicGame onBack={handleBack} playSound={play} />
       case 'drawing':
-        return <DrawingCanvas onBack={() => setCurrentGame(null)} />
+        return <DrawingCanvas onBack={handleBack} playSound={play} />
       case 'shapes':
-        return <ShapeSorter onBack={() => setCurrentGame(null)} />
+        return <ShapeSorter onBack={handleBack} playSound={play} />
       case 'alphabet':
-        return <AlphabetTrace onBack={() => setCurrentGame(null)} />
+        return <AlphabetTrace onBack={handleBack} playSound={play} />
       case 'words':
-        return <WordBuilder onBack={() => setCurrentGame(null)} />
+        return <WordBuilder onBack={handleBack} playSound={play} />
       default:
         return null
     }
@@ -1428,7 +1493,7 @@ export default function GamesCenter() {
             <button
               key={l}
               className={`lang-btn ${lang === l ? 'active' : ''}`}
-              onClick={() => setLang(l)}
+              onClick={() => { play('click'); setLang(l) }}
             >
               {l.toUpperCase()}
             </button>
@@ -1445,9 +1510,9 @@ export default function GamesCenter() {
               '--game-color': game.color,
               animationDelay: `${index * 0.1}s`
             }}
-            onClick={() => setCurrentGame(game.id)}
+            onClick={() => handleGameSelect(game.id)}
             tabIndex={0}
-            onKeyPress={(e) => e.key === 'Enter' && setCurrentGame(game.id)}
+            onKeyPress={(e) => e.key === 'Enter' && handleGameSelect(game.id)}
           >
             <span className="game-icon">{game.icon}</span>
             <h3>{game.name}</h3>

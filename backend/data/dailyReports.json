@@ -843,10 +843,10 @@
       },
       "snack": {
         "items": [
-          "Dam olish kuni - poldnik"
+          "Dam olish kuni - yengil tamaddi"
         ],
         "eaten": {
-          "Dam olish kuni - poldnik": "full"
+          "Dam olish kuni - yengil tamaddi": "full"
         },
         "notes": "",
         "appetite": "good"
@@ -1205,5 +1205,87 @@
     "updatedAt": null,
     "telegramSent": true,
     "telegramSentAt": "2025-12-27T09:02:33.804Z"
+  },
+  {
+    "id": "dr1766927479278",
+    "childId": "c2",
+    "date": "2025-12-28",
+    "arrival": {
+      "time": "",
+      "broughtBy": "mother",
+      "condition": "good"
+    },
+    "departure": {
+      "time": "",
+      "pickedUpBy": "",
+      "condition": "good"
+    },
+    "meals": {
+      "breakfast": {
+        "eaten": "full",
+        "notes": "",
+        "appetite": "good"
+      },
+      "lunch": {
+        "eaten": "full",
+        "notes": "",
+        "appetite": "good"
+      },
+      "snack": {
+        "eaten": "full",
+        "notes": "",
+        "appetite": "good"
+      }
+    },
+    "sleep": {
+      "slept": true,
+      "duration": 120,
+      "quality": "good",
+      "fellAsleepEasily": true,
+      "wokeUpDuring": false
+    },
+    "mood": {
+      "morning": "happy",
+      "afternoon": "happy",
+      "evening": "happy"
+    },
+    "activities": [],
+    "health": {
+      "temperature": "",
+      "symptoms": [],
+      "notes": ""
+    },
+    "hygiene": {
+      "diaper": {
+        "changes": 0,
+        "wet": 0,
+        "dirty": 0,
+        "notes": ""
+      },
+      "potty": {
+        "attempts": 0,
+        "successes": 0,
+        "accidents": 0,
+        "notes": ""
+      },
+      "handWashing": true,
+      "teethBrushing": false,
+      "notes": ""
+    },
+    "behavior": {
+      "overall": "good",
+      "notes": "",
+      "sharing": true,
+      "listening": true,
+      "following_rules": true
+    },
+    "teacherNotes": "",
+    "parentNotes": "",
+    "createdBy": "t2",
+    "createdByName": "madina",
+    "createdAt": "2025-12-28T13:11:19.278Z",
+    "updatedAt": null,
+    "telegramSent": true,
+    "telegramSentAt": "2025-12-28T13:11:25.726Z"
   }
 ]

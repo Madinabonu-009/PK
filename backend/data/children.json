@@ -25,7 +25,7 @@
     ],
     "isActive": true,
     "enrolledAt": "2024-09-01T00:00:00.000Z",
-    "updatedAt": "2025-12-27T09:42:46.659Z"
+    "updatedAt": "2025-12-28T12:55:24.904Z"
   },
   {
     "id": "c2",
@@ -264,12 +264,18 @@
     "parentPhone": "+998905140949",
     "allergies": [],
     "notes": "",
-    "points": 0,
+    "points": 10,
     "level": 1,
-    "achievements": [],
+    "achievements": [
+      {
+        "achievementId": "good_behavior",
+        "earnedAt": "2025-12-28T12:22:58.027Z",
+        "awardedBy": "itsme"
+      }
+    ],
     "isActive": true,
     "enrolledAt": "2025-12-18T17:25:30.691Z",
-    "updatedAt": "2025-12-18T17:32:23.677Z"
+    "updatedAt": "2025-12-28T12:23:08.975Z"
   },
   {
     "id": "c03f4ef1-3c14-4350-bc2d-51ccf6e301b9",
@@ -297,13 +303,14 @@
     "parentName": "Azim Akmalov",
     "parentPhone": "+998911234567",
     "parentEmail": "boymurodovamadinabonuf9@gmail.com",
-    "groupId": null,
+    "groupId": "g2",
     "allergies": [],
-    "notes": "",
+    "notes": null,
     "points": 0,
     "level": 1,
     "achievements": [],
     "isActive": true,
-    "enrolledAt": "2025-12-26T10:22:06.994Z"
+    "enrolledAt": "2025-12-26T10:22:06.994Z",
+    "updatedAt": "2025-12-28T13:01:07.312Z"
   }
 ]

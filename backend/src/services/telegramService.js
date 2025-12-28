@@ -85,7 +85,7 @@ export const formatDailyMenu = (dayKey, dayNameUz, menuData) => {
   }
 
   if (dayMenu.snack) {
-    message += `🥛 *Poldnik* (15:30)\n`;
+    message += `🥛 *Yengil tamaddi* (15:30)\n`;
     message += `   ${dayMenu.snack.name}\n\n`;
   }
 
@@ -270,7 +270,7 @@ export const sendChildDailyReport = async (childId, report) => {
       message += `*Ovqatlanish:*\n`;
       if (report.meals.breakfast) message += `   🥣 Nonushta: ${getMealText(report.meals.breakfast.ate)}\n`;
       if (report.meals.lunch) message += `   🍲 Tushlik: ${getMealText(report.meals.lunch.ate)}\n`;
-      if (report.meals.snack) message += `   🥛 Poldnik: ${getMealText(report.meals.snack.ate)}\n`;
+      if (report.meals.snack) message += `   🥛 Yengil tamaddi: ${getMealText(report.meals.snack.ate)}\n`;
       message += '\n';
     }
     

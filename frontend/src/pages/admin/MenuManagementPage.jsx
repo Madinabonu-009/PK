@@ -55,7 +55,7 @@ function MenuManagementPage() {
       saturday: 'Shanba',
       breakfast: 'Nonushta',
       lunch: 'Tushlik',
-      snack: 'Poldnik',
+      snack: 'Yengil tamaddi',
       notEntered: 'Kiritilmagan',
       editMeal: 'Taomni tahrirlash',
       mealName: 'Taom nomi',

@@ -51,6 +51,69 @@ router.get('/child/:childId', authenticateToken, async (req, res) => {
   }
 })
 
+// POST /api/achievements/award - Bolaga yutuq berish
+router.post('/award', authenticateToken, async (req, res) => {
+  try {
+    const { childId, achievementId } = req.body
+    
+    if (!childId || !achievementId) {
+      return res.status(400).json({ error: 'childId va achievementId kerak' })
+    }
+    
+    const children = readData('children.json') || []
+    const achievements = readData('achievements.json') || []
+    
+    const childIndex = children.findIndex(c => c.id === childId)
+    if (childIndex === -1) {
+      return res.status(404).json({ error: 'Bola topilmadi' })
+    }
+    
+    const achievement = achievements.find(a => a.id === achievementId)
+    if (!achievement) {
+      return res.status(404).json({ error: 'Yutuq topilmadi' })
+    }
+    
+    // Bolaning yutuqlarini tekshirish
+    const child = children[childIndex]
+    if (!child.achievements) {
+      child.achievements = []
+    }
+    
+    // Allaqachon berilganmi tekshirish
+    const alreadyAwarded = child.achievements.some(a => {
+      const id = typeof a === 'string' ? a : a.achievementId
+      return id === achievementId
+    })
+    
+    if (alreadyAwarded) {
+      return res.status(400).json({ error: 'Bu yutuq allaqachon berilgan' })
+    }
+    
+    // Yutuqni qo'shish
+    child.achievements.push({
+      achievementId,
+      earnedAt: new Date().toISOString(),
+      awardedBy: req.user?.username || 'admin'
+    })
+    
+    // Ballni qo'shish
+    child.points = (child.points || 0) + (achievement.points || 0)
+    
+    // Saqlash
+    children[childIndex] = child
+    writeData('children.json', children)
+    
+    res.json({ 
+      message: 'Yutuq berildi!',
+      achievement,
+      newPoints: child.points
+    })
+  } catch (error) {
+    console.error('Error awarding achievement:', error)
+    res.status(500).json({ error: 'Yutuq berishda xatolik' })
+  }
+})
+
 // POST /api/achievements - Yangi yutuq qo'shish
 router.post('/', authenticateToken, async (req, res) => {
   try {

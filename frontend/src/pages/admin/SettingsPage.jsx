@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../components/common/Toast'
@@ -122,11 +122,14 @@ function ToggleSwitch({ checked, onChange, label }) {
 
 export default function SettingsPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { language, setLanguage } = useLanguage()
   const { user, logout } = useAuth()
   const toast = useToast()
 
-  const [activeTab, setActiveTab] = useState('general')
+  // Get initial tab from URL or default to 'general'
+  const initialTab = searchParams.get('tab') || 'general'
+  const [activeTab, setActiveTab] = useState(initialTab)
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
   
@@ -166,6 +169,14 @@ export default function SettingsPage() {
 
   const txt = texts[language] || texts.uz
 
+  // Sync tab with URL parameter
+  useEffect(() => {
+    const tabFromUrl = searchParams.get('tab')
+    if (tabFromUrl && ['general', 'profile', 'notifications', 'security'].includes(tabFromUrl)) {
+      setActiveTab(tabFromUrl)
+    }
+  }, [searchParams])
+
   // Load settings from API and localStorage on mount
   useEffect(() => {
     const loadSettings = async () => {
@@ -192,8 +203,6 @@ export default function SettingsPage() {
         }
       } catch {
         // Fallback to localStorage if API fails
-        console.log('API not available, loading from localStorage')
-        
         const savedGeneral = localStorage.getItem(STORAGE_KEYS.general)
         if (savedGeneral) {
           try {
@@ -219,12 +228,26 @@ export default function SettingsPage() {
     loadSettings()
   }, [])
 
-  const tabs = [
+  const isAdmin = user?.role === 'admin' || user?.role === 'superadmin'
+
+  // Teacher faqat profile, notifications va security ko'radi
+  const tabs = isAdmin ? [
     { id: 'general', icon: '⚙️', label: txt.general },
     { id: 'profile', icon: '👤', label: txt.profile },
     { id: 'notifications', icon: '🔔', label: txt.notifications },
     { id: 'security', icon: '🔒', label: txt.security }
+  ] : [
+    { id: 'profile', icon: '👤', label: txt.profile },
+    { id: 'notifications', icon: '🔔', label: txt.notifications },
+    { id: 'security', icon: '🔒', label: txt.security }
   ]
+
+  // Teacher uchun default tab profile bo'lsin
+  useEffect(() => {
+    if (!isAdmin && activeTab === 'general') {
+      setActiveTab('profile')
+    }
+  }, [isAdmin, activeTab])
 
   const handleSaveGeneral = async () => {
     setSaving(true)
@@ -232,16 +255,14 @@ export default function SettingsPage() {
       // Save to localStorage first (immediate backup)
       localStorage.setItem(STORAGE_KEYS.general, JSON.stringify(generalSettings))
       
-      // Try to save to API
-      try {
-        await api.put('/settings', { general: generalSettings })
-      } catch {
-        console.log('API save failed, but localStorage saved')
-      }
+      // Save to API
+      await api.put('/settings', { general: generalSettings })
       
       toast.success(txt.saved)
     } catch (error) {
-      toast.error('Xatolik yuz berdi')
+      console.error('Save error:', error)
+      // localStorage already saved, so show partial success
+      toast.success(txt.saved + ' (lokal)')
     } finally {
       setSaving(false)
     }
@@ -253,7 +274,26 @@ export default function SettingsPage() {
       await api.put('/users/profile', profileSettings)
       toast.success(txt.saved)
     } catch (error) {
-      toast.error('Xatolik yuz berdi')
+      console.error('Profile save error:', error)
+      toast.error(error.response?.data?.error || 'Xatolik yuz berdi')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleSaveNotifications = async () => {
+    setSaving(true)
+    try {
+      // Save to localStorage
+      localStorage.setItem(STORAGE_KEYS.notifications, JSON.stringify(notificationSettings))
+      
+      // Save to API
+      await api.put('/settings', { notifications: notificationSettings })
+      
+      toast.success(txt.saved)
+    } catch (error) {
+      console.error('Notifications save error:', error)
+      toast.success(txt.saved + ' (lokal)')
     } finally {
       setSaving(false)
     }
@@ -487,26 +527,7 @@ export default function SettingsPage() {
                   onChange={val => setNotificationSettings(prev => ({ ...prev, sms: val }))}
                 />
 
-                <button className="st-save-btn" onClick={async () => {
-                  setSaving(true)
-                  try {
-                    // Save to localStorage
-                    localStorage.setItem(STORAGE_KEYS.notifications, JSON.stringify(notificationSettings))
-                    
-                    // Try to save to API
-                    try {
-                      await api.put('/settings', { notifications: notificationSettings })
-                    } catch {
-                      console.log('API save failed, but localStorage saved')
-                    }
-                    
-                    toast.success(txt.saved)
-                  } catch {
-                    toast.error('Xatolik yuz berdi')
-                  } finally {
-                    setSaving(false)
-                  }
-                }} disabled={saving}>
+                <button className="st-save-btn" onClick={handleSaveNotifications} disabled={saving}>
                   {saving ? '...' : txt.save}
                 </button>
               </div>
@@ -553,20 +574,9 @@ export default function SettingsPage() {
               </div>
 
               <div className="st-form-card">
-                <ToggleSwitch
-                  label={txt.twoFactor}
-                  checked={securitySettings.twoFactor}
-                  onChange={val => setSecuritySettings(prev => ({ ...prev, twoFactor: val }))}
-                />
-              </div>
-
-              <div className="st-form-card st-danger-zone">
-                <h3>⚠️ {txt.sessions}</h3>
+                <h3>🚪 {txt.logout}</h3>
                 <button className="st-danger-btn" onClick={logout}>
                   {txt.logout}
-                </button>
-                <button className="st-danger-btn outline" onClick={() => { logout(); toast.success('Barcha sessiyalar tugatildi'); }}>
-                  {txt.logoutAll}
                 </button>
               </div>
             </div>

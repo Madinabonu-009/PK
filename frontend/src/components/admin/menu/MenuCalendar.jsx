@@ -6,7 +6,7 @@ import './MenuCalendar.css'
 const MEAL_TYPES = [
   { id: 'breakfast', name: 'Nonushta', icon: '🍳', time: '08:00' },
   { id: 'lunch', name: 'Tushlik', icon: '🍲', time: '12:00' },
-  { id: 'snack', name: 'Poldnik', icon: '🍎', time: '15:30' }
+  { id: 'snack', name: 'Yengil tamaddi', icon: '🍎', time: '15:30' }
 ]
 
 // Days of week
@@ -770,8 +770,7 @@ function MenuCalendar({
             weekDates={weekDates}
             onClose={() => setShowTelegramSend(false)}
             onSend={(message, days) => {
-              console.log('Telegram xabar:', message, days)
-              // TODO: Backend API ga yuborish
+              // Telegram API ga yuborish
             }}
           />
         )}

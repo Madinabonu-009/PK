@@ -1,220 +1,222 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
-import { Button, Card, Loading } from '../../components/common'
+import { useToast } from '../../components/common/Toast'
 import api from '../../services/api'
 import './FeedbackManagementPage.css'
 
-function FeedbackManagementPage() {
-  const { user, logout } = useAuth()
-  const { t, language } = useLanguage()
-  const navigate = useNavigate()
+const TEXTS = {
+  uz: {
+    title: 'Fikrlar',
+    subtitle: 'Ota-onalar fikrlari',
+    pending: 'Kutilmoqda',
+    approved: 'Tasdiqlangan',
+    all: 'Barchasi',
+    search: 'Qidirish...',
+    noFeedbacks: 'Fikrlar yo\'q',
+    anonymous: 'Anonim',
+    approve: 'Tasdiqlash',
+    delete: 'O\'chirish',
+    confirmDelete: 'O\'chirishni tasdiqlaysizmi?',
+    total: 'Jami',
+    avgRating: 'O\'rtacha baho'
+  },
+  ru: {
+    title: 'Отзывы',
+    subtitle: 'Отзывы родителей',
+    pending: 'Ожидает',
+    approved: 'Одобрено',
+    all: 'Все',
+    search: 'Поиск...',
+    noFeedbacks: 'Нет отзывов',
+    anonymous: 'Аноним',
+    approve: 'Одобрить',
+    delete: 'Удалить',
+    confirmDelete: 'Подтвердите удаление',
+    total: 'Всего',
+    avgRating: 'Средний рейтинг'
+  },
+  en: {
+    title: 'Feedback',
+    subtitle: 'Parent feedback',
+    pending: 'Pending',
+    approved: 'Approved',
+    all: 'All',
+    search: 'Search...',
+    noFeedbacks: 'No feedback',
+    anonymous: 'Anonymous',
+    approve: 'Approve',
+    delete: 'Delete',
+    confirmDelete: 'Confirm delete?',
+    total: 'Total',
+    avgRating: 'Avg Rating'
+  }
+}
+
+export default function FeedbackManagementPage() {
+  const { language } = useLanguage()
+  const toast = useToast()
+  const txt = TEXTS[language] || TEXTS.uz
+  
+  const [loading, setLoading] = useState(true)
   const [feedbacks, setFeedbacks] = useState([])
   const [pendingFeedbacks, setPendingFeedbacks] = useState([])
-  const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('pending')
-  const [error, setError] = useState(null)
-
-  const texts = {
-    uz: {
-      pageTitle: 'Fikrlar boshqaruvi',
-      pending: 'Kutilmoqda',
-      approved: 'Tasdiqlangan',
-      loading: 'Yuklanmoqda...',
-      noPending: 'Kutilayotgan fikrlar yo\'q',
-      noFeedbacks: 'Fikrlar yo\'q',
-      anonymous: 'Anonim',
-      teacher: 'O\'qituvchi',
-      approve: '✓ Tasdiqlash',
-      delete: '🗑️ O\'chirish',
-      confirmDelete: 'Bu fikrni o\'chirishni xohlaysizmi?'
-    },
-    ru: {
-      pageTitle: 'Управление отзывами',
-      pending: 'Ожидает',
-      approved: 'Одобрено',
-      loading: 'Загрузка...',
-      noPending: 'Нет ожидающих отзывов',
-      noFeedbacks: 'Нет отзывов',
-      anonymous: 'Аноним',
-      teacher: 'Воспитатель',
-      approve: '✓ Одобрить',
-      delete: '🗑️ Удалить',
-      confirmDelete: 'Вы хотите удалить этот отзыв?'
-    },
-    en: {
-      pageTitle: 'Feedback Management',
-      pending: 'Pending',
-      approved: 'Approved',
-      loading: 'Loading...',
-      noPending: 'No pending feedbacks',
-      noFeedbacks: 'No feedbacks',
-      anonymous: 'Anonymous',
-      teacher: 'Teacher',
-      approve: '✓ Approve',
-      delete: '🗑️ Delete',
-      confirmDelete: 'Do you want to delete this feedback?'
-    }
-  }
-
-  const txt = texts[language]
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
-    fetchFeedbacks()
+    fetchData()
   }, [])
 
-  const fetchFeedbacks = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true)
-      setError(null)
       const [allRes, pendingRes] = await Promise.all([
         api.get('/feedback'),
         api.get('/feedback/pending')
       ])
-      
-      const allData = allRes.data?.data || (Array.isArray(allRes.data) ? allRes.data : [])
-      const pendingData = pendingRes.data?.data || (Array.isArray(pendingRes.data) ? pendingRes.data : [])
-      
-      setFeedbacks(allData)
-      setPendingFeedbacks(pendingData)
+      setFeedbacks(allRes.data?.data || allRes.data || [])
+      setPendingFeedbacks(pendingRes.data?.data || pendingRes.data || [])
     } catch (err) {
-      setError(t('errorOccurred'))
+      console.error(err)
     } finally {
       setLoading(false)
     }
   }
 
-  const approveFeedback = async (id) => {
+  const handleApprove = async (id) => {
     try {
       await api.put(`/feedback/${id}/approve`)
-      fetchFeedbacks()
-    } catch (err) {
-      setError(t('errorOccurred'))
+      toast.success('Tasdiqlandi!')
+      fetchData()
+    } catch {
+      toast.error('Xatolik')
     }
   }
 
-  const deleteFeedback = async (id) => {
+  const handleDelete = async (id) => {
     if (!window.confirm(txt.confirmDelete)) return
-    
     try {
       await api.delete(`/feedback/${id}`)
-      fetchFeedbacks()
-    } catch (err) {
-      setError(t('errorOccurred'))
+      toast.success('O\'chirildi!')
+      fetchData()
+    } catch {
+      toast.error('Xatolik')
     }
   }
 
-  const handleLogout = async () => {
-    await logout()
-  }
-
-  const renderStars = (rating) => '★'.repeat(rating) + '☆'.repeat(5 - rating)
-
-  const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString(language === 'uz' ? 'uz-UZ' : language === 'ru' ? 'ru-RU' : 'en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString(language === 'uz' ? 'uz-UZ' : language === 'ru' ? 'ru-RU' : 'en-US', {
+      day: 'numeric', month: 'short', year: 'numeric'
     })
   }
 
-  const currentFeedbacks = activeTab === 'pending' ? pendingFeedbacks : feedbacks
+  // Stats
+  const total = feedbacks.length + pendingFeedbacks.length
+  const avgRating = feedbacks.length > 0 
+    ? (feedbacks.reduce((s, f) => s + (f.rating || 0), 0) / feedbacks.length).toFixed(1) 
+    : '0'
+
+  // Filter
+  let list = activeTab === 'pending' ? pendingFeedbacks : 
+             activeTab === 'approved' ? feedbacks : 
+             [...pendingFeedbacks, ...feedbacks]
+  
+  if (search) {
+    const q = search.toLowerCase()
+    list = list.filter(f => f.parentName?.toLowerCase().includes(q) || f.comment?.toLowerCase().includes(q))
+  }
 
   if (loading) {
-    return (
-      <div className="feedback-management">
-        <Loading text={t('loading')} />
-      </div>
-    )
+    return <div className="fbm-loading">Yuklanmoqda...</div>
   }
 
   return (
-    <div className="feedback-management">
-      <div className="feedback-header">
-        <div className="header-left">
-          <Button variant="secondary" onClick={() => navigate('/admin/dashboard')}>
-            ← {t('back')}
-          </Button>
-          <h1>{txt.pageTitle}</h1>
+    <div className="fbm-page">
+      {/* Header */}
+      <div className="fbm-header">
+        <div>
+          <h1>{txt.title}</h1>
+          <p>{txt.subtitle}</p>
         </div>
-        <div className="header-right">
-          <span>{t('welcome')}, {user?.username}</span>
-          <Button variant="secondary" onClick={handleLogout}>
-            {t('logout')}
-          </Button>
+        <div className="fbm-stats">
+          <div className="fbm-stat">
+            <span className="fbm-stat-value">{total}</span>
+            <span className="fbm-stat-label">{txt.total}</span>
+          </div>
+          <div className="fbm-stat">
+            <span className="fbm-stat-value">{avgRating}</span>
+            <span className="fbm-stat-label">{txt.avgRating}</span>
+          </div>
+          <div className="fbm-stat">
+            <span className="fbm-stat-value">{pendingFeedbacks.length}</span>
+            <span className="fbm-stat-label">{txt.pending}</span>
+          </div>
         </div>
       </div>
 
-      {error && (
-        <div className="feedback-error">
-          <p>{error}</p>
-          <Button variant="secondary" onClick={() => setError(null)}>
-            {t('close')}
-          </Button>
-        </div>
-      )}
-
-      <div className="page-header">
-        <div className="tabs">
-          <button 
-            className={`tab ${activeTab === 'pending' ? 'active' : ''}`}
-            onClick={() => setActiveTab('pending')}
-          >
+      {/* Toolbar */}
+      <div className="fbm-toolbar">
+        <div className="fbm-tabs">
+          <button className={activeTab === 'pending' ? 'active' : ''} onClick={() => setActiveTab('pending')}>
             {txt.pending} ({pendingFeedbacks.length})
           </button>
-          <button 
-            className={`tab ${activeTab === 'approved' ? 'active' : ''}`}
-            onClick={() => setActiveTab('approved')}
-          >
+          <button className={activeTab === 'approved' ? 'active' : ''} onClick={() => setActiveTab('approved')}>
             {txt.approved} ({feedbacks.length})
           </button>
+          <button className={activeTab === 'all' ? 'active' : ''} onClick={() => setActiveTab('all')}>
+            {txt.all} ({total})
+          </button>
         </div>
+        <input 
+          type="text" 
+          placeholder={txt.search} 
+          value={search} 
+          onChange={e => setSearch(e.target.value)}
+          className="fbm-search"
+        />
       </div>
 
-      {currentFeedbacks.length === 0 ? (
-        <div className="empty-state">
-          {activeTab === 'pending' ? txt.noPending : txt.noFeedbacks}
-        </div>
-      ) : (
-        <div className="feedbacks-list">
-          {currentFeedbacks.map(feedback => (
-            <div key={feedback.id} className="feedback-item">
-              <div className="feedback-content">
-                <div className="feedback-meta">
-                  <span className="author">{feedback.parentName || txt.anonymous}</span>
-                  <span className="rating">{renderStars(feedback.rating)}</span>
-                  <span className="date">{formatDate(feedback.createdAt)}</span>
+      {/* List */}
+      <div className="fbm-list">
+        {list.length === 0 ? (
+          <div className="fbm-empty">{txt.noFeedbacks}</div>
+        ) : (
+          list.map(item => (
+            <div key={item.id} className={`fbm-card ${!item.isApproved ? 'pending' : ''}`}>
+              <div className="fbm-card-top">
+                <div className="fbm-author">
+                  <div className="fbm-avatar">{item.parentName?.[0] || '?'}</div>
+                  <div>
+                    <div className="fbm-name">{item.parentName || txt.anonymous}</div>
+                    <div className="fbm-date">{formatDate(item.createdAt)}</div>
+                  </div>
                 </div>
-                <p className="comment">{feedback.comment}</p>
-                {feedback.targetName && (
-                  <span className="target">{txt.teacher}: {feedback.targetName}</span>
-                )}
+                <div className="fbm-rating">
+                  {[1,2,3,4,5].map(i => (
+                    <span key={i} className={i <= item.rating ? 'filled' : ''}>★</span>
+                  ))}
+                </div>
               </div>
-              <div className="feedback-actions">
-                {activeTab === 'pending' && (
-                  <button 
-                    className="btn-approve"
-                    onClick={() => approveFeedback(feedback.id)}
-                  >
-                    {txt.approve}
+              <p className="fbm-comment">{item.comment}</p>
+              <div className="fbm-card-bottom">
+                <span className={`fbm-status ${item.isApproved ? 'approved' : 'pending'}`}>
+                  {item.isApproved ? txt.approved : txt.pending}
+                </span>
+                <div className="fbm-actions">
+                  {!item.isApproved && (
+                    <button className="fbm-btn approve" onClick={() => handleApprove(item.id)}>
+                      {txt.approve}
+                    </button>
+                  )}
+                  <button className="fbm-btn delete" onClick={() => handleDelete(item.id)}>
+                    {txt.delete}
                   </button>
-                )}
-                <button 
-                  className="btn-delete"
-                  onClick={() => deleteFeedback(feedback.id)}
-                >
-                  {txt.delete}
-                </button>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
     </div>
   )
 }
-
-export default FeedbackManagementPage

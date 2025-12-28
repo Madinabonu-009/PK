@@ -25,7 +25,7 @@ const formatMenuMessage = (dayMenu, dayName) => {
     text += `🍲 *Tushlik* (12:30)\n${dayMenu.lunch.name}\n\n`;
   }
   if (dayMenu.snack?.name) {
-    text += `🥛 *Poldnik* (15:30)\n${dayMenu.snack.name}\n`;
+    text += `🥛 *Yengil tamaddi* (15:30)\n${dayMenu.snack.name}\n`;
   }
   
   text += `\n━━━━━━━━━━━━━━━━━━\n`;

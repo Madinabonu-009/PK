@@ -26,17 +26,17 @@ export const securityHeaders = (req, res, next) => {
   
   // Content Security Policy (basic)
   const isProduction = process.env.NODE_ENV === 'production'
-  const siteUrl = isProduction ? 'https://playk.onrender.com' : 'http://localhost:3000'
+  const siteUrl = isProduction ? 'https://pk-skus.onrender.com' : 'http://localhost:3000'
   
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com",
+    "script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com https://maps.googleapis.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data:",
-    `connect-src 'self' ${siteUrl} wss://playk.onrender.com https://www.youtube.com`,
+    `connect-src 'self' ${siteUrl} wss://pk-skus.onrender.com https://www.youtube.com https://maps.googleapis.com`,
     "media-src 'self' https: blob:",
-    "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
+    "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://maps.google.com",
     "frame-ancestors 'none'"
   ].join('; ')
   
