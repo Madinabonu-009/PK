@@ -102,6 +102,34 @@
   .learning-icon {
     font-size: 3rem;
   }
+  
+  .learning-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .learning-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+  
+  .learning-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .learning-card p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .learning-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .learning-title {
+    font-size: 1.5rem;
+  }
 }
 
 /* Kids Section */
@@ -207,6 +235,34 @@
   
   .kids-card-icon {
     font-size: 3rem;
+  }
+  
+  .kids-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .kids-card {
+    padding: 1.5rem;
+    border-radius: 18px;
+  }
+  
+  .kids-card h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .kids-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .kids-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .kids-header p {
+    font-size: 1rem;
   }
 }
 

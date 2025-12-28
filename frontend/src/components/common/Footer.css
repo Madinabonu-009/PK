@@ -86,6 +86,29 @@
   font-size: 0.9rem;
 }
 
+@media (max-width: 768px) {
+  .footer {
+    padding-top: 2rem;
+  }
+  
+  .footer-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .footer-logo {
+    font-size: 1.3rem;
+  }
+  
+  .footer-logo-image {
+    height: 40px;
+  }
+  
+  .footer-title {
+    font-size: 1rem;
+  }
+}
+
 @media (max-width: 600px) {
   .footer-container {
     grid-template-columns: 1fr;
@@ -95,5 +118,20 @@
   .footer-title::after {
     left: 50%;
     transform: translateX(-50%);
+  }
+  
+  .footer-bottom {
+    font-size: 0.8rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding-top: 1.5rem;
+  }
+  
+  .footer-container {
+    padding: 0 0.75rem;
   }
 }

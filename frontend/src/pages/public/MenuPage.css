@@ -364,9 +364,10 @@
 /* Responsive */
 @media (max-width: 968px) {
   .info-cards {
-    grid-template-columns: 1fr;
-    max-width: 400px;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 600px;
     margin: 0 auto;
+    gap: 1.5rem;
   }
 
   .additional-content {
@@ -398,10 +399,11 @@
 
   .menu-subtitle {
     font-size: 1.05rem;
+    padding: 0 1rem;
   }
 
   .menu-info, .menu-table-section, .menu-additional {
-    padding: 4rem 0;
+    padding: 3rem 0;
   }
 
   .section-title {
@@ -409,15 +411,33 @@
   }
 
   .additional-text h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .info-card {
-    padding: 2.5rem 1.5rem;
+    padding: 2rem 1.5rem;
+    min-height: 240px;
   }
 
   .info-icon {
     font-size: 3.5rem;
+    width: 70px;
+    height: 70px;
+  }
+  
+  .info-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .info-card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .info-cards {
+    grid-template-columns: 1fr;
+    max-width: 350px;
   }
 }
 
@@ -431,7 +451,8 @@
   }
 
   .info-card {
-    padding: 2rem 1.25rem;
+    padding: 1.5rem 1rem;
+    min-height: 220px;
   }
 
   .placeholder-icon {
@@ -441,5 +462,13 @@
   .menu-features li {
     font-size: 1rem;
     padding: 1.25rem 0;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
   }
 }

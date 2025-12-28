@@ -267,6 +267,32 @@
   .nav-list {
     gap: 0.1rem;
   }
+  
+  .cta-button,
+  .parent-btn {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Responsive - Small Tablet */
+@media (max-width: 1024px) {
+  .header-container {
+    height: 65px;
+  }
+  
+  .nav-link {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.4rem;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+  }
+  
+  .logo-image {
+    height: 40px;
+  }
 }
 
 /* Responsive - Mobile */
@@ -277,7 +303,7 @@
 
   .nav {
     position: fixed;
-    top: 70px;
+    top: 65px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -343,13 +369,23 @@
 @media (max-width: 480px) {
   .header-container {
     padding: 0 0.75rem;
+    height: 60px;
   }
 
   .logo {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .logo-icon {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+  }
+  
+  .logo-image {
+    height: 35px;
+  }
+  
+  .nav {
+    top: 60px;
+    padding: 1rem;
   }
 }

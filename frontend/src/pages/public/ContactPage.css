@@ -205,6 +205,10 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+  
+  .contact-container {
+    padding: 0 1rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -215,6 +219,11 @@
   .contact-title {
     font-size: 2rem;
   }
+  
+  .contact-subtitle {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
 
   .contact-content {
     padding: 2rem 0;
@@ -223,6 +232,11 @@
   .contact-form-section {
     padding: 1.5rem;
   }
+  
+  .contact-form-section h2,
+  .contact-info-section h2 {
+    font-size: 1.3rem;
+  }
 
   .contact-map-section {
     padding: 2rem 0;
@@ -230,6 +244,16 @@
 
   .map-wrapper iframe {
     height: 300px;
+  }
+  
+  .info-card {
+    padding: 1rem;
+  }
+  
+  .info-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
   }
 }
 
@@ -249,6 +273,21 @@
 
   .social-links {
     justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .social-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .map-wrapper iframe {
+    height: 250px;
+  }
+  
+  .map-directions {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
   }
 }
 
