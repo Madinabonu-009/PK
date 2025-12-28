@@ -22,6 +22,7 @@ const texts = {
     profile: 'Profil',
     notifications: 'Bildirishnomalar',
     security: 'Xavfsizlik',
+    database: 'Ma\'lumotlar bazasi',
     kindergartenName: 'Bog\'cha nomi',
     address: 'Manzil',
     phone: 'Telefon',
@@ -43,7 +44,16 @@ const texts = {
     twoFactor: 'Ikki bosqichli autentifikatsiya',
     sessions: 'Faol sessiyalar',
     logout: 'Chiqish',
-    logoutAll: 'Barcha qurilmalardan chiqish'
+    logoutAll: 'Barcha qurilmalardan chiqish',
+    fixData: 'Ma\'lumotlarni tuzatish',
+    fixDataDesc: 'Agar xodimlar yoki bolalar ko\'rinmasa, bu tugmani bosing',
+    reseedData: 'Ma\'lumotlarni qayta yuklash',
+    reseedDataDesc: 'JSON fayllardan MongoDB\'ga qayta yuklash',
+    fixing: 'Tuzatilmoqda...',
+    reseeding: 'Yuklanmoqda...',
+    fixSuccess: 'Ma\'lumotlar tuzatildi!',
+    reseedSuccess: 'Ma\'lumotlar qayta yuklandi!',
+    dbStatus: 'Ma\'lumotlar bazasi holati'
   },
   ru: {
     title: 'Настройки',
@@ -52,6 +62,7 @@ const texts = {
     profile: 'Профиль',
     notifications: 'Уведомления',
     security: 'Безопасность',
+    database: 'База данных',
     kindergartenName: 'Название детсада',
     address: 'Адрес',
     phone: 'Телефон',
@@ -73,7 +84,16 @@ const texts = {
     twoFactor: 'Двухфакторная аутентификация',
     sessions: 'Активные сессии',
     logout: 'Выход',
-    logoutAll: 'Выйти со всех устройств'
+    logoutAll: 'Выйти со всех устройств',
+    fixData: 'Исправить данные',
+    fixDataDesc: 'Если сотрудники или дети не отображаются, нажмите эту кнопку',
+    reseedData: 'Перезагрузить данные',
+    reseedDataDesc: 'Перезагрузить из JSON файлов в MongoDB',
+    fixing: 'Исправление...',
+    reseeding: 'Загрузка...',
+    fixSuccess: 'Данные исправлены!',
+    reseedSuccess: 'Данные перезагружены!',
+    dbStatus: 'Статус базы данных'
   },
   en: {
     title: 'Settings',
@@ -82,6 +102,7 @@ const texts = {
     profile: 'Profile',
     notifications: 'Notifications',
     security: 'Security',
+    database: 'Database',
     kindergartenName: 'Kindergarten name',
     address: 'Address',
     phone: 'Phone',
@@ -103,7 +124,16 @@ const texts = {
     twoFactor: 'Two-factor authentication',
     sessions: 'Active sessions',
     logout: 'Logout',
-    logoutAll: 'Logout from all devices'
+    logoutAll: 'Logout from all devices',
+    fixData: 'Fix Data',
+    fixDataDesc: 'If staff or children are not showing, click this button',
+    reseedData: 'Reseed Data',
+    reseedDataDesc: 'Reload from JSON files to MongoDB',
+    fixing: 'Fixing...',
+    reseeding: 'Loading...',
+    fixSuccess: 'Data fixed!',
+    reseedSuccess: 'Data reseeded!',
+    dbStatus: 'Database Status'
   }
 }
 
@@ -167,15 +197,34 @@ export default function SettingsPage() {
     twoFactor: false
   })
 
+  const [dbStatus, setDbStatus] = useState(null)
+  const [fixingData, setFixingData] = useState(false)
+  const [reseedingData, setReseedingData] = useState(false)
+
   const txt = texts[language] || texts.uz
 
   // Sync tab with URL parameter
   useEffect(() => {
     const tabFromUrl = searchParams.get('tab')
-    if (tabFromUrl && ['general', 'profile', 'notifications', 'security'].includes(tabFromUrl)) {
+    if (tabFromUrl && ['general', 'database', 'profile', 'notifications', 'security'].includes(tabFromUrl)) {
       setActiveTab(tabFromUrl)
     }
   }, [searchParams])
+
+  // Load database status
+  useEffect(() => {
+    const loadDbStatus = async () => {
+      try {
+        const response = await api.get('/seed/status')
+        setDbStatus(response.data)
+      } catch (error) {
+        console.error('DB status error:', error)
+      }
+    }
+    if (isAdmin) {
+      loadDbStatus()
+    }
+  }, [isAdmin])
 
   // Load settings from API and localStorage on mount
   useEffect(() => {
@@ -233,6 +282,7 @@ export default function SettingsPage() {
   // Teacher faqat profile, notifications va security ko'radi
   const tabs = isAdmin ? [
     { id: 'general', icon: '⚙️', label: txt.general },
+    { id: 'database', icon: '🗄️', label: txt.database },
     { id: 'profile', icon: '👤', label: txt.profile },
     { id: 'notifications', icon: '🔔', label: txt.notifications },
     { id: 'security', icon: '🔒', label: txt.security }
@@ -321,6 +371,37 @@ export default function SettingsPage() {
       toast.error(error.response?.data?.error || 'Xatolik')
     } finally {
       setSaving(false)
+    }
+  }
+
+  const handleFixData = async () => {
+    setFixingData(true)
+    try {
+      await api.post('/seed/fix')
+      toast.success(txt.fixSuccess)
+      // Refresh db status
+      const response = await api.get('/seed/status')
+      setDbStatus(response.data)
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Xatolik')
+    } finally {
+      setFixingData(false)
+    }
+  }
+
+  const handleReseedData = async () => {
+    if (!window.confirm('Barcha ma\'lumotlar qayta yuklanadi. Davom etasizmi?')) return
+    setReseedingData(true)
+    try {
+      await api.post('/seed/reseed')
+      toast.success(txt.reseedSuccess)
+      // Refresh db status
+      const response = await api.get('/seed/status')
+      setDbStatus(response.data)
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Xatolik')
+    } finally {
+      setReseedingData(false)
     }
   }
 
@@ -452,6 +533,81 @@ export default function SettingsPage() {
 
                 <button className="st-save-btn" onClick={handleSaveGeneral} disabled={saving}>
                   {saving ? '...' : txt.save}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'database' && (
+            <div className="st-section">
+              <h2>🗄️ {txt.database}</h2>
+              
+              {/* Database Status */}
+              <div className="st-form-card">
+                <h3>📊 {txt.dbStatus}</h3>
+                {dbStatus ? (
+                  <div className="st-db-status">
+                    <div className="st-db-status-item">
+                      <span className="st-db-label">Database:</span>
+                      <span className="st-db-value st-db-success">{dbStatus.database}</span>
+                    </div>
+                    <div className="st-db-counts">
+                      <div className="st-db-count-item">
+                        <span className="st-db-count-icon">👶</span>
+                        <span className="st-db-count-value">{dbStatus.counts?.children || 0}</span>
+                        <span className="st-db-count-label">Bolalar</span>
+                      </div>
+                      <div className="st-db-count-item">
+                        <span className="st-db-count-icon">👩‍🏫</span>
+                        <span className="st-db-count-value">{dbStatus.counts?.teachers || 0}</span>
+                        <span className="st-db-count-label">Xodimlar</span>
+                      </div>
+                      <div className="st-db-count-item">
+                        <span className="st-db-count-icon">👥</span>
+                        <span className="st-db-count-value">{dbStatus.counts?.groups || 0}</span>
+                        <span className="st-db-count-label">Guruhlar</span>
+                      </div>
+                      <div className="st-db-count-item">
+                        <span className="st-db-count-icon">🖼️</span>
+                        <span className="st-db-count-value">{dbStatus.counts?.gallery || 0}</span>
+                        <span className="st-db-count-label">Galereya</span>
+                      </div>
+                      <div className="st-db-count-item">
+                        <span className="st-db-count-icon">👤</span>
+                        <span className="st-db-count-value">{dbStatus.counts?.users || 0}</span>
+                        <span className="st-db-count-label">Foydalanuvchilar</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <p>Yuklanmoqda...</p>
+                )}
+              </div>
+
+              {/* Fix Data */}
+              <div className="st-form-card">
+                <h3>🔧 {txt.fixData}</h3>
+                <p className="st-form-desc">{txt.fixDataDesc}</p>
+                <button 
+                  className="st-save-btn" 
+                  onClick={handleFixData} 
+                  disabled={fixingData}
+                  style={{ background: '#10b981' }}
+                >
+                  {fixingData ? txt.fixing : txt.fixData}
+                </button>
+              </div>
+
+              {/* Reseed Data */}
+              <div className="st-form-card">
+                <h3>🔄 {txt.reseedData}</h3>
+                <p className="st-form-desc">{txt.reseedDataDesc}</p>
+                <button 
+                  className="st-danger-btn" 
+                  onClick={handleReseedData} 
+                  disabled={reseedingData}
+                >
+                  {reseedingData ? txt.reseeding : txt.reseedData}
                 </button>
               </div>
             </div>

@@ -167,15 +167,26 @@ function TeachersPage() {
     fetchStaff()
   }, [txt.error])
 
-  const { filteredStaff, groupedByCategory } = useMemo(() => {
+  const { filteredStaff, groupedByCategory, hasCategories } = useMemo(() => {
+    console.log('[TeachersPage] Processing staff data:', staff)
+    console.log('[TeachersPage] Staff categories:', staff.map(s => ({ name: s.name, category: s.category })))
+    
     const grouped = {
       teacher: staff.filter(s => s.category === 'teacher'),
       specialist: staff.filter(s => s.category === 'specialist'),
       medical: staff.filter(s => s.category === 'medical'),
       staff: staff.filter(s => s.category === 'staff')
     }
+    
+    console.log('[TeachersPage] Grouped:', grouped)
+    
+    const hasAnyCategory = grouped.teacher.length > 0 || 
+                           grouped.specialist.length > 0 || 
+                           grouped.medical.length > 0 || 
+                           grouped.staff.length > 0
+    
     const filtered = activeCategory === 'all' ? staff : staff.filter(s => s.category === activeCategory)
-    return { filteredStaff: filtered, groupedByCategory: grouped }
+    return { filteredStaff: filtered, groupedByCategory: grouped, hasCategories: hasAnyCategory }
   }, [staff, activeCategory])
 
   if (loading) return <div className="staff-page"><Loading /></div>
@@ -220,11 +231,29 @@ function TeachersPage() {
 
       {activeCategory === 'all' ? (
         <>
-          <StaffSection title={txt.teachers} icon="👩‍🏫" staff={groupedByCategory.teacher} language={language} />
-          <WaveDivider color="var(--bg-primary)" flip />
-          <StaffSection title={txt.specialists} icon="🎯" staff={groupedByCategory.specialist} language={language} />
-          <WaveDivider color="var(--bg-secondary)" />
-          <StaffSection title={txt.medicalStaff} icon="🏥" staff={[...groupedByCategory.medical, ...groupedByCategory.staff]} language={language} />
+          {/* Agar category bo'yicha guruhlar bo'sh bo'lsa, barcha staff'ni ko'rsatish */}
+          {!hasCategories && staff.length > 0 ? (
+            <section className="staff-section">
+              <div className="staff-container">
+                <FadeUp>
+                  <h2 className="section-title"><span className="section-icon">👩‍🏫</span>{txt.teachers}</h2>
+                </FadeUp>
+                <div className="staff-grid">
+                  {staff.map((person, index) => (
+                    <StaffCard key={person.id || person._id || index} staff={person} index={index} language={language} />
+                  ))}
+                </div>
+              </div>
+            </section>
+          ) : hasCategories ? (
+            <>
+              <StaffSection title={txt.teachers} icon="👩‍🏫" staff={groupedByCategory.teacher} language={language} />
+              <WaveDivider color="var(--bg-primary)" flip />
+              <StaffSection title={txt.specialists} icon="🎯" staff={groupedByCategory.specialist} language={language} />
+              <WaveDivider color="var(--bg-secondary)" />
+              <StaffSection title={txt.medicalStaff} icon="🏥" staff={[...groupedByCategory.medical, ...groupedByCategory.staff]} language={language} />
+            </>
+          ) : null}
         </>
       ) : (
         <section className="staff-section">

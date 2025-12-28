@@ -227,24 +227,163 @@ router.get('/status', async (req, res) => {
   }
 })
 
+// POST /api/seed/reseed - MongoDB'ni tozalab qaytadan seed qilish
+router.post('/reseed', async (req, res) => {
+  try {
+    const results = {}
+    
+    // 1. Teachers - to'liq qayta seed
+    const teachersJson = readData('teachers.json') || []
+    if (teachersJson.length > 0) {
+      await getCollection('teachers').deleteMany({})
+      await getCollection('teachers').insertMany(teachersJson.map(t => ({
+        id: t.id,
+        name: t.name,
+        firstName: t.name?.split(' ')[0] || t.name,
+        lastName: t.name?.split(' ').slice(1).join(' ') || '',
+        position: t.role || t.position,
+        role: t.role,
+        education: t.education,
+        experience: t.experience,
+        phone: t.phone || '',
+        email: t.email || '',
+        photo: t.photo,
+        bio: t.bio,
+        category: t.category || 'teacher',
+        group: t.group || '',
+        specialization: t.specialization,
+        isActive: true,
+        isDeleted: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })))
+      results.teachers = teachersJson.length
+    }
+    
+    // 2. Children - to'liq qayta seed
+    const childrenJson = readData('children.json') || []
+    if (childrenJson.length > 0) {
+      await getCollection('children').deleteMany({})
+      await getCollection('children').insertMany(childrenJson.map(c => ({
+        id: c.id,
+        firstName: c.firstName,
+        lastName: c.lastName,
+        birthDate: c.birthDate,
+        gender: c.gender || 'male',
+        groupId: c.groupId,
+        groupName: c.groupName,
+        parentName: c.parentName,
+        parentPhone: c.parentPhone,
+        parentEmail: c.parentEmail,
+        allergies: c.allergies || [],
+        notes: c.notes,
+        photo: c.photo,
+        points: c.points || 0,
+        level: c.level || 1,
+        achievements: c.achievements || [],
+        isActive: true,
+        isDeleted: false,
+        enrolledAt: c.enrolledAt,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })))
+      results.children = childrenJson.length
+    }
+    
+    // 3. Groups - to'liq qayta seed
+    const groupsJson = readData('groups.json') || []
+    if (groupsJson.length > 0) {
+      await getCollection('groups').deleteMany({})
+      await getCollection('groups').insertMany(groupsJson.map(g => ({
+        ...g,
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })))
+      results.groups = groupsJson.length
+    }
+    
+    // 4. Gallery
+    const galleryJson = readData('gallery.json') || []
+    if (galleryJson.length > 0) {
+      await getCollection('galleries').deleteMany({})
+      await getCollection('galleries').insertMany(galleryJson.map(g => ({
+        ...g,
+        published: true,
+        isDeleted: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })))
+      results.gallery = galleryJson.length
+    }
+    
+    console.log('✅ MongoDB reseeded:', results)
+    res.json({ success: true, message: 'MongoDB qayta to\'ldirildi', results })
+  } catch (error) {
+    console.error('Reseed error:', error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
 // POST /api/seed/fix - Ma'lumotlarni tuzatish
 router.post('/fix', async (req, res) => {
   try {
     const results = {}
     
-    // Teachers - isActive: true, isDeleted: false qilish
-    const teachersResult = await getCollection('teachers').updateMany(
-      {},
-      { $set: { isActive: true, isDeleted: false } }
-    )
-    results.teachersFixed = teachersResult.modifiedCount
+    // Teachers - JSON'dan category va boshqa fieldlarni olish
+    const teachersJson = readData('teachers.json') || []
+    const teachersInDb = await getCollection('teachers').find({}).toArray()
     
-    // Children - isActive: true, isDeleted: false qilish
-    const childrenResult = await getCollection('children').updateMany(
-      {},
-      { $set: { isActive: true, isDeleted: false } }
-    )
-    results.childrenFixed = childrenResult.modifiedCount
+    for (const jsonTeacher of teachersJson) {
+      const dbTeacher = teachersInDb.find(t => t.id === jsonTeacher.id || t.name === jsonTeacher.name)
+      if (dbTeacher) {
+        const updateData = {
+          category: jsonTeacher.category || 'teacher',
+          group: jsonTeacher.group || '',
+          isActive: true,
+          isDeleted: false
+        }
+        if (dbTeacher._id) {
+          await getCollection('teachers').updateOne({ _id: dbTeacher._id }, { $set: updateData })
+        } else {
+          await getCollection('teachers').updateOne({ id: dbTeacher.id }, { $set: updateData })
+        }
+      }
+    }
+    results.teachersFixed = teachersJson.length
+    
+    // Children - groupId va groupName ni to'g'rilash
+    const childrenJson = readData('children.json') || []
+    const childrenInDb = await getCollection('children').find({}).toArray()
+    const groupsJson = readData('groups.json') || []
+    
+    for (const dbChild of childrenInDb) {
+      const jsonChild = childrenJson.find(c => c.id === dbChild.id || 
+        (c.firstName === dbChild.firstName && c.lastName === dbChild.lastName))
+      
+      let groupId = dbChild.groupId || jsonChild?.groupId || 'g1'
+      let groupName = dbChild.groupName || jsonChild?.groupName
+      
+      // Agar groupName yo'q bo'lsa, groupId bo'yicha topish
+      if (!groupName) {
+        const group = groupsJson.find(g => g.id === groupId)
+        groupName = group?.name || 'Quyoshlar'
+      }
+      
+      const updateData = {
+        groupId: groupId,
+        groupName: groupName,
+        isActive: true,
+        isDeleted: false
+      }
+      
+      if (dbChild._id) {
+        await getCollection('children').updateOne({ _id: dbChild._id }, { $set: updateData })
+      } else {
+        await getCollection('children').updateOne({ id: dbChild.id }, { $set: updateData })
+      }
+    }
+    results.childrenFixed = childrenInDb.length
     
     // Gallery - published: true, isDeleted: false qilish
     const galleryResult = await getCollection('galleries').updateMany(
@@ -263,6 +402,7 @@ router.post('/fix', async (req, res) => {
     console.log('✅ Data fixed:', results)
     res.json({ success: true, results })
   } catch (error) {
+    console.error('Fix error:', error)
     res.status(500).json({ error: error.message })
   }
 })

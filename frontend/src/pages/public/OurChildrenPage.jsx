@@ -169,7 +169,13 @@ const OurChildrenPage = () => {
 
   const filteredChildren = activeGroup === 'all' 
     ? children 
-    : children.filter(child => String(child.groupId) === String(activeGroup))
+    : children.filter(child => {
+        // groupId ni string sifatida solishtirish
+        const childGroupId = String(child.groupId || '')
+        const filterGroupId = String(activeGroup)
+        console.log('[OurChildrenPage] Filtering:', child.firstName, 'groupId:', childGroupId, 'filter:', filterGroupId, 'match:', childGroupId === filterGroupId)
+        return childGroupId === filterGroupId
+      })
 
   const getAvatarGradient = (name, gender) => {
     const gradients = gender === 'female' 
