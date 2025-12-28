@@ -1,8 +1,7 @@
 import express from 'express'
-import { v4 as uuidv4 } from 'uuid'
-import { readData, writeData } from '../utils/db.js'
 import { authenticateToken } from '../middleware/auth.js'
 import logger from '../utils/logger.js'
+import Gallery from '../models/Gallery.js'
 
 const router = express.Router()
 
@@ -11,24 +10,20 @@ router.get('/', async (req, res) => {
   try {
     const { type, album, page = 1, limit = 20 } = req.query
     const pageNum = parseInt(page) || 1
-    const limitNum = Math.min(parseInt(limit) || 20, 100) // Max 100 per page
+    const limitNum = Math.min(parseInt(limit) || 20, 100)
     const skip = (pageNum - 1) * limitNum
     
-    let gallery = readData('gallery.json') || []
+    let query = { published: true, isDeleted: { $ne: true } }
+    if (type) query.type = type
+    if (album) query.album = album
     
-    // Faqat published
-    gallery = gallery.filter(g => g.published !== false)
-    
-    if (type) gallery = gallery.filter(g => g.type === type)
-    if (album) gallery = gallery.filter(g => g.album === album)
-    
-    gallery.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
-    
-    const total = gallery.length
-    const paginated = gallery.slice(skip, skip + limitNum)
+    const [data, total] = await Promise.all([
+      Gallery.find(query).sort({ createdAt: -1 }).skip(skip).limit(limitNum),
+      Gallery.countDocuments(query)
+    ])
     
     res.json({
-      data: paginated,
+      data,
       pagination: {
         page: pageNum,
         limit: limitNum,
@@ -39,7 +34,7 @@ router.get('/', async (req, res) => {
       }
     })
   } catch (error) {
-    logger.error('Gallery fetch error', { error: error.message, stack: error.stack })
+    logger.error('Gallery fetch error', { error: error.message })
     res.status(500).json({ error: 'Failed to fetch gallery' })
   }
 })
@@ -52,14 +47,13 @@ router.get('/all', authenticateToken, async (req, res) => {
     const limitNum = Math.min(parseInt(limit) || 20, 100)
     const skip = (pageNum - 1) * limitNum
     
-    let gallery = readData('gallery.json') || []
-    gallery.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
-    
-    const total = gallery.length
-    const paginated = gallery.slice(skip, skip + limitNum)
+    const [data, total] = await Promise.all([
+      Gallery.find({ isDeleted: { $ne: true } }).sort({ createdAt: -1 }).skip(skip).limit(limitNum),
+      Gallery.countDocuments({ isDeleted: { $ne: true } })
+    ])
     
     res.json({
-      data: paginated,
+      data,
       pagination: {
         page: pageNum,
         limit: limitNum,
@@ -70,7 +64,7 @@ router.get('/all', authenticateToken, async (req, res) => {
       }
     })
   } catch (error) {
-    logger.error('Gallery fetch error (admin)', { error: error.message, stack: error.stack })
+    logger.error('Gallery fetch error (admin)', { error: error.message })
     res.status(500).json({ error: 'Failed to fetch gallery' })
   }
 })
@@ -78,9 +72,8 @@ router.get('/all', authenticateToken, async (req, res) => {
 // GET /api/gallery/albums - Albumlar ro'yxati
 router.get('/albums', async (req, res) => {
   try {
-    const gallery = readData('gallery.json') || []
-    const albums = [...new Set(gallery.map(g => g.album).filter(Boolean))]
-    res.json(albums)
+    const albums = await Gallery.distinct('album', { isDeleted: { $ne: true } })
+    res.json(albums.filter(Boolean))
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch albums' })
   }
@@ -95,23 +88,17 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'URL and type are required' })
     }
     
-    const gallery = readData('gallery.json') || []
-    
-    const newMedia = {
-      id: uuidv4(),
+    const media = new Gallery({
       type,
       url,
       thumbnail: thumbnail || url,
       title: title || '',
       album: album || 'general',
-      createdAt: new Date().toISOString(),
       published: true
-    }
+    })
+    await media.save()
     
-    gallery.push(newMedia)
-    writeData('gallery.json', gallery)
-    
-    res.status(201).json(newMedia)
+    res.status(201).json(media)
   } catch (error) {
     res.status(500).json({ error: 'Failed to add media' })
   }
@@ -120,16 +107,13 @@ router.post('/', authenticateToken, async (req, res) => {
 // PUT /api/gallery/:id - Media yangilash (admin)
 router.put('/:id', authenticateToken, async (req, res) => {
   try {
-    const gallery = readData('gallery.json') || []
-    const index = gallery.findIndex(g => g.id === req.params.id)
-    
-    if (index === -1) {
-      return res.status(404).json({ error: 'Media not found' })
-    }
-    
-    gallery[index] = { ...gallery[index], ...req.body }
-    writeData('gallery.json', gallery)
-    res.json(gallery[index])
+    const media = await Gallery.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, updatedAt: new Date() },
+      { new: true }
+    )
+    if (!media) return res.status(404).json({ error: 'Media not found' })
+    res.json(media)
   } catch (error) {
     res.status(500).json({ error: 'Failed to update media' })
   }
@@ -138,16 +122,12 @@ router.put('/:id', authenticateToken, async (req, res) => {
 // DELETE /api/gallery/:id - Media o'chirish (admin) - soft delete
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
-    let gallery = readData('gallery.json') || []
-    const index = gallery.findIndex(g => g.id === req.params.id)
-    if (index === -1) return res.status(404).json({ error: 'Media not found' })
-    
-    // Soft delete
-    gallery[index].isDeleted = true
-    gallery[index].deletedAt = new Date().toISOString()
-    gallery[index].deletedBy = req.user?.id || 'unknown'
-    
-    writeData('gallery.json', gallery)
+    const media = await Gallery.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true, deletedAt: new Date(), deletedBy: req.user?.id },
+      { new: true }
+    )
+    if (!media) return res.status(404).json({ error: 'Media not found' })
     res.json({ message: 'Media deleted' })
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete media' })

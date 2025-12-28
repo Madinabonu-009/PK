@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
   email: String,
   phone: String,
   avatar: String,
+  groupId: String,
+  childName: String,
+  address: String,
   isActive: {
     type: Boolean,
     default: true

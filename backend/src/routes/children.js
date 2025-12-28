@@ -1,6 +1,4 @@
 import express from 'express'
-import { v4 as uuidv4 } from 'uuid'
-import { readData, writeData } from '../utils/db.js'
 import { authenticateToken } from '../middleware/auth.js'
 import { normalizeId, isValidName, isValidPhone, errorResponse } from '../utils/helpers.js'
 import logger from '../utils/logger.js'
@@ -33,32 +31,11 @@ const validateChild = (data, isUpdate = false) => {
 // GET /api/children/public - Ommaviy (autentifikatsiyasiz)
 router.get('/public', async (req, res) => {
   try {
-    console.log('[Children Public] Fetching public children...')
+    const children = await Child.find({ isActive: true, isDeleted: { $ne: true } })
+      .select('firstName lastName birthDate groupName groupId photo points level achievements gender')
     
-    if (req.app.locals.useDatabase) {
-      const children = await Child.find({ isActive: true })
-        .select('firstName lastName birthDate groupName group photo points level achievements gender')
-        .populate('group', 'name')
-      console.log('[Children Public] MongoDB children count:', children.length)
-      return res.json(children.map(normalizeId))
-    }
-    
-    const allChildren = readData('children.json') || []
-    console.log('[Children Public] Total children in file:', allChildren.length)
-    
-    // Faqat aktiv va o'chirilmagan bolalarni olish
-    const activeChildren = allChildren.filter(c => {
-      const isActive = c.isActive !== false
-      const notDeleted = !c.isDeleted
-      console.log(`[Children Public] ${c.firstName}: isActive=${c.isActive}, isDeleted=${c.isDeleted}, pass=${isActive && notDeleted}`)
-      return isActive && notDeleted
-    })
-    
-    console.log('[Children Public] Active children count:', activeChildren.length)
-    
-    // Sodda format - faqat kerakli fieldlarni qaytarish
-    const result = activeChildren.map(c => ({
-      id: c.id,
+    res.json(children.map(c => ({
+      id: c._id,
       firstName: c.firstName,
       lastName: c.lastName,
       birthDate: c.birthDate,
@@ -69,12 +46,8 @@ router.get('/public', async (req, res) => {
       level: c.level || 1,
       achievements: c.achievements || [],
       gender: c.gender
-    }))
-    
-    console.log('[Children Public] Returning', result.length, 'children')
-    res.json(result)
+    })))
   } catch (error) {
-    console.error('[Children Public] Error:', error)
     logger.error('Public children fetch error:', error)
     res.status(500).json(errorResponse('Bolalar ro\'yxatini yuklashda xatolik'))
   }
@@ -85,69 +58,34 @@ router.get('/', authenticateToken, async (req, res) => {
   try {
     const { search, groupId, page = 1, limit = 20, includeDeleted } = req.query
     const pageNum = parseInt(page) || 1
-    const limitNum = Math.min(parseInt(limit) || 20, 100) // Max 100 per page
+    const limitNum = Math.min(parseInt(limit) || 20, 100)
     const skip = (pageNum - 1) * limitNum
     
-    if (req.app.locals.useDatabase) {
-      let query = { isDeleted: { $ne: true } } // Exclude soft-deleted by default
-      if (includeDeleted === 'true' && req.user?.role === 'admin') {
-        delete query.isDeleted
-      }
-      if (search) {
-        query.$or = [
-          { firstName: { $regex: search, $options: 'i' } },
-          { lastName: { $regex: search, $options: 'i' } }
-        ]
-      }
-      if (groupId) query.group = groupId
-      
-      const [children, total] = await Promise.all([
-        Child.find(query).populate('group').skip(skip).limit(limitNum).sort({ createdAt: -1 }),
-        Child.countDocuments(query)
-      ])
-      
-      return res.json({
-        data: children.map(normalizeId),
-        pagination: {
-          page: pageNum,
-          limit: limitNum,
-          total,
-          pages: Math.ceil(total / limitNum),
-          hasNext: pageNum * limitNum < total,
-          hasPrev: pageNum > 1
-        }
-      })
+    let query = { isDeleted: { $ne: true } }
+    if (includeDeleted === 'true' && req.user?.role === 'admin') {
+      delete query.isDeleted
     }
-    
-    let children = readData('children.json') || []
-    
-    // Filter out soft-deleted children by default
-    if (!(includeDeleted === 'true' && req.user?.role === 'admin')) {
-      children = children.filter(c => !c.isDeleted)
-    }
-    
     if (search) {
-      const searchLower = search.toLowerCase()
-      children = children.filter(c => 
-        c.firstName?.toLowerCase().includes(searchLower) ||
-        c.lastName?.toLowerCase().includes(searchLower)
-      )
+      query.$or = [
+        { firstName: { $regex: search, $options: 'i' } },
+        { lastName: { $regex: search, $options: 'i' } }
+      ]
     }
-    if (groupId) {
-      children = children.filter(c => c.groupId === groupId)
-    }
+    if (groupId) query.groupId = groupId
     
-    const total = children.length
-    const paginated = children.slice(skip, skip + limitNum)
+    const [children, total] = await Promise.all([
+      Child.find(query).skip(skip).limit(limitNum).sort({ createdAt: -1 }),
+      Child.countDocuments(query)
+    ])
     
     res.json({
-      data: paginated,
+      data: children.map(normalizeId),
       pagination: {
         page: pageNum,
         limit: limitNum,
         total,
         pages: Math.ceil(total / limitNum),
-        hasNext: skip + limitNum < total,
+        hasNext: pageNum * limitNum < total,
         hasPrev: pageNum > 1
       }
     })
@@ -160,16 +98,9 @@ router.get('/', authenticateToken, async (req, res) => {
 // GET /api/children/:id
 router.get('/:id', authenticateToken, async (req, res) => {
   try {
-    if (req.app.locals.useDatabase) {
-      const child = await Child.findById(req.params.id).populate('group')
-      if (!child) return res.status(404).json(errorResponse('Bola topilmadi'))
-      return res.json(normalizeId(child))
-    }
-    
-    const children = readData('children.json') || []
-    const child = children.find(c => c.id === req.params.id)
+    const child = await Child.findById(req.params.id)
     if (!child) return res.status(404).json(errorResponse('Bola topilmadi'))
-    res.json(child)
+    res.json(normalizeId(child))
   } catch (error) {
     logger.error('Child fetch error:', error)
     res.status(500).json(errorResponse('Bola ma\'lumotlarini yuklashda xatolik'))
@@ -184,36 +115,16 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json(errorResponse('Validatsiya xatosi', validationErrors))
     }
 
-    if (req.app.locals.useDatabase) {
-      const child = new Child(req.body)
-      await child.save()
-      return res.status(201).json(normalizeId(child))
-    }
-    
-    const children = readData('children.json') || []
-    const newChild = {
-      id: uuidv4(),
-      firstName: req.body.firstName?.trim(),
-      lastName: req.body.lastName?.trim(),
-      birthDate: req.body.birthDate,
-      groupId: req.body.groupId,
-      parentName: req.body.parentName?.trim(),
-      parentPhone: req.body.parentPhone?.trim(),
-      allergies: req.body.allergies || [],
-      notes: req.body.notes?.trim() || '',
+    const child = new Child({
+      ...req.body,
       points: 0,
       level: 1,
       achievements: [],
       isActive: true,
-      enrolledAt: new Date().toISOString()
-    }
-    children.push(newChild)
-    
-    if (!writeData('children.json', children)) {
-      return res.status(500).json(errorResponse('Ma\'lumotlarni saqlashda xatolik'))
-    }
-    
-    res.status(201).json(newChild)
+      enrolledAt: new Date()
+    })
+    await child.save()
+    res.status(201).json(normalizeId(child))
   } catch (error) {
     logger.error('Create child error:', error)
     res.status(500).json(errorResponse('Bola qo\'shishda xatolik'))
@@ -228,24 +139,13 @@ router.put('/:id', authenticateToken, async (req, res) => {
       return res.status(400).json(errorResponse('Validatsiya xatosi', validationErrors))
     }
     
-    if (req.app.locals.useDatabase) {
-      const child = await Child.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
-      if (!child) return res.status(404).json(errorResponse('Bola topilmadi'))
-      return res.json(normalizeId(child))
-    }
-    
-    const children = readData('children.json') || []
-    const index = children.findIndex(c => c.id === req.params.id)
-    if (index === -1) return res.status(404).json(errorResponse('Bola topilmadi'))
-    
-    const updatedChild = { ...children[index], ...req.body, updatedAt: new Date().toISOString() }
-    children[index] = updatedChild
-    
-    if (!writeData('children.json', children)) {
-      return res.status(500).json(errorResponse('Ma\'lumotlarni saqlashda xatolik'))
-    }
-    
-    res.json(updatedChild)
+    const child = await Child.findByIdAndUpdate(
+      req.params.id, 
+      { ...req.body, updatedAt: new Date() }, 
+      { new: true, runValidators: true }
+    )
+    if (!child) return res.status(404).json(errorResponse('Bola topilmadi'))
+    res.json(normalizeId(child))
   } catch (error) {
     logger.error('Update child error:', error)
     res.status(500).json(errorResponse('Bola ma\'lumotlarini yangilashda xatolik'))
@@ -255,34 +155,16 @@ router.put('/:id', authenticateToken, async (req, res) => {
 // DELETE /api/children/:id (soft delete)
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
-    if (req.app.locals.useDatabase) {
-      // Soft delete for MongoDB
-      const child = await Child.findByIdAndUpdate(
-        req.params.id,
-        { 
-          isDeleted: true, 
-          deletedAt: new Date(),
-          deletedBy: req.user?.id || 'unknown'
-        },
-        { new: true }
-      )
-      if (!child) return res.status(404).json(errorResponse('Bola topilmadi'))
-      return res.json({ success: true, message: 'Bola o\'chirildi' })
-    }
-    
-    let children = readData('children.json') || []
-    const index = children.findIndex(c => c.id === req.params.id)
-    if (index === -1) return res.status(404).json(errorResponse('Bola topilmadi'))
-    
-    // Soft delete - mark as deleted instead of removing
-    children[index].isDeleted = true
-    children[index].deletedAt = new Date().toISOString()
-    children[index].deletedBy = req.user?.id || 'unknown'
-    
-    if (!writeData('children.json', children)) {
-      return res.status(500).json(errorResponse('Ma\'lumotlarni saqlashda xatolik'))
-    }
-    
+    const child = await Child.findByIdAndUpdate(
+      req.params.id,
+      { 
+        isDeleted: true, 
+        deletedAt: new Date(),
+        deletedBy: req.user?.id || 'unknown'
+      },
+      { new: true }
+    )
+    if (!child) return res.status(404).json(errorResponse('Bola topilmadi'))
     res.json({ success: true, message: 'Bola o\'chirildi' })
   } catch (error) {
     logger.error('Delete child error:', error)
@@ -299,30 +181,19 @@ router.post('/:id/points', authenticateToken, async (req, res) => {
       return res.status(400).json(errorResponse('Ball raqam bo\'lishi kerak'))
     }
     
-    if (req.app.locals.useDatabase) {
-      const child = await Child.findByIdAndUpdate(req.params.id, { $inc: { points } }, { new: true })
-      if (!child) return res.status(404).json(errorResponse('Bola topilmadi'))
-      
-      const newLevel = Math.floor(child.points / 100) + 1
-      if (newLevel !== child.level) {
-        child.level = newLevel
-        await child.save()
-      }
-      return res.json(normalizeId(child))
+    const child = await Child.findByIdAndUpdate(
+      req.params.id, 
+      { $inc: { points } }, 
+      { new: true }
+    )
+    if (!child) return res.status(404).json(errorResponse('Bola topilmadi'))
+    
+    const newLevel = Math.floor(child.points / 100) + 1
+    if (newLevel !== child.level) {
+      child.level = newLevel
+      await child.save()
     }
-    
-    const children = readData('children.json') || []
-    const index = children.findIndex(c => c.id === req.params.id)
-    if (index === -1) return res.status(404).json(errorResponse('Bola topilmadi'))
-    
-    children[index].points = (children[index].points || 0) + points
-    children[index].level = Math.floor(children[index].points / 100) + 1
-    
-    if (!writeData('children.json', children)) {
-      return res.status(500).json(errorResponse('Ma\'lumotlarni saqlashda xatolik'))
-    }
-    
-    res.json(children[index])
+    res.json(normalizeId(child))
   } catch (error) {
     logger.error('Add points error:', error)
     res.status(500).json(errorResponse('Ball qo\'shishda xatolik'))
