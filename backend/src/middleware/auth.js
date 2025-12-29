@@ -42,7 +42,13 @@ export const authenticateToken = (req, res, next) => {
 
 export const generateToken = (user) => {
   return jwt.sign(
-    { id: user.id, username: user.username, role: user.role },
+    { 
+      id: user._id || user.id, 
+      username: user.username, 
+      role: user.role,
+      name: user.name,
+      assignedGroups: user.assignedGroups || []
+    },
     SECURE_JWT_SECRET,
     { expiresIn: JWT_EXPIRES_IN }
   )

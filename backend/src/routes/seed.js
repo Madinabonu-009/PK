@@ -1,246 +1,162 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
+import User from '../models/User.js'
+import Teacher from '../models/Teacher.js'
+import Child from '../models/Child.js'
+import Group from '../models/Group.js'
+import Gallery from '../models/Gallery.js'
 import { readData } from '../utils/db.js'
+import logger from '../utils/logger.js'
 
 const router = express.Router()
 
-const getCollection = (name) => mongoose.connection.collection(name)
-
-// Barcha ma'lumotlarni JSON'dan MongoDB'ga ko'chirish
-router.post('/all', async (req, res) => {
-  try {
-    if (!req.app.locals.useDatabase) {
-      return res.status(400).json({ error: 'MongoDB ulanmagan' })
-    }
-
-    const results = {}
-
-    // 1. Users
-    const usersJson = readData('users.json') || []
-    if (usersJson.length > 0) {
-      await getCollection('users').deleteMany({})
-      await getCollection('users').insertMany(usersJson.map(u => ({
-        ...u,
-        isActive: u.isActive !== false,
-        createdAt: u.createdAt || new Date().toISOString()
-      })))
-      results.users = usersJson.length
-    }
-
-    // 2. Children
-    const childrenJson = readData('children.json') || []
-    if (childrenJson.length > 0) {
-      await getCollection('children').deleteMany({})
-      await getCollection('children').insertMany(childrenJson.map(c => ({
-        ...c,
-        gender: c.gender || 'male',
-        isActive: c.isActive !== false,
-        createdAt: c.createdAt || new Date().toISOString()
-      })))
-      results.children = childrenJson.length
-    }
-
-    // 3. Teachers
-    const teachersJson = readData('teachers.json') || []
-    if (teachersJson.length > 0) {
-      await getCollection('teachers').deleteMany({})
-      await getCollection('teachers').insertMany(teachersJson.map(t => ({
-        ...t,
-        firstName: t.name?.split(' ')[0] || t.name,
-        lastName: t.name?.split(' ').slice(1).join(' ') || '',
-        position: t.role || t.position,
-        isActive: t.isDeleted !== true,
-        createdAt: t.createdAt || new Date().toISOString()
-      })))
-      results.teachers = teachersJson.length
-    }
-
-
-    // 4. Gallery
-    const galleryJson = readData('gallery.json') || []
-    if (galleryJson.length > 0) {
-      await getCollection('galleries').deleteMany({})
-      await getCollection('galleries').insertMany(galleryJson.map(g => ({
-        ...g,
-        published: g.published !== false,
-        createdAt: g.createdAt || new Date().toISOString()
-      })))
-      results.gallery = galleryJson.length
-    }
-
-    // 5. Groups
-    const groupsJson = readData('groups.json') || []
-    if (groupsJson.length > 0) {
-      await getCollection('groups').deleteMany({})
-      await getCollection('groups').insertMany(groupsJson)
-      results.groups = groupsJson.length
-    }
-
-    // 6. Other collections
-    const otherCollections = [
-      'menu', 'events', 'attendance', 'payments', 'dailyReports',
-      'debts', 'achievements', 'progress', 'enrollments', 'feedback',
-      'questions', 'journal', 'blog', 'stories'
-    ]
-
-    for (const name of otherCollections) {
-      const data = readData(`${name}.json`) || []
-      if (Array.isArray(data) && data.length > 0) {
-        await getCollection(name.toLowerCase()).deleteMany({})
-        await getCollection(name.toLowerCase()).insertMany(data)
-        results[name] = data.length
-      }
-    }
-
-    // 7. Settings (single document)
-    const settingsJson = readData('settings.json')
-    if (settingsJson && Object.keys(settingsJson).length > 0) {
-      await getCollection('settings').deleteMany({})
-      await getCollection('settings').insertOne(settingsJson)
-      results.settings = 1
-    }
-
-    // 8. Curriculum (single document)
-    const curriculumJson = readData('curriculum.json')
-    if (curriculumJson && Object.keys(curriculumJson).length > 0) {
-      await getCollection('curriculum').deleteMany({})
-      await getCollection('curriculum').insertOne(curriculumJson)
-      results.curriculum = 1
-    }
-
-    console.log('✅ MongoDB seeded:', results)
-    res.json({ 
-      success: true,
-      message: 'Barcha ma\'lumotlar MongoDB\'ga ko\'chirildi', 
-      results 
-    })
-  } catch (error) {
-    console.error('Seed error:', error)
-    res.status(500).json({ error: error.message })
-  }
-})
-
-// Seed teachers from JSON to MongoDB
-router.post('/teachers', async (req, res) => {
-  try {
-    if (!req.app.locals.useDatabase) {
-      return res.status(400).json({ error: 'MongoDB not connected' })
-    }
-
-    const teachersJson = readData('teachers.json') || []
-    if (teachersJson.length === 0) {
-      return res.status(400).json({ error: 'No teachers in JSON file' })
-    }
-
-    await getCollection('teachers').deleteMany({})
-    await getCollection('teachers').insertMany(teachersJson.map(t => ({
-      ...t,
-      firstName: t.name?.split(' ')[0] || t.name,
-      lastName: t.name?.split(' ').slice(1).join(' ') || '',
-      position: t.role || t.position,
-      isActive: t.isDeleted !== true,
-      createdAt: t.createdAt || new Date().toISOString()
-    })))
-
-    res.json({ message: 'Teachers seeded', count: teachersJson.length })
-  } catch (error) {
-    console.error('Seed error:', error)
-    res.status(500).json({ error: error.message })
-  }
-})
-
-// Seed children
-router.post('/children', async (req, res) => {
-  try {
-    if (!req.app.locals.useDatabase) {
-      return res.status(400).json({ error: 'MongoDB not connected' })
-    }
-
-    const childrenJson = readData('children.json') || []
-    if (childrenJson.length === 0) {
-      return res.status(400).json({ error: 'No children in JSON file' })
-    }
-
-    await getCollection('children').deleteMany({})
-    await getCollection('children').insertMany(childrenJson.map(c => ({
-      ...c,
-      gender: c.gender || 'male',
-      isActive: c.isActive !== false,
-      createdAt: c.createdAt || new Date().toISOString()
-    })))
-
-    res.json({ message: 'Children seeded', count: childrenJson.length })
-  } catch (error) {
-    console.error('Seed error:', error)
-    res.status(500).json({ error: error.message })
-  }
-})
-
-// Seed users
-router.post('/users', async (req, res) => {
-  try {
-    if (!req.app.locals.useDatabase) {
-      return res.status(400).json({ error: 'MongoDB not connected' })
-    }
-
-    const usersJson = readData('users.json') || []
-    if (usersJson.length === 0) {
-      return res.status(400).json({ error: 'No users in JSON file' })
-    }
-
-    await getCollection('users').deleteMany({})
-    await getCollection('users').insertMany(usersJson)
-
-    res.json({ message: 'Users seeded', count: usersJson.length })
-  } catch (error) {
-    console.error('Seed error:', error)
-    res.status(500).json({ error: error.message })
-  }
-})
-
-// Get seed status
+// GET /api/seed/status - Database status
 router.get('/status', async (req, res) => {
   try {
-    const useDatabase = req.app.locals.useDatabase
-    let counts = { users: 0, children: 0, teachers: 0, gallery: 0, groups: 0 }
-    
-    if (useDatabase) {
-      counts.users = await getCollection('users').countDocuments()
-      counts.children = await getCollection('children').countDocuments()
-      counts.teachers = await getCollection('teachers').countDocuments()
-      counts.gallery = await getCollection('galleries').countDocuments()
-      counts.groups = await getCollection('groups').countDocuments()
-    } else {
-      counts.users = (readData('users.json') || []).length
-      counts.children = (readData('children.json') || []).length
-      counts.teachers = (readData('teachers.json') || []).length
-      counts.gallery = (readData('gallery.json') || []).length
-      counts.groups = (readData('groups.json') || []).length
+    const counts = {
+      users: await User.countDocuments(),
+      teachers: await Teacher.countDocuments({ isDeleted: { $ne: true } }),
+      children: await Child.countDocuments({ isDeleted: { $ne: true } }),
+      groups: await Group.countDocuments({ isDeleted: { $ne: true } }),
+      gallery: await Gallery.countDocuments({ isDeleted: { $ne: true } })
     }
-
+    
     res.json({
-      database: useDatabase ? 'MongoDB' : 'JSON',
+      database: 'MongoDB',
+      connected: mongoose.connection.readyState === 1,
       counts
     })
   } catch (error) {
+    logger.error('Seed status error', { error: error.message })
     res.status(500).json({ error: error.message })
   }
 })
 
-// POST /api/seed/reseed - MongoDB'ni tozalab qaytadan seed qilish
+// POST /api/seed/fix - Ma'lumotlarni tuzatish (category, groupId, etc.)
+router.post('/fix', async (req, res) => {
+  try {
+    const results = {}
+    
+    // 1. Teachers - category field qo'shish
+    const teachersJson = readData('teachers.json') || []
+    const teachers = await Teacher.find({})
+    
+    for (const teacher of teachers) {
+      const jsonTeacher = teachersJson.find(t => 
+        t.id === teacher.id || 
+        t.name === teacher.name ||
+        t.name === `${teacher.firstName} ${teacher.lastName}`.trim()
+      )
+      
+      const updateData = {
+        category: jsonTeacher?.category || teacher.category || 'teacher',
+        group: jsonTeacher?.group || teacher.group || '',
+        isActive: true,
+        isDeleted: false
+      }
+      
+      await Teacher.updateOne({ _id: teacher._id }, { $set: updateData })
+    }
+    results.teachersFixed = teachers.length
+    
+    // 2. Children - groupId va groupName to'g'rilash
+    const childrenJson = readData('children.json') || []
+    const groupsJson = readData('groups.json') || []
+    const children = await Child.find({})
+    
+    for (const child of children) {
+      const jsonChild = childrenJson.find(c => 
+        c.id === child.id ||
+        (c.firstName === child.firstName && c.lastName === child.lastName)
+      )
+      
+      let groupId = child.groupId || jsonChild?.groupId || 'g1'
+      let groupName = child.groupName || jsonChild?.groupName
+      
+      if (!groupName) {
+        const group = groupsJson.find(g => g.id === groupId)
+        groupName = group?.name || 'Quyoshlar'
+      }
+      
+      await Child.updateOne({ _id: child._id }, { 
+        $set: { 
+          groupId, 
+          groupName, 
+          isActive: true, 
+          isDeleted: false 
+        } 
+      })
+    }
+    results.childrenFixed = children.length
+    
+    // 3. Groups - isActive qilish
+    await Group.updateMany({}, { $set: { isActive: true, isDeleted: false } })
+    results.groupsFixed = await Group.countDocuments()
+    
+    // 4. Gallery
+    await Gallery.updateMany({}, { $set: { published: true, isDeleted: false } })
+    results.galleryFixed = await Gallery.countDocuments()
+    
+    // 5. Users - teacher userlariga assignedGroups qo'shish
+    const users = await User.find({ role: 'teacher' })
+    for (const user of users) {
+      // Username bo'yicha teacher topish
+      const teacher = await Teacher.findOne({
+        $or: [
+          { name: { $regex: user.name, $options: 'i' } },
+          { firstName: { $regex: user.name?.split(' ')[0], $options: 'i' } }
+        ]
+      })
+      
+      if (teacher && teacher.group) {
+        await User.updateOne({ _id: user._id }, { 
+          $set: { assignedGroups: [teacher.group] } 
+        })
+      }
+    }
+    results.usersFixed = users.length
+    
+    logger.info('Data fixed', results)
+    res.json({ success: true, results })
+  } catch (error) {
+    logger.error('Fix error', { error: error.message })
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// POST /api/seed/reseed - MongoDB'ni to'liq qayta seed qilish
 router.post('/reseed', async (req, res) => {
   try {
     const results = {}
     
-    // 1. Teachers - to'liq qayta seed
+    // 1. Groups
+    const groupsJson = readData('groups.json') || []
+    if (groupsJson.length > 0) {
+      await Group.deleteMany({})
+      const groups = groupsJson.map(g => ({
+        id: g.id,
+        name: g.name,
+        ageRange: g.ageRange || '',
+        capacity: g.capacity || 20,
+        teacherId: g.teacherId,
+        monthlyFee: g.monthlyFee || 500000,
+        isActive: true,
+        isDeleted: false
+      }))
+      await Group.insertMany(groups)
+      results.groups = groups.length
+    }
+    
+    // 2. Teachers
     const teachersJson = readData('teachers.json') || []
     if (teachersJson.length > 0) {
-      await getCollection('teachers').deleteMany({})
-      await getCollection('teachers').insertMany(teachersJson.map(t => ({
+      await Teacher.deleteMany({})
+      const teachers = teachersJson.map(t => ({
         id: t.id,
+        firstName: t.name?.split(' ')[0] || t.firstName || '',
+        lastName: t.name?.split(' ').slice(1).join(' ') || t.lastName || '',
         name: t.name,
-        firstName: t.name?.split(' ')[0] || t.name,
-        lastName: t.name?.split(' ').slice(1).join(' ') || '',
         position: t.role || t.position,
         role: t.role,
         education: t.education,
@@ -251,29 +167,27 @@ router.post('/reseed', async (req, res) => {
         bio: t.bio,
         category: t.category || 'teacher',
         group: t.group || '',
-        specialization: t.specialization,
         isActive: true,
-        isDeleted: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })))
-      results.teachers = teachersJson.length
+        isDeleted: false
+      }))
+      await Teacher.insertMany(teachers)
+      results.teachers = teachers.length
     }
     
-    // 2. Children - to'liq qayta seed
+    // 3. Children
     const childrenJson = readData('children.json') || []
     if (childrenJson.length > 0) {
-      await getCollection('children').deleteMany({})
-      await getCollection('children').insertMany(childrenJson.map(c => ({
+      await Child.deleteMany({})
+      const children = childrenJson.map(c => ({
         id: c.id,
         firstName: c.firstName,
         lastName: c.lastName,
-        birthDate: c.birthDate,
+        birthDate: c.birthDate ? new Date(c.birthDate) : new Date(),
         gender: c.gender || 'male',
-        groupId: c.groupId,
-        groupName: c.groupName,
-        parentName: c.parentName,
-        parentPhone: c.parentPhone,
+        groupId: c.groupId || 'g1',
+        groupName: c.groupName || 'Quyoshlar',
+        parentName: c.parentName || 'Ota-ona',
+        parentPhone: c.parentPhone || '+998900000000',
         parentEmail: c.parentEmail,
         allergies: c.allergies || [],
         notes: c.notes,
@@ -283,126 +197,150 @@ router.post('/reseed', async (req, res) => {
         achievements: c.achievements || [],
         isActive: true,
         isDeleted: false,
-        enrolledAt: c.enrolledAt,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })))
-      results.children = childrenJson.length
+        enrolledAt: c.enrolledAt ? new Date(c.enrolledAt) : new Date()
+      }))
+      await Child.insertMany(children)
+      results.children = children.length
     }
     
-    // 3. Groups - to'liq qayta seed
-    const groupsJson = readData('groups.json') || []
-    if (groupsJson.length > 0) {
-      await getCollection('groups').deleteMany({})
-      await getCollection('groups').insertMany(groupsJson.map(g => ({
-        ...g,
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })))
-      results.groups = groupsJson.length
+    // 4. Users - parollarni hash qilish
+    const usersJson = readData('users.json') || []
+    if (usersJson.length > 0) {
+      await User.deleteMany({})
+      const users = await Promise.all(usersJson.map(async u => {
+        // Parol allaqachon hash qilinganmi tekshirish
+        let password = u.password
+        if (!password.startsWith('$2')) {
+          password = await bcrypt.hash(password, 10)
+        }
+        
+        // Teacher uchun assignedGroups
+        let assignedGroups = u.assignedGroups || []
+        if (u.role === 'teacher' && assignedGroups.length === 0) {
+          // Teacher nomiga mos guruh topish
+          const teacher = teachersJson.find(t => 
+            t.name?.toLowerCase().includes(u.name?.toLowerCase().split(' ')[0])
+          )
+          if (teacher?.group) {
+            const group = groupsJson.find(g => g.name === teacher.group)
+            if (group) {
+              assignedGroups = [group.id]
+            }
+          }
+        }
+        
+        return {
+          username: u.username,
+          password,
+          name: u.name,
+          role: u.role,
+          email: u.email,
+          phone: u.phone,
+          assignedGroups,
+          isActive: u.isActive !== false
+        }
+      }))
+      await User.insertMany(users)
+      results.users = users.length
     }
     
-    // 4. Gallery
+    // 5. Gallery
     const galleryJson = readData('gallery.json') || []
     if (galleryJson.length > 0) {
-      await getCollection('galleries').deleteMany({})
-      await getCollection('galleries').insertMany(galleryJson.map(g => ({
-        ...g,
+      await Gallery.deleteMany({})
+      const gallery = galleryJson.map(g => ({
+        type: g.type || 'image',
+        url: g.url,
+        thumbnail: g.thumbnail || g.url,
+        title: g.title || '',
+        description: g.description,
+        album: g.album || 'general',
         published: true,
-        isDeleted: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })))
-      results.gallery = galleryJson.length
+        isDeleted: false
+      }))
+      await Gallery.insertMany(gallery)
+      results.gallery = gallery.length
     }
     
-    console.log('✅ MongoDB reseeded:', results)
+    logger.info('MongoDB reseeded', results)
     res.json({ success: true, message: 'MongoDB qayta to\'ldirildi', results })
   } catch (error) {
-    console.error('Reseed error:', error)
+    logger.error('Reseed error', { error: error.message })
     res.status(500).json({ error: error.message })
   }
 })
 
-// POST /api/seed/fix - Ma'lumotlarni tuzatish
-router.post('/fix', async (req, res) => {
+// POST /api/seed/users - Faqat userlarni seed qilish
+router.post('/users', async (req, res) => {
   try {
-    const results = {}
+    const usersJson = readData('users.json') || []
     
-    // Teachers - JSON'dan category va boshqa fieldlarni olish
-    const teachersJson = readData('teachers.json') || []
-    const teachersInDb = await getCollection('teachers').find({}).toArray()
+    if (usersJson.length === 0) {
+      return res.status(400).json({ error: 'No users in JSON file' })
+    }
     
-    for (const jsonTeacher of teachersJson) {
-      const dbTeacher = teachersInDb.find(t => t.id === jsonTeacher.id || t.name === jsonTeacher.name)
-      if (dbTeacher) {
-        const updateData = {
-          category: jsonTeacher.category || 'teacher',
-          group: jsonTeacher.group || '',
-          isActive: true,
-          isDeleted: false
+    // Mavjud userlarni o'chirmasdan, yangilarini qo'shish
+    for (const u of usersJson) {
+      const existing = await User.findOne({ username: u.username })
+      if (!existing) {
+        let password = u.password
+        if (!password.startsWith('$2')) {
+          password = await bcrypt.hash(password, 10)
         }
-        if (dbTeacher._id) {
-          await getCollection('teachers').updateOne({ _id: dbTeacher._id }, { $set: updateData })
-        } else {
-          await getCollection('teachers').updateOne({ id: dbTeacher.id }, { $set: updateData })
-        }
+        
+        await User.create({
+          username: u.username,
+          password,
+          name: u.name,
+          role: u.role,
+          email: u.email,
+          phone: u.phone,
+          assignedGroups: u.assignedGroups || [],
+          isActive: true
+        })
       }
     }
-    results.teachersFixed = teachersJson.length
     
-    // Children - groupId va groupName ni to'g'rilash
-    const childrenJson = readData('children.json') || []
-    const childrenInDb = await getCollection('children').find({}).toArray()
-    const groupsJson = readData('groups.json') || []
-    
-    for (const dbChild of childrenInDb) {
-      const jsonChild = childrenJson.find(c => c.id === dbChild.id || 
-        (c.firstName === dbChild.firstName && c.lastName === dbChild.lastName))
-      
-      let groupId = dbChild.groupId || jsonChild?.groupId || 'g1'
-      let groupName = dbChild.groupName || jsonChild?.groupName
-      
-      // Agar groupName yo'q bo'lsa, groupId bo'yicha topish
-      if (!groupName) {
-        const group = groupsJson.find(g => g.id === groupId)
-        groupName = group?.name || 'Quyoshlar'
-      }
-      
-      const updateData = {
-        groupId: groupId,
-        groupName: groupName,
-        isActive: true,
-        isDeleted: false
-      }
-      
-      if (dbChild._id) {
-        await getCollection('children').updateOne({ _id: dbChild._id }, { $set: updateData })
-      } else {
-        await getCollection('children').updateOne({ id: dbChild.id }, { $set: updateData })
-      }
-    }
-    results.childrenFixed = childrenInDb.length
-    
-    // Gallery - published: true, isDeleted: false qilish
-    const galleryResult = await getCollection('galleries').updateMany(
-      {},
-      { $set: { published: true, isDeleted: false } }
-    )
-    results.galleryFixed = galleryResult.modifiedCount
-    
-    // Groups - isActive: true qilish
-    const groupsResult = await getCollection('groups').updateMany(
-      {},
-      { $set: { isActive: true } }
-    )
-    results.groupsFixed = groupsResult.modifiedCount
-    
-    console.log('✅ Data fixed:', results)
-    res.json({ success: true, results })
+    const count = await User.countDocuments()
+    res.json({ success: true, message: 'Users seeded', count })
   } catch (error) {
-    console.error('Fix error:', error)
+    logger.error('Seed users error', { error: error.message })
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// POST /api/seed/assign-teacher-groups - Teacher userlariga guruh biriktirish
+router.post('/assign-teacher-groups', async (req, res) => {
+  try {
+    const results = []
+    
+    // Barcha teacher userlarni olish
+    const teacherUsers = await User.find({ role: 'teacher' })
+    const groups = await Group.find({})
+    const teachers = await Teacher.find({})
+    
+    for (const user of teacherUsers) {
+      // User nomiga mos teacher topish
+      const teacher = teachers.find(t => {
+        const teacherName = t.name || `${t.firstName} ${t.lastName}`.trim()
+        return teacherName.toLowerCase().includes(user.name?.toLowerCase().split(' ')[0]) ||
+               user.name?.toLowerCase().includes(teacherName.toLowerCase().split(' ')[0])
+      })
+      
+      if (teacher && teacher.group) {
+        // Guruh ID topish
+        const group = groups.find(g => g.name === teacher.group || g.id === teacher.group)
+        if (group) {
+          const groupId = group.id || group._id.toString()
+          await User.updateOne({ _id: user._id }, { $set: { assignedGroups: [groupId] } })
+          results.push({ user: user.username, group: groupId })
+        }
+      }
+    }
+    
+    res.json({ success: true, assigned: results })
+  } catch (error) {
+    logger.error('Assign teacher groups error', { error: error.message })
     res.status(500).json({ error: error.message })
   }
 })

@@ -20,11 +20,17 @@ const childSchema = new mongoose.Schema({
     enum: ['male', 'female'],
     required: true
   },
+  // Guruh - string ID sifatida (g1, g2, g3 yoki ObjectId)
+  groupId: {
+    type: String,
+    required: true
+  },
+  groupName: String,
+  // ObjectId reference (optional, eski data uchun)
   group: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Group'
   },
-  groupName: String,
   parentName: {
     type: String,
     required: true
@@ -38,13 +44,19 @@ const childSchema = new mongoose.Schema({
   photo: String,
   medicalInfo: String,
   allergies: [String],
+  notes: String,
   enrollmentDate: {
     type: Date,
     default: Date.now
   },
+  enrolledAt: Date,
   isActive: {
     type: Boolean,
     default: true
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   },
   // Gamifikatsiya
   points: {
@@ -57,7 +69,8 @@ const childSchema = new mongoose.Schema({
   },
   achievements: [{
     achievementId: String,
-    earnedAt: Date
+    earnedAt: Date,
+    awardedBy: String
   }]
 }, {
   timestamps: true
@@ -66,6 +79,15 @@ const childSchema = new mongoose.Schema({
 // Virtual: to'liq ism
 childSchema.virtual('fullName').get(function() {
   return `${this.firstName} ${this.lastName}`
+})
+
+// JSON'ga convert qilganda id qo'shish
+childSchema.set('toJSON', {
+  virtuals: true,
+  transform: function(doc, ret) {
+    ret.id = ret._id
+    return ret
+  }
 })
 
 export default mongoose.model('Child', childSchema)

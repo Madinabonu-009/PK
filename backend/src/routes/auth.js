@@ -46,10 +46,21 @@ router.post('/login', checkAccountLockout, async (req, res) => {
     resetLoginAttempts(username)
 
     const userObj = dbUser.toObject ? dbUser.toObject() : dbUser
+    
+    // Teacher uchun assignedGroups ni tekshirish
+    if (userObj.role === 'teacher' && (!userObj.assignedGroups || userObj.assignedGroups.length === 0)) {
+      logger.warn('Teacher has no assigned groups', { username, userId: userObj._id })
+    }
+    
     const token = generateToken(userObj)
     const refreshToken = generateRefreshToken(userObj)
     
-    logger.info('Successful login', { username, role: userObj.role, ip: req.ip })
+    logger.info('Successful login', { 
+      username, 
+      role: userObj.role, 
+      assignedGroups: userObj.assignedGroups,
+      ip: req.ip 
+    })
     
     res.json({ 
       success: true,
@@ -59,7 +70,8 @@ router.post('/login', checkAccountLockout, async (req, res) => {
         id: userObj._id || userObj.id, 
         username: userObj.username, 
         role: userObj.role,
-        name: userObj.name
+        name: userObj.name,
+        assignedGroups: userObj.assignedGroups || []
       } 
     })
   } catch (error) {

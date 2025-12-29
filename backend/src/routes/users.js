@@ -46,7 +46,7 @@ router.get('/:id', authenticateToken, requireRole('admin'), async (req, res) => 
 // POST /api/users
 router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
-    const { name, email, phone, role, password, isActive } = req.body
+    const { name, email, phone, role, password, isActive, assignedGroups } = req.body
     
     if (!email) return res.status(400).json({ error: 'Email majburiy' })
 
@@ -69,12 +69,13 @@ router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
       role: role || 'teacher',
       password: hashedPassword,
       plainPassword: plainPass,
+      assignedGroups: assignedGroups || [],
       isActive: isActive !== false,
       createdAt: new Date().toISOString()
     }
     
     await getCollection('users').insertOne(newUser)
-    logger.info('User created', { email, role, createdBy: req.user.username })
+    logger.info('User created', { email, role, assignedGroups, createdBy: req.user.username })
     
     res.status(201).json(normalizeDoc(newUser))
   } catch (error) {
@@ -86,7 +87,7 @@ router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
 // PUT /api/users/:id
 router.put('/:id', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
-    const { name, email, phone, role, password, isActive } = req.body
+    const { name, email, phone, role, password, isActive, assignedGroups } = req.body
     
     let filter
     try {
@@ -109,6 +110,7 @@ router.put('/:id', authenticateToken, requireRole('admin'), async (req, res) => 
     if (phone !== undefined) updateData.phone = phone
     if (role !== undefined) updateData.role = role
     if (isActive !== undefined) updateData.isActive = isActive
+    if (assignedGroups !== undefined) updateData.assignedGroups = assignedGroups
     if (password) updateData.password = await bcrypt.hash(password, 10)
 
     const result = await getCollection('users').findOneAndUpdate(
@@ -117,7 +119,7 @@ router.put('/:id', authenticateToken, requireRole('admin'), async (req, res) => 
       { returnDocument: 'after' }
     )
     
-    logger.info('User updated', { userId: req.params.id, updatedBy: req.user.username })
+    logger.info('User updated', { userId: req.params.id, assignedGroups, updatedBy: req.user.username })
     res.json(normalizeDoc(result.value || result))
   } catch (error) {
     logger.error('Update user error:', error)

@@ -7,6 +7,7 @@
     "name": "Administrator",
     "email": "admin@playkids.uz",
     "phone": "+998901234567",
+    "assignedGroups": [],
     "isActive": true,
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
@@ -18,7 +19,7 @@
     "name": "Nilufar Saidova",
     "email": "nilufar@playkids.uz",
     "phone": "+998901112233",
-    "groupId": "g1",
+    "assignedGroups": ["g1"],
     "isActive": true,
     "createdAt": "2024-01-15T00:00:00.000Z"
   },
@@ -30,7 +31,7 @@
     "name": "Madina Karimova",
     "email": "madina@playkids.uz",
     "phone": "+998902223344",
-    "groupId": "g2",
+    "assignedGroups": ["g2"],
     "isActive": true,
     "createdAt": "2024-01-15T00:00:00.000Z"
   },
@@ -42,7 +43,7 @@
     "name": "Dilnoza Rahimova",
     "email": "dilnoza@playkids.uz",
     "phone": "+998903334455",
-    "groupId": "g3",
+    "assignedGroups": ["g3"],
     "isActive": true,
     "createdAt": "2024-01-15T00:00:00.000Z"
   }

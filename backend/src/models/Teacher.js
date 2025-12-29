@@ -31,9 +31,29 @@ const teacherSchema = new mongoose.Schema({
   photo: String,
   bio: mongoose.Schema.Types.Mixed, // Ko'p tilli
   specializations: [String],
+  // MUHIM: Category field - frontend uchun kerak
+  category: {
+    type: String,
+    enum: ['teacher', 'specialist', 'medical', 'staff'],
+    default: 'teacher'
+  },
+  // Qaysi guruhga biriktirilgan
+  group: {
+    type: String, // Guruh nomi yoki ID
+    default: ''
+  },
+  // User bilan bog'lanish (login uchun)
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   isActive: {
     type: Boolean,
     default: true
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
@@ -42,6 +62,15 @@ const teacherSchema = new mongoose.Schema({
 teacherSchema.virtual('fullName').get(function() {
   if (this.name) return this.name
   return `${this.firstName} ${this.lastName}`.trim()
+})
+
+// JSON'ga convert qilganda id qo'shish
+teacherSchema.set('toJSON', {
+  virtuals: true,
+  transform: function(doc, ret) {
+    ret.id = ret._id
+    return ret
+  }
 })
 
 export default mongoose.model('Teacher', teacherSchema)

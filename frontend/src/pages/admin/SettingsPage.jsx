@@ -202,6 +202,8 @@ export default function SettingsPage() {
   const [reseedingData, setReseedingData] = useState(false)
 
   const txt = texts[language] || texts.uz
+  
+  const isAdmin = user?.role === 'admin' || user?.role === 'superadmin'
 
   // Sync tab with URL parameter
   useEffect(() => {
@@ -276,8 +278,6 @@ export default function SettingsPage() {
 
     loadSettings()
   }, [])
-
-  const isAdmin = user?.role === 'admin' || user?.role === 'superadmin'
 
   // Teacher faqat profile, notifications va security ko'radi
   const tabs = isAdmin ? [
