@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import { 
   sendDailyMenu, 
   sendTelegramMessage,
@@ -11,14 +12,9 @@ import {
   sendWeeklyReport
 } from '../services/telegramService.js';
 import { authenticateToken } from '../middleware/auth.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const router = express.Router();
+const getCollection = (name) => mongoose.connection.collection(name);
 
 // ============================================
 // MENYU
@@ -217,10 +213,9 @@ router.post('/send-achievement', authenticateToken, async (req, res) => {
       });
     }
     
-    // Bolani topish
-    const childrenPath = path.join(__dirname, '../../data/children.json');
-    const children = JSON.parse(fs.readFileSync(childrenPath, 'utf8'));
-    const child = children.find(c => c.id === childId);
+    // Bolani MongoDB dan topish
+    const children = await getCollection('children').find({}).toArray();
+    const child = children.find(c => (c._id?.toString() || c.id) === childId);
     
     if (!child) {
       return res.status(404).json({ success: false, message: 'Bola topilmadi' });

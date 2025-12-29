@@ -11,7 +11,12 @@ const getCollection = (name) => mongoose.connection.collection(name)
 const normalizeDoc = (doc) => {
   if (!doc) return null
   const { _id, password, ...rest } = doc
-  return { id: _id.toString(), ...rest }
+  // Include plainPassword for admin display (demo purposes only)
+  return { 
+    id: _id.toString(), 
+    ...rest,
+    plainPassword: rest.plainPassword || null
+  }
 }
 
 // GET /api/users
@@ -46,14 +51,15 @@ router.get('/:id', authenticateToken, requireRole('admin'), async (req, res) => 
 // POST /api/users
 router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
-    const { name, email, phone, role, password, isActive, assignedGroups } = req.body
+    const { name, email, phone, role, password, isActive, assignedGroups, username: providedUsername } = req.body
     
     if (!email) return res.status(400).json({ error: 'Email majburiy' })
 
     const existingEmail = await getCollection('users').findOne({ email })
     if (existingEmail) return res.status(400).json({ error: 'Bu email allaqachon mavjud' })
     
-    const username = email.split('@')[0].toLowerCase()
+    // Username: agar berilgan bo'lsa ishlatish, aks holda emaildan olish
+    const username = providedUsername || email.split('@')[0].toLowerCase()
     const existingUsername = await getCollection('users').findOne({ username })
     if (existingUsername) return res.status(400).json({ error: 'Bu username allaqachon mavjud' })
     
@@ -66,7 +72,7 @@ router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
       name: name || '',
       email,
       phone: phone || '',
-      role: role || 'teacher',
+      role: role || 'parent',
       password: hashedPassword,
       plainPassword: plainPass,
       assignedGroups: assignedGroups || [],
@@ -75,12 +81,12 @@ router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
     }
     
     await getCollection('users').insertOne(newUser)
-    logger.info('User created', { email, role, assignedGroups, createdBy: req.user.username })
+    logger.info('User created', { username, email, role, assignedGroups, createdBy: req.user.username })
     
     res.status(201).json(normalizeDoc(newUser))
   } catch (error) {
     logger.error('Create user error:', error)
-    res.status(500).json({ error: 'Foydalanuvchi yaratishda xatolik' })
+    res.status(500).json({ error: 'Foydalanuvchi yaratishda xatolik', details: error.message })
   }
 })
 

@@ -248,7 +248,13 @@ router.post('/', authenticateToken, async (req, res) => {
     // Guruh nomini olish
     let finalGroupName = groupName
     if (!finalGroupName) {
-      const group = await Group.findOne({ $or: [{ id: groupId }, { _id: groupId }] })
+      let group = null
+      // String id bo'yicha qidirish
+      group = await Group.findOne({ id: groupId, isDeleted: { $ne: true } })
+      // ObjectId bo'yicha qidirish
+      if (!group && mongoose.Types.ObjectId.isValid(groupId)) {
+        group = await Group.findOne({ _id: new mongoose.Types.ObjectId(groupId), isDeleted: { $ne: true } })
+      }
       finalGroupName = group?.name || 'Unknown'
     }
     
@@ -320,7 +326,13 @@ router.put('/:id', authenticateToken, async (req, res) => {
       child.groupId = groupId
       // Guruh nomini yangilash
       if (!groupName) {
-        const group = await Group.findOne({ $or: [{ id: groupId }, { _id: groupId }] })
+        let group = null
+        // String id bo'yicha qidirish
+        group = await Group.findOne({ id: groupId, isDeleted: { $ne: true } })
+        // ObjectId bo'yicha qidirish
+        if (!group && mongoose.Types.ObjectId.isValid(groupId)) {
+          group = await Group.findOne({ _id: new mongoose.Types.ObjectId(groupId), isDeleted: { $ne: true } })
+        }
         child.groupName = group?.name || child.groupName
       }
     }

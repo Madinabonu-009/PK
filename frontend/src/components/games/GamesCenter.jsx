@@ -1387,9 +1387,9 @@ function MultiplicationGame({ t, onBack, onComplete, playSound }) {
 }
 
 // ============ MAIN GAMES CENTER COMPONENT ============
-export default function GamesCenter() {
+export default function GamesCenter({ language }) {
   const [currentGame, setCurrentGame] = useState(null)
-  const [lang, setLang] = useState('uz')
+  const [lang, setLang] = useState(language || 'uz')
   const { addXP } = useGamification()
   const { play, init } = useSound()
 

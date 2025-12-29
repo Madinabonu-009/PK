@@ -233,6 +233,27 @@
   line-height: 1.6;
 }
 
+/* Contact Info */
+.fbm-contact-info {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem 0.5rem;
+  flex-wrap: wrap;
+}
+
+.fbm-contact-info span {
+  font-size: 0.8125rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.fbm-source {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
 /* Card Bottom */
 .fbm-card-bottom {
   display: flex;

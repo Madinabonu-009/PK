@@ -47,7 +47,17 @@ const validateEnrollment = (data) => {
 const normalizeDoc = (doc) => {
   if (!doc) return null
   const { _id, ...rest } = doc
-  return { id: _id.toString(), ...rest }
+  // Ensure birthDate is always available (fallback to childBirthDate)
+  const birthDate = rest.birthDate || rest.childBirthDate
+  // Ensure contractAccepted is properly set for old records
+  const contractAccepted = rest.contractAccepted === true || !!rest.contractAcceptedAt || rest.status === 'accepted'
+  return { 
+    id: _id.toString(), 
+    ...rest,
+    birthDate,
+    childBirthDate: birthDate,
+    contractAccepted
+  }
 }
 
 // GET /api/enrollments
@@ -226,8 +236,11 @@ router.put('/:id', authenticateToken, async (req, res) => {
       { returnDocument: 'after' }
     )
     
-    const enrollment = result.value || result
-    if (!enrollment) return res.status(404).json(errorResponse('Ariza topilmadi'))
+    // MongoDB 4.x va 5.x uchun moslik
+    const enrollment = result?.value || result
+    if (!enrollment || !enrollment._id) {
+      return res.status(404).json(errorResponse('Ariza topilmadi'))
+    }
     
     if (finalStatus === 'accepted') {
       const existingChild = await getCollection('children').findOne({ 

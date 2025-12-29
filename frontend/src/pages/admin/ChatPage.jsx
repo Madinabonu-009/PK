@@ -1,8 +1,88 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import api from '../../services/api';
 import './ChatPage.css';
+
+// Translations
+const TEXTS = {
+  uz: {
+    loading: 'Yuklanmoqda...',
+    questions: 'Savollar',
+    newCount: 'ta yangi',
+    all: 'Hammasi',
+    pending: 'Kutilmoqda',
+    answered: 'Javob berilgan',
+    noQuestions: 'Savollar yo\'q',
+    parent: 'Ota-ona',
+    justNow: 'Hozirgina',
+    minutesAgo: 'daqiqa oldin',
+    hoursAgo: 'soat oldin',
+    new: 'Yangi',
+    waitingAnswer: 'Javob kutilmoqda',
+    quickThanks: 'Rahmat savolingiz uchun!',
+    quickWait: 'Tez orada javob beramiz.',
+    quickCall: 'Admin bilan bog\'laning:',
+    thanks: 'Rahmat',
+    wait: 'Kutib turing',
+    call: 'Qo\'ng\'iroq',
+    writePlaceholder: 'Javob yozing...',
+    send: 'Yuborish',
+    selectChat: 'Suhbatni tanlang',
+    selectChatDesc: 'Chap tarafdan savolni tanlang va javob bering'
+  },
+  ru: {
+    loading: 'Загрузка...',
+    questions: 'Вопросы',
+    newCount: 'новых',
+    all: 'Все',
+    pending: 'Ожидает',
+    answered: 'Отвечено',
+    noQuestions: 'Нет вопросов',
+    parent: 'Родитель',
+    justNow: 'Только что',
+    minutesAgo: 'минут назад',
+    hoursAgo: 'часов назад',
+    new: 'Новый',
+    waitingAnswer: 'Ожидает ответа',
+    quickThanks: 'Спасибо за ваш вопрос!',
+    quickWait: 'Скоро ответим.',
+    quickCall: 'Свяжитесь с админом:',
+    thanks: 'Спасибо',
+    wait: 'Подождите',
+    call: 'Позвонить',
+    writePlaceholder: 'Напишите ответ...',
+    send: 'Отправить',
+    selectChat: 'Выберите чат',
+    selectChatDesc: 'Выберите вопрос слева и ответьте'
+  },
+  en: {
+    loading: 'Loading...',
+    questions: 'Questions',
+    newCount: 'new',
+    all: 'All',
+    pending: 'Pending',
+    answered: 'Answered',
+    noQuestions: 'No questions',
+    parent: 'Parent',
+    justNow: 'Just now',
+    minutesAgo: 'minutes ago',
+    hoursAgo: 'hours ago',
+    new: 'New',
+    waitingAnswer: 'Waiting for answer',
+    quickThanks: 'Thank you for your question!',
+    quickWait: 'We will answer soon.',
+    quickCall: 'Contact admin:',
+    thanks: 'Thanks',
+    wait: 'Please wait',
+    call: 'Call',
+    writePlaceholder: 'Write your answer...',
+    send: 'Send',
+    selectChat: 'Select a chat',
+    selectChatDesc: 'Select a question from the left and answer'
+  }
+};
 
 // Professional SVG Icons
 const MessageCircleIcon = () => (
@@ -88,6 +168,9 @@ const InboxIcon = () => (
 
 const ChatPage = () => {
   const { user } = useAuth();
+  const { language } = useLanguage();
+  const txt = TEXTS[language] || TEXTS.uz;
+  
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -129,7 +212,7 @@ const ChatPage = () => {
         type: 'parent',
         text: conv.question,
         time: conv.createdAt,
-        name: conv.parentName || 'Ota-ona'
+        name: conv.parentName || txt.parent
       }
     ];
     
@@ -200,11 +283,12 @@ const ChatPage = () => {
     const now = new Date();
     const diff = now - date;
     
-    if (diff < 60000) return 'Hozirgina';
-    if (diff < 3600000) return `${Math.floor(diff / 60000)} daqiqa oldin`;
-    if (diff < 86400000) return `${Math.floor(diff / 3600000)} soat oldin`;
+    if (diff < 60000) return txt.justNow;
+    if (diff < 3600000) return `${Math.floor(diff / 60000)} ${txt.minutesAgo}`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)} ${txt.hoursAgo}`;
     
-    return date.toLocaleDateString('uz-UZ', {
+    const locale = language === 'uz' ? 'uz-UZ' : language === 'ru' ? 'ru-RU' : 'en-US';
+    return date.toLocaleDateString(locale, {
       day: 'numeric',
       month: 'short',
       hour: '2-digit',
@@ -217,7 +301,7 @@ const ChatPage = () => {
       <div className="chat-page">
         <div className="loading-state">
           <span className="loading-spinner"><LoaderIcon /></span>
-          <p>Yuklanmoqda...</p>
+          <p>{txt.loading}</p>
         </div>
       </div>
     );
@@ -228,9 +312,9 @@ const ChatPage = () => {
       {/* Sidebar - Conversations list */}
       <div className="chat-sidebar">
         <div className="sidebar-header">
-          <h2><MessageCircleIcon /> Savollar</h2>
+          <h2><MessageCircleIcon /> {txt.questions}</h2>
           <span className="pending-badge">
-            {conversations.filter(c => c.status === 'pending').length} ta yangi
+            {conversations.filter(c => c.status === 'pending').length} {txt.newCount}
           </span>
         </div>
 
@@ -240,19 +324,19 @@ const ChatPage = () => {
             className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
             onClick={() => setFilter('all')}
           >
-            Hammasi ({conversations.length})
+            {txt.all} ({conversations.length})
           </button>
           <button 
             className={`filter-btn ${filter === 'pending' ? 'active' : ''}`}
             onClick={() => setFilter('pending')}
           >
-            <CircleIcon /> Kutilmoqda
+            <CircleIcon /> {txt.pending}
           </button>
           <button 
             className={`filter-btn ${filter === 'answered' ? 'active' : ''}`}
             onClick={() => setFilter('answered')}
           >
-            <CheckCircleIcon /> Javob berilgan
+            <CheckCircleIcon /> {txt.answered}
           </button>
         </div>
 
@@ -261,7 +345,7 @@ const ChatPage = () => {
           {filteredConversations.length === 0 ? (
             <div className="empty-state">
               <span><InboxIcon /></span>
-              <p>Savollar yo'q</p>
+              <p>{txt.noQuestions}</p>
             </div>
           ) : (
             filteredConversations.map(conv => (
@@ -277,7 +361,7 @@ const ChatPage = () => {
                 </div>
                 <div className="conv-info">
                   <div className="conv-header">
-                    <span className="conv-name">{conv.parentName || 'Ota-ona'}</span>
+                    <span className="conv-name">{conv.parentName || txt.parent}</span>
                     <span className="conv-time">{formatTime(conv.createdAt)}</span>
                   </div>
                   <p className="conv-preview">
@@ -286,10 +370,10 @@ const ChatPage = () => {
                   <div className="conv-meta">
                     <span className="conv-phone"><PhoneIcon /> {conv.parentPhone}</span>
                     {conv.status === 'pending' && (
-                      <span className="status-badge pending">Yangi</span>
+                      <span className="status-badge pending">{txt.new}</span>
                     )}
                     {conv.status === 'answered' && (
-                      <span className="status-badge answered">Javob berilgan</span>
+                      <span className="status-badge answered">{txt.answered}</span>
                     )}
                   </div>
                 </div>
@@ -310,13 +394,13 @@ const ChatPage = () => {
                   {selectedConversation.parentName?.[0]?.toUpperCase() || <UserIcon />}
                 </div>
                 <div>
-                  <h3>{selectedConversation.parentName || 'Ota-ona'}</h3>
+                  <h3>{selectedConversation.parentName || txt.parent}</h3>
                   <span className="user-phone"><PhoneIcon /> {selectedConversation.parentPhone}</span>
                 </div>
               </div>
               <div className="chat-actions">
                 <span className={`status-indicator ${selectedConversation.status === 'answered' ? 'answered' : 'pending'}`}>
-                  {selectedConversation.status === 'pending' ? <><CircleIcon /> Javob kutilmoqda</> : <><CheckCircleIcon /> Javob berilgan</>}
+                  {selectedConversation.status === 'pending' ? <><CircleIcon /> {txt.waitingAnswer}</> : <><CheckCircleIcon /> {txt.answered}</>}
                 </span>
               </div>
             </div>
@@ -351,14 +435,14 @@ const ChatPage = () => {
             {/* Input */}
             <div className="chat-input-area">
               <div className="quick-replies">
-                <button onClick={() => setNewMessage('Rahmat savolingiz uchun! ')}>
-                  <ThumbsUpIcon /> Rahmat
+                <button onClick={() => setNewMessage(txt.quickThanks + ' ')}>
+                  <ThumbsUpIcon /> {txt.thanks}
                 </button>
-                <button onClick={() => setNewMessage('Tez orada javob beramiz. ')}>
-                  <ClockIcon /> Kutib turing
+                <button onClick={() => setNewMessage(txt.quickWait + ' ')}>
+                  <ClockIcon /> {txt.wait}
                 </button>
-                <button onClick={() => setNewMessage('Admin bilan bog\'laning: +998 94 514 09 49 ')}>
-                  <PhoneIcon /> Qo'ng'iroq
+                <button onClick={() => setNewMessage(txt.quickCall + ' +998 94 514 09 49 ')}>
+                  <PhoneIcon /> {txt.call}
                 </button>
               </div>
               <div className="input-container">
@@ -366,7 +450,7 @@ const ChatPage = () => {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSendMessage())}
-                  placeholder="Javob yozing..."
+                  placeholder={txt.writePlaceholder}
                   rows={2}
                 />
                 <button 
@@ -374,7 +458,7 @@ const ChatPage = () => {
                   onClick={handleSendMessage}
                   disabled={!newMessage.trim()}
                 >
-                  <SendIcon /> Yuborish
+                  <SendIcon /> {txt.send}
                 </button>
               </div>
             </div>
@@ -383,8 +467,8 @@ const ChatPage = () => {
           <div className="no-selection">
             <div className="no-selection-content">
               <span className="icon"><MessageCircleIcon /></span>
-              <h3>Suhbatni tanlang</h3>
-              <p>Chap tarafdan savolni tanlang va javob bering</p>
+              <h3>{txt.selectChat}</h3>
+              <p>{txt.selectChatDesc}</p>
             </div>
           </div>
         )}

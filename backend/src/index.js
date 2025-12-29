@@ -24,8 +24,7 @@ import menuRoutes from './routes/menu.js'
 import enrollmentsRoutes from './routes/enrollments.js'
 import teachersRoutes from './routes/teachers.js'
 import contactRoutes from './routes/contact.js'
-import blogRoutes from './routes/blog.js'
-import eventsRoutes from './routes/events.js'
+
 import achievementsRoutes from './routes/achievements.js'
 import paymentsRoutes from './routes/payments.js'
 import journalRoutes from './routes/journal.js'
@@ -36,7 +35,7 @@ import telegramRoutes from './routes/telegram.js'
 import attendanceRoutes from './routes/attendance.js'
 import dailyReportsRoutes from './routes/dailyReports.js'
 import debtsRoutes from './routes/debts.js'
-import storiesRoutes from './routes/stories.js'
+
 import progressRoutes from './routes/progress.js'
 import gameProgressRoutes from './routes/gameProgress.js'
 import curriculumRoutes from './routes/curriculum.js'
@@ -197,8 +196,6 @@ app.use('/api/menu', menuRoutes)
 app.use('/api/enrollments', enrollmentsRoutes)
 app.use('/api/teachers', teachersRoutes)
 app.use('/api/contact', contactRoutes)
-app.use('/api/blog', blogRoutes)
-app.use('/api/events', eventsRoutes)
 app.use('/api/achievements', achievementsRoutes)
 app.use('/api/payments', paymentsRoutes)
 app.use('/api/journal', journalRoutes)
@@ -209,7 +206,6 @@ app.use('/api/telegram', telegramRoutes)
 app.use('/api/attendance', attendanceRoutes)
 app.use('/api/daily-reports', dailyReportsRoutes)
 app.use('/api/debts', debtsRoutes)
-app.use('/api/stories', storiesRoutes)
 app.use('/api/progress', progressRoutes)
 app.use('/api/game-progress', gameProgressRoutes)
 app.use('/api/curriculum', curriculumRoutes)

@@ -8,13 +8,24 @@ import logger from '../utils/logger.js'
 
 const router = express.Router()
 
-// Helper: ID bo'yicha group topish
+// Helper: ID bo'yicha group topish (string id yoki ObjectId)
 const findGroupById = async (id) => {
-  if (mongoose.Types.ObjectId.isValid(id)) {
-    const group = await Group.findById(id)
+  try {
+    // Avval string id bo'yicha qidirish (g1, g2, etc.)
+    let group = await Group.findOne({ id: id, isDeleted: { $ne: true } })
     if (group) return group
+    
+    // Keyin ObjectId bo'yicha qidirish
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      group = await Group.findOne({ _id: new mongoose.Types.ObjectId(id), isDeleted: { $ne: true } })
+      if (group) return group
+    }
+    
+    return null
+  } catch (error) {
+    logger.error('findGroupById error', { error: error.message, id })
+    return null
   }
-  return await Group.findOne({ $or: [{ id: id }, { _id: id }] })
 }
 
 // GET /api/groups/public - Public endpoint
@@ -223,8 +234,19 @@ router.post('/', authenticateToken, async (req, res) => {
     // Teacher nomini olish
     let teacherName = null
     if (teacherId) {
-      const teacher = await Teacher.findOne({ $or: [{ id: teacherId }, { _id: teacherId }] })
-      teacherName = teacher?.name || `${teacher?.firstName} ${teacher?.lastName}`.trim()
+      let teacher = null
+      
+      // 1. String id bo'yicha
+      teacher = await Teacher.findOne({ id: teacherId, isDeleted: { $ne: true } })
+      
+      // 2. ObjectId bo'yicha
+      if (!teacher && mongoose.Types.ObjectId.isValid(teacherId)) {
+        teacher = await Teacher.findOne({ _id: new mongoose.Types.ObjectId(teacherId), isDeleted: { $ne: true } })
+      }
+      
+      if (teacher) {
+        teacherName = teacher.name || teacher.fullName || `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim()
+      }
     }
     
     const group = new Group({
@@ -279,8 +301,28 @@ router.put('/:id', authenticateToken, async (req, res) => {
     if (teacherId !== undefined) {
       group.teacherId = teacherId
       if (teacherId) {
-        const teacher = await Teacher.findOne({ $or: [{ id: teacherId }, { _id: teacherId }] })
-        group.teacherName = teacher?.name || `${teacher?.firstName} ${teacher?.lastName}`.trim()
+        // Teacher ni turli usullar bilan qidirish
+        let teacher = null
+        
+        // 1. String id bo'yicha
+        teacher = await Teacher.findOne({ id: teacherId, isDeleted: { $ne: true } })
+        
+        // 2. ObjectId bo'yicha
+        if (!teacher && mongoose.Types.ObjectId.isValid(teacherId)) {
+          teacher = await Teacher.findOne({ _id: new mongoose.Types.ObjectId(teacherId), isDeleted: { $ne: true } })
+        }
+        
+        // 3. userId bo'yicha
+        if (!teacher && mongoose.Types.ObjectId.isValid(teacherId)) {
+          teacher = await Teacher.findOne({ userId: new mongoose.Types.ObjectId(teacherId), isDeleted: { $ne: true } })
+        }
+        
+        if (teacher) {
+          group.teacherName = teacher.name || teacher.fullName || `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim()
+        } else {
+          logger.warn('Teacher not found for group update', { teacherId })
+          group.teacherName = null
+        }
       } else {
         group.teacherName = null
       }
@@ -357,13 +399,22 @@ router.post('/:id/assign-teacher', authenticateToken, async (req, res) => {
     }
     
     if (teacherId) {
-      const teacher = await Teacher.findOne({ $or: [{ id: teacherId }, { _id: teacherId }] })
+      let teacher = null
+      
+      // 1. String id bo'yicha
+      teacher = await Teacher.findOne({ id: teacherId, isDeleted: { $ne: true } })
+      
+      // 2. ObjectId bo'yicha
+      if (!teacher && mongoose.Types.ObjectId.isValid(teacherId)) {
+        teacher = await Teacher.findOne({ _id: new mongoose.Types.ObjectId(teacherId), isDeleted: { $ne: true } })
+      }
+      
       if (!teacher) {
         return res.status(404).json({ error: 'Teacher not found' })
       }
       
       group.teacherId = teacherId
-      group.teacherName = teacher.name || `${teacher.firstName} ${teacher.lastName}`.trim()
+      group.teacherName = teacher.name || teacher.fullName || `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim()
       
       // Teacher'ning group field'ini ham yangilash
       teacher.group = group.id || group._id.toString()

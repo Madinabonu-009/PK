@@ -249,15 +249,21 @@ function DetailModal({ isOpen, onClose, enrollment, language, onApprove, onRejec
     })
   }
 
-  const calculateAge = (birthDate) => {
+  const calculateAge = () => {
+    const birthDate = enrollment?.birthDate || enrollment?.childBirthDate
     if (!birthDate) return '-'
     const today = new Date()
     const birth = new Date(birthDate)
+    if (isNaN(birth.getTime())) return '-'
     let age = today.getFullYear() - birth.getFullYear()
     const monthDiff = today.getMonth() - birth.getMonth()
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--
     return age
   }
+  
+  const getBirthDate = () => enrollment?.birthDate || enrollment?.childBirthDate
+  
+  const isContractAccepted = () => enrollment?.contractAccepted === true || enrollment?.contractAcceptedAt
 
   return (
     <AnimatePresence>
@@ -290,11 +296,11 @@ function DetailModal({ isOpen, onClose, enrollment, language, onApprove, onRejec
                 </div>
                 <div className="detail-item">
                   <span className="label">{txt.birthDate}:</span>
-                  <span className="value">{formatDate(enrollment.birthDate)}</span>
+                  <span className="value">{formatDate(getBirthDate())}</span>
                 </div>
                 <div className="detail-item">
                   <span className="label">{txt.age}:</span>
-                  <span className="value">{calculateAge(enrollment.birthDate)} {txt.years}</span>
+                  <span className="value">{calculateAge()} {txt.years}</span>
                 </div>
               </div>
             </div>
@@ -341,8 +347,8 @@ function DetailModal({ isOpen, onClose, enrollment, language, onApprove, onRejec
                 </div>
                 <div className="detail-item">
                   <span className="label">{txt.contract}:</span>
-                  <span className={`contract-badge ${enrollment.contractAccepted ? 'accepted' : ''}`}>
-                    {enrollment.contractAccepted ? txt.contractAccepted : txt.contractNotAccepted}
+                  <span className={`contract-badge ${isContractAccepted() ? 'accepted' : ''}`}>
+                    {isContractAccepted() ? txt.contractAccepted : txt.contractNotAccepted}
                   </span>
                 </div>
                 {enrollment.rejectionReason && (
@@ -515,14 +521,27 @@ function EnrollmentsPage() {
     })
   }
 
-  const calculateAge = (birthDate) => {
+  const calculateAge = (enrollment) => {
+    // Check both birthDate and childBirthDate fields
+    const birthDate = enrollment?.birthDate || enrollment?.childBirthDate
     if (!birthDate) return '-'
     const today = new Date()
     const birth = new Date(birthDate)
+    if (isNaN(birth.getTime())) return '-'
     let age = today.getFullYear() - birth.getFullYear()
     const monthDiff = today.getMonth() - birth.getMonth()
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--
     return age
+  }
+  
+  // Helper to get birthDate from enrollment
+  const getBirthDate = (enrollment) => {
+    return enrollment?.birthDate || enrollment?.childBirthDate
+  }
+  
+  // Helper to check contract status
+  const isContractAccepted = (enrollment) => {
+    return enrollment?.contractAccepted === true || enrollment?.contractAcceptedAt
   }
 
   const getAvatarColor = (idx) => AVATAR_COLORS[idx % AVATAR_COLORS.length]
@@ -644,7 +663,7 @@ function EnrollmentsPage() {
                 <div className="child-info">
                   <h3>{enrollment.childName}</h3>
                   <span className="child-age">
-                    {calculateAge(enrollment.birthDate)} {txt.years}
+                    {calculateAge(enrollment)} {txt.years}
                   </span>
                 </div>
                 <span className={`status-badge status-${enrollment.status}`}>
@@ -670,8 +689,8 @@ function EnrollmentsPage() {
                 </div>
                 <div className="info-row">
                   <span className="label">{txt.contract}:</span>
-                  <span className={`contract-badge ${enrollment.contractAccepted ? 'accepted' : ''}`}>
-                    {enrollment.contractAccepted ? '✓ ' + txt.contractAccepted : '✗ ' + txt.contractNotAccepted}
+                  <span className={`contract-badge ${isContractAccepted(enrollment) ? 'accepted' : ''}`}>
+                    {isContractAccepted(enrollment) ? '✓ ' + txt.contractAccepted : '✗ ' + txt.contractNotAccepted}
                   </span>
                 </div>
               </div>

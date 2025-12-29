@@ -223,7 +223,7 @@ function AddMediaModal({ isOpen, onClose, onSuccess, language }) {
   useEffect(() => {
     if (isOpen) {
       setMediaType('image')
-      setUploadMode('file')
+      setUploadMode('url') // Default to URL mode since file upload is not available
       setTitle('')
       setUrl('')
       setFile(null)
@@ -278,7 +278,7 @@ function AddMediaModal({ isOpen, onClose, onSuccess, language }) {
     e.preventDefault()
     
     if (uploadMode === 'file' && !file) {
-      toast.error('Fayl tanlang')
+      toast.error('Fayl tanlang yoki URL rejimiga o\'ting')
       return
     }
     
@@ -293,20 +293,17 @@ function AddMediaModal({ isOpen, onClose, onSuccess, language }) {
       let response
       
       if (uploadMode === 'file') {
-        const formData = new FormData()
-        formData.append('file', file)
-        formData.append('title', title.trim() || file.name)
-        formData.append('type', mediaType)
-        formData.append('isPublished', 'true')
-        
-        response = await api.post('/gallery/upload', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
+        // File upload - show message that it's not available
+        toast.error('Fayl yuklash hozircha mavjud emas. URL orqali qo\'shing.')
+        setUploadMode('url')
+        setUploading(false)
+        return
       } else {
         response = await api.post('/gallery', {
           title: title.trim() || 'Media',
           url: url.trim(),
           type: mediaType,
+          published: true,
           isPublished: true
         })
       }

@@ -45,7 +45,7 @@ const DebtsPage = lazy(() => import('./pages/admin/DebtsPage'))
 const ChatPage = lazy(() => import('./pages/admin/ChatPage'))
 const GalleryManagementPage = lazy(() => import('./pages/admin/GalleryManagementPage'))
 const ProgressPage = lazy(() => import('./pages/admin/ProgressPage'))
-const StoriesManagementPage = lazy(() => import('./pages/admin/StoriesManagementPage'))
+
 const StaffDashboard = lazy(() => import('./pages/admin/TeacherDashboard'))
 const TelegramPage = lazy(() => import('./pages/admin/TelegramPage'))
 const SettingsPage = lazy(() => import('./pages/admin/SettingsPage'))
@@ -122,7 +122,7 @@ function AnimatedRoutes() {
         <Route path="/admin/chat" element={<AdminLayout><ChatPage /></AdminLayout>} />
         <Route path="/admin/gallery" element={<AdminLayout><GalleryManagementPage /></AdminLayout>} />
         <Route path="/admin/progress" element={<AdminLayout><ProgressPage /></AdminLayout>} />
-        <Route path="/admin/stories" element={<AdminLayout><StoriesManagementPage /></AdminLayout>} />
+
         <Route path="/admin/staff" element={<AdminLayout><StaffDashboard /></AdminLayout>} />
         <Route path="/admin/telegram" element={<AdminLayout><TelegramPage /></AdminLayout>} />
         <Route path="/admin/settings" element={<AdminLayout><SettingsPage /></AdminLayout>} />

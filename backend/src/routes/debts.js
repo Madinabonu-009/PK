@@ -8,7 +8,7 @@ const getCollection = (name) => mongoose.connection.collection(name)
 // GET /api/debts
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const { status, month, groupId } = req.query
+    const { status, month, groupId, childId } = req.query
     const debts = await getCollection('debts').find({}).toArray()
     const children = await getCollection('children').find({}).toArray()
     const groups = await getCollection('groups').find({}).toArray()
@@ -16,6 +16,7 @@ router.get('/', authenticateToken, async (req, res) => {
     let filtered = debts
     if (status) filtered = filtered.filter(d => d.status === status)
     if (month) filtered = filtered.filter(d => d.month === month)
+    if (childId) filtered = filtered.filter(d => d.childId === childId)
     if (groupId) {
       const groupChildIds = children.filter(c => c.groupId === groupId).map(c => c._id?.toString() || c.id)
       filtered = filtered.filter(d => groupChildIds.includes(d.childId))

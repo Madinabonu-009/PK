@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import { authenticateToken } from '../middleware/auth.js'
+import { sendChildDailyReport } from '../services/telegramService.js'
 
 const router = express.Router()
 const getCollection = (name) => mongoose.connection.collection(name)
@@ -201,6 +202,34 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     res.json({ success: true, message: 'Report deleted' })
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete report' })
+  }
+})
+
+// POST /api/daily-reports/:id/send-telegram - Hisobotni Telegramga yuborish
+router.post('/:id/send-telegram', authenticateToken, async (req, res) => {
+  try {
+    const reports = await getCollection('dailyreports').find({}).toArray()
+    const report = reports.find(r => (r._id?.toString() || r.id) === req.params.id)
+    
+    if (!report) {
+      return res.status(404).json({ success: false, error: 'Hisobot topilmadi' })
+    }
+    
+    const result = await sendChildDailyReport(report.childId, report)
+    
+    if (result) {
+      // Yuborilganligini belgilash
+      await getCollection('dailyreports').updateOne(
+        { _id: report._id },
+        { $set: { telegramSentAt: new Date() } }
+      )
+      res.json({ success: true, message: 'Hisobot Telegramga yuborildi' })
+    } else {
+      res.status(500).json({ success: false, error: 'Telegramga yuborishda xatolik' })
+    }
+  } catch (error) {
+    console.error('Telegram send error:', error)
+    res.status(500).json({ success: false, error: error.message })
   }
 })
 

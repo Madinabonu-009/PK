@@ -160,7 +160,7 @@ function UserCard({ user, txt, onEdit, onDelete, onChangePassword }) {
           <div className="us-credential">
             <span className="us-credential-label">{txt.password}:</span>
             <span className="us-credential-value">
-              {showPassword ? (user.plainPassword || 'Mavjud emas') : '••••••••'}
+              {showPassword ? (user.plainPassword || '********') : '••••••••'}
             </span>
             <button 
               className="us-show-password-btn"
@@ -195,6 +195,7 @@ function UserFormModal({ show, onClose, user, txt, onSave }) {
     name: '',
     email: '',
     phone: '',
+    username: '',
     role: 'parent',
     password: '',
     isActive: true
@@ -207,6 +208,7 @@ function UserFormModal({ show, onClose, user, txt, onSave }) {
         name: user.name || '',
         email: user.email || '',
         phone: user.phone || '',
+        username: user.username || '',
         role: user.role || 'parent',
         password: '',
         isActive: user.isActive !== false
@@ -216,6 +218,7 @@ function UserFormModal({ show, onClose, user, txt, onSave }) {
         name: '',
         email: '',
         phone: '',
+        username: '',
         role: 'parent',
         password: '',
         isActive: true
@@ -265,6 +268,16 @@ function UserFormModal({ show, onClose, user, txt, onSave }) {
               onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
               placeholder="email@example.com"
               required
+            />
+          </div>
+
+          <div className="us-form-row">
+            <label>{txt.login}</label>
+            <input
+              type="text"
+              value={formData.username}
+              onChange={e => setFormData(prev => ({ ...prev, username: e.target.value.toLowerCase().replace(/\s/g, '') }))}
+              placeholder="login (avtomatik yaratiladi)"
             />
           </div>
 

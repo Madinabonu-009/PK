@@ -1,13 +1,11 @@
 import axios from 'axios';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import mongoose from 'mongoose';
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
+// MongoDB collection helper
+const getCollection = (name) => mongoose.connection.collection(name)
 
 const dayNames = {
   0: { uz: 'Yakshanba', en: 'sunday' },
@@ -26,15 +24,24 @@ const dayNames = {
 export const sendTelegramMessage = async (message, chatId = TELEGRAM_CHAT_ID) => {
   if (!TELEGRAM_BOT_TOKEN || !chatId) {
     console.error('Telegram bot token yoki chat ID topilmadi');
+    console.error('BOT_TOKEN:', TELEGRAM_BOT_TOKEN ? 'mavjud' : 'yo\'q');
+    console.error('CHAT_ID:', chatId ? 'mavjud' : 'yo\'q');
     return false;
   }
 
   try {
     const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    
+    // Markdown maxsus belgilarini escape qilish
+    const escapedMessage = message
+      .replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1')
+      .replace(/\\\*/g, '*')  // Bold uchun * ni qaytarish
+      .replace(/\\_/g, '_');  // Italic uchun _ ni qaytarish
+    
     const response = await axios.post(url, {
       chat_id: chatId,
       text: message,
-      parse_mode: 'Markdown'
+      parse_mode: 'HTML'  // Markdown o'rniga HTML ishlatish - xavfsizroq
     });
     console.log('✅ Telegram xabar yuborildi');
     return response.data.ok;
@@ -48,13 +55,12 @@ export const sendTelegramMessage = async (message, chatId = TELEGRAM_CHAT_ID) =>
 // MENYU FUNKSIYALARI
 // ============================================
 
-export const getMenuData = () => {
+export const getMenuData = async () => {
   try {
-    const menuPath = path.join(__dirname, '../../data/menu.json');
-    const data = fs.readFileSync(menuPath, 'utf8');
-    return JSON.parse(data);
+    const menu = await getCollection('menu').findOne({})
+    return menu?.days || menu || null
   } catch (error) {
-    console.error('Menu faylini o\'qishda xatolik:', error);
+    console.error('Menu ma\'lumotlarini o\'qishda xatolik:', error);
     return null;
   }
 };
@@ -70,27 +76,27 @@ export const formatDailyMenu = (dayKey, dayNameUz, menuData) => {
     year: 'numeric' 
   });
 
-  let message = `🍽️ *BUGUNGI MENYU*\n`;
+  let message = `🍽️ <b>BUGUNGI MENYU</b>\n`;
   message += `📅 ${dateStr} - ${dayNameUz}\n`;
   message += `━━━━━━━━━━━━━━━━━━\n\n`;
 
   if (dayMenu.breakfast) {
-    message += `🥣 *Nonushta* (08:30)\n`;
+    message += `🥣 <b>Nonushta</b> (08:30)\n`;
     message += `   ${dayMenu.breakfast.name}\n\n`;
   }
 
   if (dayMenu.lunch) {
-    message += `🍲 *Tushlik* (12:30)\n`;
+    message += `🍲 <b>Tushlik</b> (12:30)\n`;
     message += `   ${dayMenu.lunch.name}\n\n`;
   }
 
   if (dayMenu.snack) {
-    message += `🥛 *Yengil tamaddi* (15:30)\n`;
+    message += `🥛 <b>Yengil tamaddi</b> (15:30)\n`;
     message += `   ${dayMenu.snack.name}\n\n`;
   }
 
   message += `━━━━━━━━━━━━━━━━━━\n`;
-  message += `🏫 *Play Kids Bog'chasi*\n`;
+  message += `🏫 <b>Play Kids Bog'chasi</b>\n`;
   message += `📍 G'ijduvon, Abdulla Qahhor MFY`;
 
   return message;
@@ -106,7 +112,7 @@ export const sendDailyMenu = async () => {
   }
 
   const dayInfo = dayNames[dayOfWeek];
-  const menuData = getMenuData();
+  const menuData = await getMenuData();
   
   if (!menuData) {
     console.error('Menu ma\'lumotlari topilmadi');
@@ -133,16 +139,16 @@ export const sendDebtReminder = async (child, debt) => {
   const today = new Date();
   const daysOverdue = Math.max(0, Math.floor((today - dueDate) / (1000 * 60 * 60 * 24)));
   
-  const message = `⚠️ *TO'LOV ESLATMASI*\n\n` +
-    `👶 *Bola:* ${child.firstName} ${child.lastName}\n` +
-    `📅 *Oy:* ${debt.month}\n` +
-    `💰 *Qarz:* ${remaining.toLocaleString()} so'm\n` +
-    `📆 *Muddati:* ${debt.dueDate}\n` +
-    `${daysOverdue > 0 ? `⏰ *Kechikish:* ${daysOverdue} kun\n` : ''}` +
-    `\n💳 *To'lov usullari:*\n` +
+  const message = `⚠️ <b>TO'LOV ESLATMASI</b>\n\n` +
+    `👶 <b>Bola:</b> ${child.firstName} ${child.lastName}\n` +
+    `📅 <b>Oy:</b> ${debt.month}\n` +
+    `💰 <b>Qarz:</b> ${remaining.toLocaleString()} so'm\n` +
+    `📆 <b>Muddati:</b> ${debt.dueDate}\n` +
+    `${daysOverdue > 0 ? `⏰ <b>Kechikish:</b> ${daysOverdue} kun\n` : ''}` +
+    `\n💳 <b>To'lov usullari:</b>\n` +
     `• Naqd pul\n` +
     `• Karta: 8600 1234 5678 9012\n\n` +
-    `_Play Kids Bog'chasi_`;
+    `<i>Play Kids Bog'chasi</i>`;
   
   const chatId = child.parentTelegram || TELEGRAM_CHAT_ID;
   return await sendTelegramMessage(message, chatId);
@@ -150,17 +156,13 @@ export const sendDebtReminder = async (child, debt) => {
 
 export const sendAllDebtsReminder = async () => {
   try {
-    const debtsPath = path.join(__dirname, '../../data/debts.json');
-    const childrenPath = path.join(__dirname, '../../data/children.json');
+    const debts = await getCollection('debts').find({ status: { $ne: 'paid' } }).toArray()
+    const children = await getCollection('children').find({}).toArray()
     
-    const debts = JSON.parse(fs.readFileSync(debtsPath, 'utf8'));
-    const children = JSON.parse(fs.readFileSync(childrenPath, 'utf8'));
-    
-    const unpaidDebts = debts.filter(d => d.status !== 'paid');
     let sentCount = 0;
     
-    for (const debt of unpaidDebts) {
-      const child = children.find(c => c.id === debt.childId);
+    for (const debt of debts) {
+      const child = children.find(c => (c._id?.toString() || c.id) === debt.childId);
       if (!child) continue;
       
       const result = await sendDebtReminder(child, debt);
@@ -170,7 +172,7 @@ export const sendAllDebtsReminder = async () => {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     
-    return { sent: sentCount, total: unpaidDebts.length };
+    return { sent: sentCount, total: debts.length };
   } catch (error) {
     console.error('Qarzdorlik eslatmalarini yuborishda xatolik:', error);
     return { sent: 0, total: 0 };
@@ -183,13 +185,9 @@ export const sendAllDebtsReminder = async () => {
 
 export const sendAttendanceReport = async (date = new Date()) => {
   try {
-    const attendancePath = path.join(__dirname, '../../data/attendance.json');
-    const childrenPath = path.join(__dirname, '../../data/children.json');
-    const groupsPath = path.join(__dirname, '../../data/groups.json');
-    
-    const attendance = JSON.parse(fs.readFileSync(attendancePath, 'utf8'));
-    const children = JSON.parse(fs.readFileSync(childrenPath, 'utf8'));
-    const groups = JSON.parse(fs.readFileSync(groupsPath, 'utf8'));
+    const attendance = await getCollection('attendance').find({}).toArray()
+    const children = await getCollection('children').find({ isDeleted: { $ne: true } }).toArray()
+    const groups = await getCollection('groups').find({ isDeleted: { $ne: true } }).toArray()
     
     const dateStr = date.toISOString().split('T')[0];
     const todayAttendance = attendance.filter(a => a.date === dateStr);
@@ -202,25 +200,26 @@ export const sendAttendanceReport = async (date = new Date()) => {
     // Guruhlar bo'yicha statistika
     let groupStats = '';
     for (const group of groups) {
-      const groupChildren = children.filter(c => c.groupId === group.id);
+      const groupId = group.id || group._id?.toString()
+      const groupChildren = children.filter(c => c.groupId === groupId);
       const groupPresent = todayAttendance.filter(a => {
-        const child = children.find(c => c.id === a.childId);
-        return child?.groupId === group.id && a.status === 'present';
+        const child = children.find(c => (c._id?.toString() || c.id) === a.childId);
+        return child?.groupId === groupId && a.status === 'present';
       }).length;
       groupStats += `   ${group.name}: ${groupPresent}/${groupChildren.length}\n`;
     }
     
-    const message = `📊 *KUNLIK DAVOMAT HISOBOTI*\n\n` +
-      `📅 *Sana:* ${date.toLocaleDateString('uz-UZ')}\n` +
+    const message = `📊 <b>KUNLIK DAVOMAT HISOBOTI</b>\n\n` +
+      `📅 <b>Sana:</b> ${date.toLocaleDateString('uz-UZ')}\n` +
       `━━━━━━━━━━━━━━━━━━\n\n` +
-      `✅ *Kelganlar:* ${present}\n` +
-      `❌ *Kelmaganlar:* ${absent}\n` +
-      `⏰ *Kechikkanlar:* ${late}\n` +
-      `👶 *Jami bolalar:* ${total}\n` +
-      `📈 *Davomat:* ${total > 0 ? Math.round((present / total) * 100) : 0}%\n\n` +
-      `*Guruhlar bo'yicha:*\n${groupStats}\n` +
+      `✅ <b>Kelganlar:</b> ${present}\n` +
+      `❌ <b>Kelmaganlar:</b> ${absent}\n` +
+      `⏰ <b>Kechikkanlar:</b> ${late}\n` +
+      `👶 <b>Jami bolalar:</b> ${total}\n` +
+      `📈 <b>Davomat:</b> ${total > 0 ? Math.round((present / total) * 100) : 0}%\n\n` +
+      `<b>Guruhlar bo'yicha:</b>\n${groupStats}\n` +
       `━━━━━━━━━━━━━━━━━━\n` +
-      `_Play Kids Bog'chasi_`;
+      `<i>Play Kids Bog'chasi</i>`;
     
     return await sendTelegramMessage(message);
   } catch (error) {
@@ -235,9 +234,8 @@ export const sendAttendanceReport = async (date = new Date()) => {
 
 export const sendChildDailyReport = async (childId, report) => {
   try {
-    const childrenPath = path.join(__dirname, '../../data/children.json');
-    const children = JSON.parse(fs.readFileSync(childrenPath, 'utf8'));
-    const child = children.find(c => c.id === childId);
+    const children = await getCollection('children').find({}).toArray()
+    const child = children.find(c => (c._id?.toString() || c.id) === childId);
     
     if (!child) return false;
     
@@ -252,14 +250,14 @@ export const sendChildDailyReport = async (childId, report) => {
       return '❌ Yemadi';
     };
     
-    let message = `📋 *KUNLIK HISOBOT*\n\n`;
-    message += `👶 *${child.firstName} ${child.lastName}*\n`;
+    let message = `📋 <b>KUNLIK HISOBOT</b>\n\n`;
+    message += `👶 <b>${child.firstName} ${child.lastName}</b>\n`;
     message += `📅 ${report.date}\n`;
     message += `━━━━━━━━━━━━━━━━━━\n\n`;
     
     // Kayfiyat
     if (report.mood) {
-      message += `*Kayfiyat:*\n`;
+      message += `<b>Kayfiyat:</b>\n`;
       message += `   Ertalab: ${getMoodEmoji(report.mood.morning)}\n`;
       message += `   Kunduzi: ${getMoodEmoji(report.mood.afternoon)}\n`;
       message += `   Kechqurun: ${getMoodEmoji(report.mood.evening)}\n\n`;
@@ -267,19 +265,19 @@ export const sendChildDailyReport = async (childId, report) => {
     
     // Ovqatlanish
     if (report.meals) {
-      message += `*Ovqatlanish:*\n`;
-      if (report.meals.breakfast) message += `   🥣 Nonushta: ${getMealText(report.meals.breakfast.ate)}\n`;
-      if (report.meals.lunch) message += `   🍲 Tushlik: ${getMealText(report.meals.lunch.ate)}\n`;
-      if (report.meals.snack) message += `   🥛 Yengil tamaddi: ${getMealText(report.meals.snack.ate)}\n`;
+      message += `<b>Ovqatlanish:</b>\n`;
+      if (report.meals.breakfast) message += `   🥣 Nonushta: ${getMealText(report.meals.breakfast.ate || report.meals.breakfast.eaten)}\n`;
+      if (report.meals.lunch) message += `   🍲 Tushlik: ${getMealText(report.meals.lunch.ate || report.meals.lunch.eaten)}\n`;
+      if (report.meals.snack) message += `   🥛 Yengil tamaddi: ${getMealText(report.meals.snack.ate || report.meals.snack.eaten)}\n`;
       message += '\n';
     }
     
     // Uyqu
     if (report.sleep) {
-      message += `*Uyqu:*\n`;
+      message += `<b>Uyqu:</b>\n`;
       if (report.sleep.slept) {
         message += `   😴 ${report.sleep.duration} daqiqa\n`;
-        message += `   Sifati: ${report.sleep.quality === 'good' ? '👍 Yaxshi' : report.sleep.quality === 'fair' ? '👌 O\'rtacha' : '👎 Yomon'}\n\n`;
+        message += `   Sifati: ${report.sleep.quality === 'good' ? '👍 Yaxshi' : report.sleep.quality === 'fair' || report.sleep.quality === 'normal' ? '👌 O\'rtacha' : '👎 Yomon'}\n\n`;
       } else {
         message += `   ❌ Uxlamadi\n\n`;
       }
@@ -287,21 +285,21 @@ export const sendChildDailyReport = async (childId, report) => {
     
     // Faoliyatlar
     if (report.activities && report.activities.length > 0) {
-      message += `*Faoliyatlar:*\n`;
+      message += `<b>Faoliyatlar:</b>\n`;
       report.activities.forEach(act => {
-        message += `   • ${act.description}\n`;
+        message += `   • ${act.description || act}\n`;
       });
       message += '\n';
     }
     
     // Tarbiyachi izohi
     if (report.teacherNotes) {
-      message += `*Tarbiyachi izohi:*\n`;
+      message += `<b>Tarbiyachi izohi:</b>\n`;
       message += `   ${report.teacherNotes}\n\n`;
     }
     
     message += `━━━━━━━━━━━━━━━━━━\n`;
-    message += `_Play Kids Bog'chasi_`;
+    message += `<i>Play Kids Bog'chasi</i>`;
     
     const chatId = child.parentTelegram || TELEGRAM_CHAT_ID;
     return await sendTelegramMessage(message, chatId);
@@ -324,10 +322,10 @@ export const sendAnnouncement = async (title, content, type = 'info') => {
     urgent: '🚨'
   };
   
-  const message = `${icons[type] || 'ℹ️'} *${title}*\n\n` +
+  const message = `${icons[type] || 'ℹ️'} <b>${title}</b>\n\n` +
     `${content}\n\n` +
     `━━━━━━━━━━━━━━━━━━\n` +
-    `_Play Kids Bog'chasi_`;
+    `<i>Play Kids Bog'chasi</i>`;
   
   return await sendTelegramMessage(message);
 };
@@ -344,14 +342,14 @@ export const sendEventReminder = async (event) => {
     month: 'long'
   });
   
-  const message = `🎉 *TADBIR ESLATMASI*\n\n` +
-    `📌 *${event.title}*\n` +
-    `📅 *Sana:* ${dateStr}\n` +
-    `🕐 *Vaqt:* ${event.time || 'Belgilanmagan'}\n` +
-    `📍 *Joy:* ${event.location || 'Bog\'cha'}\n\n` +
+  const message = `🎉 <b>TADBIR ESLATMASI</b>\n\n` +
+    `📌 <b>${event.title}</b>\n` +
+    `📅 <b>Sana:</b> ${dateStr}\n` +
+    `🕐 <b>Vaqt:</b> ${event.time || 'Belgilanmagan'}\n` +
+    `📍 <b>Joy:</b> ${event.location || 'Bog\'cha'}\n\n` +
     `${event.description || ''}\n\n` +
     `━━━━━━━━━━━━━━━━━━\n` +
-    `_Play Kids Bog'chasi_`;
+    `<i>Play Kids Bog'chasi</i>`;
   
   return await sendTelegramMessage(message);
 };
@@ -361,14 +359,14 @@ export const sendEventReminder = async (event) => {
 // ============================================
 
 export const sendAchievementNotification = async (child, achievement) => {
-  const message = `🏆 *YANGI YUTUQ!*\n\n` +
-    `👶 *${child.firstName} ${child.lastName}*\n` +
-    `🎖️ *${achievement.name}*\n` +
-    `⭐ *+${achievement.points || 0} ball*\n\n` +
+  const message = `🏆 <b>YANGI YUTUQ!</b>\n\n` +
+    `👶 <b>${child.firstName} ${child.lastName}</b>\n` +
+    `🎖️ <b>${achievement.name}</b>\n` +
+    `⭐ <b>+${achievement.points || 0} ball</b>\n\n` +
     `${achievement.description || ''}\n\n` +
     `Tabriklaymiz! 🎉\n\n` +
     `━━━━━━━━━━━━━━━━━━\n` +
-    `_Play Kids Bog'chasi_`;
+    `<i>Play Kids Bog'chasi</i>`;
   
   const chatId = child.parentTelegram || TELEGRAM_CHAT_ID;
   return await sendTelegramMessage(message, chatId);
@@ -380,13 +378,9 @@ export const sendAchievementNotification = async (child, achievement) => {
 
 export const sendWeeklyReport = async () => {
   try {
-    const childrenPath = path.join(__dirname, '../../data/children.json');
-    const attendancePath = path.join(__dirname, '../../data/attendance.json');
-    const debtsPath = path.join(__dirname, '../../data/debts.json');
-    
-    const children = JSON.parse(fs.readFileSync(childrenPath, 'utf8'));
-    const attendance = JSON.parse(fs.readFileSync(attendancePath, 'utf8'));
-    const debts = JSON.parse(fs.readFileSync(debtsPath, 'utf8'));
+    const children = await getCollection('children').find({ isDeleted: { $ne: true } }).toArray()
+    const attendance = await getCollection('attendance').find({}).toArray()
+    const debts = await getCollection('debts').find({ status: { $ne: 'paid' } }).toArray()
     
     // Haftalik davomat
     const weekAgo = new Date();
@@ -397,18 +391,17 @@ export const sendWeeklyReport = async () => {
       : 0;
     
     // Qarzdorlik
-    const unpaidDebts = debts.filter(d => d.status !== 'paid');
-    const totalDebt = unpaidDebts.reduce((sum, d) => sum + (d.amount - (d.paidAmount || 0)), 0);
+    const totalDebt = debts.reduce((sum, d) => sum + (d.amount - (d.paidAmount || 0)), 0);
     
-    const message = `📊 *HAFTALIK HISOBOT*\n\n` +
+    const message = `📊 <b>HAFTALIK HISOBOT</b>\n\n` +
       `📅 ${weekAgo.toLocaleDateString('uz-UZ')} - ${new Date().toLocaleDateString('uz-UZ')}\n` +
       `━━━━━━━━━━━━━━━━━━\n\n` +
-      `👶 *Jami bolalar:* ${children.length}\n` +
-      `📈 *O'rtacha davomat:* ${avgAttendance}%\n` +
-      `💰 *Qarzdorlik:* ${totalDebt.toLocaleString()} so'm\n` +
-      `⚠️ *Qarzdorlar soni:* ${unpaidDebts.length}\n\n` +
+      `👶 <b>Jami bolalar:</b> ${children.length}\n` +
+      `📈 <b>O'rtacha davomat:</b> ${avgAttendance}%\n` +
+      `💰 <b>Qarzdorlik:</b> ${totalDebt.toLocaleString()} so'm\n` +
+      `⚠️ <b>Qarzdorlar soni:</b> ${debts.length}\n\n` +
       `━━━━━━━━━━━━━━━━━━\n` +
-      `_Play Kids Bog'chasi_`;
+      `<i>Play Kids Bog'chasi</i>`;
     
     return await sendTelegramMessage(message);
   } catch (error) {

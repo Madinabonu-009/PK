@@ -61,51 +61,50 @@ function ChildProfilePage() {
   const fetchData = async () => {
     try {
       setLoading(true)
-      const [childRes, achievementsRes, allAchievementsRes, attendanceRes, debtsRes, reportsRes, progressRes] = await Promise.all([
+      const [childRes, achievementsRes, allAchievementsRes] = await Promise.all([
         api.get(`/children/${id}`),
-        api.get(`/achievements/child/${id}`),
-        api.get('/achievements'),
-        api.get('/attendance'),
-        api.get('/debts'),
-        api.get('/daily-reports'),
-        api.get('/progress').catch(() => ({ data: [] }))
+        api.get(`/achievements/child/${id}`).catch(() => ({ data: [] })),
+        api.get('/achievements').catch(() => ({ data: [] }))
       ])
       
       // Handle API response format
       const childData = childRes.data?.data || childRes.data
-      const achievementsData = achievementsRes.data?.achievements || achievementsRes.data?.data || []
+      const achievementsData = achievementsRes.data?.achievements || achievementsRes.data?.data || achievementsRes.data || []
       const allAchievementsData = allAchievementsRes.data?.data || (Array.isArray(allAchievementsRes.data) ? allAchievementsRes.data : [])
+      
+      setChild(childData)
+      setAchievements(Array.isArray(achievementsData) ? achievementsData : [])
+      setAllAchievements(allAchievementsData)
+      
+      // Child ID ni to'g'ri olish
+      const childId = childData?.id || childData?._id?.toString() || id
+      
+      // Fetch child-specific data with proper endpoints
+      const [attendanceRes, debtsRes, reportsRes, progressRes] = await Promise.all([
+        api.get(`/attendance/child/${childId}`).catch(() => ({ data: [] })),
+        api.get(`/debts?childId=${childId}`).catch(() => ({ data: [] })),
+        api.get(`/daily-reports?childId=${childId}`).catch(() => ({ data: [] })),
+        api.get(`/progress?childId=${childId}`).catch(() => ({ data: [] }))
+      ])
+      
       const attendanceData = attendanceRes.data?.data || (Array.isArray(attendanceRes.data) ? attendanceRes.data : [])
       const debtsData = debtsRes.data?.data || (Array.isArray(debtsRes.data) ? debtsRes.data : [])
       const reportsData = reportsRes.data?.data || (Array.isArray(reportsRes.data) ? reportsRes.data : [])
-      const progressData = progressRes.data?.data || (Array.isArray(progressRes.data) ? progressRes.data : [])
+      const progressDataArr = progressRes.data?.data || (Array.isArray(progressRes.data) ? progressRes.data : [])
       
-      setChild(childData)
-      setAchievements(achievementsData)
-      setAllAchievements(allAchievementsData)
+      // Set attendance (already filtered by endpoint)
+      setAttendanceHistory(attendanceData.slice(0, 30))
       
-      // Filter attendance for this child
-      const childAttendance = attendanceData
-        .filter(a => a.childId === id)
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 30)
-      setAttendanceHistory(childAttendance)
+      // Set payments/debts
+      setPaymentHistory(debtsData)
       
-      // Filter debts/payments for this child
-      const childPayments = debtsData
-        .filter(d => d.childId === id)
-        .sort((a, b) => new Date(b.createdAt || b.dueDate) - new Date(a.createdAt || a.dueDate))
-      setPaymentHistory(childPayments)
-      
-      // Filter daily reports for this child
-      const childReports = reportsData
-        .filter(r => r.childId === id)
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 10)
-      setDailyReports(childReports)
+      // Set daily reports
+      setDailyReports(reportsData.slice(0, 10))
       
       // Get progress data
-      const childProgress = progressData.find(p => p.childId === id)
+      const childProgress = Array.isArray(progressDataArr) 
+        ? progressDataArr.find(p => p.childId === childId) 
+        : progressDataArr
       setProgressData(childProgress)
     } catch (error) {
       // Error handled by UI state

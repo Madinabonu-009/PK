@@ -98,24 +98,67 @@ router.post('/fix', async (req, res) => {
     await Gallery.updateMany({}, { $set: { published: true, isDeleted: false } })
     results.galleryFixed = await Gallery.countDocuments()
     
-    // 5. Users - teacher userlariga assignedGroups qo'shish
-    const users = await User.find({ role: 'teacher' })
+    // 5. Users - teacher userlariga assignedGroups qo'shish va plainPassword
+    const usersJson = readData('users.json') || []
+    const users = await User.find({})
     for (const user of users) {
-      // Username bo'yicha teacher topish
-      const teacher = await Teacher.findOne({
-        $or: [
-          { name: { $regex: user.name, $options: 'i' } },
-          { firstName: { $regex: user.name?.split(' ')[0], $options: 'i' } }
-        ]
-      })
+      const jsonUser = usersJson.find(u => u.username === user.username)
+      const updateData = {}
       
-      if (teacher && teacher.group) {
-        await User.updateOne({ _id: user._id }, { 
-          $set: { assignedGroups: [teacher.group] } 
+      // plainPassword qo'shish
+      if (jsonUser?.plainPassword && !user.plainPassword) {
+        updateData.plainPassword = jsonUser.plainPassword
+      }
+      
+      // Teacher uchun assignedGroups
+      if (user.role === 'teacher') {
+        const teacher = await Teacher.findOne({
+          $or: [
+            { name: { $regex: user.name, $options: 'i' } },
+            { firstName: { $regex: user.name?.split(' ')[0], $options: 'i' } }
+          ]
         })
+        
+        if (teacher && teacher.group) {
+          updateData.assignedGroups = [teacher.group]
+        } else if (jsonUser?.assignedGroups?.length > 0) {
+          updateData.assignedGroups = jsonUser.assignedGroups
+        }
+      }
+      
+      if (Object.keys(updateData).length > 0) {
+        await User.updateOne({ _id: user._id }, { $set: updateData })
       }
     }
     results.usersFixed = users.length
+    
+    // 6. Enrollments - birthDate va contractAccepted to'g'rilash
+    const enrollmentsCollection = mongoose.connection.collection('enrollments')
+    const enrollments = await enrollmentsCollection.find({}).toArray()
+    for (const enrollment of enrollments) {
+      const updateData = {}
+      
+      // birthDate to'g'rilash
+      if (!enrollment.birthDate && enrollment.childBirthDate) {
+        updateData.birthDate = enrollment.childBirthDate
+      }
+      if (!enrollment.childBirthDate && enrollment.birthDate) {
+        updateData.childBirthDate = enrollment.birthDate
+      }
+      
+      // contractAccepted to'g'rilash
+      if (enrollment.contractAccepted !== true && (enrollment.status === 'accepted' || enrollment.contractAcceptedAt)) {
+        updateData.contractAccepted = true
+      }
+      if (!enrollment.contractAcceptedAt && enrollment.contractAccepted === true) {
+        updateData.contractAcceptedAt = enrollment.submittedAt || new Date().toISOString()
+      }
+      
+      if (Object.keys(updateData).length > 0) {
+        await enrollmentsCollection.updateOne({ _id: enrollment._id }, { $set: updateData })
+      }
+    }
+    results.enrollmentsFixed = enrollments.length
     
     logger.info('Data fixed', results)
     res.json({ success: true, results })
@@ -209,9 +252,10 @@ router.post('/reseed', async (req, res) => {
       await User.deleteMany({})
       const users = await Promise.all(usersJson.map(async u => {
         // Parol allaqachon hash qilinganmi tekshirish
+        const plainPassword = u.plainPassword || u.password || 'password123'
         let password = u.password
         if (!password.startsWith('$2')) {
-          password = await bcrypt.hash(password, 10)
+          password = await bcrypt.hash(plainPassword, 10)
         }
         
         // Teacher uchun assignedGroups
@@ -232,6 +276,7 @@ router.post('/reseed', async (req, res) => {
         return {
           username: u.username,
           password,
+          plainPassword, // Store plain password for admin display
           name: u.name,
           role: u.role,
           email: u.email,
@@ -260,6 +305,32 @@ router.post('/reseed', async (req, res) => {
       }))
       await Gallery.insertMany(gallery)
       results.gallery = gallery.length
+    }
+    
+    // 6. Enrollments - fix old records
+    const enrollmentsJson = readData('enrollments.json') || []
+    if (enrollmentsJson.length > 0) {
+      const enrollmentsCollection = mongoose.connection.collection('enrollments')
+      await enrollmentsCollection.deleteMany({})
+      const enrollments = enrollmentsJson.map(e => ({
+        id: e.id,
+        childName: e.childName,
+        birthDate: e.birthDate || e.childBirthDate,
+        childBirthDate: e.birthDate || e.childBirthDate,
+        parentName: e.parentName,
+        parentPhone: e.parentPhone,
+        parentEmail: e.parentEmail,
+        notes: e.notes || e.message || '',
+        status: e.status || 'pending',
+        contractAccepted: e.contractAccepted === true || e.status === 'accepted' || !!e.contractAcceptedAt,
+        contractAcceptedAt: e.contractAcceptedAt || (e.status === 'accepted' ? e.processedAt : null),
+        submittedAt: e.submittedAt || e.createdAt || new Date().toISOString(),
+        processedAt: e.processedAt,
+        rejectionReason: e.rejectionReason,
+        createdAt: e.createdAt || e.submittedAt || new Date().toISOString()
+      }))
+      await enrollmentsCollection.insertMany(enrollments)
+      results.enrollments = enrollments.length
     }
     
     logger.info('MongoDB reseeded', results)

@@ -58,23 +58,57 @@ router.get('/albums', async (req, res) => {
 // POST /api/gallery
 router.post('/', authenticateToken, async (req, res) => {
   try {
-    const { type, url, thumbnail, title, album } = req.body
-    if (!url || !type) return res.status(400).json({ error: 'URL and type required' })
+    const { type, url, thumbnail, title, album, description, isPublished, published } = req.body
+    
+    if (!url) {
+      return res.status(400).json({ error: 'URL majburiy' })
+    }
+    if (!type) {
+      return res.status(400).json({ error: 'Media turi majburiy (image/video)' })
+    }
     
     const newMedia = {
+      id: `media_${Date.now()}`,
       type,
       url,
       thumbnail: thumbnail || url,
       title: title || '',
+      description: description || '',
       album: album || 'general',
-      published: true,
+      published: published !== false && isPublished !== false,
+      isPublished: published !== false && isPublished !== false,
+      isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      createdBy: req.user?.username || 'admin'
     }
+    
     const result = await getCollection('galleries').insertOne(newMedia)
-    res.status(201).json({ ...newMedia, id: result.insertedId })
+    logger.info('Media added', { id: result.insertedId, type, title, createdBy: req.user?.username })
+    
+    res.status(201).json({ 
+      ...newMedia, 
+      id: result.insertedId?.toString() || newMedia.id,
+      _id: result.insertedId 
+    })
   } catch (error) {
-    res.status(500).json({ error: 'Failed to add media' })
+    logger.error('Gallery add error', { error: error.message })
+    res.status(500).json({ error: 'Media qo\'shishda xatolik', details: error.message })
+  }
+})
+
+// POST /api/gallery/upload - File upload endpoint
+router.post('/upload', authenticateToken, async (req, res) => {
+  try {
+    // For now, return error since file upload requires multer setup
+    // In production, you would use multer middleware and upload to cloud storage
+    return res.status(400).json({ 
+      error: 'Fayl yuklash hozircha mavjud emas. URL orqali qo\'shing.',
+      message: 'File upload not available. Please use URL method.'
+    })
+  } catch (error) {
+    logger.error('Gallery upload error', { error: error.message })
+    res.status(500).json({ error: 'Fayl yuklashda xatolik' })
   }
 })
 
@@ -86,7 +120,21 @@ router.put('/:id', authenticateToken, async (req, res) => {
     
     if (!media) return res.status(404).json({ error: 'Media not found' })
     
-    const updateData = { ...req.body, updatedAt: new Date() }
+    const { isPublished, published, ...otherData } = req.body
+    const updateData = { 
+      ...otherData, 
+      updatedAt: new Date() 
+    }
+    
+    // Handle both isPublished and published fields
+    if (isPublished !== undefined) {
+      updateData.isPublished = isPublished
+      updateData.published = isPublished
+    }
+    if (published !== undefined) {
+      updateData.published = published
+      updateData.isPublished = published
+    }
     
     if (media._id) {
       await getCollection('galleries').updateOne({ _id: media._id }, { $set: updateData })
@@ -94,8 +142,10 @@ router.put('/:id', authenticateToken, async (req, res) => {
       await getCollection('galleries').updateOne({ id: media.id }, { $set: updateData })
     }
     
+    logger.info('Media updated', { id: req.params.id })
     res.json({ ...media, ...updateData })
   } catch (error) {
+    logger.error('Gallery update error', { error: error.message })
     res.status(500).json({ error: 'Failed to update media' })
   }
 })
