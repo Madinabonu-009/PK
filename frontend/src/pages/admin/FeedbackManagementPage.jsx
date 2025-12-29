@@ -164,24 +164,30 @@ export default function FeedbackManagementPage() {
   // Filter
   let list = []
   if (activeTab === 'contacts') {
-    list = contacts
+    list = [...contacts]
   } else if (activeTab === 'pending') {
-    list = pendingFeedbacks
+    list = [...pendingFeedbacks]
   } else if (activeTab === 'approved') {
-    list = feedbacks
+    list = [...feedbacks]
   } else {
     list = [...pendingFeedbacks, ...feedbacks]
   }
   
-  if (search) {
-    const q = search.toLowerCase()
-    list = list.filter(f => 
-      f.parentName?.toLowerCase().includes(q) || 
-      f.comment?.toLowerCase().includes(q) ||
-      f.name?.toLowerCase().includes(q) ||
-      f.message?.toLowerCase().includes(q) ||
-      f.phone?.includes(q)
-    )
+  if (search && search.trim()) {
+    const q = search.toLowerCase().trim()
+    list = list.filter(f => {
+      const searchFields = [
+        f.parentName,
+        f.comment,
+        f.name,
+        f.message,
+        f.phone,
+        f.email
+      ]
+      return searchFields.some(field => 
+        field && String(field).toLowerCase().includes(q)
+      )
+    })
   }
 
   if (loading) {

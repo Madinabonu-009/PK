@@ -23,24 +23,51 @@ router.get('/', authenticateToken, async (req, res) => {
     }
     
     const result = filtered.map(debt => {
-      const child = children.find(c => (c._id?.toString() || c.id) === debt.childId)
+      // Child ni turli usullar bilan topish
+      let child = children.find(c => (c._id?.toString() || c.id) === debt.childId)
+      
+      // Agar topilmasa, ObjectId sifatida qidirish
+      if (!child && debt.childId) {
+        child = children.find(c => c._id?.toString() === debt.childId?.toString())
+      }
+      
+      // Agar hali ham topilmasa, id field bo'yicha
+      if (!child && debt.childId) {
+        child = children.find(c => c.id === debt.childId)
+      }
+      
       const group = child ? groups.find(g => (g._id?.toString() || g.id) === child.groupId) : null
       let daysOverdue = 0
       if (debt.status !== 'paid' && debt.dueDate) {
         daysOverdue = Math.max(0, Math.floor((new Date() - new Date(debt.dueDate)) / (1000 * 60 * 60 * 24)))
       }
+      
+      // Child name ni to'g'ri olish
+      let childName = 'Noma\'lum'
+      if (child) {
+        if (child.firstName && child.lastName) {
+          childName = `${child.firstName} ${child.lastName}`
+        } else if (child.name) {
+          childName = child.name
+        } else if (child.fullName) {
+          childName = child.fullName
+        }
+      }
+      
       return {
         ...debt,
-        id: debt._id || debt.id,
-        childName: child ? `${child.firstName} ${child.lastName}` : 'Noma\'lum',
+        id: debt._id?.toString() || debt.id,
+        childId: debt.childId,
+        childName,
         groupName: group?.name || '-',
-        parentPhone: child?.parentPhone,
+        parentPhone: child?.parentPhone || child?.parent?.phone,
         daysOverdue,
         remainingAmount: debt.amount - (debt.paidAmount || 0)
       }
     })
     res.json(result.sort((a, b) => b.daysOverdue - a.daysOverdue))
   } catch (error) {
+    console.error('Debts fetch error:', error)
     res.status(500).json({ error: error.message })
   }
 })

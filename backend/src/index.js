@@ -45,6 +45,7 @@ import uploadRoutes from './routes/upload.js'
 import settingsRoutes from './routes/settings.js'
 import usersRoutes from './routes/users.js'
 import seedRoutes from './routes/seed.js'
+import libraryRoutes from './routes/library.js'
 import { csrfTokenHandler } from './middleware/csrf.js'
 import { initCronJobs } from './services/cronJobs.js'
 import logger from './utils/logger.js'
@@ -215,6 +216,7 @@ app.use('/api/upload', uploadRoutes)
 app.use('/api/settings', settingsRoutes)
 app.use('/api/users', usersRoutes)
 app.use('/api/seed', seedRoutes)
+app.use('/api/library', libraryRoutes)
 
 // CSRF token endpoint
 app.get('/api/csrf-token', csrfTokenHandler)

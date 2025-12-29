@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import Group from '../models/Group.js'
 import Child from '../models/Child.js'
 import Teacher from '../models/Teacher.js'
+import User from '../models/User.js'
 import { authenticateToken } from '../middleware/auth.js'
 import logger from '../utils/logger.js'
 
@@ -89,22 +90,80 @@ router.get('/my', authenticateToken, async (req, res) => {
       return res.status(403).json({ error: 'Only teachers can access this endpoint' })
     }
     
+    const userId = req.user.id || req.user._id
     const assignedGroups = req.user.assignedGroups || []
     
-    if (assignedGroups.length === 0) {
+    logger.info('Fetching teacher groups', { userId, assignedGroups })
+    
+    // 1. Avval assignedGroups bo'yicha qidirish
+    let groups = []
+    
+    if (assignedGroups.length > 0) {
+      groups = await Group.find({
+        $or: [
+          { id: { $in: assignedGroups } },
+          { _id: { $in: assignedGroups.filter(id => mongoose.Types.ObjectId.isValid(id)).map(id => new mongoose.Types.ObjectId(id)) } }
+        ],
+        isDeleted: { $ne: true }
+      })
+    }
+    
+    // 2. Agar assignedGroups bo'sh bo'lsa, teacherId bo'yicha qidirish
+    if (groups.length === 0) {
+      // User bilan bog'langan Teacher ni topish
+      const user = await User.findById(userId)
+      
+      if (user?.teacherId) {
+        // teacherId orqali guruhlarni topish
+        groups = await Group.find({
+          teacherId: user.teacherId.toString(),
+          isDeleted: { $ne: true }
+        })
+      }
+      
+      // Agar hali ham topilmasa, username bo'yicha Teacher ni qidirish
+      if (groups.length === 0) {
+        const teacher = await Teacher.findOne({
+          $or: [
+            { userId: userId },
+            { phone: user?.phone },
+            { email: user?.email }
+          ],
+          isDeleted: { $ne: true }
+        })
+        
+        if (teacher) {
+          // Teacher ID bo'yicha guruhlarni topish
+          groups = await Group.find({
+            $or: [
+              { teacherId: teacher._id.toString() },
+              { teacherId: teacher.id }
+            ],
+            isDeleted: { $ne: true }
+          })
+          
+          // User.assignedGroups ni yangilash
+          if (groups.length > 0) {
+            const groupIds = groups.map(g => g.id || g._id.toString())
+            await User.findByIdAndUpdate(userId, {
+              $set: { 
+                assignedGroups: groupIds,
+                teacherId: teacher._id
+              }
+            })
+            logger.info('Updated user assignedGroups', { userId, groupIds })
+          }
+        }
+      }
+    }
+    
+    if (groups.length === 0) {
+      logger.warn('No groups found for teacher', { userId })
       return res.json({
         groups: [],
         message: 'No groups assigned to this teacher'
       })
     }
-    
-    const groups = await Group.find({
-      $or: [
-        { id: { $in: assignedGroups } },
-        { _id: { $in: assignedGroups.filter(id => mongoose.Types.ObjectId.isValid(id)) } }
-      ],
-      isDeleted: { $ne: true }
-    })
     
     const result = await Promise.all(groups.map(async (g) => {
       const groupId = g.id || g._id.toString()
@@ -122,6 +181,8 @@ router.get('/my', authenticateToken, async (req, res) => {
         childCount
       }
     }))
+    
+    logger.info('Teacher groups fetched', { userId, count: result.length })
     
     res.json({ groups: result })
   } catch (error) {
@@ -290,6 +351,8 @@ router.put('/:id', authenticateToken, async (req, res) => {
     }
     
     const { name, ageRange, capacity, teacherId, monthlyFee, isActive } = req.body
+    const groupId = group.id || group._id.toString()
+    const oldTeacherId = group.teacherId
     
     if (name !== undefined) group.name = name
     if (ageRange !== undefined) group.ageRange = ageRange
@@ -299,7 +362,37 @@ router.put('/:id', authenticateToken, async (req, res) => {
     
     // Teacher yangilash
     if (teacherId !== undefined) {
+      // Eski teacher'dan guruhni olib tashlash
+      if (oldTeacherId && oldTeacherId !== teacherId) {
+        // Eski teacher'ning User record'ini topish va assignedGroups'dan olib tashlash
+        const oldTeacher = await Teacher.findOne({
+          $or: [
+            { _id: mongoose.Types.ObjectId.isValid(oldTeacherId) ? new mongoose.Types.ObjectId(oldTeacherId) : null },
+            { id: oldTeacherId }
+          ]
+        })
+        
+        if (oldTeacher?.userId) {
+          await User.findByIdAndUpdate(oldTeacher.userId, {
+            $pull: { assignedGroups: groupId }
+          })
+          logger.info('Removed group from old teacher', { teacherId: oldTeacherId, groupId })
+        }
+        
+        // Username bo'yicha ham qidirish
+        const oldTeacherUser = await User.findOne({
+          teacherId: oldTeacher?._id,
+          role: 'teacher'
+        })
+        if (oldTeacherUser) {
+          await User.findByIdAndUpdate(oldTeacherUser._id, {
+            $pull: { assignedGroups: groupId }
+          })
+        }
+      }
+      
       group.teacherId = teacherId
+      
       if (teacherId) {
         // Teacher ni turli usullar bilan qidirish
         let teacher = null
@@ -319,6 +412,38 @@ router.put('/:id', authenticateToken, async (req, res) => {
         
         if (teacher) {
           group.teacherName = teacher.name || teacher.fullName || `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim()
+          
+          // Teacher'ning group field'ini yangilash
+          teacher.group = groupId
+          await teacher.save()
+          
+          // MUHIM: User modelini yangilash - assignedGroups ga qo'shish
+          // 1. Teacher.userId orqali
+          if (teacher.userId) {
+            await User.findByIdAndUpdate(teacher.userId, {
+              $addToSet: { assignedGroups: groupId },
+              $set: { teacherId: teacher._id }
+            })
+            logger.info('Updated user assignedGroups via teacherId', { userId: teacher.userId, groupId })
+          }
+          
+          // 2. Teacher ismi bo'yicha User topish
+          const teacherUser = await User.findOne({
+            $or: [
+              { teacherId: teacher._id },
+              { name: teacher.name, role: 'teacher' },
+              { phone: teacher.phone, role: 'teacher' },
+              { email: teacher.email, role: 'teacher' }
+            ]
+          })
+          
+          if (teacherUser) {
+            await User.findByIdAndUpdate(teacherUser._id, {
+              $addToSet: { assignedGroups: groupId },
+              $set: { teacherId: teacher._id }
+            })
+            logger.info('Updated user assignedGroups via name/phone/email match', { userId: teacherUser._id, groupId })
+          }
         } else {
           logger.warn('Teacher not found for group update', { teacherId })
           group.teacherName = null
@@ -330,7 +455,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
     
     await group.save()
     
-    logger.info('Group updated', { id: group._id, updatedBy: req.user.username })
+    logger.info('Group updated', { id: group._id, teacherId, updatedBy: req.user.username })
     
     res.json({
       id: group.id || group._id.toString(),
@@ -398,6 +523,36 @@ router.post('/:id/assign-teacher', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Group not found' })
     }
     
+    const groupId = group.id || group._id.toString()
+    const oldTeacherId = group.teacherId
+    
+    // Eski teacher'dan guruhni olib tashlash
+    if (oldTeacherId && oldTeacherId !== teacherId) {
+      const oldTeacher = await Teacher.findOne({
+        $or: [
+          { _id: mongoose.Types.ObjectId.isValid(oldTeacherId) ? new mongoose.Types.ObjectId(oldTeacherId) : null },
+          { id: oldTeacherId }
+        ]
+      })
+      
+      if (oldTeacher) {
+        // User record'ini yangilash
+        const oldTeacherUser = await User.findOne({
+          $or: [
+            { teacherId: oldTeacher._id },
+            { name: oldTeacher.name, role: 'teacher' }
+          ]
+        })
+        
+        if (oldTeacherUser) {
+          await User.findByIdAndUpdate(oldTeacherUser._id, {
+            $pull: { assignedGroups: groupId }
+          })
+          logger.info('Removed group from old teacher user', { userId: oldTeacherUser._id, groupId })
+        }
+      }
+    }
+    
     if (teacherId) {
       let teacher = null
       
@@ -417,8 +572,36 @@ router.post('/:id/assign-teacher', authenticateToken, async (req, res) => {
       group.teacherName = teacher.name || teacher.fullName || `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim()
       
       // Teacher'ning group field'ini ham yangilash
-      teacher.group = group.id || group._id.toString()
+      teacher.group = groupId
       await teacher.save()
+      
+      // MUHIM: User modelini yangilash
+      // 1. Teacher.userId orqali
+      if (teacher.userId) {
+        await User.findByIdAndUpdate(teacher.userId, {
+          $addToSet: { assignedGroups: groupId },
+          $set: { teacherId: teacher._id }
+        })
+        logger.info('Updated user assignedGroups via teacherId', { userId: teacher.userId, groupId })
+      }
+      
+      // 2. Teacher ismi/telefoni bo'yicha User topish
+      const teacherUser = await User.findOne({
+        $or: [
+          { teacherId: teacher._id },
+          { name: teacher.name, role: 'teacher' },
+          { phone: teacher.phone, role: 'teacher' },
+          { email: teacher.email, role: 'teacher' }
+        ]
+      })
+      
+      if (teacherUser) {
+        await User.findByIdAndUpdate(teacherUser._id, {
+          $addToSet: { assignedGroups: groupId },
+          $set: { teacherId: teacher._id }
+        })
+        logger.info('Updated user assignedGroups via name/phone match', { userId: teacherUser._id, groupId })
+      }
     } else {
       group.teacherId = null
       group.teacherName = null

@@ -29,6 +29,8 @@ const Icons = {
   Close: () => <span className="nav-icon">✕</span>,
   ChevronDown: () => <span className="nav-icon chevron">▼</span>,
   ChevronRight: () => <span className="nav-icon chevron">▶</span>,
+  Teachers: () => <span className="nav-icon">👨‍🏫</span>,
+  Library: () => <span className="nav-icon">📚</span>,
 }
 
 function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
@@ -57,6 +59,8 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
       reports: 'Hisobotlar',
       dailyReports: 'Kunlik hisobotlar',
       analytics: 'Analitika',
+      teachers: 'Xodimlar',
+      library: 'Kutubxona',
       users: 'Foydalanuvchilar',
       settings: 'Sozlamalar',
       logout: 'Chiqish',
@@ -81,6 +85,8 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
       reports: 'Отчеты',
       dailyReports: 'Ежедневные отчеты',
       analytics: 'Аналитика',
+      teachers: 'Сотрудники',
+      library: 'Библиотека',
       users: 'Пользователи',
       settings: 'Настройки',
       logout: 'Выход',
@@ -105,6 +111,8 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
       reports: 'Reports',
       dailyReports: 'Daily Reports',
       analytics: 'Analytics',
+      teachers: 'Staff',
+      library: 'Library',
       users: 'Users',
       settings: 'Settings',
       logout: 'Logout',
@@ -148,6 +156,8 @@ function ProSidebar({ collapsed, mobileOpen, onToggle, onMobileClose, user }) {
       ]
     },
     { id: 'daily-reports-teacher', label: txt.dailyReports, icon: Icons.Reports, path: '/admin/daily-reports', teacherAllowed: true, teacherOnly: true },
+    { id: 'teachers-mgmt', label: txt.teachers, icon: Icons.Teachers, path: '/admin/teachers', adminOnly: true },
+    { id: 'library-mgmt', label: txt.library, icon: Icons.Library, path: '/admin/library', adminOnly: true },
     { id: 'users', label: txt.users, icon: Icons.Users, path: '/admin/users', adminOnly: true },
     { id: 'settings', label: txt.settings, icon: Icons.Settings, path: '/admin/settings', teacherAllowed: true },
   ], [txt])

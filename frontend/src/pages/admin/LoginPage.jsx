@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
-import ThemeToggle from '../../components/common/ThemeToggle'
 import LanguageSelector from '../../components/common/LanguageSelector'
 import { adminTranslations } from '../../i18n/admin'
 import './LoginPage.css'
@@ -120,10 +119,9 @@ function LoginPage() {
         </div>
       </div>
 
-      {/* Theme & Language Controls */}
+      {/* Language Controls */}
       <div className="login-controls">
         <LanguageSelector />
-        <ThemeToggle />
       </div>
       
       <div className="login-container">

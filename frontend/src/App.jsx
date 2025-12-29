@@ -51,6 +51,8 @@ const TelegramPage = lazy(() => import('./pages/admin/TelegramPage'))
 const SettingsPage = lazy(() => import('./pages/admin/SettingsPage'))
 const AnalyticsPage = lazy(() => import('./pages/admin/AnalyticsPage'))
 const UsersPage = lazy(() => import('./pages/admin/UsersPage'))
+const TeachersManagementPage = lazy(() => import('./pages/admin/TeachersManagementPage'))
+const LibraryManagementPage = lazy(() => import('./pages/admin/LibraryManagementPage'))
 
 function ChatButtonWrapper() {
   const location = useLocation()
@@ -128,6 +130,8 @@ function AnimatedRoutes() {
         <Route path="/admin/settings" element={<AdminLayout><SettingsPage /></AdminLayout>} />
         <Route path="/admin/analytics" element={<AdminLayout><AnalyticsPage /></AdminLayout>} />
         <Route path="/admin/users" element={<AdminLayout><UsersPage /></AdminLayout>} />
+        <Route path="/admin/teachers" element={<AdminLayout><TeachersManagementPage /></AdminLayout>} />
+        <Route path="/admin/library" element={<AdminLayout><LibraryManagementPage /></AdminLayout>} />
         
         <Route path="*" element={<PublicLayout><NotFoundPage /></PublicLayout>} />
       </Routes>

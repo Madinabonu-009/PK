@@ -293,11 +293,33 @@ function AddMediaModal({ isOpen, onClose, onSuccess, language }) {
       let response
       
       if (uploadMode === 'file') {
-        // File upload - show message that it's not available
-        toast.error('Fayl yuklash hozircha mavjud emas. URL orqali qo\'shing.')
-        setUploadMode('url')
-        setUploading(false)
-        return
+        // File upload
+        const formData = new FormData()
+        formData.append('file', file)
+        
+        try {
+          const uploadRes = await api.post('/upload?folder=gallery', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+          
+          if (uploadRes.data?.url) {
+            response = await api.post('/gallery', {
+              title: title.trim() || file.name || 'Media',
+              url: uploadRes.data.url,
+              type: mediaType,
+              published: true,
+              isPublished: true
+            })
+          } else {
+            throw new Error('Fayl yuklashda xatolik')
+          }
+        } catch (uploadErr) {
+          console.error('Upload error:', uploadErr)
+          toast.error('Fayl yuklash hozircha mavjud emas. URL orqali qo\'shing.')
+          setUploadMode('url')
+          setUploading(false)
+          return
+        }
       } else {
         response = await api.post('/gallery', {
           title: title.trim() || 'Media',

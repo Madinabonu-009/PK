@@ -156,13 +156,18 @@ const TelegramPage = () => {
   const [results, setResults] = useState([]);
   const [activeTab, setActiveTab] = useState('quick');
 
-  useEffect(() => { checkStatus(); }, []);
+  useEffect(() => { 
+    checkStatus(); 
+  }, []);
 
   const checkStatus = async () => {
     try {
       const res = await api.get('/telegram/status');
       setStatus(res.data);
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+      console.error('Telegram status error:', e);
+      setStatus({ configured: false });
+    }
   };
 
   const addResult = (action, success, msg) => {

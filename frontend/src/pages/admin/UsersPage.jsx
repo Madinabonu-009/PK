@@ -38,7 +38,10 @@ const texts = {
     newPassword: 'Yangi parol',
     showPassword: 'Ko\'rsatish',
     hidePassword: 'Yashirish',
-    passwordChanged: 'Parol o\'zgartirildi!'
+    passwordChanged: 'Parol o\'zgartirildi!',
+    syncTeachers: 'Tarbiyachilarni sinxronlash',
+    syncing: 'Sinxronlanmoqda...',
+    syncSuccess: 'Sinxronlandi!'
   },
   ru: {
     title: 'Пользователи',
@@ -71,7 +74,10 @@ const texts = {
     newPassword: 'Новый пароль',
     showPassword: 'Показать',
     hidePassword: 'Скрыть',
-    passwordChanged: 'Пароль изменен!'
+    passwordChanged: 'Пароль изменен!',
+    syncTeachers: 'Синхронизировать учителей',
+    syncing: 'Синхронизация...',
+    syncSuccess: 'Синхронизировано!'
   },
   en: {
     title: 'Users',
@@ -104,7 +110,10 @@ const texts = {
     newPassword: 'New Password',
     showPassword: 'Show',
     hidePassword: 'Hide',
-    passwordChanged: 'Password changed!'
+    passwordChanged: 'Password changed!',
+    syncTeachers: 'Sync Teachers',
+    syncing: 'Syncing...',
+    syncSuccess: 'Synced!'
   }
 }
 
@@ -359,6 +368,8 @@ export default function UsersPage() {
   const [editingUser, setEditingUser] = useState(null)
   const [showPasswordModal, setShowPasswordModal] = useState(null)
   const [newPassword, setNewPassword] = useState('')
+  const [syncing, setSyncing] = useState(false)
+  const [fixingPasswords, setFixingPasswords] = useState(false)
 
   const txt = texts[language] || texts.uz
 
@@ -375,6 +386,33 @@ export default function UsersPage() {
       toast.error('Foydalanuvchilarni yuklashda xatolik')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleSyncTeachers = async () => {
+    try {
+      setSyncing(true)
+      const response = await api.post('/users/sync-teacher-groups')
+      const result = response.data
+      toast.success(`${txt.syncSuccess} (${result.syncedCount} ta)`)
+      fetchUsers()
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Sinxronlashda xatolik')
+    } finally {
+      setSyncing(false)
+    }
+  }
+
+  const handleFixPasswords = async () => {
+    try {
+      setFixingPasswords(true)
+      const response = await api.post('/users/fix-passwords')
+      toast.success(response.data.message || 'Parollar tiklandi')
+      fetchUsers()
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Xatolik')
+    } finally {
+      setFixingPasswords(false)
     }
   }
 
@@ -476,9 +514,27 @@ export default function UsersPage() {
             <p>{txt.subtitle}</p>
           </div>
         </div>
-        <button className="us-new-btn" onClick={() => { setEditingUser(null); setShowModal(true); }}>
-          <span>+</span> {txt.newUser}
-        </button>
+        <div className="us-header-actions">
+          <button 
+            className="us-sync-btn" 
+            onClick={handleFixPasswords}
+            disabled={fixingPasswords}
+            title="Parollarni ko'rsatish uchun tiklash"
+          >
+            {fixingPasswords ? '⏳' : '🔐'} Parollarni tiklash
+          </button>
+          <button 
+            className="us-sync-btn" 
+            onClick={handleSyncTeachers}
+            disabled={syncing}
+            title="Tarbiyachilarni guruhlar bilan sinxronlash"
+          >
+            {syncing ? '⏳' : '🔄'} {syncing ? txt.syncing : txt.syncTeachers}
+          </button>
+          <button className="us-new-btn" onClick={() => { setEditingUser(null); setShowModal(true); }}>
+            <span>+</span> {txt.newUser}
+          </button>
+        </div>
       </div>
 
       {/* Stats */}

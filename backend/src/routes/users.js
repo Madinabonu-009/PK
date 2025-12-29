@@ -259,4 +259,111 @@ router.put('/password', authenticateToken, async (req, res) => {
   }
 })
 
+// POST /api/users/fix-passwords - Mavjud userlar uchun plainPassword qo'shish
+router.post('/fix-passwords', authenticateToken, requireRole('admin'), async (req, res) => {
+  try {
+    const defaultPasswords = {
+      'itsme': 'admin123',
+      'nilufar': 'teacher123',
+      'madina': 'teacher123',
+      'dilnoza': 'teacher123'
+    }
+    
+    const users = await getCollection('users').find({ plainPassword: { $exists: false } }).toArray()
+    let fixedCount = 0
+    
+    for (const user of users) {
+      const plainPass = defaultPasswords[user.username] || 'password123'
+      await getCollection('users').updateOne(
+        { _id: user._id },
+        { $set: { plainPassword: plainPass } }
+      )
+      fixedCount++
+    }
+    
+    res.json({ success: true, message: `${fixedCount} ta foydalanuvchi paroli tiklandi`, fixedCount })
+  } catch (error) {
+    logger.error('Fix passwords error:', error)
+    res.status(500).json({ error: 'Parollarni tiklashda xatolik' })
+  }
+})
+
+// POST /api/users/sync-teacher-groups - Teacher userlarni guruhlar bilan sinxronlash
+router.post('/sync-teacher-groups', authenticateToken, requireRole('admin'), async (req, res) => {
+  try {
+    const teachers = await getCollection('teachers').find({ isDeleted: { $ne: true } }).toArray()
+    const groups = await getCollection('groups').find({ isDeleted: { $ne: true } }).toArray()
+    const users = await getCollection('users').find({ role: 'teacher' }).toArray()
+    
+    let syncedCount = 0
+    const syncResults = []
+    
+    for (const user of users) {
+      // Teacher ni topish (ism bo'yicha - keng qidiruv)
+      const userName = user.name?.toLowerCase() || ''
+      const matchingTeacher = teachers.find(t => {
+        const teacherName = (typeof t.name === 'string' ? t.name : t.name?.uz || '').toLowerCase()
+        return teacherName === userName || 
+               teacherName.includes(userName) || 
+               userName.includes(teacherName) ||
+               (t.email && t.email === user.email)
+      })
+      
+      if (matchingTeacher) {
+        // Bu teacher'ga biriktirilgan guruhlarni topish
+        const teacherGroupName = typeof matchingTeacher.group === 'string' 
+          ? matchingTeacher.group 
+          : matchingTeacher.group?.uz || matchingTeacher.group || ''
+        
+        const teacherGroups = groups.filter(g => {
+          // teacherId bo'yicha
+          if (g.teacherId === matchingTeacher._id?.toString() || g.teacherId === matchingTeacher.id) {
+            return true
+          }
+          // group nomi bo'yicha
+          if (teacherGroupName && g.name?.toLowerCase() === teacherGroupName.toLowerCase()) {
+            return true
+          }
+          return false
+        })
+        
+        const groupIds = teacherGroups.map(g => g.id || g._id.toString())
+        
+        // Agar guruh topilmasa ham, teacher bilan bog'lash
+        await getCollection('users').updateOne(
+          { _id: user._id },
+          { 
+            $set: { 
+              assignedGroups: groupIds,
+              teacherId: matchingTeacher._id,
+              teacherName: typeof matchingTeacher.name === 'string' ? matchingTeacher.name : matchingTeacher.name?.uz,
+              updatedAt: new Date().toISOString()
+            }
+          }
+        )
+        
+        syncedCount++
+        syncResults.push({
+          username: user.username,
+          name: user.name,
+          groups: groupIds,
+          teacherName: typeof matchingTeacher.name === 'string' ? matchingTeacher.name : matchingTeacher.name?.uz
+        })
+      }
+    }
+    
+    logger.info('Teacher-group sync completed', { syncedCount, syncedBy: req.user.username })
+    
+    res.json({
+      success: true,
+      message: `${syncedCount} ta teacher sinxronlandi`,
+      syncedCount,
+      results: syncResults
+    })
+  } catch (error) {
+    logger.error('Sync teacher groups error:', error)
+    res.status(500).json({ error: 'Sinxronlashda xatolik', details: error.message })
+  }
+})
+
 export default router

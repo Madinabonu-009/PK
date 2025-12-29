@@ -33,6 +33,7 @@ router.get('/', async (req, res) => {
     
     res.json(feedback.map(normalizeDoc))
   } catch (error) {
+    console.error('Feedback fetch error:', error)
     res.status(500).json({ error: 'Failed to fetch feedback' })
   }
 })
@@ -143,6 +144,7 @@ router.post('/', async (req, res) => {
       feedback: normalizeDoc(newFeedback)
     })
   } catch (error) {
+    console.error('Feedback create error:', error)
     res.status(500).json({ error: 'Failed to submit feedback' })
   }
 })

@@ -41,6 +41,39 @@
   min-width: 0;
 }
 
+.us-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.us-sync-btn {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.us-sync-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.3);
+}
+
+.us-sync-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .us-back-btn {
   background: rgba(255,255,255,0.2);
   border: 1px solid rgba(255,255,255,0.3);

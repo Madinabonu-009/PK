@@ -126,73 +126,110 @@ function TeacherDashboard() {
       console.log('[TeacherDashboard] User:', user)
       console.log('[TeacherDashboard] Assigned groups:', user?.assignedGroups)
       
-      // User'ning assignedGroups'ini tekshirish
-      const assignedGroups = user?.assignedGroups || []
-      
-      if (assignedGroups.length === 0) {
-        // Agar assignedGroups bo'sh bo'lsa, /groups/my endpoint'dan olishga harakat qilish
-        try {
-          const myGroupsRes = await api.get('/groups/my')
-          const myGroups = myGroupsRes.data?.groups || []
-          if (myGroups.length > 0) {
-            setGroup(myGroups[0])
-            // Bolalarni olish
-            const childrenRes = await api.get(`/children/by-group/${myGroups[0].id}`)
-            const childrenData = childrenRes.data || []
+      // 1. Avval /groups/my endpoint'dan guruhlarni olish (eng ishonchli usul)
+      try {
+        const myGroupsRes = await api.get('/groups/my')
+        const myGroups = myGroupsRes.data?.groups || []
+        console.log('[TeacherDashboard] Groups from /groups/my:', myGroups)
+        
+        if (myGroups.length > 0) {
+          const teacherGroup = myGroups[0]
+          setGroup(teacherGroup)
+          
+          // Bolalarni olish
+          const groupId = teacherGroup.id || teacherGroup._id
+          try {
+            const childrenRes = await api.get(`/groups/${groupId}/children`)
+            const childrenData = childrenRes.data?.children || []
+            console.log('[TeacherDashboard] Children from group endpoint:', childrenData.length)
             setChildren(childrenData)
+          } catch (err) {
+            // Fallback: /children endpoint'dan olish
+            const childrenRes = await api.get('/children')
+            const allChildren = childrenRes.data?.data || (Array.isArray(childrenRes.data) ? childrenRes.data : [])
+            const groupChildren = allChildren.filter(c => 
+              c.groupId === groupId || 
+              String(c.groupId) === String(groupId)
+            )
+            console.log('[TeacherDashboard] Children from /children:', groupChildren.length)
+            setChildren(groupChildren)
           }
-        } catch (err) {
-          console.log('[TeacherDashboard] No groups from /groups/my')
+          
+          // Bugungi davomat
+          try {
+            const attendanceRes = await api.get(`/attendance/group/${groupId}`)
+            const attendanceData = attendanceRes.data?.data || (Array.isArray(attendanceRes.data) ? attendanceRes.data : [])
+            setTodayAttendance(attendanceData)
+          } catch (err) {
+            console.log('[TeacherDashboard] Attendance error:', err.message)
+          }
+          
+          // Bugungi hisobotlar
+          try {
+            const today = new Date().toISOString().split('T')[0]
+            const reportsRes = await api.get(`/daily-reports?date=${today}&groupId=${groupId}`)
+            const reportsData = reportsRes.data?.data || (Array.isArray(reportsRes.data) ? reportsRes.data : [])
+            setTodayReports(reportsData)
+          } catch (err) {
+            console.log('[TeacherDashboard] Reports error:', err.message)
+          }
+          
+          setLoading(false)
+          return
         }
-        setLoading(false)
-        return
+      } catch (err) {
+        console.log('[TeacherDashboard] /groups/my error:', err.message)
       }
       
-      // Birinchi guruhni olish
-      const groupId = assignedGroups[0]
+      // 2. Fallback: assignedGroups bo'yicha qidirish
+      const assignedGroups = user?.assignedGroups || []
       
-      // Guruh ma'lumotlarini olish
-      const groupsRes = await api.get('/groups')
-      const groupsData = groupsRes.data?.data || (Array.isArray(groupsRes.data) ? groupsRes.data : [])
-      const teacherGroup = groupsData.find(g => 
-        g.id === groupId || 
-        g._id === groupId ||
-        String(g.id) === String(groupId)
-      )
-      
-      console.log('[TeacherDashboard] Found group:', teacherGroup)
-      
-      if (teacherGroup) {
-        setGroup(teacherGroup)
+      if (assignedGroups.length > 0) {
+        const groupId = assignedGroups[0]
         
-        // Guruh bolalari
-        const childrenRes = await api.get('/children')
-        const childrenData = childrenRes.data?.data || (Array.isArray(childrenRes.data) ? childrenRes.data : [])
-        const groupChildren = childrenData.filter(c => 
-          c.groupId === teacherGroup.id || 
-          c.groupId === groupId ||
-          String(c.groupId) === String(groupId)
+        // Guruh ma'lumotlarini olish
+        const groupsRes = await api.get('/groups')
+        const groupsData = groupsRes.data?.data || (Array.isArray(groupsRes.data) ? groupsRes.data : [])
+        const teacherGroup = groupsData.find(g => 
+          g.id === groupId || 
+          g._id === groupId ||
+          String(g.id) === String(groupId)
         )
-        console.log('[TeacherDashboard] Children:', groupChildren.length)
-        setChildren(groupChildren)
         
-        // Bugungi davomat
-        try {
-          const attendanceRes = await api.get(`/attendance/group/${groupId}`)
-          const attendanceData = attendanceRes.data?.data || (Array.isArray(attendanceRes.data) ? attendanceRes.data : [])
-          setTodayAttendance(attendanceData)
-        } catch (err) {
-          console.log('[TeacherDashboard] Attendance error:', err)
-        }
+        console.log('[TeacherDashboard] Found group from assignedGroups:', teacherGroup)
         
-        // Bugungi hisobotlar
-        try {
-          const today = new Date().toISOString().split('T')[0]
-          const reportsRes = await api.get(`/daily-reports?date=${today}&groupId=${groupId}`)
-          const reportsData = reportsRes.data?.data || (Array.isArray(reportsRes.data) ? reportsRes.data : [])
-          setTodayReports(reportsData)
-        } catch (err) {
-          console.log('[TeacherDashboard] Reports error:', err)
+        if (teacherGroup) {
+          setGroup(teacherGroup)
+          
+          // Guruh bolalari
+          const childrenRes = await api.get('/children')
+          const childrenData = childrenRes.data?.data || (Array.isArray(childrenRes.data) ? childrenRes.data : [])
+          const groupChildren = childrenData.filter(c => 
+            c.groupId === teacherGroup.id || 
+            c.groupId === groupId ||
+            String(c.groupId) === String(groupId)
+          )
+          console.log('[TeacherDashboard] Children:', groupChildren.length)
+          setChildren(groupChildren)
+          
+          // Bugungi davomat
+          try {
+            const attendanceRes = await api.get(`/attendance/group/${groupId}`)
+            const attendanceData = attendanceRes.data?.data || (Array.isArray(attendanceRes.data) ? attendanceRes.data : [])
+            setTodayAttendance(attendanceData)
+          } catch (err) {
+            console.log('[TeacherDashboard] Attendance error:', err)
+          }
+          
+          // Bugungi hisobotlar
+          try {
+            const today = new Date().toISOString().split('T')[0]
+            const reportsRes = await api.get(`/daily-reports?date=${today}&groupId=${groupId}`)
+            const reportsData = reportsRes.data?.data || (Array.isArray(reportsRes.data) ? reportsRes.data : [])
+            setTodayReports(reportsData)
+          } catch (err) {
+            console.log('[TeacherDashboard] Reports error:', err)
+          }
         }
       }
     } catch (error) {

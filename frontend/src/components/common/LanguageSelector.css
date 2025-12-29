@@ -65,3 +65,22 @@
     height: 38px;
   }
 }
+
+
+/* Colorful theme */
+[data-theme="colorful"] .lang-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: #581c87;
+}
+
+[data-theme="colorful"] .lang-btn:hover {
+  background: rgba(139, 92, 246, 0.2);
+  color: #581c87;
+}
+
+[data-theme="colorful"] .lang-btn.active {
+  background: #8b5cf6;
+  border-color: #8b5cf6;
+  color: white;
+}
