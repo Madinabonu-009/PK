@@ -186,4 +186,71 @@ router.post('/:id/pay', authenticateToken, async (req, res) => {
   }
 })
 
+// POST /api/debts/regenerate - Eski debts ni o'chirib, yangi children ID lari bilan qayta yaratish
+router.post('/regenerate', authenticateToken, async (req, res) => {
+  try {
+    const { month, dueDate, keepPaid } = req.body
+    const targetMonth = month || new Date().toISOString().slice(0, 7) // 2025-12
+    
+    // Barcha children ni olish
+    const children = await getCollection('children').find({ isActive: { $ne: false } }).toArray()
+    const groups = await getCollection('groups').find({}).toArray()
+    
+    // Eski debts ni olish (agar keepPaid true bo'lsa, paid larni saqlaymiz)
+    const oldDebts = await getCollection('debts').find({ month: targetMonth }).toArray()
+    
+    // Eski debts ni o'chirish
+    if (!keepPaid) {
+      await getCollection('debts').deleteMany({ month: targetMonth })
+    } else {
+      // Faqat pending va partial larni o'chirish
+      await getCollection('debts').deleteMany({ month: targetMonth, status: { $ne: 'paid' } })
+    }
+    
+    // Yangi debts yaratish
+    const newDebts = []
+    for (const child of children) {
+      const childId = child._id.toString()
+      
+      // Agar keepPaid va bu child uchun paid debt bor bo'lsa, skip
+      if (keepPaid) {
+        const existingPaid = oldDebts.find(d => 
+          (d.childId === childId || d.childId === child.id) && d.status === 'paid'
+        )
+        if (existingPaid) continue
+      }
+      
+      // Guruh narxini olish
+      const group = groups.find(g => (g._id?.toString() || g.id) === child.groupId)
+      const monthlyFee = group?.monthlyFee || 500000
+      
+      newDebts.push({
+        childId: childId, // Yangi MongoDB ObjectId
+        amount: monthlyFee,
+        month: targetMonth,
+        dueDate: dueDate || `${targetMonth}-05`,
+        status: 'pending',
+        paidAmount: 0,
+        createdAt: new Date()
+      })
+    }
+    
+    if (newDebts.length > 0) {
+      await getCollection('debts').insertMany(newDebts)
+    }
+    
+    console.log(`[Debts] Regenerated ${newDebts.length} debts for ${targetMonth}`)
+    
+    res.json({ 
+      success: true, 
+      message: `${newDebts.length} ta qarzdorlik qayta yaratildi`,
+      created: newDebts.length,
+      month: targetMonth
+    })
+  } catch (error) {
+    console.error('Debts regenerate error:', error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
 export default router

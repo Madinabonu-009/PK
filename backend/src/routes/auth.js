@@ -6,9 +6,88 @@ import { validatePassword } from '../utils/validation.js'
 import logger from '../utils/logger.js'
 import User from '../models/User.js'
 import Child from '../models/Child.js'
+import Teacher from '../models/Teacher.js'
+import Group from '../models/Group.js'
 import mongoose from 'mongoose'
 
 const router = express.Router()
+
+// Teacher uchun guruhlarni avtomatik topish va tayinlash
+async function autoAssignTeacherGroups(user) {
+  try {
+    if (user.role !== 'teacher') return user
+    
+    // Agar allaqachon guruhlar tayinlangan bo'lsa
+    if (user.assignedGroups && user.assignedGroups.length > 0) {
+      return user
+    }
+    
+    const userName = (user.name || '').toLowerCase().trim()
+    const userUsername = (user.username || '').toLowerCase().trim()
+    
+    // Teacher ni topish
+    const teachers = await Teacher.find({ isDeleted: { $ne: true } })
+    let matchingTeacher = null
+    
+    // 1. Username bo'yicha
+    matchingTeacher = teachers.find(t => {
+      const teacherName = (typeof t.name === 'string' ? t.name : t.name?.uz || '').toLowerCase().trim()
+      return teacherName.includes(userUsername) || 
+             userUsername.includes(teacherName.split(' ')[0]) ||
+             teacherName.split(' ')[0] === userUsername
+    })
+    
+    // 2. Ism bo'yicha
+    if (!matchingTeacher && userName) {
+      matchingTeacher = teachers.find(t => {
+        const teacherName = (typeof t.name === 'string' ? t.name : t.name?.uz || '').toLowerCase().trim()
+        return teacherName === userName || 
+               teacherName.includes(userName) || 
+               userName.includes(teacherName)
+      })
+    }
+    
+    if (matchingTeacher) {
+      const teacherId = matchingTeacher._id?.toString() || matchingTeacher.id
+      
+      // Guruhlarni topish
+      const groups = await Group.find({ isDeleted: { $ne: true } })
+      const teacherGroups = groups.filter(g => {
+        if (g.teacherId === teacherId || g.teacherId === matchingTeacher.id) return true
+        const teacherGroupName = typeof matchingTeacher.group === 'string' 
+          ? matchingTeacher.group 
+          : matchingTeacher.group?.uz || ''
+        if (teacherGroupName && g.name?.toLowerCase() === teacherGroupName.toLowerCase()) return true
+        return false
+      })
+      
+      const groupIds = teacherGroups.map(g => g.id || g._id.toString())
+      
+      if (groupIds.length > 0) {
+        // User ni yangilash
+        await User.findByIdAndUpdate(user._id, {
+          $set: { 
+            assignedGroups: groupIds,
+            teacherId: matchingTeacher._id
+          }
+        })
+        
+        user.assignedGroups = groupIds
+        user.teacherId = matchingTeacher._id
+        
+        logger.info('Auto-assigned groups to teacher on login', { 
+          username: user.username, 
+          groups: groupIds 
+        })
+      }
+    }
+    
+    return user
+  } catch (error) {
+    logger.error('Auto-assign teacher groups error', { error: error.message })
+    return user
+  }
+}
 
 // POST /api/auth/login
 router.post('/login', checkAccountLockout, async (req, res) => {
@@ -45,7 +124,12 @@ router.post('/login', checkAccountLockout, async (req, res) => {
 
     resetLoginAttempts(username)
 
-    const userObj = dbUser.toObject ? dbUser.toObject() : dbUser
+    let userObj = dbUser.toObject ? dbUser.toObject() : dbUser
+    
+    // Teacher uchun avtomatik guruh tayinlash
+    if (userObj.role === 'teacher') {
+      userObj = await autoAssignTeacherGroups(userObj)
+    }
     
     // Teacher uchun assignedGroups ni tekshirish
     if (userObj.role === 'teacher' && (!userObj.assignedGroups || userObj.assignedGroups.length === 0)) {
