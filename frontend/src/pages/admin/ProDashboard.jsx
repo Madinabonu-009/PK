@@ -34,33 +34,98 @@ function TeacherDashboardView() {
     try {
       setLoading(true)
       
-      const groupsRes = await api.get('/groups')
-      const groupsData = groupsRes.data?.data || groupsRes.data || []
-      const teacherGroup = groupsData.find(g => 
-        g.teacherId === user?.id || g.id === user?.groupId
-      )
+      console.log('[TeacherView] User:', user)
+      console.log('[TeacherView] assignedGroups:', user?.assignedGroups)
       
-      if (teacherGroup) {
-        setGroup(teacherGroup)
+      // 1. Avval /groups/my endpoint'dan olish
+      try {
+        const myGroupsRes = await api.get('/groups/my')
+        const myGroups = myGroupsRes.data?.groups || []
+        console.log('[TeacherView] /groups/my result:', myGroups)
         
-        const childrenRes = await api.get('/children')
-        const childrenData = childrenRes.data?.data || childrenRes.data || []
-        const groupChildren = childrenData.filter(c => c.groupId === teacherGroup.id && c.isActive !== false)
-        setChildren(groupChildren)
+        if (myGroups.length > 0) {
+          const teacherGroup = myGroups[0]
+          setGroup(teacherGroup)
+          
+          const groupId = teacherGroup.id || teacherGroup._id
+          
+          // Bolalarni olish
+          try {
+            const childrenRes = await api.get(`/groups/${groupId}/children`)
+            const childrenData = childrenRes.data?.children || []
+            setChildren(childrenData)
+          } catch {
+            const childrenRes = await api.get('/children')
+            const childrenData = childrenRes.data?.data || childrenRes.data || []
+            const groupChildren = childrenData.filter(c => 
+              c.groupId === groupId || String(c.groupId) === String(groupId)
+            )
+            setChildren(groupChildren)
+          }
+          
+          // Davomat
+          try {
+            const attendanceRes = await api.get(`/attendance/group/${groupId}`)
+            setTodayAttendance(attendanceRes.data?.data || attendanceRes.data || [])
+          } catch { setTodayAttendance([]) }
+          
+          // Hisobotlar
+          try {
+            const today = new Date().toISOString().split('T')[0]
+            const reportsRes = await api.get(`/daily-reports?date=${today}&groupId=${groupId}`)
+            setTodayReports(reportsRes.data?.data || reportsRes.data || [])
+          } catch { setTodayReports([]) }
+          
+          setLoading(false)
+          return
+        }
+      } catch (err) {
+        console.log('[TeacherView] /groups/my error:', err.message)
+      }
+      
+      // 2. Fallback: assignedGroups bo'yicha
+      const assignedGroups = user?.assignedGroups || []
+      console.log('[TeacherView] Fallback assignedGroups:', assignedGroups)
+      
+      if (assignedGroups.length > 0) {
+        const groupId = assignedGroups[0]
         
-        try {
-          const attendanceRes = await api.get(`/attendance/group/${teacherGroup.id}`)
-          setTodayAttendance(attendanceRes.data?.data || attendanceRes.data || [])
-        } catch { setTodayAttendance([]) }
+        const groupsRes = await api.get('/groups')
+        const groupsData = groupsRes.data?.data || groupsRes.data || []
+        const teacherGroup = groupsData.find(g => 
+          g.id === groupId || 
+          g._id === groupId ||
+          String(g.id) === String(groupId)
+        )
         
-        try {
-          const today = new Date().toISOString().split('T')[0]
-          const reportsRes = await api.get(`/daily-reports?date=${today}&groupId=${teacherGroup.id}`)
-          setTodayReports(reportsRes.data?.data || reportsRes.data || [])
-        } catch { setTodayReports([]) }
+        console.log('[TeacherView] Found group:', teacherGroup)
+        
+        if (teacherGroup) {
+          setGroup(teacherGroup)
+          
+          const childrenRes = await api.get('/children')
+          const childrenData = childrenRes.data?.data || childrenRes.data || []
+          const groupChildren = childrenData.filter(c => 
+            c.groupId === teacherGroup.id || 
+            c.groupId === groupId ||
+            String(c.groupId) === String(groupId)
+          )
+          setChildren(groupChildren)
+          
+          try {
+            const attendanceRes = await api.get(`/attendance/group/${groupId}`)
+            setTodayAttendance(attendanceRes.data?.data || attendanceRes.data || [])
+          } catch { setTodayAttendance([]) }
+          
+          try {
+            const today = new Date().toISOString().split('T')[0]
+            const reportsRes = await api.get(`/daily-reports?date=${today}&groupId=${groupId}`)
+            setTodayReports(reportsRes.data?.data || reportsRes.data || [])
+          } catch { setTodayReports([]) }
+        }
       }
     } catch (error) {
-      console.error('Teacher data error:', error)
+      console.error('[TeacherView] Error:', error)
     } finally {
       setLoading(false)
     }
