@@ -618,4 +618,84 @@ router.post('/:id/assign-teacher', authenticateToken, async (req, res) => {
   }
 })
 
+// POST /api/groups/sync-teachers - Barcha guruhlar uchun tarbiyachilarni sinxronlash
+router.post('/sync-teachers', authenticateToken, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Only admin can sync teachers' })
+    }
+    
+    const groups = await Group.find({ isDeleted: { $ne: true } })
+    const teachers = await Teacher.find({ isDeleted: { $ne: true } })
+    const users = await User.find({ role: 'teacher' })
+    
+    let synced = 0
+    const results = []
+    
+    for (const group of groups) {
+      const groupId = group.id || group._id.toString()
+      
+      // Agar guruhda teacher tayinlangan bo'lsa
+      if (group.teacherId) {
+        // Teacher ni topish
+        let teacher = teachers.find(t => 
+          t._id.toString() === group.teacherId || 
+          t.id === group.teacherId
+        )
+        
+        if (teacher) {
+          // Teacher nomini yangilash
+          const teacherName = teacher.name || teacher.fullName || `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim()
+          if (group.teacherName !== teacherName) {
+            group.teacherName = teacherName
+            await group.save()
+          }
+          
+          // User ni topish va assignedGroups ni yangilash
+          let teacherUser = users.find(u => 
+            u.teacherId?.toString() === teacher._id.toString() ||
+            u.name === teacher.name ||
+            u.phone === teacher.phone
+          )
+          
+          if (teacherUser) {
+            const currentGroups = teacherUser.assignedGroups || []
+            if (!currentGroups.includes(groupId)) {
+              await User.findByIdAndUpdate(teacherUser._id, {
+                $addToSet: { assignedGroups: groupId },
+                $set: { teacherId: teacher._id }
+              })
+              synced++
+              results.push({
+                group: group.name,
+                teacher: teacherName,
+                user: teacherUser.username,
+                action: 'assigned'
+              })
+            }
+          }
+        }
+      } else {
+        // Guruhda teacher yo'q - "Tayinlanmagan" holati
+        if (group.teacherName) {
+          group.teacherName = null
+          await group.save()
+        }
+      }
+    }
+    
+    logger.info('Teachers synced', { synced, total: groups.length })
+    
+    res.json({ 
+      success: true, 
+      synced, 
+      total: groups.length,
+      results 
+    })
+  } catch (error) {
+    logger.error('Sync teachers error', { error: error.message })
+    res.status(500).json({ error: 'Failed to sync teachers' })
+  }
+})
+
 export default router

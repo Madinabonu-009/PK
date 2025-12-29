@@ -295,33 +295,79 @@ router.post('/sync-teacher-groups', authenticateToken, requireRole('admin'), asy
     const groups = await getCollection('groups').find({ isDeleted: { $ne: true } }).toArray()
     const users = await getCollection('users').find({ role: 'teacher' }).toArray()
     
+    console.log('[Sync] Teachers:', teachers.length, 'Groups:', groups.length, 'Users:', users.length)
+    console.log('[Sync] Teachers sample:', teachers.slice(0, 3).map(t => ({
+      id: t._id?.toString(),
+      name: t.name,
+      group: t.group
+    })))
+    console.log('[Sync] Groups sample:', groups.slice(0, 3).map(g => ({
+      id: g._id?.toString(),
+      stringId: g.id,
+      name: g.name,
+      teacherId: g.teacherId
+    })))
+    
     let syncedCount = 0
     const syncResults = []
     
+    // Har bir teacher user uchun
     for (const user of users) {
-      // Teacher ni topish (ism bo'yicha - keng qidiruv)
-      const userName = user.name?.toLowerCase() || ''
-      const matchingTeacher = teachers.find(t => {
-        const teacherName = (typeof t.name === 'string' ? t.name : t.name?.uz || '').toLowerCase()
-        return teacherName === userName || 
-               teacherName.includes(userName) || 
-               userName.includes(teacherName) ||
-               (t.email && t.email === user.email)
+      const userName = (user.name || '').toLowerCase().trim()
+      const userUsername = (user.username || '').toLowerCase().trim()
+      
+      // Teacher ni topish - turli usullar bilan
+      let matchingTeacher = null
+      
+      // 1. Username bo'yicha (nilufar, madina, dilnoza)
+      matchingTeacher = teachers.find(t => {
+        const teacherName = (typeof t.name === 'string' ? t.name : t.name?.uz || '').toLowerCase().trim()
+        // Username teacher ismining bir qismi bo'lishi mumkin
+        return teacherName.includes(userUsername) || 
+               userUsername.includes(teacherName.split(' ')[0]) ||
+               teacherName.split(' ')[0] === userUsername
       })
       
+      // 2. Ism bo'yicha
+      if (!matchingTeacher && userName) {
+        matchingTeacher = teachers.find(t => {
+          const teacherName = (typeof t.name === 'string' ? t.name : t.name?.uz || '').toLowerCase().trim()
+          return teacherName === userName || 
+                 teacherName.includes(userName) || 
+                 userName.includes(teacherName)
+        })
+      }
+      
+      // 3. Email bo'yicha
+      if (!matchingTeacher && user.email) {
+        matchingTeacher = teachers.find(t => t.email === user.email)
+      }
+      
+      // 4. Phone bo'yicha
+      if (!matchingTeacher && user.phone) {
+        matchingTeacher = teachers.find(t => t.phone === user.phone)
+      }
+      
+      console.log(`[Sync] User ${user.username}: matchingTeacher =`, matchingTeacher ? matchingTeacher.name : 'NOT FOUND')
+      
       if (matchingTeacher) {
-        // Bu teacher'ga biriktirilgan guruhlarni topish
-        const teacherGroupName = typeof matchingTeacher.group === 'string' 
-          ? matchingTeacher.group 
-          : matchingTeacher.group?.uz || matchingTeacher.group || ''
+        const teacherId = matchingTeacher._id?.toString() || matchingTeacher.id
         
+        // Bu teacher'ga biriktirilgan guruhlarni topish
         const teacherGroups = groups.filter(g => {
-          // teacherId bo'yicha
-          if (g.teacherId === matchingTeacher._id?.toString() || g.teacherId === matchingTeacher.id) {
+          // 1. teacherId bo'yicha
+          if (g.teacherId === teacherId || g.teacherId === matchingTeacher.id) {
             return true
           }
-          // group nomi bo'yicha
+          // 2. Teacher.group field bo'yicha
+          const teacherGroupName = typeof matchingTeacher.group === 'string' 
+            ? matchingTeacher.group 
+            : matchingTeacher.group?.uz || ''
           if (teacherGroupName && g.name?.toLowerCase() === teacherGroupName.toLowerCase()) {
+            return true
+          }
+          // 3. Group id bo'yicha
+          if (matchingTeacher.groupId && (g.id === matchingTeacher.groupId || g._id?.toString() === matchingTeacher.groupId)) {
             return true
           }
           return false
@@ -329,7 +375,9 @@ router.post('/sync-teacher-groups', authenticateToken, requireRole('admin'), asy
         
         const groupIds = teacherGroups.map(g => g.id || g._id.toString())
         
-        // Agar guruh topilmasa ham, teacher bilan bog'lash
+        console.log(`[Sync] User ${user.username}: found ${groupIds.length} groups:`, groupIds)
+        
+        // User'ni yangilash
         await getCollection('users').updateOne(
           { _id: user._id },
           { 
@@ -342,12 +390,39 @@ router.post('/sync-teacher-groups', authenticateToken, requireRole('admin'), asy
           }
         )
         
+        // Teacher'ni ham yangilash - userId qo'shish
+        await getCollection('teachers').updateOne(
+          { _id: matchingTeacher._id },
+          { $set: { userId: user._id } }
+        )
+        
+        // Guruhlarni ham yangilash - teacherId va teacherName
+        for (const g of teacherGroups) {
+          await getCollection('groups').updateOne(
+            { _id: g._id },
+            { 
+              $set: { 
+                teacherId: teacherId,
+                teacherName: typeof matchingTeacher.name === 'string' ? matchingTeacher.name : matchingTeacher.name?.uz
+              }
+            }
+          )
+        }
+        
         syncedCount++
         syncResults.push({
           username: user.username,
           name: user.name,
           groups: groupIds,
+          groupNames: teacherGroups.map(g => g.name),
           teacherName: typeof matchingTeacher.name === 'string' ? matchingTeacher.name : matchingTeacher.name?.uz
+        })
+      } else {
+        syncResults.push({
+          username: user.username,
+          name: user.name,
+          groups: [],
+          error: 'Teacher topilmadi'
         })
       }
     }
@@ -358,6 +433,7 @@ router.post('/sync-teacher-groups', authenticateToken, requireRole('admin'), asy
       success: true,
       message: `${syncedCount} ta teacher sinxronlandi`,
       syncedCount,
+      totalUsers: users.length,
       results: syncResults
     })
   } catch (error) {

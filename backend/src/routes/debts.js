@@ -13,6 +13,15 @@ router.get('/', authenticateToken, async (req, res) => {
     const children = await getCollection('children').find({}).toArray()
     const groups = await getCollection('groups').find({}).toArray()
     
+    console.log('[Debts] Children count:', children.length)
+    console.log('[Debts] Sample children:', children.slice(0, 2).map(c => ({
+      _id: c._id?.toString(),
+      id: c.id,
+      firstName: c.firstName,
+      lastName: c.lastName,
+      name: c.name
+    })))
+    
     let filtered = debts
     if (status) filtered = filtered.filter(d => d.status === status)
     if (month) filtered = filtered.filter(d => d.month === month)
@@ -23,17 +32,30 @@ router.get('/', authenticateToken, async (req, res) => {
     }
     
     const result = filtered.map(debt => {
-      // Child ni turli usullar bilan topish
-      let child = children.find(c => (c._id?.toString() || c.id) === debt.childId)
+      const debtChildId = debt.childId?.toString() || debt.childId
       
-      // Agar topilmasa, ObjectId sifatida qidirish
-      if (!child && debt.childId) {
-        child = children.find(c => c._id?.toString() === debt.childId?.toString())
+      // Child ni turli usullar bilan topish
+      let child = null
+      
+      // 1. _id.toString() === childId
+      child = children.find(c => c._id?.toString() === debtChildId)
+      
+      // 2. id === childId
+      if (!child) {
+        child = children.find(c => c.id === debtChildId)
       }
       
-      // Agar hali ham topilmasa, id field bo'yicha
-      if (!child && debt.childId) {
-        child = children.find(c => c.id === debt.childId)
+      // 3. _id === childId (ObjectId comparison)
+      if (!child) {
+        child = children.find(c => String(c._id) === String(debtChildId))
+      }
+      
+      // 4. Partial match - childId ichida _id bor yoki aksincha
+      if (!child && debtChildId) {
+        child = children.find(c => {
+          const cId = c._id?.toString() || c.id || ''
+          return cId.includes(debtChildId) || debtChildId.includes(cId)
+        })
       }
       
       const group = child ? groups.find(g => (g._id?.toString() || g.id) === child.groupId) : null
@@ -47,11 +69,15 @@ router.get('/', authenticateToken, async (req, res) => {
       if (child) {
         if (child.firstName && child.lastName) {
           childName = `${child.firstName} ${child.lastName}`
+        } else if (child.firstName) {
+          childName = child.firstName
         } else if (child.name) {
           childName = child.name
         } else if (child.fullName) {
           childName = child.fullName
         }
+      } else {
+        console.log('[Debts] Child not found for debt:', { debtChildId, debtId: debt._id?.toString() })
       }
       
       return {

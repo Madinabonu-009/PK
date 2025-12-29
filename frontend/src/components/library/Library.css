@@ -39,17 +39,22 @@
   left: 0;
   top: 0;
   padding: 0.6rem 1.2rem;
-  background: white;
+  background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
   border: none;
   border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(146, 64, 14, 0.3);
   transition: all 0.3s ease;
+  color: white;
+  font-size: 0.95rem;
+  text-decoration: none;
 }
 
 .library-header .back-btn:hover {
   transform: translateX(-5px);
+  background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+  box-shadow: 0 6px 20px rgba(146, 64, 14, 0.4);
 }
 
 .header-icon {
