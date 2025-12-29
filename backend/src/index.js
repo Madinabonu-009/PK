@@ -61,6 +61,69 @@ const startServer = async () => {
   const useDatabase = await connectDB()
   app.locals.useDatabase = useDatabase
   
+  // Teacher-Group avtomatik sinxronlash
+  if (useDatabase) {
+    try {
+      const mongoose = await import('mongoose')
+      const db = mongoose.default.connection
+      
+      const teachers = await db.collection('teachers').find({ isDeleted: { $ne: true } }).toArray()
+      const groups = await db.collection('groups').find({ isDeleted: { $ne: true } }).toArray()
+      const users = await db.collection('users').find({ role: 'teacher' }).toArray()
+      
+      let syncedCount = 0
+      
+      for (const user of users) {
+        // Agar allaqachon guruh tayinlangan bo'lsa, skip
+        if (user.assignedGroups && user.assignedGroups.length > 0) continue
+        
+        const userName = (user.name || '').toLowerCase().trim()
+        const userUsername = (user.username || '').toLowerCase().trim()
+        
+        // Teacher ni topish
+        let matchingTeacher = teachers.find(t => {
+          const teacherName = (typeof t.name === 'string' ? t.name : t.name?.uz || '').toLowerCase().trim()
+          return teacherName.includes(userUsername) || 
+                 userUsername.includes(teacherName.split(' ')[0]) ||
+                 teacherName.split(' ')[0] === userUsername ||
+                 teacherName === userName ||
+                 teacherName.includes(userName)
+        })
+        
+        if (matchingTeacher) {
+          const teacherId = matchingTeacher._id?.toString() || matchingTeacher.id
+          
+          // Guruhlarni topish
+          const teacherGroups = groups.filter(g => {
+            if (g.teacherId === teacherId || g.teacherId === matchingTeacher.id) return true
+            const teacherGroupName = typeof matchingTeacher.group === 'string' 
+              ? matchingTeacher.group 
+              : matchingTeacher.group?.uz || ''
+            if (teacherGroupName && g.name?.toLowerCase() === teacherGroupName.toLowerCase()) return true
+            return false
+          })
+          
+          const groupIds = teacherGroups.map(g => g.id || g._id.toString())
+          
+          if (groupIds.length > 0) {
+            await db.collection('users').updateOne(
+              { _id: user._id },
+              { $set: { assignedGroups: groupIds, teacherId: matchingTeacher._id } }
+            )
+            syncedCount++
+            console.log(`✅ Teacher synced: ${user.username} -> ${groupIds.join(', ')}`)
+          }
+        }
+      }
+      
+      if (syncedCount > 0) {
+        console.log(`📊 Auto-synced ${syncedCount} teachers with groups`)
+      }
+    } catch (error) {
+      console.error('Teacher auto-sync error:', error.message)
+    }
+  }
+  
   // Server'ni MongoDB ulangandan keyin ishga tushirish
   const server = app.listen(PORT, () => {
     logger.success(`🚀 Server running on port ${PORT}`)
