@@ -125,11 +125,16 @@ const startServer = async () => {
   }
   
   // Server'ni MongoDB ulangandan keyin ishga tushirish
-  const server = app.listen(PORT, () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     logger.success(`🚀 Server running on port ${PORT}`)
     logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`)
     logger.info(`Database: ${useDatabase ? 'MongoDB' : 'JSON files'}`)
   })
+  
+  // Render.com 502 xatosini oldini olish uchun timeout sozlamalari
+  // Free plan'da server "uxlab qoladi" va qayta uyanishda timeout bo'ladi
+  server.keepAliveTimeout = 120000 // 120 sekund
+  server.headersTimeout = 120000 // 120 sekund (keepAliveTimeout dan katta yoki teng bo'lishi kerak)
 
   // Initialize WebSocket
   const { initializeWebSocket } = await import('./services/websocket.js')
