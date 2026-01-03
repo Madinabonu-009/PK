@@ -10,7 +10,6 @@ const Footer = () => {
     uz: {
       pages: "Sahifalar",
       services: "Xizmatlar",
-      parents: "Bolalar uchun",
       contactInfo: "Aloqa",
       footerTagline: "Bolalar uchun eng yaxshi ta'lim muhiti",
       rights: "Barcha huquqlar himoyalangan",
@@ -22,16 +21,12 @@ const Footer = () => {
       teachers: "Xodimlar",
       gallery: "Galereya",
       menu: "Menyu",
-      dailyLife: "Kundalik hayot",
       enrollment: "Ro'yxatdan o'tish",
-      feedback: "Fikr-mulohaza",
-      games: "O'yinlar",
-      library: "Kutubxona"
+      feedback: "Fikr-mulohaza"
     },
     ru: {
       pages: "Страницы",
       services: "Услуги",
-      parents: "Для детей",
       contactInfo: "Контакты",
       footerTagline: "Лучшая образовательная среда для детей",
       rights: "Все права защищены",
@@ -43,16 +38,12 @@ const Footer = () => {
       teachers: "Сотрудники",
       gallery: "Галерея",
       menu: "Меню",
-      dailyLife: "Ежедневная жизнь",
       enrollment: "Запись",
-      feedback: "Отзывы",
-      games: "Игры",
-      library: "Библиотека"
+      feedback: "Отзывы"
     },
     en: {
       pages: "Pages",
       services: "Services",
-      parents: "For Kids",
       contactInfo: "Contact",
       footerTagline: "The best educational environment for children",
       rights: "All rights reserved",
@@ -64,11 +55,8 @@ const Footer = () => {
       teachers: "Staff",
       gallery: "Gallery",
       menu: "Menu",
-      dailyLife: "Daily Life",
       enrollment: "Enrollment",
-      feedback: "Feedback",
-      games: "Games",
-      library: "Library"
+      feedback: "Feedback"
     }
   }
 
@@ -101,17 +89,8 @@ const Footer = () => {
             <li><Link to="/staff">{txt.teachers}</Link></li>
             <li><Link to="/gallery">{txt.gallery}</Link></li>
             <li><Link to="/menu">{txt.menu}</Link></li>
-            <li><Link to="/daily-life">{txt.dailyLife}</Link></li>
             <li><Link to="/enrollment">{txt.enrollment}</Link></li>
-          </ul>
-        </div>
-
-        <div className="footer-section">
-          <h4 className="footer-title">{txt.parents}</h4>
-          <ul className="footer-links">
             <li><Link to="/feedback">{txt.feedback}</Link></li>
-            <li><Link to="/games">{txt.games}</Link></li>
-            <li><Link to="/library">{txt.library}</Link></li>
           </ul>
         </div>
 

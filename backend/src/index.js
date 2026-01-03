@@ -300,9 +300,25 @@ const uploadsPath = process.env.NODE_ENV === 'production'
   ? path.join(__dirname, '../data/uploads')
   : path.join(__dirname, '../uploads')
 
+// Uploads papkalarini yaratish
+const uploadDirs = ['gallery', 'stories', 'events']
+uploadDirs.forEach(dir => {
+  const dirPath = path.join(uploadsPath, dir)
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true })
+    console.log(`📁 Created upload directory: ${dirPath}`)
+  }
+})
+
 // Har ikkala path'ni ham serve qilish (backward compatibility)
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
-app.use('/data/uploads', express.static(uploadsPath))
+app.use('/uploads', express.static(path.join(__dirname, '../uploads'), {
+  maxAge: '7d',
+  etag: true
+}))
+app.use('/data/uploads', express.static(uploadsPath, {
+  maxAge: '7d',
+  etag: true
+}))
 
 // Serve images from frontend/public/images (for gallery)
 const imagesPath = process.env.NODE_ENV === 'production'

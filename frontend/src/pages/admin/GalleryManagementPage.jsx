@@ -12,7 +12,10 @@ const getFullUrl = (url) => {
   if (!url) return ''
   if (url.startsWith('http')) return url
   if (url.startsWith('/images/')) return url
-  if (url.startsWith('/uploads/')) return `${API_BASE}${url}`
+  // Handle both /uploads/ and /data/uploads/ paths
+  if (url.startsWith('/uploads/') || url.startsWith('/data/uploads/')) {
+    return `${API_BASE}${url}`
+  }
   return url.startsWith('/') ? `${API_BASE}${url}` : url
 }
 

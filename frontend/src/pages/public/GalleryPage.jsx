@@ -16,8 +16,8 @@ const getFullUrl = (url) => {
   if (url.startsWith('http')) return url
   // /images/ - frontend public papkasidan
   if (url.startsWith('/images/')) return url
-  // /uploads/ - backend serverdan
-  if (url.startsWith('/uploads/')) {
+  // /uploads/ yoki /data/uploads/ - backend serverdan
+  if (url.startsWith('/uploads/') || url.startsWith('/data/uploads/')) {
     return `${API_BASE}${url}`
   }
   // Boshqa holatlar

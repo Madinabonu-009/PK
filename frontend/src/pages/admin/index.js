@@ -1,5 +1,5 @@
 export { default as LoginPage } from './LoginPage'
-export { default as DashboardPage } from './DashboardPage'
+export { default as DashboardPage } from './ProDashboard'
 export { default as ChildrenPage } from './ChildrenPage'
 export { default as GroupsPage } from './GroupsPage'
 export { default as MenuManagementPage } from './MenuManagementPage'

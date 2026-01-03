@@ -1,9 +1,26 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import { authenticateToken } from '../middleware/auth.js'
+import axios from 'axios'
 
 const router = express.Router()
 const getCollection = (name) => mongoose.connection.collection(name)
+
+// Telegram xabar yuborish funksiyasi
+const sendTelegramMessage = async (chatId, message) => {
+  const botToken = process.env.TELEGRAM_BOT_TOKEN || '8046634314:AAGdOOkGMG_V0wuYa1TQYmu2_xrOYdxkZ_M'
+  try {
+    await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      chat_id: chatId,
+      text: message,
+      parse_mode: 'HTML'
+    })
+    return true
+  } catch (error) {
+    console.error('Telegram send error:', error.message)
+    return false
+  }
+}
 
 // GET /api/debts
 router.get('/', authenticateToken, async (req, res) => {
@@ -249,6 +266,130 @@ router.post('/regenerate', authenticateToken, async (req, res) => {
     })
   } catch (error) {
     console.error('Debts regenerate error:', error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// POST /api/debts/:id/remind - Bitta qarzdorga eslatma yuborish
+router.post('/:id/remind', authenticateToken, async (req, res) => {
+  try {
+    const debts = await getCollection('debts').find({}).toArray()
+    const debt = debts.find(d => (d._id?.toString() || d.id) === req.params.id)
+    
+    if (!debt) return res.status(404).json({ error: 'Qarzdorlik topilmadi' })
+    
+    const children = await getCollection('children').find({}).toArray()
+    const child = children.find(c => 
+      c._id?.toString() === debt.childId || 
+      c.id === debt.childId ||
+      String(c._id) === String(debt.childId)
+    )
+    
+    if (!child) return res.status(404).json({ error: 'Bola topilmadi' })
+    
+    const parentPhone = child.parentPhone || child.parent?.phone
+    const childName = child.firstName && child.lastName 
+      ? `${child.firstName} ${child.lastName}` 
+      : child.firstName || child.name || 'Noma\'lum'
+    
+    const remainingAmount = debt.amount - (debt.paidAmount || 0)
+    
+    // Telegram xabar matni
+    const message = `🔔 <b>To'lov eslatmasi</b>\n\n` +
+      `👶 Bola: <b>${childName}</b>\n` +
+      `💰 Qarzdorlik: <b>${remainingAmount.toLocaleString()} so'm</b>\n` +
+      `📅 Muddat: <b>${debt.dueDate || 'Belgilanmagan'}</b>\n\n` +
+      `Iltimos, to'lovni o'z vaqtida amalga oshiring.\n` +
+      `📞 Bog'lanish: +998 94 514 09 49`
+    
+    // Admin chat ID ga yuborish
+    const adminChatId = process.env.TELEGRAM_CHAT_ID || '8058402292'
+    const sent = await sendTelegramMessage(adminChatId, message)
+    
+    if (sent) {
+      // Eslatma yuborilgan vaqtni saqlash
+      await getCollection('debts').updateOne(
+        { _id: debt._id },
+        { $set: { lastReminder: new Date() } }
+      )
+      res.json({ success: true, message: 'Eslatma yuborildi' })
+    } else {
+      res.status(500).json({ error: 'Telegram xabar yuborishda xatolik' })
+    }
+  } catch (error) {
+    console.error('Remind error:', error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// POST /api/debts/remind-all - Barcha qarzdorlarga eslatma yuborish
+router.post('/remind-all', authenticateToken, async (req, res) => {
+  try {
+    const debts = await getCollection('debts').find({ status: { $ne: 'paid' } }).toArray()
+    const children = await getCollection('children').find({}).toArray()
+    
+    if (debts.length === 0) {
+      return res.json({ success: true, sent: 0, message: 'Qarzdorlik yo\'q' })
+    }
+    
+    let sentCount = 0
+    const adminChatId = process.env.TELEGRAM_CHAT_ID || '8058402292'
+    
+    // Umumiy hisobot xabari
+    let reportMessage = `📊 <b>Qarzdorlik hisoboti</b>\n\n`
+    reportMessage += `📅 Sana: ${new Date().toLocaleDateString('uz-UZ')}\n`
+    reportMessage += `👥 Jami qarzdorlar: ${debts.length} ta\n\n`
+    reportMessage += `<b>Ro'yxat:</b>\n`
+    
+    let totalDebt = 0
+    
+    for (const debt of debts) {
+      const child = children.find(c => 
+        c._id?.toString() === debt.childId || 
+        c.id === debt.childId ||
+        String(c._id) === String(debt.childId)
+      )
+      
+      const childName = child 
+        ? (child.firstName && child.lastName 
+            ? `${child.firstName} ${child.lastName}` 
+            : child.firstName || child.name || 'Noma\'lum')
+        : 'Noma\'lum'
+      
+      const remainingAmount = debt.amount - (debt.paidAmount || 0)
+      totalDebt += remainingAmount
+      
+      reportMessage += `• ${childName}: ${remainingAmount.toLocaleString()} so'm`
+      if (debt.daysOverdue > 0) {
+        reportMessage += ` ⚠️ (${debt.daysOverdue} kun kechikish)`
+      }
+      reportMessage += `\n`
+    }
+    
+    reportMessage += `\n💰 <b>Jami qarzdorlik: ${totalDebt.toLocaleString()} so'm</b>`
+    
+    // Admin ga yuborish
+    const sent = await sendTelegramMessage(adminChatId, reportMessage)
+    
+    if (sent) {
+      sentCount = 1
+      
+      // Barcha debts ga lastReminder qo'shish
+      await getCollection('debts').updateMany(
+        { status: { $ne: 'paid' } },
+        { $set: { lastReminder: new Date() } }
+      )
+    }
+    
+    res.json({ 
+      success: true, 
+      sent: sentCount, 
+      totalDebtors: debts.length,
+      totalAmount: totalDebt,
+      message: `Qarzdorlik hisoboti yuborildi (${debts.length} ta qarzdor, ${totalDebt.toLocaleString()} so'm)`
+    })
+  } catch (error) {
+    console.error('Remind all error:', error)
     res.status(500).json({ error: error.message })
   }
 })

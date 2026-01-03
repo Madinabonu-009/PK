@@ -15,7 +15,6 @@ import InstallPrompt from './components/pwa/InstallPrompt'
 // Public pages
 const HomePage = lazy(() => import('./pages/public/HomePage'))
 const AboutPage = lazy(() => import('./pages/public/AboutPage'))
-const DailyLifePage = lazy(() => import('./pages/public/DailyLifePage'))
 const MenuPage = lazy(() => import('./pages/public/MenuPage'))
 const StaffPage = lazy(() => import('./pages/public/TeachersPage'))
 const EnrollmentPage = lazy(() => import('./pages/public/EnrollmentPage'))
@@ -94,7 +93,6 @@ function AnimatedRoutes() {
         {/* Public */}
         <Route path="/" element={<PublicLayout><HomePage /></PublicLayout>} />
         <Route path="/about" element={<PublicLayout><AboutPage /></PublicLayout>} />
-        <Route path="/daily-life" element={<PublicLayout><DailyLifePage /></PublicLayout>} />
         <Route path="/menu" element={<PublicLayout><MenuPage /></PublicLayout>} />
         <Route path="/staff" element={<PublicLayout><StaffPage /></PublicLayout>} />
         <Route path="/gallery" element={<PublicLayout><GalleryPage /></PublicLayout>} />
