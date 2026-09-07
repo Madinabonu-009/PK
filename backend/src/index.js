@@ -51,14 +51,29 @@ import { initCronJobs } from './services/cronJobs.js'
 import logger from './utils/logger.js'
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 10000
 
 // Trust proxy for Render.com (behind reverse proxy)
 app.set('trust proxy', 1)
 
-// MongoDB ulanish - AWAIT bilan
+// MongoDB ulanish - AWAIT bilan, timeout bilan
 const startServer = async () => {
-  const useDatabase = await connectDB()
+  let useDatabase = false
+  
+  try {
+    // MongoDB ulanishiga 30 sekund timeout
+    const connectPromise = connectDB()
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('MongoDB connection timeout')), 30000)
+    )
+    
+    useDatabase = await Promise.race([connectPromise, timeoutPromise])
+  } catch (error) {
+    console.error('⚠️ MongoDB ulanish xatosi:', error.message)
+    console.log('📌 Server MongoDB siz ishga tushmoqda...')
+    useDatabase = false
+  }
+  
   app.locals.useDatabase = useDatabase
   
   // Teacher-Group avtomatik sinxronlash
@@ -149,7 +164,17 @@ const startServer = async () => {
   })
 }
 
-startServer()
+// Server'ni ishga tushirish - xatolarni handle qilish bilan
+startServer().catch(error => {
+  console.error('❌ Server ishga tushirishda xato:', error.message)
+  
+  // Xato bo'lsa ham minimal server ishga tushirish
+  const fallbackServer = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`⚠️ Fallback server running on port ${PORT}`)
+  })
+  fallbackServer.keepAliveTimeout = 120000
+  fallbackServer.headersTimeout = 120000
+})
 
 // Security Middleware
 app.use(helmet({
