@@ -6,25 +6,78 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+let isConnected = false
+
 const connectDB = async () => {
   try {
-    if (process.env.MONGODB_URI) {
-      const conn = await mongoose.connect(process.env.MONGODB_URI)
-      console.log(`✅ MongoDB ulandi: ${conn.connection.host}`)
-      
-      // MongoDB bo'sh bo'lsa, barcha JSON fayllarni ko'chirish
-      await seedAllDataIfEmpty()
-      
-      return true
-    } else {
+    const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL
+    
+    if (!mongoUri) {
       console.log('⚠️ MONGODB_URI topilmadi')
       return false
     }
+
+    // Agar allaqachon ulangan bo'lsa
+    if (mongoose.connection.readyState === 1) {
+      console.log('✅ MongoDB allaqachon ulangan')
+      return true
+    }
+
+    // MongoDB ulanish sozlamalari
+    const options = {
+      serverSelectionTimeoutMS: 30000, // 30 sekund timeout
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 2,
+      retryWrites: true,
+      retryReads: true,
+      w: 'majority',
+    }
+
+    // MongoDB'ga ulanish
+    await mongoose.connect(mongoUri, options)
+    
+    isConnected = true
+    console.log(`✅ MongoDB ulandi: ${mongoose.connection.host}`)
+    console.log(`📦 Database: ${mongoose.connection.name}`)
+    
+    // Connection events
+    mongoose.connection.on('error', (err) => {
+      console.error('❌ MongoDB xatosi:', err.message)
+      isConnected = false
+    })
+    
+    mongoose.connection.on('disconnected', () => {
+      console.log('⚠️ MongoDB uzildi')
+      isConnected = false
+    })
+    
+    mongoose.connection.on('reconnected', () => {
+      console.log('✅ MongoDB qayta ulandi')
+      isConnected = true
+    })
+
+    // Seed data if collections are empty
+    await seedAllDataIfEmpty()
+    
+    return true
   } catch (error) {
     console.error(`❌ MongoDB ulanish xatosi: ${error.message}`)
+    isConnected = false
     return false
   }
 }
+
+// Get database connection
+export const getDB = () => {
+  if (!isConnected || mongoose.connection.readyState !== 1) {
+    throw new Error('Database not connected')
+  }
+  return mongoose.connection.db
+}
+
+// Check if MongoDB is connected
+export const isDBConnected = () => isConnected && mongoose.connection.readyState === 1
 
 // JSON faylni o'qish
 function readJsonFile(filename) {
