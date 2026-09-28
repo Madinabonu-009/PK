@@ -109,23 +109,15 @@ const GalleryPage = () => {
 
   const fetchGallery = async () => {
     try {
-      console.log('[GalleryPage] Fetching gallery...')
       const response = await api.get('/gallery')
-      console.log('[GalleryPage] API Response:', response)
-      console.log('[GalleryPage] Response data:', response.data)
-      console.log('[GalleryPage] Response data type:', typeof response.data)
-      console.log('[GalleryPage] Is array:', Array.isArray(response.data))
       
       // API returns { data: [...], pagination: {...} }
       const data = response.data?.data || response.data?.items || 
                    (Array.isArray(response.data) ? response.data : [])
-      console.log('[GalleryPage] Processed data:', data)
-      console.log('[GalleryPage] Data length:', data.length)
       
       setItems(data)
     } catch (error) {
       console.error('[GalleryPage] Error:', error)
-      console.error('[GalleryPage] Error response:', error.response)
       // Fallback to demo data
       setItems([
         { id: 1, type: 'image', url: '/images/gallery-1.jpg', title: "Ijodiy mashg'ulot", album: 'activities' },

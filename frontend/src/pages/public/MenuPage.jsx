@@ -74,16 +74,10 @@ const MenuPage = () => {
       try {
         setLoading(true)
         setError(null)
-        console.log('[MenuPage] Fetching menu...')
         const response = await api.get('/menu')
-        console.log('[MenuPage] API Response:', response)
-        console.log('[MenuPage] Response data:', response.data)
-        console.log('[MenuPage] Response data type:', typeof response.data)
-        console.log('[MenuPage] Is array:', Array.isArray(response.data))
         
         // API may return { data: [...] } or object/array directly
         const data = response.data?.data || response.data
-        console.log('[MenuPage] Processed data:', data)
         
         setMenuData(data)
       } catch (err) {

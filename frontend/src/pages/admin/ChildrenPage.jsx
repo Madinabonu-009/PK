@@ -345,8 +345,8 @@ function ChildFormModal({ isOpen, onClose, mode, child, groups, onSuccess, langu
     if (!formData.parentName.trim()) newErrors.parentName = txt.parentNameRequired
     if (!formData.parentPhone.trim()) {
       newErrors.parentPhone = txt.phoneRequired
-    } else if (!/^\+?[0-9]{9,15}$/.test(formData.parentPhone.replace(/\s/g, ''))) {
-      newErrors.parentPhone = txt.phoneInvalid
+    } else if (!/^\+998[0-9]{9}$/.test(formData.parentPhone.replace(/\s/g, ''))) {
+      newErrors.parentPhone = 'Telefon formati: +998XXXXXXXXX'
     }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0

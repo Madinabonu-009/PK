@@ -164,7 +164,7 @@ function TeacherDashboardView() {
     <div className="pro-dashboard teacher-view">
       <div className="dashboard-header">
         <div className="dashboard-header-left">
-          <h1 className="dashboard-title">👋 Salom, {user?.name || user?.username}!</h1>
+          <h1 className="dashboard-title">👋 Assalomu alaykum, {user?.name || user?.username}!</h1>
           <p className="dashboard-subtitle">
             <span className="group-badge">👥 {group.name}</span> • {new Date().toLocaleDateString('uz-UZ', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>

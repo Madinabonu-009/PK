@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
+import mongoSanitize from 'express-mongo-sanitize'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import fs from 'fs'
@@ -266,6 +267,22 @@ app.use(requestLogger)
 
 // Performance monitoring
 app.use(performanceMonitor)
+
+// Body parsers
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ extended: true, limit: '50mb' }))
+
+// MongoDB injection protection
+app.use(mongoSanitize({
+  replaceWith: '_',
+  onSanitize: ({ req, key }) => {
+    logger.warn('MongoDB injection attempt detected', { 
+      ip: req.ip, 
+      key,
+      path: req.path 
+    })
+  }
+}))
 
 // Compression
 app.use(compression({

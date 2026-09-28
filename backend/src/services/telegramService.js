@@ -1,8 +1,11 @@
 import axios from 'axios';
 import mongoose from 'mongoose';
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+// Environment variables dinamik o'qiladi (dotenv yuklangandan keyin)
+const getTelegramConfig = () => ({
+  botToken: process.env.TELEGRAM_BOT_TOKEN,
+  chatId: process.env.TELEGRAM_CHAT_ID
+});
 
 // MongoDB collection helper
 const getCollection = (name) => mongoose.connection.collection(name)
@@ -21,11 +24,15 @@ const dayNames = {
 // ASOSIY FUNKSIYALAR
 // ============================================
 
-export const sendTelegramMessage = async (message, chatId = TELEGRAM_CHAT_ID) => {
-  if (!TELEGRAM_BOT_TOKEN || !chatId) {
+export const sendTelegramMessage = async (message, chatId) => {
+  const config = getTelegramConfig();
+  const TELEGRAM_BOT_TOKEN = config.botToken;
+  const TELEGRAM_CHAT_ID = chatId || config.chatId;
+  
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
     console.error('Telegram bot token yoki chat ID topilmadi');
     console.error('BOT_TOKEN:', TELEGRAM_BOT_TOKEN ? 'mavjud' : 'yo\'q');
-    console.error('CHAT_ID:', chatId ? 'mavjud' : 'yo\'q');
+    console.error('CHAT_ID:', TELEGRAM_CHAT_ID ? 'mavjud' : 'yo\'q');
     return false;
   }
 
@@ -58,7 +65,12 @@ export const sendTelegramMessage = async (message, chatId = TELEGRAM_CHAT_ID) =>
 export const getMenuData = async () => {
   try {
     const menu = await getCollection('menu').findOne({})
-    return menu?.days || menu || null
+    if (!menu) {
+      console.error('Menu topilmadi');
+      return null;
+    }
+    // menu.days mavjud bo'lsa, uni qaytarish
+    return menu.days || menu;
   } catch (error) {
     console.error('Menu ma\'lumotlarini o\'qishda xatolik:', error);
     return null;

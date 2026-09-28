@@ -64,7 +64,7 @@ const CurriculumPage = () => {
           icon: '🎮', 
           title: "Games Center", 
           desc: "Memory, quiz, puzzles and more",
-          features: ["🧠 Memory", "❓ Quiz", "� oPuzzle", "🎨 Drawing"],
+          features: ["🧠 Memory", "❓ Quiz", "🧩 Puzzle", "🎨 Drawing"],
           gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
         },
         { 

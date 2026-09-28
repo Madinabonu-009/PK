@@ -13,7 +13,7 @@ const options = {
       description: 'Kindergarten Management System API Documentation',
       contact: {
         name: 'Play Kids',
-        email: 'boymurodovamadinabonuf9@gmail.com',
+        email: 'boymurodovamadinabonu009@gmail.com',
         url: 'https://playkids.uz'
       },
       license: {

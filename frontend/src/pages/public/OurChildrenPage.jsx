@@ -103,28 +103,14 @@ const OurChildrenPage = () => {
   const fetchData = async () => {
     try {
       setLoading(true)
-      console.log('[OurChildrenPage] Fetching children and groups...')
       
       const [childrenRes, groupsRes] = await Promise.all([
         api.get('/children/public'),
         api.get('/groups')
       ])
       
-      console.log('[OurChildrenPage] Children API Response:', childrenRes)
-      console.log('[OurChildrenPage] Children data:', childrenRes.data)
-      console.log('[OurChildrenPage] Children data type:', typeof childrenRes.data)
-      console.log('[OurChildrenPage] Children is array:', Array.isArray(childrenRes.data))
-      
-      console.log('[OurChildrenPage] Groups API Response:', groupsRes)
-      console.log('[OurChildrenPage] Groups data:', groupsRes.data)
-      
       const childrenData = childrenRes.data?.data || childrenRes.data || []
       const groupsData = groupsRes.data?.data || groupsRes.data || []
-      
-      console.log('[OurChildrenPage] Processed children:', childrenData)
-      console.log('[OurChildrenPage] Children count:', childrenData.length)
-      console.log('[OurChildrenPage] Processed groups:', groupsData)
-      console.log('[OurChildrenPage] Groups count:', groupsData.length)
       
       if (childrenData.length > 0) {
         const enrichedChildren = childrenData.map((child) => {
@@ -173,7 +159,6 @@ const OurChildrenPage = () => {
         // groupId ni string sifatida solishtirish
         const childGroupId = String(child.groupId || '')
         const filterGroupId = String(activeGroup)
-        console.log('[OurChildrenPage] Filtering:', child.firstName, 'groupId:', childGroupId, 'filter:', filterGroupId, 'match:', childGroupId === filterGroupId)
         return childGroupId === filterGroupId
       })
 

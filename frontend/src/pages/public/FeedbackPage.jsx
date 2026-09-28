@@ -63,17 +63,10 @@ function FeedbackPage() {
 
   const fetchFeedbacks = async () => {
     try {
-      console.log('[FeedbackPage] Fetching feedbacks...')
       const response = await api.get('/feedback')
-      console.log('[FeedbackPage] API Response:', response)
-      console.log('[FeedbackPage] Response data:', response.data)
-      console.log('[FeedbackPage] Response data type:', typeof response.data)
-      console.log('[FeedbackPage] Is array:', Array.isArray(response.data))
       
       // Backend to'g'ridan-to'g'ri array qaytaradi
       const data = Array.isArray(response.data) ? response.data : (response.data?.data || [])
-      console.log('[FeedbackPage] Processed data:', data)
-      console.log('[FeedbackPage] Data length:', data.length)
       
       setFeedbacks(data)
     } catch (error) {
@@ -87,9 +80,7 @@ function FeedbackPage() {
 
   const fetchStats = async () => {
     try {
-      console.log('[FeedbackPage] Fetching stats...')
       const response = await api.get('/feedback/stats')
-      console.log('[FeedbackPage] Stats response:', response.data)
       setStats(response.data)
     } catch (error) {
       console.error('[FeedbackPage] Stats error:', error)

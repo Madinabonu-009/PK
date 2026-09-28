@@ -39,8 +39,8 @@ function LoginPage() {
     
     if (!formData.password) {
       newErrors.password = tc('required')
-    } else if (formData.password.length < 3) {
-      newErrors.password = `${tc('minLength') || 'Kamida'} 3 ${tc('characters') || 'belgi'}`
+    } else if (formData.password.length < 8) {
+      newErrors.password = `${tc('minLength') || 'Kamida'} 8 ${tc('characters') || 'belgi'}`
     }
     
     setErrors(newErrors)

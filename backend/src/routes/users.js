@@ -10,12 +10,11 @@ const getCollection = (name) => mongoose.connection.collection(name)
 
 const normalizeDoc = (doc) => {
   if (!doc) return null
-  const { _id, password, ...rest } = doc
-  // Include plainPassword for admin display (demo purposes only)
+  const { _id, password, plainPassword, ...rest } = doc
+  // plainPassword removed for security
   return { 
     id: _id.toString(), 
-    ...rest,
-    plainPassword: rest.plainPassword || null
+    ...rest
   }
 }
 
@@ -74,7 +73,6 @@ router.post('/', authenticateToken, requireRole('admin'), async (req, res) => {
       phone: phone || '',
       role: role || 'parent',
       password: hashedPassword,
-      plainPassword: plainPass,
       assignedGroups: assignedGroups || [],
       isActive: isActive !== false,
       createdAt: new Date().toISOString()
@@ -177,7 +175,6 @@ router.put('/:id/password', authenticateToken, requireRole('admin'), async (req,
       filter,
       { $set: { 
         password: await bcrypt.hash(password, 10),
-        plainPassword: password,
         updatedAt: new Date().toISOString()
       }},
       { returnDocument: 'after' }

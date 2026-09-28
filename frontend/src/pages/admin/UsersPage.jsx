@@ -236,7 +236,13 @@ function UserFormModal({ show, onClose, user, txt, onSave }) {
   }, [user, show])
 
   const handleSubmit = async () => {
+    // Email validation
     if (!formData.email) return
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast.error('Email formati noto\'g\'ri')
+      return
+    }
+    
     setSaving(true)
     try {
       await onSave(formData)

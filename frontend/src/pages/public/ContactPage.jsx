@@ -119,7 +119,7 @@ const ContactPage = () => {
                   <div className="info-content">
                     <h3>{txt.email}</h3>
                     <p>
-                      <a href="mailto:boymurodovamadinabonuf9@gmail.com">boymurodovamadinabonuf9@gmail.com</a>
+                      <a href="mailto:boymurodovamadinabonu009@gmail.com">boymurodovamadinabonu009@gmail.com</a>
                     </p>
                   </div>
                 </div>
@@ -129,8 +129,11 @@ const ContactPage = () => {
                   <div className="info-content">
                     <h3>{txt.socialTitle}</h3>
                     <div className="social-links">
+                      <a href="https://t.me/play_kids_bot" target="_blank" rel="noopener noreferrer" className="social-link telegram">
+                        Telegram Bot @play_kids_bot
+                      </a>
                       <a href="https://t.me/BMM_dina09" target="_blank" rel="noopener noreferrer" className="social-link telegram">
-                        Telegram
+                        Telegram (Admin)
                       </a>
                     </div>
                   </div>

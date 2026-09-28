@@ -99,7 +99,8 @@ const Footer = () => {
           <ul className="footer-contact">
             <li>📍 {txt.address}</li>
             <li>📞 <a href="tel:+998945140949">+998 94 514 09 49</a></li>
-            <li>💬 <a href="https://t.me/BMM_dina09" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+            <li>💬 <a href="https://t.me/play_kids_bot" target="_blank" rel="noopener noreferrer">Telegram Bot</a></li>
+            <li>📱 <a href="https://t.me/BMM_dina09" target="_blank" rel="noopener noreferrer">Admin</a></li>
           </ul>
         </div>
       </div>

@@ -132,12 +132,7 @@ function TeachersPage() {
     const fetchStaff = async () => {
       try {
         setLoading(true)
-        console.log('[TeachersPage] Fetching teachers...')
         const response = await api.get('/teachers')
-        console.log('[TeachersPage] API Response:', response)
-        console.log('[TeachersPage] Response data:', response.data)
-        console.log('[TeachersPage] Response data type:', typeof response.data)
-        console.log('[TeachersPage] Is array:', Array.isArray(response.data))
         
         // API to'g'ridan-to'g'ri array qaytaradi
         let data = []
@@ -149,9 +144,6 @@ function TeachersPage() {
           // Agar object bo'lsa, values ni olish
           data = Object.values(response.data).filter(item => item && typeof item === 'object' && item.name)
         }
-        
-        console.log('[TeachersPage] Processed data:', data)
-        console.log('[TeachersPage] Data length:', data.length)
         
         setStaff(data)
         setError(null)
@@ -168,8 +160,6 @@ function TeachersPage() {
   }, [txt.error])
 
   const { filteredStaff, groupedByCategory, hasCategories } = useMemo(() => {
-    console.log('[TeachersPage] Processing staff data:', staff)
-    console.log('[TeachersPage] Staff categories:', staff.map(s => ({ name: s.name, category: s.category })))
     
     const grouped = {
       teacher: staff.filter(s => s.category === 'teacher'),
@@ -177,8 +167,6 @@ function TeachersPage() {
       medical: staff.filter(s => s.category === 'medical'),
       staff: staff.filter(s => s.category === 'staff')
     }
-    
-    console.log('[TeachersPage] Grouped:', grouped)
     
     const hasAnyCategory = grouped.teacher.length > 0 || 
                            grouped.specialist.length > 0 || 
