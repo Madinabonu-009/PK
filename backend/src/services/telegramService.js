@@ -30,9 +30,7 @@ export const sendTelegramMessage = async (message, chatId) => {
   const TELEGRAM_CHAT_ID = chatId || config.chatId;
   
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-    console.error('Telegram bot token yoki chat ID topilmadi');
-    console.error('BOT_TOKEN:', TELEGRAM_BOT_TOKEN ? 'mavjud' : 'yo\'q');
-    console.error('CHAT_ID:', TELEGRAM_CHAT_ID ? 'mavjud' : 'yo\'q');
+    console.error('❌ Telegram bot token yoki chat ID topilmadi');
     return false;
   }
 
@@ -46,9 +44,9 @@ export const sendTelegramMessage = async (message, chatId) => {
       .replace(/\\_/g, '_');  // Italic uchun _ ni qaytarish
     
     const response = await axios.post(url, {
-      chat_id: chatId,
+      chat_id: TELEGRAM_CHAT_ID,
       text: message,
-      parse_mode: 'HTML'  // Markdown o'rniga HTML ishlatish - xavfsizroq
+      parse_mode: 'HTML'
     });
     console.log('✅ Telegram xabar yuborildi');
     return response.data.ok;
