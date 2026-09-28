@@ -1,416 +1,270 @@
 /**
- * Performance Testing Utilities
- * Load testing, memory leak detection, and bundle optimization helpers
+ * Performance Monitoring & Optimization Utilities
+ * M10: API response caching (already in api.js)
+ * Performance metrics tracking
  */
 
-// Performance metrics collection
-export const performanceMetrics = {
-  marks: new Map(),
-  measures: new Map(),
+/**
+ * Measure component render time
+ */
+export const measureRender = (componentName, callback) => {
+  const start = performance.now()
+  const result = callback()
+  const end = performance.now()
   
-  // Start timing
-  mark(name) {
-    this.marks.set(name, performance.now());
-    if (typeof performance.mark === 'function') {
-      performance.mark(`${name}-start`);
-    }
-  },
-  
-  // End timing and calculate duration
-  measure(name, startMark) {
-    const start = this.marks.get(startMark || name);
-    if (!start) return null;
-    
-    const duration = performance.now() - start;
-    this.measures.set(name, duration);
-    
-    if (typeof performance.measure === 'function') {
-      try {
-        performance.measure(name, `${startMark || name}-start`);
-      } catch (e) {
-        // Ignore if mark doesn't exist
-      }
-    }
-    
-    return duration;
-  },
-  
-  // Get all metrics
-  getMetrics() {
-    const metrics = {};
-    this.measures.forEach((value, key) => {
-      metrics[key] = value;
-    });
-    return metrics;
-  },
-  
-  // Clear all metrics
-  clear() {
-    this.marks.clear();
-    this.measures.clear();
-    if (typeof performance.clearMarks === 'function') {
-      performance.clearMarks();
-    }
-    if (typeof performance.clearMeasures === 'function') {
-      performance.clearMeasures();
-    }
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`⚡ ${componentName} rendered in ${(end - start).toFixed(2)}ms`)
   }
-};
-
-// Component render time tracker
-export const createRenderTracker = (componentName) => {
-  let renderCount = 0;
-  let totalRenderTime = 0;
   
-  return {
-    onRenderStart() {
-      performanceMetrics.mark(`${componentName}-render`);
-    },
-    
-    onRenderEnd() {
-      const duration = performanceMetrics.measure(
-        `${componentName}-render-${renderCount}`,
-        `${componentName}-render`
-      );
-      if (duration) {
-        renderCount++;
-        totalRenderTime += duration;
-      }
-    },
-    
-    getStats() {
-      return {
-        componentName,
-        renderCount,
-        totalRenderTime,
-        averageRenderTime: renderCount > 0 ? totalRenderTime / renderCount : 0
-      };
-    },
-    
-    reset() {
-      renderCount = 0;
-      totalRenderTime = 0;
-    }
-  };
-};
-
-// Memory usage monitor
-export const memoryMonitor = {
-  snapshots: [],
-  
-  // Take memory snapshot
-  takeSnapshot(label = 'snapshot') {
-    if (performance.memory) {
-      const snapshot = {
-        label,
-        timestamp: Date.now(),
-        usedJSHeapSize: performance.memory.usedJSHeapSize,
-        totalJSHeapSize: performance.memory.totalJSHeapSize,
-        jsHeapSizeLimit: performance.memory.jsHeapSizeLimit
-      };
-      this.snapshots.push(snapshot);
-      return snapshot;
-    }
-    return null;
-  },
-  
-  // Compare two snapshots
-  compare(label1, label2) {
-    const snap1 = this.snapshots.find(s => s.label === label1);
-    const snap2 = this.snapshots.find(s => s.label === label2);
-    
-    if (!snap1 || !snap2) return null;
-    
-    return {
-      heapDiff: snap2.usedJSHeapSize - snap1.usedJSHeapSize,
-      timeDiff: snap2.timestamp - snap1.timestamp,
-      percentChange: ((snap2.usedJSHeapSize - snap1.usedJSHeapSize) / snap1.usedJSHeapSize) * 100
-    };
-  },
-  
-  // Detect potential memory leaks
-  detectLeaks(threshold = 10) {
-    if (this.snapshots.length < 2) return [];
-    
-    const leaks = [];
-    for (let i = 1; i < this.snapshots.length; i++) {
-      const prev = this.snapshots[i - 1];
-      const curr = this.snapshots[i];
-      const growth = ((curr.usedJSHeapSize - prev.usedJSHeapSize) / prev.usedJSHeapSize) * 100;
-      
-      if (growth > threshold) {
-        leaks.push({
-          from: prev.label,
-          to: curr.label,
-          growth: growth.toFixed(2) + '%',
-          heapIncrease: formatBytes(curr.usedJSHeapSize - prev.usedJSHeapSize)
-        });
-      }
-    }
-    return leaks;
-  },
-  
-  // Get current memory usage
-  getCurrentUsage() {
-    if (performance.memory) {
-      return {
-        used: formatBytes(performance.memory.usedJSHeapSize),
-        total: formatBytes(performance.memory.totalJSHeapSize),
-        limit: formatBytes(performance.memory.jsHeapSizeLimit),
-        usagePercent: ((performance.memory.usedJSHeapSize / performance.memory.jsHeapSizeLimit) * 100).toFixed(2) + '%'
-      };
-    }
-    return null;
-  },
-  
-  // Clear snapshots
-  clear() {
-    this.snapshots = [];
-  }
-};
-
-// Format bytes to human readable
-function formatBytes(bytes) {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  return result
 }
 
-// Load testing utilities
-export const loadTester = {
-  // Simulate concurrent operations
-  async runConcurrent(operation, count = 100) {
-    const startTime = performance.now();
-    const results = [];
+/**
+ * Track page load performance
+ */
+export const trackPageLoad = () => {
+  if (typeof window === 'undefined') return
+
+  window.addEventListener('load', () => {
+    const perfData = performance.getEntriesByType('navigation')[0]
     
-    const promises = Array(count).fill(null).map(async (_, index) => {
-      const opStart = performance.now();
-      try {
-        await operation(index);
-        return { success: true, duration: performance.now() - opStart };
-      } catch (error) {
-        return { success: false, duration: performance.now() - opStart, error: error.message };
-      }
-    });
-    
-    const outcomes = await Promise.all(promises);
-    const totalTime = performance.now() - startTime;
-    
-    const successful = outcomes.filter(o => o.success);
-    const failed = outcomes.filter(o => !o.success);
-    const durations = outcomes.map(o => o.duration);
-    
-    return {
-      totalOperations: count,
-      successful: successful.length,
-      failed: failed.length,
-      totalTime: totalTime.toFixed(2) + 'ms',
-      averageTime: (durations.reduce((a, b) => a + b, 0) / count).toFixed(2) + 'ms',
-      minTime: Math.min(...durations).toFixed(2) + 'ms',
-      maxTime: Math.max(...durations).toFixed(2) + 'ms',
-      operationsPerSecond: (count / (totalTime / 1000)).toFixed(2)
-    };
-  },
-  
-  // Simulate sequential operations with delay
-  async runSequential(operation, count = 100, delay = 0) {
-    const startTime = performance.now();
-    const results = [];
-    
-    for (let i = 0; i < count; i++) {
-      const opStart = performance.now();
-      try {
-        await operation(i);
-        results.push({ success: true, duration: performance.now() - opStart });
-      } catch (error) {
-        results.push({ success: false, duration: performance.now() - opStart, error: error.message });
+    if (perfData) {
+      const metrics = {
+        dns: perfData.domainLookupEnd - perfData.domainLookupStart,
+        tcp: perfData.connectEnd - perfData.connectStart,
+        request: perfData.responseStart - perfData.requestStart,
+        response: perfData.responseEnd - perfData.responseStart,
+        dom: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+        load: perfData.loadEventEnd - perfData.loadEventStart,
+        total: perfData.loadEventEnd - perfData.fetchStart
       }
       
-      if (delay > 0) {
-        await new Promise(resolve => setTimeout(resolve, delay));
+      if (process.env.NODE_ENV === 'development') {
+        console.table(metrics)
       }
+      
+      // Send to analytics
+      if (window.gtag) {
+        window.gtag('event', 'page_load', {
+          event_category: 'performance',
+          event_label: window.location.pathname,
+          value: Math.round(metrics.total)
+        })
+      }
+      
+      return metrics
+    }
+  })
+}
+
+/**
+ * Track Web Vitals
+ */
+export const trackWebVitals = () => {
+  if (typeof window === 'undefined') return
+
+  // Largest Contentful Paint (LCP)
+  new PerformanceObserver((list) => {
+    const entries = list.getEntries()
+    const lastEntry = entries[entries.length - 1]
+    console.log('LCP:', lastEntry.renderTime || lastEntry.loadTime)
+  }).observe({ entryTypes: ['largest-contentful-paint'] })
+
+  // First Input Delay (FID)
+  new PerformanceObserver((list) => {
+    list.getEntries().forEach((entry) => {
+      console.log('FID:', entry.processingStart - entry.startTime)
+    })
+  }).observe({ entryTypes: ['first-input'] })
+
+  // Cumulative Layout Shift (CLS)
+  let clsScore = 0
+  new PerformanceObserver((list) => {
+    list.getEntries().forEach((entry) => {
+      if (!entry.hadRecentInput) {
+        clsScore += entry.value
+        console.log('CLS:', clsScore)
+      }
+    })
+  }).observe({ entryTypes: ['layout-shift'] })
+}
+
+/**
+ * Debounce function
+ */
+export const debounce = (func, wait = 300) => {
+  let timeout
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout)
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}
+
+/**
+ * Throttle function
+ */
+export const throttle = (func, limit = 300) => {
+  let inThrottle
+  return function executedFunction(...args) {
+    if (!inThrottle) {
+      func(...args)
+      inThrottle = true
+      setTimeout(() => inThrottle = false, limit)
+    }
+  }
+}
+
+/**
+ * Memoize expensive calculations
+ */
+export const memoize = (fn) => {
+  const cache = new Map()
+  
+  return (...args) => {
+    const key = JSON.stringify(args)
+    
+    if (cache.has(key)) {
+      return cache.get(key)
     }
     
-    const totalTime = performance.now() - startTime;
-    const successful = results.filter(r => r.success);
-    const durations = results.map(r => r.duration);
+    const result = fn(...args)
+    cache.set(key, result)
     
-    return {
-      totalOperations: count,
-      successful: successful.length,
-      failed: results.length - successful.length,
-      totalTime: totalTime.toFixed(2) + 'ms',
-      averageTime: (durations.reduce((a, b) => a + b, 0) / count).toFixed(2) + 'ms'
-    };
-  },
-  
-  // Stress test with increasing load
-  async stressTest(operation, { startCount = 10, maxCount = 1000, step = 10, threshold = 1000 }) {
-    const results = [];
-    let currentCount = startCount;
-    
-    while (currentCount <= maxCount) {
-      const result = await this.runConcurrent(operation, currentCount);
-      results.push({ count: currentCount, ...result });
-      
-      // Stop if average time exceeds threshold
-      if (parseFloat(result.averageTime) > threshold) {
-        break;
-      }
-      
-      currentCount += step;
+    // Limit cache size
+    if (cache.size > 100) {
+      const firstKey = cache.keys().next().value
+      cache.delete(firstKey)
     }
     
-    return {
-      results,
-      maxSustainableLoad: results[results.length - 1]?.count || 0,
-      recommendation: results.length > 0 
-        ? `System can handle approximately ${results[results.length - 1].count} concurrent operations`
-        : 'Unable to determine sustainable load'
-    };
+    return result
   }
-};
+}
 
-// Bundle size analyzer helper
-export const bundleAnalyzer = {
-  // Estimate component size (rough approximation)
-  estimateComponentSize(component) {
-    const str = component.toString();
-    return {
-      characters: str.length,
-      estimatedKB: (str.length / 1024).toFixed(2) + ' KB'
-    };
-  },
+/**
+ * Batch DOM updates
+ */
+export const batchDOMUpdates = (updates) => {
+  requestAnimationFrame(() => {
+    updates.forEach(update => update())
+  })
+}
+
+/**
+ * Optimize list rendering
+ */
+export const optimizeList = (items, visibleCount = 20) => {
+  return items.slice(0, visibleCount)
+}
+
+/**
+ * Virtual scroll helper
+ */
+export const calculateVisibleRange = (scrollTop, itemHeight, containerHeight, totalItems) => {
+  const startIndex = Math.floor(scrollTop / itemHeight)
+  const endIndex = Math.min(
+    startIndex + Math.ceil(containerHeight / itemHeight) + 1,
+    totalItems
+  )
   
-  // Check for large dependencies
-  checkLargeDependencies(imports) {
-    const largeDeps = [];
-    const thresholdKB = 50;
-    
-    // This is a placeholder - actual implementation would need build tools
-    imports.forEach(imp => {
-      if (imp.size > thresholdKB * 1024) {
-        largeDeps.push({
-          name: imp.name,
-          size: formatBytes(imp.size),
-          suggestion: `Consider lazy loading or finding a smaller alternative for ${imp.name}`
-        });
-      }
-    });
-    
-    return largeDeps;
+  return { startIndex, endIndex }
+}
+
+/**
+ * Image preloader
+ */
+export const preloadImages = (urls) => {
+  return Promise.all(
+    urls.map(url => {
+      return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.onload = () => resolve(url)
+        img.onerror = reject
+        img.src = url
+      })
+    })
+  )
+}
+
+/**
+ * Check if element is in viewport
+ */
+export const isInViewport = (element) => {
+  if (!element) return false
+  
+  const rect = element.getBoundingClientRect()
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  )
+}
+
+/**
+ * Lazy load script
+ */
+export const loadScript = (src) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = src
+    script.async = true
+    script.onload = resolve
+    script.onerror = reject
+    document.head.appendChild(script)
+  })
+}
+
+/**
+ * Performance budget checker
+ */
+export const checkPerformanceBudget = (budgets = {
+  fcp: 1800, // First Contentful Paint
+  lcp: 2500, // Largest Contentful Paint
+  fid: 100,  // First Input Delay
+  cls: 0.1,  // Cumulative Layout Shift
+  ttfb: 600  // Time to First Byte
+}) => {
+  const perfData = performance.getEntriesByType('navigation')[0]
+  const paint = performance.getEntriesByType('paint')
+  
+  const metrics = {
+    fcp: paint.find(entry => entry.name === 'first-contentful-paint')?.startTime,
+    ttfb: perfData?.responseStart - perfData?.requestStart
   }
-};
-
-// FPS monitor for animations
-export const fpsMonitor = {
-  frames: [],
-  isRunning: false,
-  frameId: null,
   
-  start() {
-    if (this.isRunning) return;
-    this.isRunning = true;
-    this.frames = [];
-    
-    let lastTime = performance.now();
-    
-    const measure = () => {
-      const currentTime = performance.now();
-      const delta = currentTime - lastTime;
-      const fps = 1000 / delta;
-      
-      this.frames.push(fps);
-      if (this.frames.length > 100) {
-        this.frames.shift();
-      }
-      
-      lastTime = currentTime;
-      
-      if (this.isRunning) {
-        this.frameId = requestAnimationFrame(measure);
-      }
-    };
-    
-    this.frameId = requestAnimationFrame(measure);
-  },
+  const violations = []
   
-  stop() {
-    this.isRunning = false;
-    if (this.frameId) {
-      cancelAnimationFrame(this.frameId);
-    }
-  },
-  
-  getStats() {
-    if (this.frames.length === 0) return null;
-    
-    const avg = this.frames.reduce((a, b) => a + b, 0) / this.frames.length;
-    const min = Math.min(...this.frames);
-    const max = Math.max(...this.frames);
-    
-    return {
-      averageFPS: avg.toFixed(2),
-      minFPS: min.toFixed(2),
-      maxFPS: max.toFixed(2),
-      samples: this.frames.length,
-      isSmooth: avg >= 55 // 55+ FPS is considered smooth
-    };
+  if (metrics.fcp > budgets.fcp) {
+    violations.push(`FCP: ${metrics.fcp}ms exceeds budget of ${budgets.fcp}ms`)
   }
-};
-
-// Network performance tracker
-export const networkTracker = {
-  requests: [],
   
-  // Track API request
-  trackRequest(url, method, startTime, endTime, status, size) {
-    this.requests.push({
-      url,
-      method,
-      duration: endTime - startTime,
-      status,
-      size,
-      timestamp: Date.now()
-    });
-  },
-  
-  // Get slow requests
-  getSlowRequests(threshold = 1000) {
-    return this.requests.filter(r => r.duration > threshold);
-  },
-  
-  // Get request statistics
-  getStats() {
-    if (this.requests.length === 0) return null;
-    
-    const durations = this.requests.map(r => r.duration);
-    const totalSize = this.requests.reduce((sum, r) => sum + (r.size || 0), 0);
-    
-    return {
-      totalRequests: this.requests.length,
-      averageDuration: (durations.reduce((a, b) => a + b, 0) / durations.length).toFixed(2) + 'ms',
-      slowestRequest: Math.max(...durations).toFixed(2) + 'ms',
-      fastestRequest: Math.min(...durations).toFixed(2) + 'ms',
-      totalDataTransferred: formatBytes(totalSize),
-      failedRequests: this.requests.filter(r => r.status >= 400).length
-    };
-  },
-  
-  clear() {
-    this.requests = [];
+  if (metrics.ttfb > budgets.ttfb) {
+    violations.push(`TTFB: ${metrics.ttfb}ms exceeds budget of ${budgets.ttfb}ms`)
   }
-};
+  
+  if (violations.length > 0 && process.env.NODE_ENV === 'development') {
+    console.warn('⚠️ Performance Budget Violations:', violations)
+  }
+  
+  return { passed: violations.length === 0, violations, metrics }
+}
 
-// Export all utilities
 export default {
-  performanceMetrics,
-  createRenderTracker,
-  memoryMonitor,
-  loadTester,
-  bundleAnalyzer,
-  fpsMonitor,
-  networkTracker
-};
+  measureRender,
+  trackPageLoad,
+  trackWebVitals,
+  debounce,
+  throttle,
+  memoize,
+  batchDOMUpdates,
+  optimizeList,
+  calculateVisibleRange,
+  preloadImages,
+  isInViewport,
+  loadScript,
+  checkPerformanceBudget
+}

@@ -156,7 +156,7 @@ router.post('/generate', authenticateToken, async (req, res) => {
       if (existing) continue
       
       const group = groups.find(g => (g._id?.toString() || g.id) === child.groupId)
-      const monthlyFee = group?.monthlyFee || 500000
+      const monthlyFee = group?.monthlyFee || 1500000
       
       newDebts.push({
         childId,
@@ -239,7 +239,7 @@ router.post('/regenerate', authenticateToken, async (req, res) => {
       
       // Guruh narxini olish
       const group = groups.find(g => (g._id?.toString() || g.id) === child.groupId)
-      const monthlyFee = group?.monthlyFee || 500000
+      const monthlyFee = group?.monthlyFee || 1500000
       
       newDebts.push({
         childId: childId, // Yangi MongoDB ObjectId

@@ -10,7 +10,7 @@ import './AdmissionBanner.css'
 
 const TEXTS = {
   uz: {
-    title: "2025-2026 o'quv yili uchun ro'yxatga olish ochiq!",
+    title: "2026-2027 o'quv yili uchun ro'yxatga olish ochiq!",
     subtitle: "Farzandingiz kelajagi uchun birinchi qadamni qo'ying. Bizning bog'chamizda bolangiz xavfsiz, qiziqarli va rivojlantiruvchi muhitda o'sadi.",
     cta: "Hoziroq ro'yxatdan o'ting",
     spots: "Cheklangan joylar",
@@ -22,10 +22,10 @@ const TEXTS = {
       secs: "soniya",
       until: "Ro'yxatga olish tugashiga"
     },
-    features: ["Oylik to'lov: 700 000 so'm", "2 ta bola: 600 000 so'm", "3+ bola: 500 000 so'm"]
+    features: ["Rus tili guruhlari", "Ingliz tili guruhlari", "Qabul davom etmoqda"]
   },
   ru: {
-    title: "Набор на 2025-2026 учебный год открыт!",
+    title: "Набор на 2026-2027 учебный год открыт!",
     subtitle: "Сделайте первый шаг к будущему вашего ребенка. В нашем детском саду ваш ребенок будет расти в безопасной, интересной и развивающей среде.",
     cta: "Записаться сейчас",
     spots: "Ограниченные места",
@@ -37,10 +37,10 @@ const TEXTS = {
       secs: "секунд",
       until: "До окончания набора"
     },
-    features: ["Оплата: 700 000 сум/мес", "2 ребёнка: 600 000 сум", "3+ детей: 500 000 сум"]
+    features: ["Группы русского языка", "Группы английского языка", "Набор продолжается"]
   },
   en: {
-    title: "Admission Open for 2025-2026!",
+    title: "Admission Open for 2026-2027!",
     subtitle: "Take the first step towards your child's future. In our kindergarten, your child will grow in a safe, exciting and developmental environment.",
     cta: "Enroll Now",
     spots: "Limited Spots",
@@ -52,7 +52,7 @@ const TEXTS = {
       secs: "secs",
       until: "Until enrollment ends"
     },
-    features: ["Monthly: 700,000 UZS", "2 kids: 600,000 UZS each", "3+ kids: 500,000 UZS each"]
+    features: ["Russian Language Groups", "English Language Groups", "Admission Open"]
   }
 }
 

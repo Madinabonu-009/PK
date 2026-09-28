@@ -87,5 +87,5 @@ Render Dashboard → Service → Environment bo'limida:
 
 ## 📞 Yordam
 
-- Telegram: [@BMM_dina09](https://t.me/BMM_dina09)
-- Email: boymurodovamadinabonuf9@gmail.com
+- Telegram: [@Boymurodova_Madinabonu](https://t.me/Boymurodova_Madinabonu)
+- Email: boymurodovamadinabonu009@gmail.com

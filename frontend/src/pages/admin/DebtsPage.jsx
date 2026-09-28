@@ -88,6 +88,7 @@ function DebtsPage() {
   const [debts, setDebts] = useState([])
   const [stats, setStats] = useState(null)
   const [groups, setGroups] = useState([])
+  const [settings, setSettings] = useState(null)
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
   const [selectedGroup, setSelectedGroup] = useState('all')
@@ -206,15 +207,17 @@ function DebtsPage() {
       if (filter !== 'all' && filter !== 'overdue') params.append('status', filter)
       if (selectedGroup !== 'all') params.append('groupId', selectedGroup)
       
-      const [debtsRes, statsRes, groupsRes] = await Promise.all([
+      const [debtsRes, statsRes, groupsRes, settingsRes] = await Promise.all([
         api.get(`/debts?${params}`),
         api.get('/debts/stats'),
-        api.get('/groups')
+        api.get('/groups'),
+        api.get('/settings')
       ])
       
       const debtsData = debtsRes.data?.data || (Array.isArray(debtsRes.data) ? debtsRes.data : [])
       const statsData = statsRes.data?.data || statsRes.data || {}
       const groupsData = groupsRes.data?.data || (Array.isArray(groupsRes.data) ? groupsRes.data : [])
+      const settingsData = settingsRes.data?.general || settingsRes.data?.data?.general || {}
       
       let filteredDebts = debtsData
       if (filter === 'overdue') {
@@ -224,6 +227,7 @@ function DebtsPage() {
       setDebts(filteredDebts)
       setStats(statsData)
       setGroups(groupsData)
+      setSettings(settingsData)
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
@@ -369,7 +373,7 @@ function DebtsPage() {
       {/* Monthly Fee Info */}
       <div className="monthly-fee-info">
         <span className="fee-label"><CreditCardIcon /> {txt.monthlyFee}:</span>
-        <span className="fee-amount">500,000 so'm</span>
+        <span className="fee-amount">{settings?.monthlyFee?.toLocaleString() || '1,500,000'} so'm</span>
       </div>
 
       {/* Filters */}

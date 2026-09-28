@@ -128,14 +128,37 @@ export const restoreBackup = async (backupName) => {
 
     console.log(`Restoring from backup: ${backupName}`)
 
-    // TODO: Implement restore logic
-    // This would involve extracting the tar.gz and copying files
+    // Extract backup
+    const tempDir = path.join(BACKUP_DIR, 'temp_restore')
+    if (fs.existsSync(tempDir)) {
+      fs.rmSync(tempDir, { recursive: true, force: true })
+    }
+    fs.mkdirSync(tempDir, { recursive: true })
+
+    // Extract tar.gz
+    const tarStream = fs.createReadStream(backupPath).pipe(zlib.createGunzip())
+    await pipeline(tarStream, tar.extract({ cwd: tempDir }))
+
+    // Restore data files
+    const dataDir = path.join(tempDir, 'data')
+    if (fs.existsSync(dataDir)) {
+      const files = fs.readdirSync(dataDir)
+      for (const file of files) {
+        const srcPath = path.join(dataDir, file)
+        const destPath = path.join(process.cwd(), 'data', file)
+        fs.copyFileSync(srcPath, destPath)
+      }
+    }
+
+    // Cleanup temp directory
+    fs.rmSync(tempDir, { recursive: true, force: true })
 
     console.log('✓ Backup restored successfully')
 
     return {
       success: true,
-      filename: backupName
+      filename: backupName,
+      restoredAt: new Date().toISOString()
     }
   } catch (error) {
     console.error('Failed to restore backup:', error)

@@ -8,7 +8,7 @@ import './AskTeacherChat.css';
 const FAQ_RESPONSES = {
   'menyu': 'Haftalik menyuni /menu sahifasidan ko\'rishingiz mumkin. Har kuni nonushta (08:30), tushlik (12:30) va yengil tamaddi (15:30) beriladi.',
   'vaqt': 'Bog\'cha ish vaqti: 07:00 - 18:00 (Dushanba - Shanba). Yakshanba dam olish kuni.',
-  'to\'lov': 'To\'lov har oyning 1-10 kunlari orasida qabul qilinadi. To\'lov miqdori: 500,000 so\'m/oy.',
+  'to\'lov': 'Rus tili va ingliz tili guruhlari mavjud. To\'lov miqdori haqida: +998 94 514 09 49',
   'kasallik': 'Bola kasal bo\'lsa, iltimos oldindan xabar bering. Shifokor ma\'lumotnomasi kerak bo\'ladi.',
   'kiyim': 'Bolaga qulay sport kiyimi va almashtirish uchun qo\'shimcha kiyim olib keling.',
   'ovqat': 'Allergiya yoki maxsus ovqatlanish talablari bo\'lsa, admin bilan bog\'laning.',

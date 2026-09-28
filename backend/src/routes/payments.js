@@ -9,7 +9,7 @@ const router = express.Router()
 
 const getCollection = (name) => mongoose.connection.collection(name)
 
-const MONTHLY_FEE = parseInt(process.env.MONTHLY_FEE) || 500000
+const MONTHLY_FEE = parseInt(process.env.MONTHLY_FEE) || 1500000
 const SITE_URL = process.env.SITE_URL || 'http://localhost:5173'
 
 // GET /api/payments

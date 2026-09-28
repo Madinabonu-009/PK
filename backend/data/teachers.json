@@ -1,239 +1,155 @@
 [
   {
     "id": "t1",
+    "firstName": "Nilufar",
+    "lastName": "Saidova",
     "name": "Nilufar Saidova",
     "category": "teacher",
-    "group": "Quyoshlar",
-    "role": {
-      "uz": "Quyoshlar guruhi tarbiyachisi",
-      "ru": "Воспитатель группы Солнышки",
-      "en": "Suns Group Teacher"
-    },
-    "experience": {
-      "uz": "8 yil",
-      "ru": "8 лет",
-      "en": "8 years"
-    },
-    "education": {
-      "uz": "Oliy pedagogik ta'lim",
-      "ru": "Высшее педагогическое образование",
-      "en": "Higher Pedagogical Education"
-    },
+    "group": "g1",
+    "position": "Quyoshlar guruhi tarbiyachisi",
+    "role": "Quyoshlar guruhi tarbiyachisi",
+    "phone": "+998901234501",
+    "email": "nilufar.saidova@playkids.uz",
+    "experience": "8 yil",
+    "education": "Oliy pedagogik ta'lim",
     "photo": "/images/t1.png",
-    "bio": {
-      "uz": "Bolalar psixologiyasi bo'yicha mutaxassis. Montessori metodikasi bo'yicha sertifikatlangan.",
-      "ru": "Специалист по детской психологии. Сертифицирована по методике Монтессори.",
-      "en": "Child psychology specialist. Certified in Montessori methodology."
-    }
+    "bio": "Bolalar psixologiyasi bo'yicha mutaxassis. Montessori metodikasi bo'yicha sertifikatlangan.",
+    "isActive": true
   },
   {
     "id": "t2",
+    "firstName": "Madina",
+    "lastName": "Karimova",
     "name": "Madina Karimova",
     "category": "teacher",
-    "group": "Yulduzlar",
-    "role": {
-      "uz": "Yulduzlar guruhi tarbiyachisi",
-      "ru": "Воспитатель группы Звёздочки",
-      "en": "Stars Group Teacher"
-    },
-    "experience": {
-      "uz": "12 yil",
-      "ru": "12 лет",
-      "en": "12 years"
-    },
-    "education": {
-      "uz": "Oliy pedagogik ta'lim, Magistr",
-      "ru": "Высшее педагогическое образование, Магистр",
-      "en": "Higher Pedagogical Education, Master's Degree"
-    },
+    "group": "g2",
+    "position": "Yulduzlar guruhi tarbiyachisi",
+    "role": "Yulduzlar guruhi tarbiyachisi",
+    "phone": "+998901234502",
+    "email": "madina.karimova@playkids.uz",
+    "experience": "12 yil",
+    "education": "Oliy pedagogik ta'lim, Magistr",
     "photo": "/images/t2.png",
-    "bio": {
-      "uz": "Maktabgacha ta'lim metodikasi bo'yicha tajribali mutaxassis.",
-      "ru": "Опытный специалист по методике дошкольного образования.",
-      "en": "Experienced specialist in preschool education methodology."
-    }
+    "bio": "Maktabgacha ta'lim metodikasi bo'yicha tajribali mutaxassis.",
+    "isActive": true
   },
   {
     "id": "t3",
+    "firstName": "Dilnoza",
+    "lastName": "Rahimova",
     "name": "Dilnoza Rahimova",
     "category": "teacher",
-    "group": "Oylar",
-    "role": {
-      "uz": "Oylar guruhi tarbiyachisi",
-      "ru": "Воспитатель группы Луны",
-      "en": "Moons Group Teacher"
-    },
-    "experience": {
-      "uz": "10 yil",
-      "ru": "10 лет",
-      "en": "10 years"
-    },
-    "education": {
-      "uz": "Oliy pedagogik ta'lim",
-      "ru": "Высшее педагогическое образование",
-      "en": "Higher Pedagogical Education"
-    },
+    "group": "g3",
+    "position": "Oylar guruhi tarbiyachisi",
+    "role": "Oylar guruhi tarbiyachisi",
+    "phone": "+998901234503",
+    "email": "dilnoza.rahimova@playkids.uz",
+    "experience": "10 yil",
+    "education": "Oliy pedagogik ta'lim",
     "photo": "/images/t3.png",
-    "bio": {
-      "uz": "Maktabga tayyorlov dasturi bo'yicha mutaxassis.",
-      "ru": "Специалист по программе подготовки к школе.",
-      "en": "School preparation program specialist."
-    }
+    "bio": "Maktabga tayyorlov dasturi bo'yicha mutaxassis.",
+    "isActive": true
   },
   {
     "id": "t4",
+    "firstName": "Jasur",
+    "lastName": "Aliyev",
     "name": "Jasur Aliyev",
     "category": "specialist",
-    "role": {
-      "uz": "Sport ustozi",
-      "ru": "Учитель физкультуры",
-      "en": "Physical Education Teacher"
-    },
-    "experience": {
-      "uz": "6 yil",
-      "ru": "6 лет",
-      "en": "6 years"
-    },
-    "education": {
-      "uz": "Sport pedagogikasi",
-      "ru": "Спортивная педагогика",
-      "en": "Sports Pedagogy"
-    },
+    "group": "",
+    "position": "Sport ustozi",
+    "role": "Sport ustozi",
+    "phone": "+998901234504",
+    "email": "jasur.aliyev@playkids.uz",
+    "experience": "6 yil",
+    "education": "Sport pedagogikasi",
     "photo": "/images/t4.png",
-    "bio": {
-      "uz": "Bolalar sportini rivojlantirish bo'yicha mutaxassis. Gimnastika va suzish bo'yicha murabbiy.",
-      "ru": "Специалист по развитию детского спорта. Тренер по гимнастике и плаванию.",
-      "en": "Specialist in children's sports development. Gymnastics and swimming coach."
-    }
+    "bio": "Bolalar sportini rivojlantirish bo'yicha mutaxassis. Gimnastika va suzish bo'yicha murabbiy.",
+    "isActive": true
   },
   {
     "id": "t5",
+    "firstName": "Malika",
+    "lastName": "Tosheva",
     "name": "Malika Tosheva",
     "category": "specialist",
-    "role": {
-      "uz": "Musiqa ustozi",
-      "ru": "Учитель музыки",
-      "en": "Music Teacher"
-    },
-    "experience": {
-      "uz": "9 yil",
-      "ru": "9 лет",
-      "en": "9 years"
-    },
-    "education": {
-      "uz": "Konservatoriya, Musiqa pedagogikasi",
-      "ru": "Консерватория, Музыкальная педагогика",
-      "en": "Conservatory, Music Pedagogy"
-    },
+    "group": "",
+    "position": "Musiqa ustozi",
+    "role": "Musiqa ustozi",
+    "phone": "+998901234505",
+    "email": "malika.tosheva@playkids.uz",
+    "experience": "9 yil",
+    "education": "Konservatoriya, Musiqa pedagogikasi",
     "photo": "/images/t5.png",
-    "bio": {
-      "uz": "Fortepiano va vokal bo'yicha mutaxassis. Bolalar xori rahbari.",
-      "ru": "Специалист по фортепиано и вокалу. Руководитель детского хора.",
-      "en": "Piano and vocal specialist. Children's choir conductor."
-    }
+    "bio": "Fortepiano va vokal bo'yicha mutaxassis. Bolalar xori rahbari.",
+    "isActive": true
   },
   {
     "id": "t6",
+    "firstName": "Shahzoda",
+    "lastName": "Mirzayeva",
     "name": "Shahzoda Mirzayeva",
     "category": "specialist",
-    "role": {
-      "uz": "Ingliz tili o'qituvchisi",
-      "ru": "Учитель английского языка",
-      "en": "English Language Teacher"
-    },
-    "experience": {
-      "uz": "7 yil",
-      "ru": "7 лет",
-      "en": "7 years"
-    },
-    "education": {
-      "uz": "Chet tillar universiteti, Ingliz filologiyasi",
-      "ru": "Университет иностранных языков, Английская филология",
-      "en": "Foreign Languages University, English Philology"
-    },
+    "group": "",
+    "position": "Ingliz tili o'qituvchisi",
+    "role": "Ingliz tili o'qituvchisi",
+    "phone": "+998901234506",
+    "email": "shahzoda.mirzayeva@playkids.uz",
+    "experience": "7 yil",
+    "education": "Chet tillar universiteti, Ingliz filologiyasi",
     "photo": "/images/t6.png",
-    "bio": {
-      "uz": "IELTS sertifikati. Bolalarga ingliz tilini o'yin orqali o'rgatish metodikasi bo'yicha mutaxassis.",
-      "ru": "Сертификат IELTS. Специалист по методике обучения детей английскому через игру.",
-      "en": "IELTS certified. Specialist in teaching English to children through play."
-    }
+    "bio": "IELTS sertifikati. Bolalarga ingliz tilini o'yin orqali o'rgatish metodikasi bo'yicha mutaxassis.",
+    "isActive": true
   },
   {
     "id": "t7",
+    "firstName": "Nodira",
+    "lastName": "Usmonova",
     "name": "Nodira Usmonova",
     "category": "specialist",
-    "role": {
-      "uz": "Rus tili o'qituvchisi",
-      "ru": "Учитель русского языка",
-      "en": "Russian Language Teacher"
-    },
-    "experience": {
-      "uz": "11 yil",
-      "ru": "11 лет",
-      "en": "11 years"
-    },
-    "education": {
-      "uz": "Filologiya fakulteti, Rus tili va adabiyoti",
-      "ru": "Филологический факультет, Русский язык и литература",
-      "en": "Philology Faculty, Russian Language and Literature"
-    },
+    "group": "",
+    "position": "Rus tili o'qituvchisi",
+    "role": "Rus tili o'qituvchisi",
+    "phone": "+998901234507",
+    "email": "nodira.usmonova@playkids.uz",
+    "experience": "11 yil",
+    "education": "Filologiya fakulteti, Rus tili va adabiyoti",
     "photo": "/images/t7.png",
-    "bio": {
-      "uz": "Rus tili grammatikasi va nutq rivojlantirish bo'yicha tajribali pedagog.",
-      "ru": "Опытный педагог по грамматике русского языка и развитию речи.",
-      "en": "Experienced teacher in Russian grammar and speech development."
-    }
+    "bio": "Rus tili grammatikasi va nutq rivojlantirish bo'yicha tajribali pedagog.",
+    "isActive": true
   },
   {
     "id": "t8",
+    "firstName": "Gulnora",
+    "lastName": "Abdullayeva",
     "name": "Gulnora Abdullayeva",
     "category": "medical",
-    "role": {
-      "uz": "Tibbiy hamshira",
-      "ru": "Медицинская сестра",
-      "en": "Nurse"
-    },
-    "experience": {
-      "uz": "15 yil",
-      "ru": "15 лет",
-      "en": "15 years"
-    },
-    "education": {
-      "uz": "Tibbiyot kolleji, Hamshiralik ishi",
-      "ru": "Медицинский колледж, Сестринское дело",
-      "en": "Medical College, Nursing"
-    },
+    "group": "",
+    "position": "Tibbiy hamshira",
+    "role": "Tibbiy hamshira",
+    "phone": "+998901234508",
+    "email": "gulnora.abdullayeva@playkids.uz",
+    "experience": "15 yil",
+    "education": "Tibbiyot kolleji, Hamshiralik ishi",
     "photo": "/images/t8.png",
-    "bio": {
-      "uz": "Bolalar salomatligi va profilaktikasi bo'yicha mutaxassis. Birinchi yordam ko'rsatish bo'yicha sertifikatlangan.",
-      "ru": "Специалист по детскому здоровью и профилактике. Сертифицирована по оказанию первой помощи.",
-      "en": "Specialist in children's health and prevention. Certified in first aid."
-    }
+    "bio": "Bolalar salomatligi va profilaktikasi bo'yicha mutaxassis. Birinchi yordam ko'rsatish bo'yicha sertifikatlangan.",
+    "isActive": true
   },
   {
     "id": "t9",
+    "firstName": "Zulfiya",
+    "lastName": "Nazarova",
     "name": "Zulfiya Nazarova",
     "category": "staff",
-    "role": {
-      "uz": "Bosh oshpaz",
-      "ru": "Шеф-повар",
-      "en": "Head Chef"
-    },
-    "experience": {
-      "uz": "18 yil",
-      "ru": "18 лет",
-      "en": "18 years"
-    },
-    "education": {
-      "uz": "Oshpazlik san'ati kolleji",
-      "ru": "Колледж кулинарного искусства",
-      "en": "Culinary Arts College"
-    },
+    "group": "",
+    "position": "Bosh oshpaz",
+    "role": "Bosh oshpaz",
+    "phone": "+998901234509",
+    "email": "zulfiya.nazarova@playkids.uz",
+    "experience": "18 yil",
+    "education": "Oshpazlik san'ati kolleji",
     "photo": "/images/t9.png",
-    "bio": {
-      "uz": "Bolalar ovqatlanishi bo'yicha mutaxassis. Sog'lom va mazali taomlar tayyorlash ustasi.",
-      "ru": "Специалист по детскому питанию. Мастер приготовления здоровой и вкусной еды.",
-      "en": "Specialist in children's nutrition. Master of preparing healthy and delicious meals."
-    }
+    "bio": "Bolalar ovqatlanishi bo'yicha mutaxassis. Sog'lom va mazali taomlar tayyorlash ustasi.",
+    "isActive": true
   }
 ]

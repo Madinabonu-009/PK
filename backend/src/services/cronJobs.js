@@ -44,7 +44,7 @@ export const initCronJobs = () => {
     console.log('⏰ Kunlik menyu yuborish boshlandi:', now.toLocaleString('uz-UZ', { timeZone: 'Asia/Tashkent' }));
     
     if (lastMenuDate === today) {
-      console.log('⚠️ Bugun menyu allaqachon yuborilgan');
+      logger.info('Menu already sent today');
       return;
     }
     
@@ -73,7 +73,7 @@ export const initCronJobs = () => {
     console.log('⏰ Kunlik davomat hisoboti yuborish boshlandi:', now.toLocaleString('uz-UZ', { timeZone: 'Asia/Tashkent' }));
     
     if (lastAttendanceDate === today) {
-      console.log('⚠️ Bugun davomat hisoboti allaqachon yuborilgan');
+      logger.info('Attendance report already sent today');
       return;
     }
     

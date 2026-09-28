@@ -34,7 +34,7 @@ const groupSchema = new mongoose.Schema({
   },
   monthlyFee: {
     type: Number,
-    default: 500000
+    default: 1500000
   },
   isActive: {
     type: Boolean,

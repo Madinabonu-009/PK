@@ -285,7 +285,7 @@ const AnalyticsDashboard = ({ childData, attendance = [], payments = [] }) => {
             <div className="payment-summary">
               <div className="summary-item">
                 <span className="dot success" />
-                <span>To'langan: 500,000 so'm</span>
+                <span>To'langan: 1,500,000 so'm</span>
               </div>
               <div className="summary-item">
                 <span className="dot warning" />

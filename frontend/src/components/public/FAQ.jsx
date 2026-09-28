@@ -17,7 +17,7 @@ const FAQ_DATA = {
       },
       {
         q: "Bog'cha qancha turadi?",
-        a: "Oylik to'lov 500,000 so'mdan boshlanadi. To'lov miqdori tanlangan dastur va vaqtga qarab o'zgarishi mumkin. Batafsil ma'lumot uchun biz bilan bog'laning."
+        a: "Bog'chamizda rus tili va ingliz tili guruhlari mavjud. Guruhlar 2-6 yoshli bolalar uchun mo'ljallangan. To'lov miqdori va batafsil ma'lumot uchun biz bilan bog'laning: +998 94 514 09 49"
       },
       {
         q: "Ish vaqti qanday?",
@@ -47,7 +47,7 @@ const FAQ_DATA = {
       },
       {
         q: "Сколько стоит детский сад?",
-        a: "Ежемесячная оплата от 500,000 сум. Сумма может меняться в зависимости от выбранной программы и времени. Для подробностей свяжитесь с нами."
+        a: "В нашем саду есть группы русского и английского языка для детей 2-6 лет. Для информации о стоимости и деталях свяжитесь с нами: +998 94 514 09 49"
       },
       {
         q: "Какой режим работы?",
@@ -77,7 +77,7 @@ const FAQ_DATA = {
       },
       {
         q: "How much does it cost?",
-        a: "Monthly fee starts from 500,000 sum. The amount may vary depending on the chosen program and time. Contact us for details."
+        a: "We offer Russian and English language groups for children aged 2-6. For pricing information and details, contact us: +998 94 514 09 49"
       },
       {
         q: "What are the working hours?",

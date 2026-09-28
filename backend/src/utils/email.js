@@ -89,7 +89,7 @@ export async function sendEnrollmentAcceptedEmail(enrollment) {
         </div>
         <p>Savollaringiz bo'lsa, biz bilan bog'laning:</p>
         <p>📞 +998 94 514 09 49</p>
-        <p>💬 Telegram: <a href="https://t.me/BMM_dina09">@BMM_dina09</a></p>
+        <p>💬 Telegram: <a href="https://t.me/Boymurodova_Madinabonu">@Boymurodova_Madinabonu</a></p>
         <p>Hurmat bilan,<br><strong>Play Kids jamoasi</strong></p>
       </div>
     </div>
@@ -125,7 +125,7 @@ export async function sendEnrollmentRejectedEmail(enrollment) {
         ` : ''}
         <p>Savollaringiz bo'lsa yoki qayta ariza topshirmoqchi bo'lsangiz, biz bilan bog'laning:</p>
         <p>📞 +998 94 514 09 49</p>
-        <p>💬 Telegram: <a href="https://t.me/BMM_dina09">@BMM_dina09</a></p>
+        <p>💬 Telegram: <a href="https://t.me/Boymurodova_Madinabonu">@Boymurodova_Madinabonu</a></p>
         <p>Hurmat bilan,<br><strong>Play Kids jamoasi</strong></p>
       </div>
     </div>

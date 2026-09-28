@@ -30,7 +30,7 @@ export const sendTelegramMessage = async (message, chatId) => {
   const TELEGRAM_CHAT_ID = chatId || config.chatId;
   
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-    console.error('❌ Telegram bot token yoki chat ID topilmadi');
+    logger.error('Telegram bot token or chat ID not found');
     return false;
   }
 
@@ -48,10 +48,10 @@ export const sendTelegramMessage = async (message, chatId) => {
       text: message,
       parse_mode: 'HTML'
     });
-    console.log('✅ Telegram xabar yuborildi');
+    logger.info('Telegram message sent successfully');
     return response.data.ok;
   } catch (error) {
-    console.error('❌ Telegram xabar yuborishda xatolik:', error.response?.data || error.message);
+    logger.error('Telegram message send error', { error: error.response?.data || error.message });
     return false;
   }
 };
@@ -64,13 +64,13 @@ export const getMenuData = async () => {
   try {
     const menu = await getCollection('menu').findOne({})
     if (!menu) {
-      console.error('Menu topilmadi');
+      logger.error('Menu not found');
       return null;
     }
     // menu.days mavjud bo'lsa, uni qaytarish
     return menu.days || menu;
   } catch (error) {
-    console.error('Menu ma\'lumotlarini o\'qishda xatolik:', error);
+    logger.error('Menu data read error', { error });
     return null;
   }
 };
@@ -117,7 +117,7 @@ export const sendDailyMenu = async () => {
   const dayOfWeek = today.getDay();
   
   if (dayOfWeek === 0) {
-    console.log('Yakshanba - menyu yuborilmaydi');
+    logger.info('Sunday - menu not sent');
     return false;
   }
 
@@ -125,14 +125,14 @@ export const sendDailyMenu = async () => {
   const menuData = await getMenuData();
   
   if (!menuData) {
-    console.error('Menu ma\'lumotlari topilmadi');
+    logger.error('Menu data not found');
     return false;
   }
 
   const message = formatDailyMenu(dayInfo.en, dayInfo.uz, menuData);
   
   if (!message) {
-    console.error('Bugungi menyu topilmadi');
+    logger.error('Today menu not found');
     return false;
   }
 
@@ -184,7 +184,7 @@ export const sendAllDebtsReminder = async () => {
     
     return { sent: sentCount, total: debts.length };
   } catch (error) {
-    console.error('Qarzdorlik eslatmalarini yuborishda xatolik:', error);
+    logger.error('Debt reminder send error', { error });
     return { sent: 0, total: 0 };
   }
 };
@@ -233,7 +233,7 @@ export const sendAttendanceReport = async (date = new Date()) => {
     
     return await sendTelegramMessage(message);
   } catch (error) {
-    console.error('Davomat hisobotini yuborishda xatolik:', error);
+    logger.error('Attendance report send error', { error });
     return false;
   }
 };
@@ -314,7 +314,7 @@ export const sendChildDailyReport = async (childId, report) => {
     const chatId = child.parentTelegram || TELEGRAM_CHAT_ID;
     return await sendTelegramMessage(message, chatId);
   } catch (error) {
-    console.error('Kunlik hisobotni yuborishda xatolik:', error);
+    logger.error('Daily report send error', { error });
     return false;
   }
 };
@@ -415,7 +415,7 @@ export const sendWeeklyReport = async () => {
     
     return await sendTelegramMessage(message);
   } catch (error) {
-    console.error('Haftalik hisobotni yuborishda xatolik:', error);
+    logger.error('Weekly report send error', { error });
     return false;
   }
 };

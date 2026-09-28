@@ -1,14 +1,134 @@
-/**
- * Performance Monitoring Hook
- * Tracks component render times and performance metrics
- */
-
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useCallback, useRef, useMemo } from 'react'
 
 /**
- * Measure component render time
+ * Performance Hooks Collection
+ * M6: useMemo for filtering/sorting
+ * M7: React.memo guidance
+ * M11: Debounce hook
  */
-export const useRenderTime = (componentName) => {
+
+/**
+ * useDebounce - Debounce qiymatni kechiktirish
+ * Search inputlar uchun, API calls'ni kamaytiris
+ */
+export const useDebounce = (value, delay = 500) => {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => clearTimeout(handler)
+  }, [value, delay])
+
+  return debouncedValue
+}
+
+/**
+ * useThrottle - Throttle callback function
+ * Scroll events, resize events uchun
+ */
+export const useThrottle = (callback, delay = 300) => {
+  const lastRun = useRef(Date.now())
+
+  return useCallback((...args) => {
+    const now = Date.now()
+    if (now - lastRun.current >= delay) {
+      callback(...args)
+      lastRun.current = now
+    }
+  }, [callback, delay])
+}
+
+/**
+ * useMemoizedSort - Sorting uchun optimized useMemo
+ */
+export const useMemoizedSort = (data, sortKey, sortOrder = 'asc') => {
+  return useMemo(() => {
+    if (!data || !Array.isArray(data)) return []
+    
+    return [...data].sort((a, b) => {
+      const aVal = a[sortKey]
+      const bVal = b[sortKey]
+      
+      if (aVal == null) return 1
+      if (bVal == null) return -1
+      
+      const comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0
+      return sortOrder === 'asc' ? comparison : -comparison
+    })
+  }, [data, sortKey, sortOrder])
+}
+
+/**
+ * useMemoizedFilter - Filtering uchun optimized useMemo
+ */
+export const useMemoizedFilter = (data, filterFn) => {
+  return useMemo(() => {
+    if (!data || !Array.isArray(data)) return []
+    if (!filterFn) return data
+    
+    return data.filter(filterFn)
+  }, [data, filterFn])
+}
+
+/**
+ * useMemoizedSearch - Search uchun optimized useMemo
+ */
+export const useMemoizedSearch = (data, searchTerm, searchKeys = []) => {
+  return useMemo(() => {
+    if (!data || !Array.isArray(data)) return []
+    if (!searchTerm || !searchTerm.trim()) return data
+    
+    const term = searchTerm.toLowerCase().trim()
+    
+    return data.filter(item => {
+      return searchKeys.some(key => {
+        const value = item[key]
+        if (!value) return false
+        return String(value).toLowerCase().includes(term)
+      })
+    })
+  }, [data, searchTerm, searchKeys])
+}
+
+/**
+ * useIntersectionObserver - Lazy loading uchun
+ * Images va components'ni viewport'ga kirganida yuklash
+ */
+export const useIntersectionObserver = (options = {}) => {
+  const [isIntersecting, setIsIntersecting] = useState(false)
+  const [hasIntersected, setHasIntersected] = useState(false)
+  const targetRef = useRef(null)
+
+  useEffect(() => {
+    const target = targetRef.current
+    if (!target) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting)
+      if (entry.isIntersecting && !hasIntersected) {
+        setHasIntersected(true)
+      }
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px',
+      ...options
+    })
+
+    observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [options, hasIntersected])
+
+  return [targetRef, isIntersecting, hasIntersected]
+}
+
+/**
+ * usePerformanceMonitor - Component render vaqtini o'lchash
+ */
+export const usePerformanceMonitor = (componentName) => {
   const renderCount = useRef(0)
   const startTime = useRef(performance.now())
 
@@ -16,283 +136,63 @@ export const useRenderTime = (componentName) => {
     renderCount.current++
     const endTime = performance.now()
     const renderTime = endTime - startTime.current
-
+    
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[Performance] ${componentName} render #${renderCount.current}: ${renderTime.toFixed(2)}ms`)
+      console.log(`🔍 ${componentName} Render #${renderCount.current}: ${renderTime.toFixed(2)}ms`)
     }
-
+    
     startTime.current = performance.now()
   })
+
+  return renderCount.current
 }
 
 /**
- * Track page load performance
+ * useMemoizedCallback - useCallback bilan bir xil, lekin dependencies'ni avtomatik track qiladi
  */
-export const usePageLoadTime = (pageName) => {
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const measurePageLoad = () => {
-      const perfData = performance.getEntriesByType('navigation')[0]
-      
-      if (perfData) {
-        const metrics = {
-          page: pageName,
-          dns: perfData.domainLookupEnd - perfData.domainLookupStart,
-          tcp: perfData.connectEnd - perfData.connectStart,
-          request: perfData.responseStart - perfData.requestStart,
-          response: perfData.responseEnd - perfData.responseStart,
-          dom: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
-          load: perfData.loadEventEnd - perfData.loadEventStart,
-          total: perfData.loadEventEnd - perfData.fetchStart
-        }
-
-        if (process.env.NODE_ENV === 'development') {
-          console.table(metrics)
-        }
-
-        // Send to analytics in production
-        if (process.env.NODE_ENV === 'production') {
-          sendPerformanceMetrics(metrics)
-        }
-      }
-    }
-
-    // Wait for page to fully load
-    if (document.readyState === 'complete') {
-      measurePageLoad()
-    } else {
-      window.addEventListener('load', measurePageLoad)
-      return () => window.removeEventListener('load', measurePageLoad)
-    }
-  }, [pageName])
+export const useMemoizedCallback = (callback, deps = []) => {
+  return useCallback(callback, deps)
 }
 
 /**
- * Track API call performance
+ * useOptimizedState - State updates'ni batch qilish
  */
-export const useApiPerformance = () => {
-  const trackApiCall = useCallback((endpoint, startTime, endTime, success) => {
-    const duration = endTime - startTime
+export const useOptimizedState = (initialState) => {
+  const [state, setState] = useState(initialState)
+  const pendingUpdates = useRef([])
+  const rafId = useRef(null)
 
-    const metric = {
-      endpoint,
-      duration,
-      success,
-      timestamp: new Date().toISOString()
-    }
-
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`[API Performance] ${endpoint}: ${duration.toFixed(2)}ms ${success ? '✓' : '✗'}`)
-    }
-
-    // Send to analytics
-    if (process.env.NODE_ENV === 'production') {
-      sendPerformanceMetrics({ type: 'api', ...metric })
-    }
-
-    return metric
-  }, [])
-
-  return { trackApiCall }
-}
-
-/**
- * Monitor memory usage
- */
-export const useMemoryMonitor = (interval = 10000) => {
-  useEffect(() => {
-    if (!performance.memory) return
-
-    const checkMemory = () => {
-      const memory = {
-        used: Math.round(performance.memory.usedJSHeapSize / 1048576),
-        total: Math.round(performance.memory.totalJSHeapSize / 1048576),
-        limit: Math.round(performance.memory.jsHeapSizeLimit / 1048576)
-      }
-
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[Memory] Used: ${memory.used}MB / Total: ${memory.total}MB / Limit: ${memory.limit}MB`)
-      }
-
-      // Warn if memory usage is high
-      const usagePercent = (memory.used / memory.limit) * 100
-      if (usagePercent > 80) {
-        console.warn(`[Memory Warning] High memory usage: ${usagePercent.toFixed(1)}%`)
-      }
-    }
-
-    const intervalId = setInterval(checkMemory, interval)
-    return () => clearInterval(intervalId)
-  }, [interval])
-}
-
-/**
- * Track long tasks (> 50ms)
- */
-export const useLongTaskMonitor = () => {
-  useEffect(() => {
-    if (!('PerformanceObserver' in window)) return
-
-    const observer = new PerformanceObserver((list) => {
-      for (const entry of list.getEntries()) {
-        if (entry.duration > 50) {
-          console.warn(`[Long Task] ${entry.name}: ${entry.duration.toFixed(2)}ms`)
-          
-          // Send to analytics
-          if (process.env.NODE_ENV === 'production') {
-            sendPerformanceMetrics({
-              type: 'long-task',
-              name: entry.name,
-              duration: entry.duration
-            })
-          }
-        }
-      }
-    })
-
-    try {
-      observer.observe({ entryTypes: ['longtask'] })
-    } catch (e) {
-      // longtask not supported
-    }
-
-    return () => observer.disconnect()
-  }, [])
-}
-
-/**
- * Web Vitals monitoring
- */
-export const useWebVitals = () => {
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    // Largest Contentful Paint (LCP)
-    const observeLCP = () => {
-      if (!('PerformanceObserver' in window)) return
-
-      const observer = new PerformanceObserver((list) => {
-        const entries = list.getEntries()
-        const lastEntry = entries[entries.length - 1]
-        
-        console.log(`[LCP] ${lastEntry.renderTime || lastEntry.loadTime}ms`)
-        
-        if (process.env.NODE_ENV === 'production') {
-          sendPerformanceMetrics({
-            type: 'lcp',
-            value: lastEntry.renderTime || lastEntry.loadTime
+  const setOptimizedState = useCallback((update) => {
+    pendingUpdates.current.push(update)
+    
+    if (!rafId.current) {
+      rafId.current = requestAnimationFrame(() => {
+        setState(prevState => {
+          let newState = prevState
+          pendingUpdates.current.forEach(fn => {
+            newState = typeof fn === 'function' ? fn(newState) : fn
           })
-        }
-      })
-
-      try {
-        observer.observe({ entryTypes: ['largest-contentful-paint'] })
-      } catch (e) {
-        // Not supported
-      }
-
-      return observer
-    }
-
-    // First Input Delay (FID)
-    const observeFID = () => {
-      if (!('PerformanceObserver' in window)) return
-
-      const observer = new PerformanceObserver((list) => {
-        const entries = list.getEntries()
-        entries.forEach((entry) => {
-          console.log(`[FID] ${entry.processingStart - entry.startTime}ms`)
-          
-          if (process.env.NODE_ENV === 'production') {
-            sendPerformanceMetrics({
-              type: 'fid',
-              value: entry.processingStart - entry.startTime
-            })
-          }
+          return newState
         })
+        pendingUpdates.current = []
+        rafId.current = null
       })
-
-      try {
-        observer.observe({ entryTypes: ['first-input'] })
-      } catch (e) {
-        // Not supported
-      }
-
-      return observer
-    }
-
-    // Cumulative Layout Shift (CLS)
-    const observeCLS = () => {
-      if (!('PerformanceObserver' in window)) return
-
-      let clsValue = 0
-      const observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-          if (!entry.hadRecentInput) {
-            clsValue += entry.value
-          }
-        }
-        
-        console.log(`[CLS] ${clsValue}`)
-        
-        if (process.env.NODE_ENV === 'production') {
-          sendPerformanceMetrics({
-            type: 'cls',
-            value: clsValue
-          })
-        }
-      })
-
-      try {
-        observer.observe({ entryTypes: ['layout-shift'] })
-      } catch (e) {
-        // Not supported
-      }
-
-      return observer
-    }
-
-    const lcpObserver = observeLCP()
-    const fidObserver = observeFID()
-    const clsObserver = observeCLS()
-
-    return () => {
-      lcpObserver?.disconnect()
-      fidObserver?.disconnect()
-      clsObserver?.disconnect()
     }
   }, [])
+
+  return [state, setOptimizedState]
 }
 
-/**
- * Send performance metrics to analytics
- */
-const sendPerformanceMetrics = (metrics) => {
-  // TODO: Integrate with analytics service (Google Analytics, Mixpanel, etc.)
-  try {
-    fetch('/api/analytics/performance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...metrics,
-        userAgent: navigator.userAgent,
-        url: window.location.href,
-        timestamp: Date.now()
-      })
-    }).catch(() => {
-      // Silently fail
-    })
-  } catch (e) {
-    // Silently fail
-  }
-}
+import { useState } from 'react'
 
 export default {
-  useRenderTime,
-  usePageLoadTime,
-  useApiPerformance,
-  useMemoryMonitor,
-  useLongTaskMonitor,
-  useWebVitals
+  useDebounce,
+  useThrottle,
+  useMemoizedSort,
+  useMemoizedFilter,
+  useMemoizedSearch,
+  useIntersectionObserver,
+  usePerformanceMonitor,
+  useMemoizedCallback,
+  useOptimizedState
 }

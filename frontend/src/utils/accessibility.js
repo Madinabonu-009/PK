@@ -1,29 +1,63 @@
 /**
  * Accessibility Utilities
- * WCAG 2.1 compliance helpers
+ * M12-M19: aria-labels, keyboard navigation, screen reader support, etc.
  */
 
-// Focus management
-export const focusFirstElement = (container) => {
-  const focusable = container?.querySelector(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-  )
-  focusable?.focus()
+/**
+ * Generate unique ID for aria attributes
+ */
+export const generateAriaId = (prefix = 'aria') => {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 }
 
-export const trapFocus = (container) => {
-  const focusableElements = container?.querySelectorAll(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+/**
+ * Screen reader only text
+ */
+export const srOnly = (text) => ({
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  padding: '0',
+  margin: '-1px',
+  overflow: 'hidden',
+  clip: 'rect(0,0,0,0)',
+  whiteSpace: 'nowrap',
+  borderWidth: '0',
+  'aria-label': text
+})
+
+/**
+ * Announce to screen readers
+ */
+export const announceToScreenReader = (message, priority = 'polite') => {
+  const announcement = document.createElement('div')
+  announcement.setAttribute('role', 'status')
+  announcement.setAttribute('aria-live', priority) // 'polite' or 'assertive'
+  announcement.setAttribute('aria-atomic', 'true')
+  announcement.className = 'sr-only'
+  announcement.textContent = message
+  
+  document.body.appendChild(announcement)
+  
+  setTimeout(() => {
+    document.body.removeChild(announcement)
+  }, 1000)
+}
+
+/**
+ * Trap focus within modal/dialog
+ */
+export const trapFocus = (element) => {
+  const focusableElements = element.querySelectorAll(
+    'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
   )
   
-  if (!focusableElements?.length) return
-
   const firstElement = focusableElements[0]
   const lastElement = focusableElements[focusableElements.length - 1]
-
+  
   const handleKeyDown = (e) => {
     if (e.key !== 'Tab') return
-
+    
     if (e.shiftKey) {
       if (document.activeElement === firstElement) {
         e.preventDefault()
@@ -36,75 +70,49 @@ export const trapFocus = (container) => {
       }
     }
   }
-
-  container?.addEventListener('keydown', handleKeyDown)
-  return () => container?.removeEventListener('keydown', handleKeyDown)
-}
-
-// Screen reader announcements
-export const announce = (message, priority = 'polite') => {
-  const announcer = document.createElement('div')
-  announcer.setAttribute('role', 'status')
-  announcer.setAttribute('aria-live', priority)
-  announcer.setAttribute('aria-atomic', 'true')
-  announcer.className = 'sr-only'
-  announcer.textContent = message
   
-  document.body.appendChild(announcer)
-  setTimeout(() => announcer.remove(), 1000)
-}
-
-// Keyboard navigation helpers
-export const handleArrowNavigation = (e, items, currentIndex, onSelect) => {
-  let newIndex = currentIndex
-
-  switch (e.key) {
-    case 'ArrowDown':
-    case 'ArrowRight':
-      e.preventDefault()
-      newIndex = (currentIndex + 1) % items.length
-      break
-    case 'ArrowUp':
-    case 'ArrowLeft':
-      e.preventDefault()
-      newIndex = (currentIndex - 1 + items.length) % items.length
-      break
-    case 'Home':
-      e.preventDefault()
-      newIndex = 0
-      break
-    case 'End':
-      e.preventDefault()
-      newIndex = items.length - 1
-      break
-    case 'Enter':
-    case ' ':
-      e.preventDefault()
-      onSelect?.(items[currentIndex])
-      return currentIndex
-    default:
-      return currentIndex
+  element.addEventListener('keydown', handleKeyDown)
+  
+  // Focus first element
+  firstElement?.focus()
+  
+  return () => {
+    element.removeEventListener('keydown', handleKeyDown)
   }
-
-  return newIndex
 }
 
-// Color contrast checker
+/**
+ * Restore focus after modal close
+ */
+export class FocusManager {
+  constructor() {
+    this.previousFocus = null
+  }
+  
+  saveFocus() {
+    this.previousFocus = document.activeElement
+  }
+  
+  restoreFocus() {
+    if (this.previousFocus && this.previousFocus.focus) {
+      this.previousFocus.focus()
+    }
+  }
+}
+
+/**
+ * Check color contrast ratio
+ */
 export const getContrastRatio = (color1, color2) => {
-  const getLuminance = (hex) => {
-    const rgb = parseInt(hex.slice(1), 16)
-    const r = (rgb >> 16) & 0xff
-    const g = (rgb >> 8) & 0xff
-    const b = rgb & 0xff
-    
-    const [rs, gs, bs] = [r, g, b].map(c => {
-      c = c / 255
-      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+  const getLuminance = (color) => {
+    const rgb = color.match(/\d+/g).map(Number)
+    const [r, g, b] = rgb.map(val => {
+      const v = val / 255
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
     })
-    
-    return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
   }
-
+  
   const l1 = getLuminance(color1)
   const l2 = getLuminance(color2)
   const lighter = Math.max(l1, l2)
@@ -113,50 +121,233 @@ export const getContrastRatio = (color1, color2) => {
   return (lighter + 0.05) / (darker + 0.05)
 }
 
-export const meetsWCAGAA = (ratio, isLargeText = false) => {
-  return isLargeText ? ratio >= 3 : ratio >= 4.5
-}
-
-export const meetsWCAGAAA = (ratio, isLargeText = false) => {
-  return isLargeText ? ratio >= 4.5 : ratio >= 7
-}
-
-// Skip link helper
-export const createSkipLink = (targetId, text = 'Asosiy kontentga o\'tish') => {
-  const link = document.createElement('a')
-  link.href = `#${targetId}`
-  link.className = 'skip-link'
-  link.textContent = text
+/**
+ * Validate WCAG color contrast
+ */
+export const validateContrast = (foreground, background, level = 'AA', size = 'normal') => {
+  const ratio = getContrastRatio(foreground, background)
   
-  link.addEventListener('click', (e) => {
-    e.preventDefault()
-    const target = document.getElementById(targetId)
-    target?.focus()
-    target?.scrollIntoView({ behavior: 'smooth' })
+  const thresholds = {
+    'AA': { normal: 4.5, large: 3 },
+    'AAA': { normal: 7, large: 4.5 }
+  }
+  
+  const threshold = thresholds[level][size]
+  return {
+    ratio: ratio.toFixed(2),
+    passes: ratio >= threshold,
+    level,
+    threshold
+  }
+}
+
+/**
+ * Keyboard navigation helper
+ */
+export const handleArrowKeyNavigation = (e, items, currentIndex, onSelect) => {
+  const { key } = e
+  
+  if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter', 'Space'].includes(key)) {
+    return currentIndex
+  }
+  
+  e.preventDefault()
+  
+  let newIndex = currentIndex
+  
+  switch (key) {
+    case 'ArrowUp':
+    case 'ArrowLeft':
+      newIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1
+      break
+    case 'ArrowDown':
+    case 'ArrowRight':
+      newIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0
+      break
+    case 'Home':
+      newIndex = 0
+      break
+    case 'End':
+      newIndex = items.length - 1
+      break
+    case 'Enter':
+    case 'Space':
+      if (onSelect) onSelect(items[currentIndex])
+      return currentIndex
+  }
+  
+  return newIndex
+}
+
+/**
+ * Skip to main content link
+ */
+export const createSkipLink = () => {
+  const skipLink = document.createElement('a')
+  skipLink.href = '#main-content'
+  skipLink.textContent = 'Skip to main content'
+  skipLink.className = 'skip-link'
+  skipLink.style.cssText = `
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 1em;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+  `
+  
+  skipLink.addEventListener('focus', () => {
+    skipLink.style.left = '0'
   })
   
-  return link
+  skipLink.addEventListener('blur', () => {
+    skipLink.style.left = '-9999px'
+  })
+  
+  return skipLink
 }
 
-// Reduced motion preference
-export const prefersReducedMotion = () => {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+/**
+ * Add live region for dynamic content
+ */
+export const createLiveRegion = (polite = true) => {
+  const region = document.createElement('div')
+  region.setAttribute('role', 'status')
+  region.setAttribute('aria-live', polite ? 'polite' : 'assertive')
+  region.setAttribute('aria-atomic', 'true')
+  region.className = 'sr-only'
+  document.body.appendChild(region)
+  
+  return {
+    announce: (message) => {
+      region.textContent = message
+    },
+    remove: () => {
+      document.body.removeChild(region)
+    }
+  }
 }
 
-// High contrast mode detection
-export const prefersHighContrast = () => {
-  return window.matchMedia('(prefers-contrast: more)').matches
+/**
+ * Form field accessibility helpers
+ */
+export const getFormFieldProps = (id, label, error, required = false, description = '') => {
+  const labelId = `${id}-label`
+  const errorId = error ? `${id}-error` : undefined
+  const descId = description ? `${id}-desc` : undefined
+  
+  const ariaDescribedBy = [descId, errorId].filter(Boolean).join(' ')
+  
+  return {
+    input: {
+      id,
+      'aria-labelledby': labelId,
+      'aria-describedby': ariaDescribedBy || undefined,
+      'aria-invalid': !!error,
+      'aria-required': required,
+      required
+    },
+    label: {
+      id: labelId,
+      htmlFor: id
+    },
+    error: error ? {
+      id: errorId,
+      role: 'alert',
+      'aria-live': 'polite'
+    } : {},
+    description: description ? {
+      id: descId
+    } : {}
+  }
+}
+
+/**
+ * Check if element is focusable
+ */
+export const isFocusable = (element) => {
+  if (!element || element.disabled) return false
+  
+  const focusableSelectors = [
+    'a[href]',
+    'button:not([disabled])',
+    'textarea:not([disabled])',
+    'input:not([disabled])',
+    'select:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+  ]
+  
+  return focusableSelectors.some(selector => element.matches(selector))
+}
+
+/**
+ * Get all focusable elements
+ */
+export const getFocusableElements = (container = document) => {
+  return Array.from(
+    container.querySelectorAll(
+      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )
+  )
+}
+
+/**
+ * Roving tabindex for component groups
+ */
+export class RovingTabIndex {
+  constructor(container, items) {
+    this.container = container
+    this.items = items
+    this.currentIndex = 0
+    
+    this.updateTabIndices()
+  }
+  
+  updateTabIndices() {
+    this.items.forEach((item, index) => {
+      item.setAttribute('tabindex', index === this.currentIndex ? '0' : '-1')
+    })
+  }
+  
+  setFocus(index) {
+    if (index >= 0 && index < this.items.length) {
+      this.currentIndex = index
+      this.updateTabIndices()
+      this.items[index].focus()
+    }
+  }
+  
+  next() {
+    this.setFocus((this.currentIndex + 1) % this.items.length)
+  }
+  
+  previous() {
+    this.setFocus((this.currentIndex - 1 + this.items.length) % this.items.length)
+  }
+  
+  first() {
+    this.setFocus(0)
+  }
+  
+  last() {
+    this.setFocus(this.items.length - 1)
+  }
 }
 
 export default {
-  focusFirstElement,
+  generateAriaId,
+  srOnly,
+  announceToScreenReader,
   trapFocus,
-  announce,
-  handleArrowNavigation,
+  FocusManager,
   getContrastRatio,
-  meetsWCAGAA,
-  meetsWCAGAAA,
+  validateContrast,
+  handleArrowKeyNavigation,
   createSkipLink,
-  prefersReducedMotion,
-  prefersHighContrast
+  createLiveRegion,
+  getFormFieldProps,
+  isFocusable,
+  getFocusableElements,
+  RovingTabIndex
 }

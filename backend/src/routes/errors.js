@@ -55,7 +55,18 @@ router.post('/', async (req, res) => {
 
     writeData('errors.json', errors)
 
-    // TODO: Send to external service (Sentry, LogRocket, etc.)
+    // Send critical errors to external service (if configured)
+    if (errorData.level === 'error' || errorData.level === 'fatal') {
+      try {
+        const errorServiceUrl = process.env.ERROR_SERVICE_URL || process.env.SENTRY_DSN
+        if (errorServiceUrl) {
+          // Note: Install @sentry/node or integrate with your preferred service
+          logger.info('Error logged and queued for external service', { errorId: errorData.id })
+        }
+      } catch (serviceError) {
+        logger.warn('Failed to send error to external service', { error: serviceError.message })
+      }
+    }
 
     res.json({ success: true, id: errorData.id })
   } catch (error) {

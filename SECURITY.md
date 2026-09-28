@@ -293,8 +293,8 @@ curl -I https://yourdomain.com | grep -i security
 ## Contact
 
 ### Security Team
-- 📧 Email: boymurodovamadinabonuf9@gmail.com
-- 💬 Telegram: @BMM_dina09
+- 📧 Email: boymurodovamadinabonu009@gmail.com
+- 💬 Telegram: @Boymurodova_Madinabonu
 - 📱 Phone: +998 94 514 09 49
 
 ### PGP Key

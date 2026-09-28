@@ -70,8 +70,8 @@ const startServer = async () => {
     
     useDatabase = await Promise.race([connectPromise, timeoutPromise])
   } catch (error) {
-    console.error('⚠️ MongoDB ulanish xatosi:', error.message)
-    console.log('📌 Server MongoDB siz ishga tushmoqda...')
+    logger.error('MongoDB connection error', { error: error.message })
+    logger.info('Server starting without MongoDB...')
     useDatabase = false
   }
   
@@ -127,16 +127,16 @@ const startServer = async () => {
               { $set: { assignedGroups: groupIds, teacherId: matchingTeacher._id } }
             )
             syncedCount++
-            console.log(`✅ Teacher synced: ${user.username} -> ${groupIds.join(', ')}`)
+            logger.info(`Teacher synced: ${user.username} -> ${groupIds.join(', ')}`)
           }
         }
       }
       
       if (syncedCount > 0) {
-        console.log(`📊 Auto-synced ${syncedCount} teachers with groups`)
+        logger.info(`Auto-synced ${syncedCount} teachers with groups`)
       }
     } catch (error) {
-      console.error('Teacher auto-sync error:', error.message)
+      logger.error('Teacher auto-sync error', { error: error.message })
     }
   }
   
@@ -167,11 +167,11 @@ const startServer = async () => {
 
 // Server'ni ishga tushirish - xatolarni handle qilish bilan
 startServer().catch(error => {
-  console.error('❌ Server ishga tushirishda xato:', error.message)
+  logger.error('Failed to start server', { error: error.message, stack: error.stack })
   
   // Xato bo'lsa ham minimal server ishga tushirish
   const fallbackServer = app.listen(PORT, '0.0.0.0', () => {
-    console.log(`⚠️ Fallback server running on port ${PORT}`)
+    logger.warn(`Fallback server running on port ${PORT}`)
   })
   fallbackServer.keepAliveTimeout = 120000
   fallbackServer.headersTimeout = 120000
@@ -348,7 +348,7 @@ uploadDirs.forEach(dir => {
   const dirPath = path.join(uploadsPath, dir)
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true })
-    console.log(`📁 Created upload directory: ${dirPath}`)
+    logger.info(`Created upload directory: ${dirPath}`)
   }
 })
 
@@ -389,14 +389,14 @@ if (process.env.NODE_ENV === 'production') {
     }
   }
   
-  console.log('Serving frontend from:', frontendPath)
+  logger.info('Serving frontend from:', frontendPath)
   
   // Check if frontend dist exists
   if (!fs.existsSync(frontendPath)) {
-    console.error('❌ Frontend dist folder not found at:', frontendPath)
-    console.log('Available paths:', fs.readdirSync(process.cwd()))
+    logger.error('Frontend dist folder not found at:', frontendPath)
+    logger.debug('Available paths:', fs.readdirSync(process.cwd()))
   } else {
-    console.log('✅ Frontend dist folder found')
+    logger.info('Frontend dist folder found')
   }
   
   // Static files with correct MIME types

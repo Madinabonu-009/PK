@@ -310,8 +310,8 @@ Third-party Services:
 ## 📞 Support
 
 For deployment assistance:
-- 📧 Email: boymurodovamadinabonuf9@gmail.com
-- 💬 Telegram: @BMM_dina09
+- 📧 Email: boymurodovamadinabonu009@gmail.com
+- 💬 Telegram: @Boymurodova_Madinabonu
 - 📱 Phone: +998 94 514 09 49
 
 ---

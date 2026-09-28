@@ -34,7 +34,7 @@ export const commonTexts = {
     // Pul
     currency: 'so\'m',
     monthlyFee: 'Oylik to\'lov',
-    monthlyFeeAmount: '500,000 so\'m',
+    monthlyFeeAmount: '1,500,000 so\'m',
     
     // Holatlar
     pending: 'Kutilmoqda',
@@ -96,7 +96,7 @@ export const commonTexts = {
     
     currency: 'сум',
     monthlyFee: 'Ежемесячная оплата',
-    monthlyFeeAmount: '500 000 сум',
+    monthlyFeeAmount: '1 500 000 сум',
     
     pending: 'Ожидает',
     approved: 'Одобрено',
@@ -154,7 +154,7 @@ export const commonTexts = {
     
     currency: 'sum',
     monthlyFee: 'Monthly fee',
-    monthlyFeeAmount: '500,000 sum',
+    monthlyFeeAmount: '1,500,000 sum',
     
     pending: 'Pending',
     approved: 'Approved',

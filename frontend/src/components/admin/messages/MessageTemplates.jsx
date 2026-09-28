@@ -16,9 +16,9 @@ const TEMPLATE_VARIABLES = [
   { key: '{{child_name}}', label: 'Bola ismi', example: 'Ali' },
   { key: '{{parent_name}}', label: 'Ota-ona ismi', example: 'Akbar' },
   { key: '{{group_name}}', label: 'Guruh nomi', example: "Quyosh" },
-  { key: '{{date}}', label: 'Sana', example: '25.12.2025' },
+  { key: '{{date}}', label: 'Sana', example: '25.12.2026' },
   { key: '{{time}}', label: 'Vaqt', example: '09:00' },
-  { key: '{{amount}}', label: "To'lov summasi", example: '500,000' },
+  { key: '{{amount}}', label: "To'lov summasi", example: '1,500,000' },
   { key: '{{kindergarten_name}}', label: "Bog'cha nomi", example: 'Play Kids' }
 ]
 

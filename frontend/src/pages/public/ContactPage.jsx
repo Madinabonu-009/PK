@@ -132,8 +132,8 @@ const ContactPage = () => {
                       <a href="https://t.me/play_kids_bot" target="_blank" rel="noopener noreferrer" className="social-link telegram">
                         Telegram Bot @play_kids_bot
                       </a>
-                      <a href="https://t.me/BMM_dina09" target="_blank" rel="noopener noreferrer" className="social-link telegram">
-                        Telegram (Admin)
+                      <a href="https://t.me/Boymurodova_Madinabonu" target="_blank" rel="noopener noreferrer" className="social-link telegram">
+                        Telegram (Admin) @Boymurodova_Madinabonu
                       </a>
                     </div>
                   </div>

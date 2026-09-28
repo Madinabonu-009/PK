@@ -1,14 +1,14 @@
-import React from 'react'
+import { Component } from 'react'
+import PropTypes from 'prop-types'
 import './ErrorBoundary.css'
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      hasError: false,
+    this.state = { 
+      hasError: false, 
       error: null,
-      errorInfo: null,
-      errorCount: 0
+      errorInfo: null 
     }
   }
 
@@ -17,117 +17,65 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // Log error in development only
-    if (process.env.NODE_ENV === 'development') {
-      console.error('ErrorBoundary caught an error:', error, errorInfo)
-    }
-
-    this.setState(prevState => ({
+    console.error('ErrorBoundary caught an error:', error, errorInfo)
+    
+    this.setState({
       error,
-      errorInfo,
-      errorCount: prevState.errorCount + 1
-    }))
+      errorInfo
+    })
 
-    // Send to error tracking service in production
-    if (process.env.NODE_ENV === 'production') {
-      this.logErrorToService(error, errorInfo)
-    }
-  }
-
-  logErrorToService = (error, errorInfo) => {
-    // Error logging service - sends to backend API
-    try {
-      const errorData = {
-        message: error.toString(),
-        stack: error.stack,
-        componentStack: errorInfo.componentStack,
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-        userAgent: navigator.userAgent
-      }
-
-      // Send to backend
-      fetch('/api/errors', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(errorData)
-      }).catch(() => {
-        // Silently fail if error logging fails
+    // Log to error tracking service (e.g., Sentry)
+    if (window.Sentry) {
+      window.Sentry.captureException(error, {
+        contexts: {
+          react: {
+            componentStack: errorInfo.componentStack
+          }
+        }
       })
-    } catch (e) {
-      // Prevent error logging from causing more errors
     }
   }
 
   handleReset = () => {
-    this.setState({
-      hasError: false,
-      error: null,
-      errorInfo: null
-    })
-
-    // Optionally reload the page if errors persist
-    if (this.state.errorCount > 3) {
-      window.location.reload()
+    this.setState({ hasError: false, error: null, errorInfo: null })
+    if (this.props.onReset) {
+      this.props.onReset()
     }
   }
 
   render() {
     if (this.state.hasError) {
-      const { fallback, showDetails = false } = this.props
-      const { error, errorInfo, errorCount } = this.state
-
-      // Custom fallback UI
-      if (fallback) {
-        return fallback({ error, errorInfo, reset: this.handleReset })
+      if (this.props.fallback) {
+        return this.props.fallback
       }
 
-      // Default error UI
       return (
         <div className="error-boundary">
           <div className="error-boundary-content">
             <div className="error-icon">⚠️</div>
             <h1>Nimadir xato ketdi</h1>
-            <p>Kechirasiz, kutilmagan xatolik yuz berdi.</p>
-
-            {errorCount > 2 && (
-              <div className="error-warning">
-                <p>Ko'p xatolar aniqlandi. Sahifani yangilash tavsiya etiladi.</p>
-              </div>
+            <p className="error-message">
+              Kechirasiz, kutilmagan xatolik yuz berdi. Iltimos, sahifani yangilang yoki admin bilan bog'laning.
+            </p>
+            
+            {process.env.NODE_ENV === 'development' && this.state.error && (
+              <details className="error-details">
+                <summary>Xatolik tafsilotlari (faqat development)</summary>
+                <pre className="error-stack">
+                  {this.state.error.toString()}
+                  {this.state.errorInfo?.componentStack}
+                </pre>
+              </details>
             )}
-
+            
             <div className="error-actions">
               <button onClick={this.handleReset} className="btn-primary">
-                Qayta urinish
+                Qaytadan urinish
               </button>
               <button onClick={() => window.location.href = '/'} className="btn-secondary">
                 Bosh sahifaga qaytish
               </button>
             </div>
-
-            {(showDetails || process.env.NODE_ENV === 'development') && error && (
-              <details className="error-details">
-                <summary>Texnik ma'lumotlar</summary>
-                <div className="error-stack">
-                  <h3>Xato:</h3>
-                  <pre>{error.toString()}</pre>
-
-                  {error.stack && (
-                    <>
-                      <h3>Stack Trace:</h3>
-                      <pre>{error.stack}</pre>
-                    </>
-                  )}
-
-                  {errorInfo && errorInfo.componentStack && (
-                    <>
-                      <h3>Component Stack:</h3>
-                      <pre>{errorInfo.componentStack}</pre>
-                    </>
-                  )}
-                </div>
-              </details>
-            )}
           </div>
         </div>
       )
@@ -137,13 +85,10 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export default ErrorBoundary
-
-// HOC for wrapping components with error boundary
-export const withErrorBoundary = (Component, errorBoundaryProps = {}) => {
-  return (props) => (
-    <ErrorBoundary {...errorBoundaryProps}>
-      <Component {...props} />
-    </ErrorBoundary>
-  )
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired,
+  fallback: PropTypes.node,
+  onReset: PropTypes.func
 }
+
+export default ErrorBoundary
